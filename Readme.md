@@ -28,16 +28,19 @@
 
 ## Using Skill
 
--   JAVA
+-   JAVA 1.8.0.221
 -   Javascript
 -   ajax
 -   json
+-   jsp
 
 ## Using Framework & Library
 
 -   Spring
-    -   Spring Library:
+    -   Spring Library: [Link](https://github.com/MristerWing/1Day2Night/blob/master/doc/pomSetupList.md)
 -   jQuery
     -   jQuery Theme
+-   myBatis 3.4.6
+-   tomcat 8.5.4
 
 ## ScreenShot
