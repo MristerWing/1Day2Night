@@ -940,7 +940,7 @@ function eval(s){return new Object();};
 /**
   * Property debugger
   * @description Debugger keyword
- */
+*/
 var debugger=null;
 
 /**

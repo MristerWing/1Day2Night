@@ -28,8 +28,8 @@
 		<property name="dataSource">
 			<ref bean="dataSource" />
 		</property>
-		<property name="mapperLocations"
-			value="classpath:com/odtn/**/*.xml"></property>
+		<property name="mapperLocations" value="classpath:com/odtn/**/*Mapper.xml">
+		</property>
 	</bean>
 
 	<!-- Convert DefaultSqlSessionFactoryBean to SqlSessionTemplate -->
