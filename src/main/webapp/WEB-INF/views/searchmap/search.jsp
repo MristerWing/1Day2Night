@@ -417,7 +417,7 @@
 					<!-- //지도파싱	-->
 					<div
 						style="border: solid 2px black; width: auto; height: 100px; text-align: center; margin-top: 50px; line-height: 100px;">
-						footer</div>
+						footer footer footer</div>
 
 
 
