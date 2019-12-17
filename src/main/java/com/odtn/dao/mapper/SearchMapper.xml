@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.odtn.search.dao.mapper.SearchMapper">
+	<select id="GetSearchList" parameterType="java.util.Map" resultType="com.odtn.search.dto.SearchDto">
+		
+		select * from (select rownum ro, a.* from (select * from camp_data
+		<where>
+			<if test="city != null">
+				address like #{city}
+			</if>
+			
+			<if test="thema != null">
+				location_type like #{thema}
+			</if>
+			
+			<if test="keyword != null">
+				AND camp_name like #{keyword}
+			</if>
+		</where>
+		
+		<where>
+			<if test="tag != null">
+				<foreach item="item" index="index" collection="tag" separator="AND">
+					regexp_like(tag,#{item})
+				</foreach>
+			</if>
+		</where>
+		
+		<where>
+			<if test="detailSearchCity != null">
+				regexp_like(address,#{City2})
+			</if>
+			
+			<if test="detailSearchOperationType != null">
+				<foreach item="item" index="index" collection="OperationType" open="AND" separator="AND">
+					regexp_like(Operation_Type,#{item})
+				</foreach>
+			</if>
+			
+			<if test="detailSearchLocationType != null">
+				<foreach item="item" index="index" collection="LocationType" open="AND" separator="AND">
+					regexp_like(Location_type,#{item})
+				</foreach>
+			</if>
+			
+			<if test="detailSearchCampType != null">
+				<foreach item="item" index="index" collection="CampType" open="AND" separator="AND">
+					regexp_like(Camp_Type,#{item})
+				</foreach>
+			</if>
+			
+			<if test="detailSearchbottomType != null">
+				<foreach item="item" index="index" collection="bottomType" open="AND" separator="AND">
+					regexp_like(bottom_Type,#{item})
+				</foreach>
+			</if>
+			
+			<if test="detailSearchMainFacilities != null">
+				<foreach item="item" index="index" collection="MainFacilities" open="AND" separator="AND">
+					regexp_like(MainFacilities,#{item})
+				</foreach>
+			</if>
+		</where>
+		order by camp_id desc) a ) b
+		<![CDATA[ where ro >= #{startRow} and ro <= #{endRow} ]]>
+	</select>
+	
+	<select id="GetCount" parameterType="java.util.Map" resultType="int">
+		select count(*) from camp_data
+		<where>
+			<if test="city != null">
+				address like #{City}
+			</if>
+			
+			<if test="thema != null">
+				location_type like #{Thema}
+			</if>
+			
+			<if test="keyword != null">
+				AND camp_name like #{Keyword}
+			</if>
+		</where>
+		
+		<where>
+			<if test="tag != null">
+				<foreach item="item" index="index" collection="Tag" separator="AND">
+					regexp_like(tag,#{item})
+				</foreach>
+			</if>
+		</where>
+		
+		<where>
+			<if test="detailSearchCity != null">
+				regexp_like(address,#{City2})
+			</if>
+			
+			<if test="detailSearchOperationType != null">
+				<foreach item="item" index="index" collection="OperationType" open="AND" separator="AND">
+					regexp_like(Operation_Type,#{item})
+				</foreach>
+			</if>
+			
+			<if test="detailSearchLocationType != null">
+				<foreach item="item" index="index" collection="LocationType" open="AND" separator="AND">
+					regexp_like(Location_type,#{item})
+				</foreach>
+			</if>
+			
+			<if test="detailSearchCampType != null">
+				<foreach item="item" index="index" collection="CampType" open="AND" separator="AND">
+					regexp_like(Camp_Type,#{item})
+				</foreach>
+			</if>
+			
+			<if test="detailSearchbottomType != null">
+				<foreach item="item" index="index" collection="bottomType" open="AND" separator="AND">
+					regexp_like(bottom_Type,#{item})
+				</foreach>
+			</if>
+			
+			<if test="detailSearchMainFacilities != null">
+				<foreach item="item" index="index" collection="MainFacilities" open="AND" separator="AND">
+					regexp_like(MainFacilities,#{item})
+				</foreach>
+			</if>
+		</where>
+	</select>
+</mapper>

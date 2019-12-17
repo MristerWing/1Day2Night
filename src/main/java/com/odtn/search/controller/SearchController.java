@@ -7,19 +7,21 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.odtn.aop.LogAspect;
+import com.odtn.search.service.SearchService;
 
 @Controller
 public class SearchController {
 
-	/*
-	 * @Autowired private SearchService searchService;
-	 */
+	
+	@Autowired private SearchService searchService;
+	 
 
 	@RequestMapping(value = "/search/list.do", method = RequestMethod.GET)
 	public ModelAndView searchList(HttpServletRequest request,
@@ -40,6 +42,7 @@ public class SearchController {
 			if (data.get(key)[0].equals("")) {
 				searchMap.put(key, null);
 			} else {
+				
 				if (key.equals("tag")) {
 					searchMap.put(key, data.get(key)[0].split(","));
 				} else if (key.equals("detailSearchOperationType")) {
@@ -56,9 +59,7 @@ public class SearchController {
 					searchMap.put(key, data.get(key)[0]);
 			}
 		}
-		// searchService.searchList(searchMap);
-
-		System.out.println(request.getParameter("tag") + "aaa");
+		searchService.searchList(searchMap);
 
 		LogAspect.logger.info(LogAspect.logMsg
 				+ request.getParameter("detailSearchLocationType"));
