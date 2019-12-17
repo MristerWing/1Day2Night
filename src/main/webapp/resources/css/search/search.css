@@ -1,0 +1,12 @@
+.main-content.top {
+    background: url(../../images/search/topImage.jpg) no-repeat;
+    background-size: cover;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    -ms-background-size: cover;
+    min-height: 16em;
+    position: relative;
+    color: whitesmoke;
+    border: 3px solid red;
+}
