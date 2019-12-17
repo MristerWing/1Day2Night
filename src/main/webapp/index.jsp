@@ -70,7 +70,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 					<label for="drop" class="toggle">Menu</label> <input
 						type="checkbox" id="drop" />
 					<ul class="menu mt-2">
-						<li class="active"><a href="index.html">캠핑장검색</a></li>
+						<li class="active"><a href="${root}/search/list.do">캠핑장검색</a></li>
 						<!-- First Tier Drop Down -->
 						<li><label for="drop-2" class="toggle">Drop Down <span
 								class="fa fa-angle-down" aria-hidden="true"></span>
