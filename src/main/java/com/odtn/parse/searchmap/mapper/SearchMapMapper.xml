@@ -5,6 +5,18 @@
 <mapper namespace="dao.SearchMapMapper">
 
 
+	<select id="searchMapCount" resultType="int">
+	select count(*) from search
+	</select>
 
-
+<!-- 	<select id="seladdres" resultType="int">
+	select addres from search where addres like '%${addres}%' 
+	</select> -->
+		
+		<select id="test"  resultType="com.odtn.parse.searchmap.dto.SearchMapDto">
+		select * from search
+		</select> 
+	
 </mapper>
+
+

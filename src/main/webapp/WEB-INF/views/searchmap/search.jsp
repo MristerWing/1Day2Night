@@ -18,6 +18,48 @@
 <meta charset="UTF-8" />
 <meta name="keywords"
 	content="Camping Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template, Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design" />
+<!-- jquery lib -->
+<script type="text/javascript" src="${root}/resources/jquery-3.4.1.js"></script>
+<!-- printThis -->
+<script type="text/javascript"
+	src="${root}/resources/javascript/searchmap/printThis.js"></script>
+<script>
+	function fn_sendSns(sns) {
+		var method = "popup";
+		var thisUrl = document.URL;
+		var snsTitle = "캠핑장 검색";
+		if (sns == 'facebook') {
+			var url = "http://www.facebook.com/sharer/sharer.php?u="
+					+ encodeURIComponent(thisUrl);
+			window.open(url, "", "width=486, height=286");
+		} else if (sns == 'twitter') {
+			var url = "http://twitter.com/share?url="
+					+ encodeURIComponent(thisUrl) + "&text="
+					+ encodeURIComponent(snsTitle);
+			window
+					.open(url, "tweetPop",
+							"width=486, height=286,scrollbars=yes");
+		} else if (sns == 'band') {
+			var url = "http://www.band.us/plugin/share?body="
+					+ encodeURIComponent(snsTitle) + "&route="
+					+ encodeURIComponent(thisUrl);
+			window.open(url, "shareBand",
+					"width=400, height=500, resizable=yes");
+		} else if (sns == 'kstory') {
+			var url = "https://story.kakao.com/share?url="
+					+ encodeURIComponent(thisUrl);
+			window.open(url, "shareKakao",
+					"width=400, height=500, resizable=yes");
+		}
+	}
+
+	function printThis() {
+		$("#contents").printThis({
+
+		});
+	}
+</script>
+
 <script>
 	addEventListener("load", function() {
 		setTimeout(hideURLbar, 0);
@@ -52,7 +94,8 @@
 <!-- //Fonts -->
 
 <!-- kakaomap -->
-<link rel="stylesheet" href="${root}/resources/css/searchmap/kakaomap.css">
+<link rel="stylesheet"
+	href="${root}/resources/css/searchmap/kakaomap.css">
 </head>
 <body>
 	<div id="wrap">
@@ -267,15 +310,6 @@
 														value="">전체</option></select>
 											</div>
 										</li>
-										<!-- <li class="tt"><strong class="title">위치</strong>
-									<div class="select_box">
-										<label for="r_select03">전체</label> <select class="detail_select" id="r_select03">
-											<option selected="selected">선택1</option>
-											<option>선택2</option>
-											<option>선택3</option>
-											<option>선택4</option>
-										</select>
-									</div></li> -->
 										<li class="tt"><strong class="title">테마</strong>
 											<div class="select_box them">
 												<label for="searchLctCl">전체</label> <select
@@ -318,12 +352,6 @@
 											</ul>
 										</li>
 
-										<!-- <li class="fw_2li">
-										<div class="button_w">
-											<button type="button" class="de_btn01">상세조건</button>
-											<button type="submit" class="de_btn02">캠핑장 검색</button>
-										</div>
-									</li>-->
 									</ul>
 								</div>
 							</div>
@@ -343,7 +371,7 @@
 						<h2 class="skip">본문내용이 시작됩니다.</h2>
 						<header class="title_w mb_0">
 							<h2 class="title2">
-								총 <span class="em_org">2360개</span> 캠핑장이 검색되었습니다.
+								총 <span class="em_org">${count}</span>개 캠핑장이 검색되었습니다.
 							</h2>
 							<ul class="share">
 								<li class="sns">
@@ -385,36 +413,199 @@
 							</ul>
 						</header>
 					</section>
+					<div class="search_list_gr">
+						<div class="select_box array_select">
+							<label for="selectListOrdrTrget" class="skip">정렬하기</label> <select
+								class="detail_select" id="selectListOrdrTrget">
+								<option value="last_updusr_pnttm" selected="selected">업데이트순</option>
+								<option value="frst_register_pnttm">등록일순</option>
+								<option value="c_rdcnt">조회순</option>
+								<option value="c_recomend_cnt">추천순</option>
+							</select>
+						</div>
+						<div class="select_map">
+							<!-- <button type="button" onclick="geoFindMe(30); return false;" class="pcV">내 주변 보기(30km)</button> -->
+							<!-- <button type="button" onclick="geoFindMe(50); return false;" class="pcV">내 주변 보기(50km)</button> -->
+							<button type="button"
+								onclick="location.href='/bsite/camp/info/list.do?pageUnit=10&amp;searchKrwd=&amp;searchLa=&amp;searchLo=&amp;distance=&amp;listOrdrTrget=last_updusr_pnttm&amp;pageIndex=1&amp;listTy=LIST'; return false;">
+								리스트로 보기</button>
+						</div>
+					</div>
+
+
+					<script type="text/javascript"
+						src="//dapi.kakao.com/v2/maps/sdk.js?appkey=ca03b0208d6f66d063f775590f585a44&libraries"></script>
+
+					<script type="text/javascript">
+							var positions = new Array();
+						</script>
+
+					<!-- 페이징처리 -->
+					<script type="text/javascript">
+    						
+						    var totalData = 1000;    // 총 데이터 수
+						    var dataPerPage = 20;    // 한 페이지에 나타낼 데이터 수  (java에서 던지는값)
+						    var pageCount = 10;        // 한 화면에 나타낼 페이지 수
+						    
+						    function paging(totalData, dataPerPage, pageCount, currentPage){
+						        
+						        console.log("currentPage : " + currentPage);
+						        
+						        var totalPage = Math.ceil(totalData/dataPerPage);    // 총 페이지 수
+						        var pageGroup = Math.ceil(currentPage/pageCount);    // 페이지 그룹
+						        
+						        console.log("pageGroup : " + pageGroup);
+						        
+						        var last = pageGroup * pageCount;    // 화면에 보여질 마지막 페이지 번호
+						        if(last > totalPage)
+						            last = totalPage;
+						        var first = last - (pageCount-1);    // 화면에 보여질 첫번째 페이지 번호
+						        var next = last+1;
+						        var prev = first-1;
+						        
+						        console.log("last : " + last);
+						        console.log("first : " + first);
+						        console.log("next : " + next);
+						        console.log("prev : " + prev);
+						 		
+						        var $pingingView = $("#paging");
+						        
+						        var html = "";
+						        
+						        if(prev > 0)
+						            html += "<a href=# id='prev'> [◀] </a> ";
+						        
+						        for(var i=first; i <= last; i++){
+						            html += "<a href='#' id=" + i + ">" + i + "</a> ";
+						        }
+						        
+						        if(last < totalPage)
+						            html += "<a href=# id='next'> [▶] </a>";
+						        
+						        $("#paging").html(html);    // 페이지 목록 생성
+						        $("#paging a").css("color", "black");
+						        $("#paging a#" + currentPage).css({"text-decoration":"none", 
+						                                           "color":"red", 
+						                                           "font-weight":"bold"});    // 현재 페이지 표시
+						                                           
+						        $("#paging a").click(function(){
+						            
+						            var $item = $(this);
+						            var $id = $item.attr("id");
+						            var selectedPage = $item.text();
+						            
+						            if($id == "next")    selectedPage = next;
+						            if($id == "prev")    selectedPage = prev;
+						            
+						            paging(totalData, dataPerPage, pageCount, selectedPage);
+						           
+						            $(this).focus();
+						        });
+						                                           
+						    }
+						    
+						    $("document").ready(function(){        
+						        paging(totalData, dataPerPage, pageCount, 1);
+						    });
+						</script>
 
 
 
 
-					<!-- 지도파싱	-->
+					<c:forEach var="i" items="${maplist}" begin="1" end="10">
+						<script type="text/javascript">
+							var lat = parseFloat("${i.wi}");
+							var lng = parseFloat("${i.gyung}");
+							// 마커를 표시할 위치와 내용을 가지고 있는 객체 배열입니다 
+							var tag = {
+								content : '<div>' + "${i.addres}" + '</div>',
+						
+								
+								latlng : new kakao.maps.LatLng(lat, lng)
+							}
+							positions.push(tag);
+						</script>
+					</c:forEach>
+
 					<div class="map_wrap">
 						<div id="map"
 							style="width: 100%; height: 100%; position: relative; overflow: hidden;"></div>
-
+						<div id="roadview" style="width: 100%; height: 300px"></div>
+						<!-- 로드뷰를 표시할 div 입니다 -->
 						<div id="menu_wrap" class="bg_white">
 							<div class="option">
 								<div>
-									<form onsubmit="searchPlaces(); return false;">
-										검색 : <input type="text" value="캠핑장" id="keyword" size="15">
-										<button type="submit">검색하기</button>
-									</form>
+									<form onsubmit="searchPlaces(); return false;"></form>
 								</div>
 							</div>
-							<hr>
-							<ul id="placesList"></ul>
+							<ul id="placesList">
+
+								<c:forEach var="i" items="${maplist}" begin="1" end="25">
+											 ${i.addres}</br>
+									<!--DB table에 주소만있어서 주소만 찍어놓음 end에 TL값  -->
+								</c:forEach>
+							</ul>
 							<div id="pagination"></div>
+							<div id="paging"></div>
 						</div>
 					</div>
+
+					<script>
+						var mapContainer = document.getElementById('map'), // 지도를 표시할 div  
+						mapOption = {
+							center : new kakao.maps.LatLng(37.5426652,
+									127.6172013), // 지도의 중심좌표
+							level : 12
+						// 지도의 확대 레벨
+						};
+
+						var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
+						
 					
-					<script type="text/javascript"
-						src="//dapi.kakao.com/v2/maps/sdk.js?appkey=ca03b0208d6f66d063f775590f585a44&libraries=services"></script>
-						<script type="text/javascript" src="${root}/resources/javascript/searchmap/kakaomap.js"></script>
-					
-					
+						for (var i = 0; i < positions.length; i++) {
+							// 마커를 생성합니다
+							var marker = new kakao.maps.Marker({
+								map : map, // 마커를 표시할 지도
+								position : positions[i].latlng
+							// 마커의 위치
+							});
+
+							// 마커에 표시할 인포윈도우를 생성합니다 
+							var infowindow = new kakao.maps.InfoWindow({
+								content : positions[i].content
+							// 인포윈도우에 표시할 내용
+							});
+
+							// 마커에 mouseover 이벤트와 mouseout 이벤트를 등록합니다
+							// 이벤트 리스너로는 클로저를 만들어 등록합니다 
+							// for문에서 클로저를 만들어 주지 않으면 마지막 마커에만 이벤트가 등록됩니다
+							kakao.maps.event.addListener(marker, 'mouseover',
+									makeOverListener(map, marker, infowindow));
+							kakao.maps.event.addListener(marker, 'mouseout',
+									makeOutListener(infowindow));
+						}
+						
+						// 인포윈도우를 표시하는 클로저를 만드는 함수입니다 
+						function makeOverListener(map, marker, infowindow) {
+							return function() {
+								infowindow.open(map, marker);
+							};
+						}
+
+						// 인포윈도우를 닫는 클로저를 만드는 함수입니다 
+						function makeOutListener(infowindow) {
+							return function() {
+								infowindow.close();
+							};
+						}
+						
+						
+
+						
+					</script>
 					<!-- //지도파싱	-->
+
+
 					<div
 						style="border: solid 2px black; width: auto; height: 100px; text-align: center; margin-top: 50px; line-height: 100px;">
 						footer footer footer</div>
