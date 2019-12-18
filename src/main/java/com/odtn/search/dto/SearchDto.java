@@ -1,21 +1,27 @@
 package com.odtn.search.dto;
 
+import java.util.Date;
+
 public class SearchDto {
 	private int camp_id;
 	private String camp_name;
+	private String title;
+	private String camp_type;
 	private String tag;
 	private String main_image;
 	private String address;
 	private String hp;
 	private String location_type;
 	private String operation_type;
-	private String camp_type;
 	private String operation_period;
 	private String operation_day;
 	private String camp_link;
 	private String sub_image1;
 	private String sub_image2;
 	private String sub_image3;
+	private String content;
+	private Date content_modified_date;
+	private String main_facilities;
 	private String etc_facilities;
 	private String bottom_type;
 	private String site_size;
@@ -23,32 +29,42 @@ public class SearchDto {
 	private String karaban_facilities;
 	private String animal_access;
 	private String torch;
+	private int read_count;
+	private Date camp_regisdate;
+	private int recommand_count;
+	private int review_count;
 	
 	SearchDto() {
 		
 	}
 
-	public SearchDto(int camp_id, String camp_name, String tag, String main_image, String address, String hp,
-			String location_type, String operation_type, String camp_type, String operation_period,
+	public SearchDto(int camp_id, String camp_name, String title, String camp_type, String tag, String main_image,
+			String address, String hp, String location_type, String operation_type, String operation_period,
 			String operation_day, String camp_link, String sub_image1, String sub_image2, String sub_image3,
-			String etc_facilities, String bottom_type, String site_size, String gramping_facilities,
-			String karaban_facilities, String animal_access, String torch) {
+			String content, Date content_modified_date, String main_facilities, String etc_facilities,
+			String bottom_type, String site_size, String gramping_facilities, String karaban_facilities,
+			String animal_access, String torch, int read_count, Date camp_regisdate, int recommand_count,
+			int review_count) {
 		super();
 		this.camp_id = camp_id;
 		this.camp_name = camp_name;
+		this.title = title;
+		this.camp_type = camp_type;
 		this.tag = tag;
 		this.main_image = main_image;
 		this.address = address;
 		this.hp = hp;
 		this.location_type = location_type;
 		this.operation_type = operation_type;
-		this.camp_type = camp_type;
 		this.operation_period = operation_period;
 		this.operation_day = operation_day;
 		this.camp_link = camp_link;
 		this.sub_image1 = sub_image1;
 		this.sub_image2 = sub_image2;
 		this.sub_image3 = sub_image3;
+		this.content = content;
+		this.content_modified_date = content_modified_date;
+		this.main_facilities = main_facilities;
 		this.etc_facilities = etc_facilities;
 		this.bottom_type = bottom_type;
 		this.site_size = site_size;
@@ -56,6 +72,10 @@ public class SearchDto {
 		this.karaban_facilities = karaban_facilities;
 		this.animal_access = animal_access;
 		this.torch = torch;
+		this.read_count = read_count;
+		this.camp_regisdate = camp_regisdate;
+		this.recommand_count = recommand_count;
+		this.review_count = review_count;
 	}
 
 	public int getCamp_id() {
@@ -72,6 +92,22 @@ public class SearchDto {
 
 	public void setCamp_name(String camp_name) {
 		this.camp_name = camp_name;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public String getCamp_type() {
+		return camp_type;
+	}
+
+	public void setCamp_type(String camp_type) {
+		this.camp_type = camp_type;
 	}
 
 	public String getTag() {
@@ -122,14 +158,6 @@ public class SearchDto {
 		this.operation_type = operation_type;
 	}
 
-	public String getCamp_type() {
-		return camp_type;
-	}
-
-	public void setCamp_type(String camp_type) {
-		this.camp_type = camp_type;
-	}
-
 	public String getOperation_period() {
 		return operation_period;
 	}
@@ -176,6 +204,30 @@ public class SearchDto {
 
 	public void setSub_image3(String sub_image3) {
 		this.sub_image3 = sub_image3;
+	}
+
+	public String getContent() {
+		return content;
+	}
+
+	public void setContent(String content) {
+		this.content = content;
+	}
+
+	public Date getContent_modified_date() {
+		return content_modified_date;
+	}
+
+	public void setContent_modified_date(Date content_modified_date) {
+		this.content_modified_date = content_modified_date;
+	}
+
+	public String getMain_facilities() {
+		return main_facilities;
+	}
+
+	public void setMain_facilities(String main_facilities) {
+		this.main_facilities = main_facilities;
 	}
 
 	public String getEtc_facilities() {
@@ -234,16 +286,51 @@ public class SearchDto {
 		this.torch = torch;
 	}
 
+	public int getRead_count() {
+		return read_count;
+	}
+
+	public void setRead_count(int read_count) {
+		this.read_count = read_count;
+	}
+
+	public Date getCamp_regisdate() {
+		return camp_regisdate;
+	}
+
+	public void setCamp_regisdate(Date camp_regisdate) {
+		this.camp_regisdate = camp_regisdate;
+	}
+
+	public int getRecommand_count() {
+		return recommand_count;
+	}
+
+	public void setRecommand_count(int recommand_count) {
+		this.recommand_count = recommand_count;
+	}
+
+	public int getReview_count() {
+		return review_count;
+	}
+
+	public void setReview_count(int review_count) {
+		this.review_count = review_count;
+	}
+
 	@Override
 	public String toString() {
-		return "SearchDto [camp_id=" + camp_id + ", camp_name=" + camp_name + ", tag=" + tag + ", main_image="
-				+ main_image + ", address=" + address + ", hp=" + hp + ", location_type=" + location_type
-				+ ", operation_type=" + operation_type + ", camp_type=" + camp_type + ", operation_period="
+		return "SearchDto [camp_id=" + camp_id + ", camp_name=" + camp_name + ", title=" + title + ", camp_type="
+				+ camp_type + ", tag=" + tag + ", main_image=" + main_image + ", address=" + address + ", hp=" + hp
+				+ ", location_type=" + location_type + ", operation_type=" + operation_type + ", operation_period="
 				+ operation_period + ", operation_day=" + operation_day + ", camp_link=" + camp_link + ", sub_image1="
-				+ sub_image1 + ", sub_image2=" + sub_image2 + ", sub_image3=" + sub_image3 + ", etc_facilities="
-				+ etc_facilities + ", bottom_type=" + bottom_type + ", site_size=" + site_size
+				+ sub_image1 + ", sub_image2=" + sub_image2 + ", sub_image3=" + sub_image3 + ", content=" + content
+				+ ", content_modified_date=" + content_modified_date + ", main_facilities=" + main_facilities
+				+ ", etc_facilities=" + etc_facilities + ", bottom_type=" + bottom_type + ", site_size=" + site_size
 				+ ", gramping_facilities=" + gramping_facilities + ", karaban_facilities=" + karaban_facilities
-				+ ", animal_access=" + animal_access + ", torch=" + torch + "]";
+				+ ", animal_access=" + animal_access + ", torch=" + torch + ", read_count=" + read_count
+				+ ", camp_regisdate=" + camp_regisdate + ", recommand_count=" + recommand_count + ", review_count="
+				+ review_count + "]";
 	}
-	
+
 }
