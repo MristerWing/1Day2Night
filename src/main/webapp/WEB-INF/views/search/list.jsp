@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <c:set var="root" value="${pageContext.request.contextPath}" />
 <!DOCTYPE html>
 <html lang="ko">
@@ -31,6 +32,7 @@
             </script>
             <!-- //Meta tag Keywords -->
             <script src="${root}/resources/javascript/modules/jquery-3.4.1.js"></script>
+            <script src="${root}/resources/javascript/modules/jquery-ui.js"></script>
             <script
                 type="text/javascript"
                 src="${root}/resources/javascript/search/searchList.js"
@@ -52,6 +54,21 @@
             <link href="${root}/resources/css/search/search.css" rel="stylesheet" />
             <link href="${root}/resources/css/search/searchBar.css" rel="stylesheet" />
             <link href="${root}/resources/css/search/searchList.css" rel="stylesheet" />
+            
+            <!-- 검색 게시물 Content CSS  -->
+            <link href="${root}/resources/css/search/searchBoard.css" rel="stylesheet" />
+            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  			<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  			<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+            
+            <!-- 검색 게시물 JavaScript -->
+            <script>
+            	function url() {
+            		
+            	}
+            </script>
+            
+            
             <!-- //font-awesome-icons -->
 
             <!-- /Fonts -->
@@ -250,30 +267,30 @@
                                                             $(
                                                                 "#campSearchForm2 > div > div.form_w.form_w_movV > ul:nth-child(2) > li.fw_2li > ul > li:nth-child(2) > button"
                                                             ).click(function() {
-                                                                var city = encodeURI(
-                                                                    "%" +
-                                                                        $(
-                                                                            "#c_do"
-                                                                        ).val() +
-                                                                        "%"
-                                                                );
-                                                                var theme = $(
+                                                            	var city = "";
+                                                            	if($(
+                                                                        "#c_do"
+                                                                ).val() != "") {
+                                                            		
+                                                                city = $("#c_do").val();
+                               
+                                                            	}
+                                                                var thema = $(
                                                                     "#searchLctCl"
                                                                 ).val();
-                                                                var keyword = encodeURI(
-                                                                    "%" +
-                                                                        $(
-                                                                            "#searchKrwd2"
-                                                                        ).val() +
-                                                                        "%"
-                                                                );
+                                                                var keyword = "";
+                                                                if($(
+                                                                        "#searchKrwd2"
+                                                                ).val() != "") {
+                                                                	keyword =  $("#searchKrwd2").val();
+                                                                }
 
                                                                 // 링크로 보낸다.
                                                                 var url =
                                                                     "${root}/search/list.do?city=" +
                                                                     city +
-                                                                    "&theme=" +
-                                                                    theme +
+                                                                    "&thema=" +
+                                                                    thema +
                                                                     "&keyword=" +
                                                                     keyword;
                                                                 console.log(
@@ -293,7 +310,7 @@
                     </div>
                     <div id="layout-2" style="display: none;">
                         <!--상세검색-->
-                        <form id="campSearchForm3" action="#none" method="get">
+                        <div id="campSearchForm3">
                             <div class="detail_search_w">
                                 <ul>
                                     <li>
@@ -760,7 +777,7 @@
                                                                 class="check01"
                                                                 name="searchSiteBottomCl2"
                                                                 id="searchSiteBottomCl2"
-                                                                value="데크"
+                                                                value="테크"
                                                             /><label
                                                                 for="searchSiteBottomCl2"
                                                                 class="label_name"
@@ -839,7 +856,7 @@
                                                                 type="checkbox"
                                                                 name="searchSbrsClCode"
                                                                 id="searchSbrsClCode02"
-                                                                value="무선인터넷"
+                                                                value="와이파이"
                                                                 class="check01"
                                                             /><label
                                                                 for="searchSbrsClCode02"
@@ -1025,26 +1042,32 @@
                                                     "auxiliary: ",
                                                     detailSearchMainFacities
                                                 );
-
+												
+                                                // 수정필요 (지역별에서 구분자로 | 넣어주는데 마지막 |뺴주기 위한 코드)
+                                                
+                                                detailSearchCity = detailSearchCity.substring(0, detailSearchCity.length - 1);
+                                                alert(detailSearchCity + "," + detailSearchOperationType + "," + 
+                                                		detailSearchLocationType + "," + detailSearchCampType + "," + 
+                                                		detailSearchMainFacities + "," + detailSearchBottomType);
                                                 var url =
                                                 	"${root}/search/list.do?detailSearchCity=" 
-                                                			+ encodeURI(
-                                                            detailSearchCity) +
+                                                			+ 
+                                                            detailSearchCity +
                                                     "&detailSearchOperationType=" +
-                                                    encodeURI(
-                                                    detailSearchOperationType) +
+                                                    
+                                                    detailSearchOperationType +
                                                     "&detailSearchLocationType=" +
-                                                    encodeURI(
-                                                    detailSearchLocationType) +
+                                                    
+                                                    detailSearchLocationType +
                                                     "&detailSearchCampType=" +
-                                                    encodeURI(
-                                                    detailSearchCampType) +
+                                                    
+                                                    detailSearchCampType +
                                                     "&detailSearchBottomType=" +
-                                                    encodeURI(
-                                                    detailSearchBottomType) +
+                                                    
+                                                    detailSearchBottomType +
                                                     "&detailSearchMainFacities=" +
-                                                    encodeURI(
-                                                    detailSearchMainFacities);
+                                                    
+                                                    detailSearchMainFacities;
                                                 location.href = url;
                                             });
                                         </script>
@@ -1054,7 +1077,7 @@
                                     </li>
                                 </ul>
                             </div>
-                        </form>
+                        </div>
                         <!--//상세검색-->
                     </div>
                     <div id="layout-3" style="display: none;">
@@ -1261,7 +1284,7 @@
                                     // 이후 링크로 이동
                                     console.log(tag);
 
-                                    var url = "${root}/search/list.do?tag=" + encodeURI(tag);
+                                    var url = "${root}/search/list.do?tag=" + tag;
                                     
                                     location.href = url;
 
@@ -1272,6 +1295,96 @@
                     <!--검색박스-->
                 </div>
             </div>
+        </div>
+        <!-- 리스트부분 -->
+        <div id="search_Content">
+        	<div>
+	        	<h2 style="color:black;">총 <span style="color:#eb831d;">${searchMap.count}개</span> 캠핑장이 검색되었습니다.</h2>
+        		<div class="search_Filter">
+        			<select>
+        				<option>등록일순</option>
+        				<option>조회순</option>
+        				<option>추천순</option>
+        			</select>
+        			
+        			<button>지도로 보기</button>
+        		</div>
+        	</div>
+        	
+        	<!-- 게시물 반복처리 -->
+        	<div class="search_list">
+	        	<c:if test="${searchMap.searchList.size() > 0}">
+	        		<c:forEach var="searchDto" items="${searchMap.searchList}">
+	        			<div class="Each_search">
+							<div>
+								<a href="#"><img src="${searchDto.main_image}"></a>
+							</div>
+							<div class="Each_search_sub">
+								<span>관광사업자 등록업체</span>
+								<span>리뷰수 ${searchDto.review_count}</span>
+								<span>조회수 ${searchDto.read_count}</span>
+								<span>추천수 ${searchDto.recommand_count}</span>
+								<span>${searchDto.address}</span>
+								<span>${searchDto.camp_name}</span>
+								<span>${searchDto.hp}</span>
+							</div>
+						</div>
+					</c:forEach>			        		
+	        	</c:if>
+        	</div>
+        	
+        	<!-- 페이징 처리 부분 -->
+        	<div class="pageCount">
+				<c:if test="${searchMap.count>0}">
+					<c:set var="pageBlock" value="${10}"/>
+					<fmt:parseNumber var="pageCount" integerOnly="true" value="${searchMap.count/searchMap.boardSize + (searchMap.count % searchMap.boardSize == 0 ? 0 : 1)}"/>
+								
+					<fmt:parseNumber var="result" value="${(searchMap.currentPage-1)/pageBlock}" integerOnly="true"/>
+					<c:set var="startPage" value="${result*pageBlock+1}"/>
+					<c:set var="endPage" value="${startPage+pageBlock-1}"/>
+					
+					<c:if test="${endPage > pageCount }">
+						<c:set var="endPage" value="${pageCount}"/>
+					</c:if>
+					
+					<ul class="pagination">
+						
+						<c:set var="url" value="${root}/search/list.do?"/>
+						
+						<c:if test="${searchMap.city != null || searchMap.thema != null || searchMap.keyword != null }">
+							<c:set var="url" value="${url}city=${searchMap.city}&thema=${searchMap.thema}&keyword=${searchMap.keyword}&"/>
+						</c:if>
+						
+						<c:if test="${searchMap.tag != null}">
+							<c:set var="url" value="${url}tag=${searchMap.tag}&"/>
+						</c:if>
+						
+						<c:if test="${searchMap.detailSearchCity != null || searchMap.detailSearchOperationType != null || searchMap.detailSearchLocationType != null
+									  || searchMap.detailSearchCampType != null || searchMap.detailSearchBottomType != null || searchMap.detailSearchMainFacities != null}">
+							<c:set var="url" value="${url}detailSearchCity=${searchMap.detailSearchCity}&detailSearchOperationType=
+							${searchMap.detailSearchOperationType}&detailSearchLocationType=${searchMap.detailSearchLocationType}&detailSearchCampType=
+							${searchMap.detailSearchCampType}&detailSearchBottomType=${searchMap.detailSearchBottomType}&detailSearchMainFacities=${searchMap.detailSearchMainFacities}&"/>
+						</c:if>
+					
+						<c:if test="${startPage > pageBlock}">
+							<li><a href="${url}pageNumber=${startPage - pageBlock}">PREV</a></li>
+						</c:if>
+						
+						<c:forEach var="i" begin="${startPage}" end="${endPage}">
+							<c:if test="${i != searchMap.currentPage}">
+								<li><a href="${url}pageNumber=${i}">${i}</a></li>
+							</c:if>
+							<c:if test="${i == searchMap.currentPage}">
+								<li class="active"><a href="${url}pageNumber=${i}">${i}</a></li>
+							</c:if>
+						</c:forEach>
+						
+						<c:if test="${endPage < pageCount}">
+							<li><a href="${url}pageNumber=${startPage + pageBlock}">NEXT</a></li>
+						</c:if>
+					</ul> 
+				</c:if>
+			</div>
         </div>
     </body>
 </html>

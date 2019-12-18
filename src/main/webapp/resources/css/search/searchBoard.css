@@ -1,0 +1,64 @@
+@charset "UTF-8";
+
+#search_Content {
+	width:80%;
+	margin: 0px auto;
+	font-family:"NanumG", "나눔고딕", Dotum, "돋움", Helvetica, AppleGothic, Sans-serif, "Tahoma", "MS PGothic";
+}
+
+#search_Content h2 {
+	line-height:60px;
+	font-size:22px;
+	color:#626262;
+}
+
+.search_Filter {
+	width:100%;
+	height:60px;
+	background-color: #f4f4f4;
+	border-top: 1px solid #dbdbdb;
+	border-bottom: 2px solid black;
+	overflow:hidden;
+}
+
+.search_Filter > select {
+	height:31px;
+	width:160px;
+	margin-left: 30px;
+	margin-top: 15px;
+	
+}
+
+.search_Filter > button {
+	float:right;
+	height:31px;
+	padding: 0 10px;
+	background-color: #4a4e57;
+	text-align:center;
+	color:white;
+	border: 0px;
+	margin-right: 30px;
+	margin-top: 15px;
+}
+
+.search_List {
+	width: 100%;
+	overflow:hidden;
+	background-color:#f8fcfe;
+}
+
+.search_list > .Each_search {
+	margin-top: 20px;
+	border-bottom: 1px solid #dbdbdb;
+	overflow:hidden;
+}
+
+.search_list img {
+	width: 30%;
+	height:auto;
+}
+
+.pageCount {
+	text-align:center;
+	overflow:hidden;
+}
