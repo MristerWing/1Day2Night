@@ -1,6 +1,8 @@
 package com.odtn.parse.searchmap.dao;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,10 +21,19 @@ public class SearchMapDaoImp implements SearchMapDao {
 		return sqlSessionTemplate.selectOne("dao.SearchMapMapper.searchMapCount");
 	}
 
+//	@Override
+//	public List<SearchMapDto> mapList(SearchMapDto searchMapDto) {
+//		// TODO Auto-generated method stub
+//		return sqlSessionTemplate.selectList("dao.SearchMapMapper.test",searchMapDto);
+//	}
+
 	@Override
-	public List<SearchMapDto> mapList(SearchMapDto searchMapDto) {
+	public List<SearchMapDto> getSearchList(int startRow, int endRow) {
 		// TODO Auto-generated method stub
-		return sqlSessionTemplate.selectList("dao.SearchMapMapper.test",searchMapDto);
+		Map<String, Integer> map = new HashMap<String, Integer>();
+		map.put("startRow", startRow);
+		map.put("endRow", endRow);
+		return  sqlSessionTemplate.selectList("dao.SearchMapMapper.test2",map);
 	}
 	
 //	@Override

@@ -6,19 +6,23 @@ public class SearchMapDto {
 	private String wi;
 	private String gyung;
 	private String addres;
+	private String campname;
+	private String jibeon;
 	
 	public SearchMapDto() {}
 
 	
 	
-	public SearchMapDto(int num, String wi, String gyung, String addres) {
+	
+	public SearchMapDto(int num, String wi, String gyung, String addres, String campname, String jibeon) {
 		super();
 		this.num = num;
 		this.wi = wi;
 		this.gyung = gyung;
 		this.addres = addres;
+		this.campname = campname;
+		this.jibeon = jibeon;
 	}
-
 
 
 
@@ -26,6 +30,8 @@ public class SearchMapDto {
 	public int getNum() {
 		return num;
 	}
+
+
 
 
 
@@ -39,9 +45,13 @@ public class SearchMapDto {
 
 
 
+
+
 	public String getWi() {
 		return wi;
 	}
+
+
 
 
 
@@ -55,9 +65,13 @@ public class SearchMapDto {
 
 
 
+
+
 	public String getGyung() {
 		return gyung;
 	}
+
+
 
 
 
@@ -71,9 +85,13 @@ public class SearchMapDto {
 
 
 
+
+
 	public String getAddres() {
 		return addres;
 	}
+
+
 
 
 
@@ -87,11 +105,55 @@ public class SearchMapDto {
 
 
 
+
+
+	public String getCampname() {
+		return campname;
+	}
+
+
+
+
+
+
+
+	public void setCampname(String campname) {
+		this.campname = campname;
+	}
+
+
+
+
+
+
+
+	public String getJibeon() {
+		return jibeon;
+	}
+
+
+
+
+
+
+
+	public void setJibeon(String jibeon) {
+		this.jibeon = jibeon;
+	}
+
+
+
+
+
+
+
 	@Override
 	public String toString() {
-		return "SearchMapDto [num=" + num + ", wi=" + wi + ", gyung=" + gyung + ", addres=" + addres + "]";
-	};
+		return "SearchMapDto [num=" + num + ", wi=" + wi + ", gyung=" + gyung + ", addres=" + addres + ", campname="
+				+ campname + ", jibeon=" + jibeon + "]";
+	}
+
 	
 	
-	
+
 }

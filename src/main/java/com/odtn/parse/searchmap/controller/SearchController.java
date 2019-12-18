@@ -28,9 +28,10 @@ public class SearchController {
 		
 		searchMapService.search(mav);
 		
-		mav.addObject("searchMapDto",searchMapDto);
-		searchMapService.map(mav);
+//		mav.addObject("searchMapDto",searchMapDto);
+//		searchMapService.map(mav);
 		
+		searchMapService.page(mav);
 		
 		
 //		searchMapService.getAddres(mav);

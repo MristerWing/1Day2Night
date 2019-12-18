@@ -13,10 +13,18 @@
 	select addres from search where addres like '%${addres}%' 
 	</select> -->
 		
-		<select id="test"  resultType="com.odtn.parse.searchmap.dto.SearchMapDto">
+		<!-- <select id="test"  resultType="com.odtn.parse.searchmap.dto.SearchMapDto">
 		select * from search
-		</select> 
+		</select>  -->
 	
+		<select id="test2" parameterType="java.util.Map" resultType="com.odtn.parse.searchmap.dto.SearchMapDto">
+		<![CDATA[
+		select * from (select rownum rnum,a.*from 
+		(select * from search  addres )a)
+		 where rnum >= #{startRow} and rnum <= #{endRow}
+     	]]>
+		</select> 
+		
 </mapper>
 
 

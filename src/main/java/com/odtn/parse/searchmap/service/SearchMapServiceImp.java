@@ -47,20 +47,50 @@ public class SearchMapServiceImp implements SearchMapService {
 		
 	}
 	
+//	@Override
+//	public void map(ModelAndView mav) {
+//		// TODO Auto-generated method stub
+//		Map<String,Object>map = mav.getModelMap();
+//		HttpServletRequest request = (HttpServletRequest) map.get("request");
+//		SearchMapDto searchMapDto=(SearchMapDto) map.get("searchMapDto");
+//		
+//		List<SearchMapDto> maplist = searchMapDao.mapList(searchMapDto);
+//		LogAspect.logger.info(LogAspect.logMsg+maplist);
+//		
+//		mav.setViewName("searchmap/search");
+//		
+//	}
+	
 	@Override
-	public void map(ModelAndView mav) {
+	public void page(ModelAndView mav) {
 		// TODO Auto-generated method stub
 		Map<String,Object>map = mav.getModelMap();
 		HttpServletRequest request = (HttpServletRequest) map.get("request");
-		SearchMapDto searchMapDto=(SearchMapDto) map.get("searchMapDto");
 		
-		List<SearchMapDto> maplist = searchMapDao.mapList(searchMapDto);
-		LogAspect.logger.info(LogAspect.logMsg+maplist);
+		String pageNumber = request.getParameter("pageNumber");
+		if (pageNumber == null)
+			pageNumber = "1";
+
+		int currentPage = Integer.parseInt(pageNumber); // 시작 - 끝
+		int count = searchMapDao.getCount();
+		LogAspect.logger.info(LogAspect.logMsg+count);
+		int boardSize = 10;
+		int startRow = (currentPage - 1) * boardSize + 1;
+		int endRow = currentPage * boardSize;
+
+		List<SearchMapDto> maplist = null;
 		
-		mav.addObject("maplist",maplist);
+		if (count > 0) {
+			maplist = searchMapDao.getSearchList(startRow, endRow);
+			LogAspect.logger.info(LogAspect.logMsg+maplist);
+		}
+
+		request.setAttribute("boardSize", boardSize);
+		request.setAttribute("currentPage", currentPage);
+		request.setAttribute("count", count);
+		request.setAttribute("maplist", maplist);
+
 		mav.setViewName("searchmap/search");
-		
 	}
-	
 }
 
