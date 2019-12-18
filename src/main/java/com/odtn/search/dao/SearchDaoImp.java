@@ -11,17 +11,20 @@ import com.odtn.search.dto.SearchDto;
 
 @Component
 public class SearchDaoImp implements SearchDao {
-	
+
 	@Autowired
 	private SqlSessionTemplate sqlSessionTemplate;
 
 	@Override
 	public List<SearchDto> list(Map<String, Object> searchMap) {
-		return sqlSessionTemplate.selectList("com.odtn.search.dao.mapper.SearchMapper.GetSearchList", searchMap);
+		return sqlSessionTemplate.selectList(
+				"com.odtn.search.dao.mapper.SearchMapper.GetSearchList",
+				searchMap);
 	}
 
 	@Override
 	public int getCount(Map<String, Object> searchMap) {
-		return sqlSessionTemplate.selectOne("com.odtn.search.dao.mapper.SearchMapper.GetCount",searchMap);
+		return sqlSessionTemplate.selectOne(
+				"com.odtn.search.dao.mapper.SearchMapper.GetCount", searchMap);
 	}
 }

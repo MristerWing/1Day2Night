@@ -120,10 +120,6 @@
 								<th>홈페이지</th>
 								<td></td>
 							</tr>
-							<tr>
-								<th>예약방법</th>
-								<td></td>
-							</tr>
 						</tbody>
 					</table>
 					<div class="button-area">
