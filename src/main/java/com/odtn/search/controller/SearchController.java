@@ -89,4 +89,13 @@ public class SearchController {
 
 		return mav;
 	}
+
+	@RequestMapping(value = "/search/read.do", method = RequestMethod.GET)
+	public ModelAndView searchRead(HttpServletRequest request,
+			HttpServletResponse response) {
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("search/read");
+		request.setAttribute("readPage", request.getParameter("readPage"));
+		return mav;
+	}
 }
