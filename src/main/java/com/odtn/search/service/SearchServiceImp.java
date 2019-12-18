@@ -20,17 +20,18 @@ public class SearchServiceImp implements SearchService {
 	public void searchList(Map<String, Object> searchMap) {
 		
 		String pageNumber = (String) searchMap.get("pageNumber");
+		String filter = (String) searchMap.get("filter");
 		
-		if(pageNumber == null) {
-			pageNumber = "1";
-		}
+		if(pageNumber == null) 	pageNumber = "1";
+		if(filter == null) filter = "regisDate";
+		
 		
 		int currentPage = Integer.parseInt(pageNumber);
 		int count = searchDao.getCount(searchMap);
 		
 		//LogAspect.logger.info(LogAspect.logMsg + "Count : " + count);
 		
-		int boardSize = 10;
+		int boardSize = 2;
 		int startRow = (currentPage-1) * boardSize + 1;
 		int endRow = currentPage * boardSize;
 		
@@ -38,6 +39,7 @@ public class SearchServiceImp implements SearchService {
 		
 		searchMap.put("startRow", startRow);
 		searchMap.put("endRow", endRow);
+		searchMap.put("filter", filter);
 		if(count > 0) searchList = searchDao.list(searchMap);
 		
 		//LogAspect.logger.info(LogAspect.logMsg + "searchList.Size : " +searchList.size());

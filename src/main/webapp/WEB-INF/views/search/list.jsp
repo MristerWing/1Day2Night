@@ -61,13 +61,85 @@
   			<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   			<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
             
-            <!-- 검색 게시물 JavaScript -->
+            <!-- 검색값 초기화 JS -->
             <script>
-            	function url() {
-            		
-            	}
+				$(function() {
+					
+					<!-- 기본검색 초기화 -->
+					$('#c_do option[value="${searchMap.city}"]').attr("selected",true);
+					$('#searchLctCl option[value="${searchMap.thema}"]').attr("selected",true);
+					$("#searchKrwd2").val("${searchMap.keyword}");
+					
+					<!-- 태그검색 초기화 -->
+					var tagArr = "${searchMap.tag}".split(",");
+					console.log(tagArr);
+					$("#layout-3 > div.tagBtn_group > ul > li > a").each(function() {
+						var tag = $(this).text().replace("#", "");
+						
+						if(tagArr.indexOf(tag) > -1) {
+							 $(this).css("background-color", "slateblue");
+							 
+                        }
+					
+					});
+					
+					<!-- 상세검색 초기화 -->
+					var cityArr = "${searchMap.detailSearchCity}".split("|");
+					
+					$("#campSearchForm3 > div > ul > li:nth-child(1) > div > div > div > ul > li > input").each(function() {
+						
+						if(cityArr.indexOf($(this).val()) > -1) {
+							$(this).prop("checked", true);
+					}
+						
+					
+					});
+					
+					var operArr = "${searchMap.detailSearchOperationType}".split(",");
+					$("#campSearchForm3 > div > ul > li:nth-child(2) > div > div > div > ul input").each(function() {
+						
+						if(operArr.indexOf($(this).val()) > -1) {
+							$(this).prop("checked", true);
+						}
+						
+					});
+					
+					var locaArr = "${searchMap.detailSearchLocationType}".split(",");
+					$("#campSearchForm3 > div > ul > li:nth-child(3) > div > div > div > ul input").each(function() {
+						
+						if(locaArr.indexOf($(this).val()) > -1) {
+							$(this).prop("checked", true);
+						}
+					});
+					
+					var campArr = "${searchMap.detailSearchCampType}".split(",");
+					$("#campSearchForm3 > div > ul > li:nth-child(4) > div > div > div > ul input").each(function() {
+						
+						if(campArr.indexOf($(this).val()) > -1) {
+							$(this).prop("checked", true);
+						}
+					});
+					
+					var bottArr = "${searchMap.detailSearchBottomType}".split(",");
+					$("#campSearchForm3 > div > ul > li:nth-child(5) > div > div > div > ul input").each(function() {
+						
+						if(bottArr.indexOf($(this).val()) > -1) {
+							$(this).prop("checked", true);
+						}
+					});
+					
+					var mainArr = "${searchMap.detailSearchMainFacities}".split(",");
+					$("#campSearchForm3 > div > ul > li:nth-child(6) > div > div > div > ul input").each(function() {
+						
+						if(mainArr.indexOf($(this).val()) > -1) {
+							$(this).prop("checked", true);
+						}
+					});
+					
+					<!-- 필터검색 초기화 -->
+					$('#search_Content > div:nth-child(1) > div > select option[value="${searchMap.filter}"]').attr("selected",true);
+				});
             </script>
-            
             
             <!-- //font-awesome-icons -->
 
@@ -1297,15 +1369,45 @@
             </div>
         </div>
         <!-- 리스트부분 -->
+        <c:set var="url" value="${root}/search/list.do?"/>
+						
+		<c:if test="${searchMap.city != null || searchMap.thema != null || searchMap.keyword != null }">
+			<c:set var="url" value="${url}city=${searchMap.city}&thema=${searchMap.thema}&keyword=${searchMap.keyword}&"/>
+		</c:if>
+		
+		<c:if test="${searchMap.tag != null}">
+			<c:set var="url" value="${url}tag=${searchMap.tag}&"/>
+		</c:if>
+		
+		<c:if test="${searchMap.detailSearchCity != null || searchMap.detailSearchOperationType != null || searchMap.detailSearchLocationType != null
+					  || searchMap.detailSearchCampType != null || searchMap.detailSearchBottomType != null || searchMap.detailSearchMainFacities != null}">
+			<c:set var="url" value="${url}detailSearchCity=${searchMap.detailSearchCity}&detailSearchOperationType=${searchMap.detailSearchOperationType}&detailSearchLocationType=${searchMap.detailSearchLocationType}&detailSearchCampType=${searchMap.detailSearchCampType}&detailSearchBottomType=${searchMap.detailSearchBottomType}&detailSearchMainFacities=${searchMap.detailSearchMainFacities}&"/>
+		</c:if>
         <div id="search_Content">
         	<div>
 	        	<h2 style="color:black;">총 <span style="color:#eb831d;">${searchMap.count}개</span> 캠핑장이 검색되었습니다.</h2>
         		<div class="search_Filter">
         			<select>
-        				<option>등록일순</option>
-        				<option>조회순</option>
-        				<option>추천순</option>
+        				<option value="regisDate">등록일순</option>
+        				<option value="readCount">조회순</option>
+        				<option value="reCommand">추천순</option>
+        				<option value="reviewCount">리뷰순</option>
         			</select>
+        			
+        			 <!-- 필터 관련 JavaScript -->
+		            <script>
+		            	$(".search_Filter > select").change(function() {
+		            		var filter = 
+		            		$(".search_Filter > select option:selected").val();
+		            		
+		            		alert(filter);
+		            		var url = "${url}"+"filter=";
+		            		
+		            		console.log(url);
+		            		
+		            		location.href= url+filter;
+		            	})
+		            </script>
         			
         			<button>지도로 보기</button>
         		</div>
@@ -1348,39 +1450,22 @@
 					</c:if>
 					
 					<ul class="pagination">
-						
-						<c:set var="url" value="${root}/search/list.do?"/>
-						
-						<c:if test="${searchMap.city != null || searchMap.thema != null || searchMap.keyword != null }">
-							<c:set var="url" value="${url}city=${searchMap.city}&thema=${searchMap.thema}&keyword=${searchMap.keyword}&"/>
-						</c:if>
-						
-						<c:if test="${searchMap.tag != null}">
-							<c:set var="url" value="${url}tag=${searchMap.tag}&"/>
-						</c:if>
-						
-						<c:if test="${searchMap.detailSearchCity != null || searchMap.detailSearchOperationType != null || searchMap.detailSearchLocationType != null
-									  || searchMap.detailSearchCampType != null || searchMap.detailSearchBottomType != null || searchMap.detailSearchMainFacities != null}">
-							<c:set var="url" value="${url}detailSearchCity=${searchMap.detailSearchCity}&detailSearchOperationType=
-							${searchMap.detailSearchOperationType}&detailSearchLocationType=${searchMap.detailSearchLocationType}&detailSearchCampType=
-							${searchMap.detailSearchCampType}&detailSearchBottomType=${searchMap.detailSearchBottomType}&detailSearchMainFacities=${searchMap.detailSearchMainFacities}&"/>
-						</c:if>
 					
 						<c:if test="${startPage > pageBlock}">
-							<li><a href="${url}pageNumber=${startPage - pageBlock}">PREV</a></li>
+							<li><a href="${url}pageNumber=${startPage - pageBlock}&filter=${searchMap.filter}">PREV</a></li>
 						</c:if>
 						
 						<c:forEach var="i" begin="${startPage}" end="${endPage}">
 							<c:if test="${i != searchMap.currentPage}">
-								<li><a href="${url}pageNumber=${i}">${i}</a></li>
+								<li><a href="${url}pageNumber=${i}&filter=${searchMap.filter}">${i}</a></li>
 							</c:if>
 							<c:if test="${i == searchMap.currentPage}">
-								<li class="active"><a href="${url}pageNumber=${i}">${i}</a></li>
+								<li class="active"><a href="${url}pageNumber=${i}&filter=${searchMap.filter}">${i}</a></li>
 							</c:if>
 						</c:forEach>
 						
 						<c:if test="${endPage < pageCount}">
-							<li><a href="${url}pageNumber=${startPage + pageBlock}">NEXT</a></li>
+							<li><a href="${url}pageNumber=${startPage + pageBlock}&filter=${searchMap.filter}">NEXT</a></li>
 						</c:if>
 					</ul> 
 				</c:if>

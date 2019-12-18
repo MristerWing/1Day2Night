@@ -67,7 +67,22 @@
 				</foreach>
 			</if>
 		</where>
-		order by camp_id desc) a ) b
+		
+		<choose>
+			<when test="filter.equals('readCount')">
+				order by read_count desc
+			</when>
+			<when test="filter.equals('reCommand')">
+				order by recommand_count desc
+			</when>
+			<when test="filter.equals('reviewCount')">
+				order by review_count desc
+			</when>
+			<otherwise>
+				order by camp_id desc
+			</otherwise>
+		</choose>
+		) a ) b
 		<![CDATA[ where ro >= #{startRow} and ro <= #{endRow} ]]>
 	</select>
 	
