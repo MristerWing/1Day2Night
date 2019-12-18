@@ -1,23 +1,558 @@
 package com.odtn.member.service;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
+import java.util.Date;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.odtn.aop.LogAspect;
 import com.odtn.member.dao.MemberDao;
+import com.odtn.member.dto.MemberDto;
 
+import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
+import com.odtn.member.service.TempKey;
+import com.sun.tools.javac.util.Log;
+
+/**
+ * @author kkh
+ * @date 2019. 12. 13.
+ * @description 이메일 가입자 인증 추가
+ * private JavaMailSender mailSender;
+ */
+
+/**
+ * @author kkh
+ * @date 2019. 12. 16.
+ * @description 이메일 인증 칼럼을 x에서 null로 업데이트하려니 에러나서 dynamic-update 설정사용
+ *              http://mkyong.com
+ *              ...하려고 했는데 안 그래도 괜찮았음
+ */
+
 @Component
 public class MemberServiceImp implements MemberService {
 	@Autowired
 	private MemberDao memberDao;
-	
+	@Autowired
+	private JavaMailSender mailSender;
+
+//	private org.apache.ibatis.session.Configuration configNull= 
+//		new org.apache.ibatis.session.Configuration();
+//	configNull.setCacheEnabled(false);
+//	configuration.setJdbcTypeForNull(null);
+
 	public void memberWriteOk(ModelAndView mav) {
 		Map<String, Object> map = mav.getModelMap();
 		HttpServletRequest request = (HttpServletRequest) map.get("request");
-		String email_id = request.getParameter("email_id");
-		String password = request.getParameter("password");
+		MemberDto memberDto = (MemberDto) map.get("memberDto");
+//		String email = request.getParameter("email");
+//		String password = request.getParameter("password");
+//		LogAspect.logger.info(LogAspect.logMsg+"rgP.email="+email+"   "+"rgP.pw="+password);
+		memberDto.setRegister_date(new Date());
+		memberDto.setEmail_auth_status("x");
+		LogAspect.logger.info(LogAspect.logMsg + "mWO." + memberDto.toString());
+
+		MemberDto memberDtoIsNew = new MemberDto();
+		memberDtoIsNew = memberDao.isNewMember(memberDto.getEmail());
+		if (memberDtoIsNew == null) {
+			int check = memberDao.memberWrite(memberDto);
+			LogAspect.logger.info(LogAspect.logMsg + "mWO.check: " + check);
+			mav.addObject("check", check);
+			mav.addObject("memberDto", memberDto);
+			// request.getParameter("email"); //npe
+			emailSender(mav);
+
+		} else if (memberDtoIsNew.getRegister_type() != null && memberDtoIsNew.getRegister_type().equals("KAKAO")) {
+			LogAspect.logger.info(LogAspect.logMsg + "이미 카카오 계정으로 가입하신 적이 있습니다.");
+		} else {
+			LogAspect.logger.info(LogAspect.logMsg + "이미 가입하신 이메일입니다.");
+			mav.setViewName("member/login");
+		}
+
+//		mav.setViewName("member/registerOk");
+	}
+
+	@Override
+	public void getDtoEmailAuth(ModelAndView mav) {
+		Map<String, Object> map = mav.getModelMap();
+		MemberDto memberDto = (MemberDto) map.get("memberDto");
+		HttpServletRequest request = (HttpServletRequest) map.get("request");
+//		LogAspect.logger.info(LogAspect.logMsg+"MSI.gDEA.dto: "+memberDto.toString()); //npe발생
+		memberDto.setEmail(request.getParameter("email"));
+		memberDto.setEmail_auth_key(request.getParameter("authkey"));
+		memberDto = memberDao.getDtoEmailAuth(memberDto);
+		LogAspect.logger.info(LogAspect.logMsg + "MSI.gDEA.dtoAfter: " + memberDto.toString());
+
+		mav.addObject("memberDto", memberDto);
+
+	}
+
+	public void emailSender(ModelAndView mav) {
+		Map<String, Object> map = mav.getModelMap();
+		MemberDto memberDto = (MemberDto) map.get("memberDto");
+		// 이메일 인증 키 생성
+		String email_auth_key = new TempKey().getKey(50, false);
+		while (memberDao.isNewEmailAuthKey(email_auth_key) > 0) {
+			email_auth_key = new TempKey().getKey(50, false);
+		}
+		memberDto.setEmail_auth_key(email_auth_key);
+		int akCheck = memberDao.updateEmail_auth_key(memberDto);
+		LogAspect.logger.info(LogAspect.logMsg + "MSI.mWO.afterUEak.dto: " + memberDto.toString());
+		// 자동으로 보내지는 mail 내용 작성
+		try {
+			LogAspect.logger.info(LogAspect.logMsg + "MSI.mWO.mail.dto:" + memberDto.toString());
+			MailUtils sendMail = new MailUtils(mailSender);
+			sendMail.setSubject("1Day2Night 회원가입 이메일 인증입니다.");
+			sendMail.setText(new StringBuffer().append("<h3>이메일 인증</h3>").append("<p>아래의 링크를 클릭하시면 이메일 인증이 완료됩니다.</p>")
+					.append("<a href='http://localhost:8181/camping/member/emailVerify.do?uid=")
+					.append(memberDto.getUser_num()).append("&email=").append(memberDto.getEmail()).append("&authkey=")
+					.append(email_auth_key).append("' target=_blank'>이메일 인증 확인</a>").toString());
+			sendMail.setFrom("egeodaa@gmail.com", "admin1");
+			sendMail.setTo(memberDto.getEmail());
+			sendMail.send();
+
+		} catch (MessagingException e) {
+			e.printStackTrace();
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		LogAspect.logger.info(LogAspect.logMsg + "MSI.mS.akupdCheck: " + akCheck);
+		LogAspect.logger.info(LogAspect.logMsg + "MSI.mS.dto: " + memberDto.toString());
+		mav.addObject("memberDto", memberDto);
+		mav.setViewName("member/registerOk");
+	}
+
+	@Override
+	public MemberDto updateEmail_auth_status(ModelAndView mav) {
+		Map<String, Object> map = mav.getModelMap();
+		MemberDto memberDto = (MemberDto) map.get("memberDto");
+
+		LogAspect.logger.info(LogAspect.logMsg + "MSI.uEas.dtobefor: " + memberDto.toString());
+		memberDto.setEmail_auth_status(null);
+		LogAspect.logger.info(LogAspect.logMsg + "MSI.uEas.dtoAfter: " + memberDto.toString());
+
+		int check = memberDao.updateEmail_auth_status(memberDto);
+		LogAspect.logger.info(LogAspect.logMsg + "MSI.uEas.dtoAfterUpd:" + memberDto.toString());
+		LogAspect.logger.info(LogAspect.logMsg + "MSI.uEas.check:" + check);
+		mav.addObject("check", check);
+		mav.addObject("memberDto", memberDto);
+		mav.setViewName("member/emailConfirm");
+		return memberDto;
+	}
+
+	@Override
+	public void memberLoginOk(ModelAndView mav) {
+		Map<String, Object> map = mav.getModelMap();
+		HttpServletRequest request = (HttpServletRequest) map.get("request");
+		Map<String, String> hMap = new HashMap<String, String>();
+		LogAspect.logger.info(LogAspect.logMsg + "req.email:" + request.getParameter("email"));
+		LogAspect.logger.info(LogAspect.logMsg + "req.pw:" + request.getParameter("password"));
+		hMap.put("email", request.getParameter("email"));
+		hMap.put("password", request.getParameter("password"));
+		LogAspect.logger.info(LogAspect.logMsg + "MSI.mLO.email: " + hMap.get("email"));
+		LogAspect.logger.info(LogAspect.logMsg + "MSI.mLO.password: " + hMap.get("password"));
+		MemberDto memberDto = memberDao.memberLoginOk(hMap);
+		LogAspect.logger.info(LogAspect.logMsg + "MSI.mLO.dto: " + memberDto.toString());
+		mav.addObject("memberDto", memberDto);
+
+		mav.setViewName("member/loginOk");
+
+	}
+
+	@Override
+	public void memberWriteInfo(ModelAndView mav) {
+		Map<String, Object> membInfoMap = mav.getModelMap();
+		MemberDto memberDto = (MemberDto) membInfoMap.get("memberDto");
+		LogAspect.logger.info(LogAspect.logMsg + "mWI:" + memberDto.toString());
+		int check = memberDao.memberWriteInfo(memberDto);
+
+		mav.addObject("check", check);
+		// mav.setViewName("index");
+	}
+
+	@Override
+	public void memberDeleteOk(ModelAndView mav) {
+		Map<String, Object> map = mav.getModelMap();
+		HttpServletRequest request = (HttpServletRequest) map.get("request");
+		HttpSession session = request.getSession();
+		LogAspect.logger.info(LogAspect.logMsg + "MSI.mDO.sesUnum: " + session.getAttribute("user_num"));
+		LogAspect.logger.info(LogAspect.logMsg + "MSI.mDO.sesemail: " + session.getAttribute("email"));
+		LogAspect.logger.info(LogAspect.logMsg + "MSI.mDO.sesEAKey: " + session.getAttribute("email_auth_key"));
+		LogAspect.logger.info(LogAspect.logMsg + "MSI.mDO.sesUnum: " + request.getParameter("password"));
+		Map<String, Object> hMap = new HashMap<String, Object>();
+		hMap.put("user_num", session.getAttribute("user_num"));
+		hMap.put("email", session.getAttribute("email"));
+		hMap.put("email_auth_key", session.getAttribute("email_auth_key"));
+		hMap.put("password", request.getParameter("password"));
+		int check = memberDao.memberDeleteOk(hMap);
+		LogAspect.logger.info(LogAspect.logMsg + "MSI.mDO.check: " + check);
+		mav.addObject("check", check);
+	}
+
+	@Override
+	public void kakaoDeleteOk(ModelAndView mav) {
+		Map<String, Object> map = mav.getModelMap();
+		HttpSession session = (HttpSession) map.get("session");
+		int check = 0;
+//		MemberDto memberDto = new MemberDto();
+
+		Map<String, Object> hMap = new HashMap<String, Object>();
+		LogAspect.logger.info(LogAspect.logMsg + "MSI.kDO.ses.uaid: " + session.getAttribute("user_auth_id"));
+		LogAspect.logger.info(LogAspect.logMsg + "MSI.kDO.ses.unum: " + session.getAttribute("user_num"));
+		LogAspect.logger.info(LogAspect.logMsg + "MSI.kDO.ses.a_t: " + session.getAttribute("access_token"));
+		hMap.put("user_auth_id", session.getAttribute("user_auth_id"));
+		hMap.put("user_num", session.getAttribute("user_num"));
+//		hMap.put("access_token", session.getAttribute("access_token"));
+		hMap.put("register_type", "KAKAO");
+		//int user_num = (Integer) hMap.get("user_num");
+		if((Integer) hMap.get("user_num")==0) {
+			LogAspect.logger.info(LogAspect.logMsg+"다시 로그인 해주신 후에 탈퇴해 주십시오");
+		} else {
+			check = memberDao.kakaoDeleteOk(hMap);
+		}
+		
+		if (check > 0) {
+			session.removeAttribute("user_auth_id");
+			session.removeAttribute("user_num");
+			session.removeAttribute("access_token");
+			session.removeAttribute("nickname");
+			session.removeAttribute("register_type");
+		}
+		mav.addObject("check", check);
+		mav.setViewName("member/kakaoDeleteOk");
+	}
+
+	@Override
+	public String kakaoGetAccessToken(String authorize_code) {
+		String access_Token = "";
+		String refresh_Token = "";
+		String reqUrl = "https://kauth.kakao.com/oauth/token";
+
+		try {
+			URL url = new URL(reqUrl);
+			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+
+			conn.setRequestMethod("POST");
+			// post 쓰려면 해줘야 되는 부분
+			conn.setDoOutput(true);
+
+			// 주소 이어 만들어 bw에 저장
+			BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(conn.getOutputStream()));
+			StringBuilder sb = new StringBuilder();
+			sb.append("grant_type=authorization_code");
+			sb.append("&client_id=06ef11d13082c0f6655eada1dec1670a");
+			sb.append("&redirect_uri=http://localhost:8181/camping/member/kakaoLogin.do");
+			sb.append("&code=" + authorize_code);
+			LogAspect.logger.info(LogAspect.logMsg + "sb.append: " + sb);
+			bw.write(sb.toString());
+			bw.flush();
+
+			// 잘 되는지 확인(200이면 됨)
+			int responseCode = conn.getResponseCode();
+			LogAspect.logger.info(LogAspect.logMsg + responseCode);
+
+			BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+			String line = "";
+			String result = "";
+
+			while ((line = br.readLine()) != null) {
+				result += line;
+			}
+			LogAspect.logger.info(LogAspect.logMsg + "response body: " + result);
+
+			// JSON객체 받아서 스트링으로 만들기 (gson 라이브러리 사용)
+			// json 파서 선언하고
+			// json엘러먼트 선언해놓고 , result(line 이어서 만든 주소) 넣고
+			// json파서가 엘러먼트의 주소를 찾아 파싱할 수 있게 만들고, 파싱한걸 json엘러먼트에 저장
+			JsonParser jsonParser = new JsonParser();
+			JsonElement jsonElement = jsonParser.parse(result);
+			// 엘러먼트에 저장된 json 객체를 get하고 거기서 a_token과 r_token을 얻는데 스트링타입으로서 get한다.
+			access_Token = jsonElement.getAsJsonObject().get("access_token").getAsString();
+			refresh_Token = jsonElement.getAsJsonObject().get("refresh_token").getAsString();
+
+			LogAspect.logger.info(LogAspect.logMsg + "access_token : " + access_Token);
+			LogAspect.logger.info(LogAspect.logMsg + "refresh_token : " + refresh_Token);
+
+			// 다 썼으면 닫아주기(먼저 연 걸 나중에 닫음)
+			if (br != null)
+				br.close();
+			if (bw != null)
+				bw.close();
+//			if(conn != null) conn.disconnect();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return access_Token;
+	}
+
+//	@Override
+//	public Map<String, Object> kakaoGetUserInfo(String access_Token) {
+//		//이메일 o/x, 수집 동의 여부 o/x로 회원 정보가 다 다름
+//		Map<String, Object> userInfoMap = new HashMap<String, Object>();
+//		String requestUrl = "https://kapi.kakao.com/v2/user/me";
+//		
+//		try {
+//			URL url = new URL(requestUrl);
+//			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+//			conn.setRequestMethod("POST");
+//			
+//			//헤더에 포함시키는 내용
+//			conn.setRequestProperty("Authorization", "Bearer " + access_Token);
+//			
+//			//200 나오면됨
+//			LogAspect.logger.info(LogAspect.logMsg+"MSI.gUI.responseCode: "+conn.getResponseCode());
+//			
+//			BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+//			String line="";
+//			String result="";
+//			
+//			while((line=br.readLine()) != null) {
+//				result += line;
+//			}
+//			
+//			LogAspect.logger.info(LogAspect.logMsg+"MSI.gUI.responseBody: "+result);
+//			
+//			//json 객체 파싱
+//			JsonParser jsonParser = new JsonParser();
+//			JsonElement jsonElement = jsonParser.parse(result);
+//			
+//			// json객체 내의 배열 properties와 kakao_account를 선언
+//			JsonObject properties = jsonElement.getAsJsonObject().get("properties").getAsJsonObject();
+//			JsonObject kakao_account = jsonElement.getAsJsonObject().get("kakao_account").getAsJsonObject();
+//			
+//			if(jsonElement.getAsJsonObject().get("id") != null)
+//				userInfoMap.put("user_auth_id", jsonElement.getAsJsonObject().get("id").getAsLong());
+//			
+//			//각 배열 내에 있는 하나씩 뽑아 String 변수에 하나씩 저장하기
+//			if(properties.getAsJsonObject().get("nickname").getAsString() != null) {
+//				//String nickname = properties.getAsJsonObject().get("nickname").getAsString();
+//				userInfoMap.put("nickname", properties.getAsJsonObject().get("nickname").getAsString());
+//			}
+//			if(kakao_account.getAsJsonObject().get("email") != null && kakao_account.getAsJsonObject().get("email_needs_agreement").getAsBoolean() == false) {
+//				//String email = kakao_account.getAsJsonObject().get("email").getAsString();
+//				userInfoMap.put("email", kakao_account.getAsJsonObject().get("email").getAsString());
+//			} else {
+//				//String email = "";
+//				userInfoMap.put("email", "");
+//			}
+//			
+//			if(kakao_account.getAsJsonObject().get("profile_needs_agreement") !=null && kakao_account.getAsJsonObject().get("profile_needs_agreement").getAsBoolean() == false) {
+//				if(properties.getAsJsonObject().get("profile_image") != null)
+//					userInfoMap.put("profile_image", properties.getAsJsonObject().get("profile_image").getAsString());
+//				if(properties.getAsJsonObject().get("thumbnail_image") != null)
+//					userInfoMap.put("thumbnail_image", properties.getAsJsonObject().get("thumbnail_image").getAsString());
+//			}
+//			
+//			
+//			if(br != null) br.close();
+//			if(conn != null) conn.disconnect();
+//		} catch(Exception e) {
+//			e.printStackTrace();
+//		} 
+//		return userInfoMap;
+//	}
+
+	@Override
+	public void kakaoGetUserInfo(String access_Token, ModelAndView mav) {
+		// 이메일 o/x, 수집 동의 여부 o/x로 회원 정보가 다 다름
+		
+		String requestUrl = "https://kapi.kakao.com/v2/user/me";
+		Map<String, Object> map = mav.getModelMap();
+		MemberDto memberDto = (MemberDto)map.get("memberDto");
+		HttpServletRequest request = (HttpServletRequest)map.get("request");
+		try {
+			URL url = new URL(requestUrl);
+			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+			conn.setRequestMethod("POST");
+
+			// 헤더에 포함시키는 내용
+			conn.setRequestProperty("Authorization", "Bearer " + access_Token);
+
+			// 200 나오면됨
+			LogAspect.logger.info(LogAspect.logMsg + "MSI.gUI.responseCode: " + conn.getResponseCode());
+
+			BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+			String line = "";
+			String result = "";
+
+			while ((line = br.readLine()) != null) {
+				result += line;
+			}
+
+			LogAspect.logger.info(LogAspect.logMsg + "MSI.gUI.responseBody: " + result);
+
+			// json 객체 파싱
+			JsonParser jsonParser = new JsonParser();
+			JsonElement jsonElement = jsonParser.parse(result);
+
+			// json객체 내의 배열 properties와 kakao_account를 선언
+			JsonObject properties = jsonElement.getAsJsonObject().get("properties").getAsJsonObject();
+			JsonObject kakao_account = jsonElement.getAsJsonObject().get("kakao_account").getAsJsonObject();
+			LogAspect.logger.info(LogAspect.logMsg + jsonElement.getAsJsonObject().get("id").getAsString());
+			LogAspect.logger
+					.info(LogAspect.logMsg + Integer.valueOf(jsonElement.getAsJsonObject().get("id").getAsString()));
+			if (jsonElement.getAsJsonObject().get("id") != null) {
+				memberDto.setUser_auth_id(Integer.valueOf(jsonElement.getAsJsonObject().get("id").getAsString()));
+				mav.addObject("user_auth_id", memberDto.getUser_auth_id());
+			} else {
+				LogAspect.logger.info(LogAspect.logMsg + "고유 id를 찾을 수 없습니다");
+
+			}
+
+			// 각 배열 내에 있는 하나씩 뽑아 String 변수에 하나씩 저장하기
+			if (properties.getAsJsonObject().get("nickname").getAsString() != null) {
+				// String nickname = properties.getAsJsonObject().get("nickname").getAsString();
+				memberDto.setNickname(properties.getAsJsonObject().get("nickname").getAsString());
+				mav.addObject("nickname", memberDto.getNickname());
+			}
+//			} else {
+//				memberDto.setNickname("");
+//			}
+			if (kakao_account.getAsJsonObject().get("email") != null
+					&& (kakao_account.getAsJsonObject().get("email_needs_agreement") != null
+							&& kakao_account.getAsJsonObject().get("email_needs_agreement").getAsBoolean() == false)) {
+				// String email = kakao_account.getAsJsonObject().get("email").getAsString();
+				memberDto.setEmail(kakao_account.getAsJsonObject().get("email").getAsString());
+			} else {
+//				memberDto.setEmail("");
+				memberDto.setEmail_auth_status("x");
+			}
+
+			if (kakao_account.getAsJsonObject().get("profile_needs_agreement") != null
+					&& (kakao_account.getAsJsonObject().get("profile_needs_agreement") != null && kakao_account
+							.getAsJsonObject().get("profile_needs_agreement").getAsBoolean() == false)) {
+
+				if (properties.getAsJsonObject().get("profile_image") != null)
+					memberDto.setProfile_image(properties.getAsJsonObject().get("profile_image").getAsString());
+//				else memberDto.setProfile_image("");
+
+				if (properties.getAsJsonObject().get("thumbnail_image") != null)
+					memberDto.setThumbnail_image(properties.getAsJsonObject().get("thumbnail_image").getAsString());
+//				else memberDto.setThumbnail_image("");
+			}
+//			} else {
+//				memberDto.setProfile_image("");
+//				memberDto.setThumbnail_image("");
+//			}
+
+			// null인 값들은 ""처리(oracle에선 null로 입력됨)
+//			if(memberDto.getPassword() == null)
+//				memberDto.setPassword("");
+			if (memberDto.getRegister_date() == null)
+				memberDto.setRegister_date(new Date());
+			if (memberDto.getRegister_type() == null)
+				memberDto.setRegister_type("KAKAO");
+
+			LogAspect.logger.info(LogAspect.logMsg + memberDto.toString());
+			int check = 0;
+			
+			MemberDto memberDtoIsNew = new MemberDto();
+			memberDtoIsNew = memberDao.isNewOAuthMember(memberDto.getUser_auth_id());
+			
+//			LogAspect.logger.info(LogAspect.logMsg + "MSI.kGUI.isNew.dto: " + memberDtoIsNew.toString());
+//			LogAspect.logger.info(LogAspect.logMsg + "isNew.uid: "+memberDtoIsNew.getUser_auth_id());
+//			LogAspect.logger.info(LogAspect.logMsg + "dto.uid: "+memberDto.getUser_auth_id());
+//			 
+//			LogAspect.logger.info(LogAspect.logMsg+"MSI.kGUI.isNewKaKao(t is f): "+memberDtoIsNew.getRegister_type().equals("KAKAO"));
+//			LogAspect.logger.info(LogAspect.logMsg+"MSI.kGUI.isNewAuthId: "+memberDtoIsNew.getUser_auth_id().equals(memberDto.getUser_auth_id()));
+			// LogAspect.logger.info(LogAspect.logMsg+"mDIN: "+memberDtoIsNew.toString());
+			if (memberDtoIsNew == null) {
+				check = memberDao.memberWrite(memberDto);
+			} else if (!(memberDtoIsNew.getRegister_type().equals("KAKAO"))) {
+				check = memberDao.memberWrite(memberDto);
+			} else if (memberDtoIsNew.getUser_auth_id().equals(memberDto.getUser_auth_id())) {
+				LogAspect.logger.info(LogAspect.logMsg + "MSI.KGUI.이미 있는 카카오 아이디이므로 로그인합니다.");
+				memberDto = memberDao.kakaoMemberLoad(memberDtoIsNew);
+			}
+//			} else if(memberDtoIsNew.getUser_auth_id()==null  && !(memberDtoIsNew.getRegister_type().equals("KAKAO"))) {
+//				check = memberDao.memberWrite(memberDto);
+//			 이거 되려면 user_auth_id가 여러개 필요한듯(만약 다른 연동 로그인이 있으면 null이 아님
+//			} 
+			
+//			if (memberDtoIsNew != null) {
+//				if(memberDtoIsNew.getRegister_type().equals("KAKAO")){
+//					if(memberDtoIsNew.getUser_auth_id().equals(memberDto.getUser_auth_id())) {
+//						LogAspect.logger.info(LogAspect.logMsg + "MSI.KGUI.이미 있는 카카오 아이디이므로 로그인합니다.");
+//						memberDto = memberDao.kakaoMemberLoad(memberDtoIsNew);
+//					}
+//				} else {
+//					check = memberDao.memberWrite(memberDto);
+//				}
+//			} else {
+//				check = memberDao.memberWrite(memberDto);
+//			}
+
+			LogAspect.logger.info(LogAspect.logMsg + "MSI.gUIkakao.check: " + check);
+
+			mav.addObject("check", check);
+			mav.addObject("memberDto", memberDto);
+			mav.addObject("access_Token", access_Token);
+			
+			
+//			HttpSession session = request.getSession();
+//			session.setAttribute("nickname", memberDto.getNickname());
+//			session.setAttribute("user_auth_id", memberDto.getUser_auth_id());
+//			session.setAttribute("user_num", memberDto.getUser_num());
+//			session.setAttribute("access_Token", access_Token);
+//			session.setAttribute("register_type", memberDto.getRegister_type());
+//			
+			mav.setViewName("member/kakaoLoginOk");
+
+			if (br != null)
+				br.close();
+//			if(conn != null) conn.disconnect();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public void kakaoLogout(String access_Token) {
+		String requestUrl = "https://kapi.kakao.com/v1/user/logout";
+
+		try {
+			URL url = new URL(requestUrl);
+			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+			conn.setDoOutput(true);
+			conn.setRequestMethod("POST");
+			conn.setRequestProperty("Authorization", "Bearer " + access_Token);
+			LogAspect.logger.info(LogAspect.logMsg + "MSI.kLo.a_t: " + access_Token);
+
+			LogAspect.logger.info(LogAspect.logMsg + "MSI.kLo.responseCode: " + conn.getResponseCode());
+
+			BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+
+			String result = "";
+			String line = "";
+
+			while ((line = br.readLine()) != null) {
+				result += line;
+			}
+			LogAspect.logger.info(LogAspect.logMsg + "MSI.kLo.result: " + result);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 		
 	}
+
+
 }
