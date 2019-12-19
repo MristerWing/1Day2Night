@@ -54,6 +54,9 @@ public class CampInfoFileDto {
 		return "CampInfoFileDto [info_num=" + info_num + ", file_name=" + file_name + ", path=" + path + ", file_size="
 				+ file_size + "]";
 	}
-	
-	
+
+
+
 }
+
+	

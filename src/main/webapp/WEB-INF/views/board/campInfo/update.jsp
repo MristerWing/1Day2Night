@@ -86,7 +86,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                             <a href="#">캠핑톡 <span class="fa fa-angle-down" aria-hidden="true"></span></a>
                               <input type="checkbox" id="drop-2" />
                             <ul>
-                                <li><a href="${root}/board/campInfo/list.do">캠핑소식</a>
+                                <li><a href="${root}/board/campInfo/write.do">캠핑소식</a>
                                 </li>
                                 <li><a href="gallery.html">캠핑후기</a>
                                 </li>
@@ -142,7 +142,8 @@ License URL: http://creativecommons.org/licenses/by/3.0/
     </div>
     <!-- //main-content -->
   <!--/ab -->
-    <section class="about py-lg-5 py-md-5 py-5">
+ <section class="about py-lg-5 py-md-5 py-5">
+
         <div class="container">
             <div class="inner-sec-w3pvt py-lg-5 py-3">
                 <h3 class="tittle text-center mb-lg-5 mb-3 px-lg-5">NEW 캠핑소식</h3>
@@ -150,17 +151,22 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 				
 				<label>캠핑소식 작성</label>
 			<!--썸머노트 form태그-->
-            <form class="campInfo_form" action="${root}/board/campInfo/writeOk.do" method="POST" 
+            <form class="campInfo_form" action="${root}/board/campInfo/updateOk.do" method="POST" 
             	onsubmit="returnForm(this)" enctype="multipart/form-data">
- 	
+            <!--사용자한테 안보이는값-->
+ 				<input type="hidden" name="pageNumber" value="${pageNumber}"/>
 			<ul class="">
 				<li>
+					<input name="info_num" type="hidden" value="${campInfoDto.info_num}">
+				</li>
+				<li>
 					<label >제목(*)</label>
-					<input name="title"  type="text" maxlength="100"/>
+					<input name="title"  type="text" maxlength="100" value="${campInfoDto.writer}" onfocus="this.value=''">
 				</li>
 				<li>
 					<label >작성자(*)</label>
-					<input name="writer" type="text"/>
+					<input name="writer" type="hidden" value="${campInfoDto.writer}"/>
+					<input name="writerview" type="text" value="${campInfoDto.writer}" disabled="disabled"/>
 				</li>
 
 				<li>
@@ -194,8 +200,13 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 					     		lang:'ko-KR'
 					       
 					        });
+					       
+					        $('#content').summernote('code','${campInfoDto.content}')
+					        
 					        var code=$('#content').summernote('code');
 					        $(".content").html(code);
+					        
+					        
 					    });
 					    </script>	
 				<li>
@@ -210,6 +221,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 	</div>   
             </div>
         </div>
+    
         <!-- //services -->
     </section>
 <!--footer -->

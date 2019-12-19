@@ -30,15 +30,6 @@
 	<!-- Annotation scan -->
 	<context:component-scan
 		base-package="com.odtn.*" />
-	
-	<!-- Application Controller-->
-	 <beans:bean id="simpleUrlHandlerMapping" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
-		<beans:property name="mappings">
-			<beans:props>
-				<beans:prop key="/board/campInfo/*.do">campInfoController</beans:prop>
-			</beans:props>
-		</beans:property>
-	</beans:bean>
 	 
 	<!-- Application AOP -->
 	<aop:aspectj-autoproxy></aop:aspectj-autoproxy>

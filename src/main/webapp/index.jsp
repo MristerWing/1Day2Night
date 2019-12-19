@@ -26,6 +26,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 
 	function hideURLbar() {
 		window.scrollTo(0, 1);
+		
 	}
 </script>
 <!-- //Meta tag Keywords -->
@@ -76,7 +77,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 						</label> <a href="#">캠핑톡 <span class="fa fa-angle-down"
 								aria-hidden="true"></span></a> <input type="checkbox" id="drop-2" />
 							<ul>
-								<li><a href="${root}/board/campInfo/write.do">캠핑소식</a></li>
+								<li><a href="${root}/board/campInfo/list.do">캠핑소식</a></li>
 								<li><a href="gallery.html">캠핑후기</a></li>
 								<li><a href="features.html">이벤트</a></li>
 								<li><a href="features.html">캠핑노하우</a></li>

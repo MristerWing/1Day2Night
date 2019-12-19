@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <c:set var="root" value="${pageContext.request.contextPath}"/>  
 <!--
@@ -46,6 +47,8 @@ License URL: http://creativecommons.org/licenses/by/3.0/
     <!-- //Meta tag Keywords -->
     <!-- Custom-Files -->
     <link rel="stylesheet" href="${root}/resources/css/styles/bootstrap.css">
+    <!--리스트전용 css-->
+    <link rel="stylesheet" href="${root}/resources/css/board/list.css">
     <!-- Bootstrap-Core-CSS -->
     <link rel="stylesheet" href="${root}/resources/css/styles/style.css" type="text/css" media="all" />
    
@@ -86,7 +89,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                             <a href="#">캠핑톡 <span class="fa fa-angle-down" aria-hidden="true"></span></a>
                               <input type="checkbox" id="drop-2" />
                             <ul>
-                                <li><a href="${root}/board/campInfo/list.do">캠핑소식</a>
+                                <li><a href="${root}/board/campInfo/write.do">캠핑소식</a>
                                 </li>
                                 <li><a href="gallery.html">캠핑후기</a>
                                 </li>
@@ -146,70 +149,83 @@ License URL: http://creativecommons.org/licenses/by/3.0/
         <div class="container">
             <div class="inner-sec-w3pvt py-lg-5 py-3">
                 <h3 class="tittle text-center mb-lg-5 mb-3 px-lg-5">NEW 캠핑소식</h3>
-             <div class="info_content" >
-				
-				<label>캠핑소식 작성</label>
-			<!--썸머노트 form태그-->
-            <form class="campInfo_form" action="${root}/board/campInfo/writeOk.do" method="POST" 
-            	onsubmit="returnForm(this)" enctype="multipart/form-data">
- 	
-			<ul class="">
-				<li>
-					<label >제목(*)</label>
-					<input name="title"  type="text" maxlength="100"/>
-				</li>
-				<li>
-					<label >작성자(*)</label>
-					<input name="writer" type="text"/>
-				</li>
-
-				<li>
-					<label >파일 첨부</label>
-							<li>
-							<!-- 	<a href="" onclick="return addFileInput('P','fileTd'); return false;">
-								<img src="/img/2018/board/btn_addfile.png" alt="파일추가">
-							</a>
-							<a href="#ProgBtn" onclick="return addFileInput('M','fileTd'); return false;">
-								<img src="/img/2018/board/btn_delfile.png" alt="파일삭제">
-							</a> -->
-							<input multiple="multiple" type="file" id="file" name="file" onchange="uploadImg_Change(this.value,'userfile1')" title="첨부파일1"/>
-							<br>
+	             <div class="info_list">
+					<div class="info_list_top">
+					<label>캠핑소식</label>
+						<div>
+						<input type="text" value="제목" disabled="disabled"/>
+						<input type="text" id="campinfo_search" value="검색어를 입력하세요" onfocus="this.value=''"/>
+						<input type="submit" id="campinfo_search" value="확인"  onclick="e"/>
+						</div> 
+					</div> 
 						
-							</li> 
-				<li>
-					<label>내용</label>
-					<textarea name="content" rows="3" id="content"></textarea>
-						<!--썸머노트 한글설정-->
-						<script type="text/javascript" src="${root}/resources/javascript/summernote/summernote-ko-KR.js">
-						</script>
+					<div id="info_list_content">
+					<c:if test="${count==0||campInfoList.size()==0}">
+						<div>
+							<span>게시판에 저장된 글이 없습니다.</span>
+						</div>
+					</c:if>
+					<!--작성글이있다면-->
+				 <c:if test="${count>0}">
+						<div id="list_table">
+							<div class="row">
+								<span class="col1">번호</span>
+								<span class="col2">제목</span>
+								<span class="col3">작성자</span>
+								<span class="col4">등록일</span>
+								<span class="col5">조회수</span>
+							</div>
 						
-						<script type="text/javascript">
-						$(document).ready(function() {
-					        $('#content').summernote({
-					        	
-					     		height:600,
-					     		minHeight:null,
-					     		maxHeight:null,
-					     		focus:true,
-					     		lang:'ko-KR'
-					       
-					        });
-					        var code=$('#content').summernote('code');
-					        $(".content").html(code);
-					    });
-					    </script>	
-				<li>
-					<p>
-						<input class="btn" type="submit" value="작성"/>	
-						<input class="btn" type="button"  value="목록" onclick="location.href='${root}/board/campInfo/list.do?pageNumber=${pageNumber}'"/>	
-					</p>
-				
-				</li>
-		</ul>
-		</form>            
-	</div>   
-            </div>
+						</div>
+					<c:forEach var="campInfoDto" items="${campInfoList}">
+						<div class="row_content">
+							<span class="col1">${campInfoDto.info_num}</span>
+							<span class="col2"><a href="${root}/board/campInfo/read.do?info_num=${campInfoDto.info_num}&pageNumber=${currentPage}">${campInfoDto.title}</a></span>
+							<span class="col3">${campInfoDto.writer}</span>
+							<span class="col4">
+							<fmt:formatDate value="${campInfoDto.write_date}" pattern="yyyy-MM-dd"/>
+							</span>
+							<span class="col5">${campInfoDto.read_count}</span>
+						</div>	
+					</c:forEach>
+				 </c:if> 
+					<div class="list_buttom">
+						<input type="button" value="글쓰기" onclick="location.href='${root}/board/campInfo/write.do'">
+					</div>	
+					<div align="center">
+				 <c:if test="${count>0}">
+					<fmt:parseNumber var="pageCount" integerOnly="true" value="${count/boardSize+(count%boardSize==0 ? 0:1)}"/>						
+					<c:set var="pageBlock" value="${10}"/>
+					
+					<fmt:parseNumber var="result" value="${(currentPage-1)/pageBlock}" integerOnly="true"/>
+					<c:set var="startPage" value="${result*pageBlock+1}"/>
+					<c:set var="endPage" value="${startPage+pageBlock-1}"/>
+						
+					<c:if test="${endPage>pageCount}">
+						<c:set var="endPage" value="${pageCount}"/>	
+					</c:if>
+					
+					<c:if test="${startPage>pageBlock}">
+						<a href="${root}/board/campInfo/list.do?pageNumber=1">[처음]</a>
+					</c:if>
+					<c:if test="${startPage>pageBlock}">
+						<a href="${root}/board/campInfo/list.do?pageNumber=${startPage-pageBlock}">[이전]</a>
+					</c:if>
+					
+					<c:forEach var="i" begin="${startPage}" end="${endPage}">
+						<a href="${root}/board/campInfo/list.do?pageNumber=${i}">[${i}]</a>
+					</c:forEach>
+					
+					<c:if test="${endPage<pageCount}">
+						<a href="${root}/board/campInfo/list.do?pageNumber=${startPage+pageBlock}">[다음]</a>
+					</c:if>
+				</c:if>
+					</div>
+	            </div>
+	          </div>  
         </div>
+       </div>
+         
         <!-- //services -->
     </section>
 <!--footer -->
@@ -245,13 +261,13 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                     </div>
                     <div class="col-lg-4 col-md-12 mt-lg-0 mt-4 col-sm-12 footer-grid_section_1its" data-aos="fade-left">
                         <div class="footer-title-w3pvt">
-                            <h3>Newsletter</h3>
+                            <h3>관리자로그인</h3>
                         </div>
                         <div class="footer-text">
                             <p>By subscribing to our mailing list you will always get latest news and updates from us.</p>
                             <form action="#" method="post">
-                                <input type="email" name="Email" placeholder="Enter your email..." required="">
-                                <button class="btn1"><span class="fa fa-paper-plane-o" aria-hidden="true"></span></button>
+                             <!--    <input type="email" name="Email" placeholder="Enter your email..." required=""> -->
+                                <button class="btn1"><span class="fa fa-paper-plane-o" aria-hidden="true">로그인</span></button>
                                 <div class="clearfix"> </div>
                             </form>
                         </div>
