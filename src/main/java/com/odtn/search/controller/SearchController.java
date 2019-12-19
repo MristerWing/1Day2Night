@@ -13,31 +13,30 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.odtn.aop.LogAspect;
 import com.odtn.search.service.SearchService;
 
 @Controller
 public class SearchController {
 
-	
-	@Autowired private SearchService searchService;
-	 
+	@Autowired
+	private SearchService searchService;
 
 	@RequestMapping(value = "/search/list.do", method = RequestMethod.GET)
-	public ModelAndView searchList(HttpServletRequest request, HttpServletResponse response) {
-		
+	public ModelAndView searchList(HttpServletRequest request,
+			HttpServletResponse response) {
+
 		ModelAndView mav = new ModelAndView();
-		
+
 		@SuppressWarnings("unchecked")
 		Map<String, String[]> data = request.getParameterMap();
 
 		Iterator<String> iter = data.keySet().iterator();
 
 		Map<String, Object> searchMap = new HashMap<String, Object>();
-		
+
 		while (iter.hasNext()) {
 			String key = iter.next();
-			
+
 			if (data.get(key)[0].equals("")) {
 				searchMap.put(key, null);
 			} else {
@@ -58,12 +57,12 @@ public class SearchController {
 			}
 		}
 		searchService.searchList(searchMap);
-		
+
 		Iterator<String> Reiter = data.keySet().iterator();
-		
+
 		while (Reiter.hasNext()) {
 			String key = Reiter.next();
-			
+
 			if (data.get(key)[0].equals("")) {
 				searchMap.put(key, null);
 			} else {
@@ -83,19 +82,30 @@ public class SearchController {
 					searchMap.put(key, data.get(key)[0]);
 			}
 		}
-		
+
 		mav.addObject("searchMap", searchMap);
 		mav.setViewName("search/list");
 
 		return mav;
 	}
 
+	/**
+	 * @author KimJinsu
+	 * @date 2019/12/18
+	 * @param request
+	 * @param response
+	 * @see searchService.searchRead
+	 * @return {@link ModelAndView}
+	 */
 	@RequestMapping(value = "/search/read.do", method = RequestMethod.GET)
 	public ModelAndView searchRead(HttpServletRequest request,
 			HttpServletResponse response) {
 		ModelAndView mav = new ModelAndView();
+		mav.addObject("request", request);
+
+		searchService.searchRead(mav);
 		mav.setViewName("search/read");
-		request.setAttribute("readPage", request.getParameter("readPage"));
+
 		return mav;
 	}
 }

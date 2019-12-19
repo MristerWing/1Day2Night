@@ -146,4 +146,19 @@
 			</if>
 		</where>
 	</select>
+	
+	<!-- KimJinsu 2019/12/18 select -->
+	<select id="getCamp" parameterType="int" resultType="com.odtn.search.dto.SearchDto">
+		SELECT * FROM CAMP_DATA WHERE camp_id = #{camp_id}
+	</select>
+	
+	<!-- KimJinsu 2019/12/19 update -->
+	<update id="updateReadCount" parameterType="int">
+		UPDATE CAMP_DATA SET read_count = read_count + 1 WHERE camp_id = #{camp_id} 
+	</update>
+	
+	<!-- KimJinsu 2019/12/19 select -->
+	<select id="getPayment" parameterType="int" resultType="com.odtn.search.dto.SearchPaymentDto">
+		SELECT * FROM CAMP_FARE WHERE camp_id = #{camp_id}
+	</select>
 </mapper>

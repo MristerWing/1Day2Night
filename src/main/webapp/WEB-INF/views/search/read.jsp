@@ -75,53 +75,54 @@
 			<div class="topline-background">
 				<div class="container read-background">
 					<div class="name-space">
-						<h1>namespace</h1>
-						<h3>subname</h3>
+						<h1>${searchDto.camp_name}</h1>
+						<h3>${searchDto.title}</h3>
 					</div>
-					<div class="tag-div"><label>tags</label></div>
+					<div class="tag-div"><label>tags</label><label>${searchDto.tag}</label></div>
 				</div>
 			</div>
 			<div class="container main_content">
 				<div class="img-area">
 					<img
-						src="${root}/resources/images/search/test/1.jpg"
+						src="${searchDto.main_image}"
 						alt="loding"
 					/>
 				</div>
 				<div class="content-area">
 					<table class="table">
-						<tbody>
-							<!--스크립트 루프 처리 예정-->
-							<tr>
-								<th>주소</th>
-								<td>2</td>
-							</tr>
-							<tr>
-								<th>문의처</th>
-								<td>4</td>
-							</tr>
-							<tr>
-								<th>캠핑장 환경</th>
-								<td>6</td>
-							</tr>
-							<tr>
-								<th>캠핑장 유형</th>
-								<td>8</td>
-							</tr>
-							<tr>
-								<th>운영기간</th>
-								<td>10</td>
-							</tr>
-							<tr>
-								<th>운영일</th>
-								<td>12</td>
-							</tr>
-							<tr>
-								<th>홈페이지</th>
-								<td></td>
-							</tr>
-						</tbody>
+						<tbody></tbody>
 					</table>
+					<script type="text/javascript">
+						var titles = {
+							address: "주소", 
+							hp: "문의처", 
+							loc: "캠핑장 환경", 
+							operationType: "캠핑장 유형", 
+							operationPeriod: "운영기간", 
+							operationDay: "운영일", 
+							homepage: "홈페이지"
+						};
+						
+						var camp = {
+								address: "${searchDto.address}",
+								hp: "${searchDto.hp}",
+								loc: "${searchDto.location_type}",
+								operationType: "${searchDto.operation_type}",
+								operationPeriod: "${searchDto.operation_period}", 
+								operationDay: "${searchDto.operation_day}", 
+								homepage: "<a href='" + "${searchDto.camp_link}" + "'>바로가기</a>"
+						};
+						
+						
+						for(let prop in camp) {
+							if(!camp.hasOwnProperty(prop)) continue;
+							if(camp[prop] != "") {
+								$("body > div.search > div.container.main_content > div.content-area > table > tbody").append(
+									"<tr><th>" + titles[prop] + "</th><td>" + camp[prop] + "</td></tr>"
+								);
+							};
+						};
+					</script>
 					<div class="button-area">
 						<button class="btn btn-primary" value="1">
 							<i class="fa fa-thumbs-o-up" aria-hidden="true"></i
@@ -147,7 +148,7 @@
 					<script type="text/javascript">
 					$('body > div.search > div.container.main_content > div.row > button').click(
 						function() {
-							var url = '${root}/search/read.do?readPage=' + $(this).val();
+							var url = '${root}/search/read.do?readPage=' + $(this).val() + "&camp-id=" + "${searchDto.camp_id}";
 							console.log(url);
 							location.href = url;
 						}
@@ -159,13 +160,13 @@
 				<!--소개-->
 				<c:if test="${readPage == 1||readPage == null||readPage == ''}">
 				<div class="sub-img">
-					<img src="${root}/resources/images/search/test/s1.jpg" alt="" />
-					<img src="${root}/resources/images/search/test/s2.jpg" alt="" />
-					<img src="${root}/resources/images/search/test/s3.jpg" alt="" />
+					<img src="${searchDto.sub_image1}" alt="" />
+					<img src="${searchDto.sub_image2}" alt="" />
+					<img src="${searchDto.sub_image3}" alt="" />
 				</div>
 				<div class="sub-index">
-					<span class="text">content</span>
-					<span class="date">date</span>
+					<span class="text">${searchDto.content}</span>
+					<span class="date">${searchDto.content_modified_date}</span>
 				</div>
 				<div class="sub-campinfo">
 					<span class="title">
@@ -173,6 +174,16 @@
 						캠핑장 시설정보
 					</span>
 					<div class="info"></div>
+					<script type="text/javascript">
+						var fac = {
+							wifi = "와이파이",
+							bolt
+						}
+					
+						var camp_main_info = "${searchDto.main_facilities}".split(",");
+						
+						
+					</script>
 				</div>
 				<div class="sub-etc">
 					<span class="title">
@@ -180,65 +191,69 @@
 						기타 주요시설
 					</span>
 					<table class="table">
-						<tbody>
-							<tr>
-								<th>주요시설</th>
-								<td>test</td>
-							</tr>
-							<tr>
-								<th>바닥형태 (단위:면)</th>
-								<td></td>
-							</tr>
-							<tr>
-								<th>사이트 크기</th>
-								<td></td>
-							</tr>
-							<tr>
-								<th>글램핑 내부시설</th>
-								<td></td>
-							</tr>
-							<tr>
-								<th>카라반 내부시설</th>
-								<td></td>
-							</tr>
-							<tr>
-								<th>애완동물 출입</th>
-								<td></td>
-							</tr>
-							<tr>
-								<th>화로대</th>
-								<td></td>
-							</tr>
-						</tbody>
+						<tbody></tbody>
 					</table>
+					<script type="text/javascript">
+						var titles = {
+							etc: "주요시설", 
+							bottom: "바닥형태 (단위:면)", 
+							site: "사이트 크기", 
+							gramping: "글램핑 내부시설", 
+							karaban: "카라반 내부시설", 
+							animal: "애완동물 출입", 
+							torch: "화로대"
+						};
+						
+						var etc = {
+								etc: "${searchDto.etc_facilities}", 
+								bottom: "${searchDto.bottom_type}", 
+								site: "${searchDto.site_size}", 
+								gramping: "${searchDto.gramping_facilities}", 
+								karaban: "${searchDto.karaban_facilities}", 
+								animal: "${searchDto.animal_access}", 
+								torch: "${searchDto.torch}"
+						};
+						
+						
+						for(let prop in etc) {
+							if(!etc.hasOwnProperty(prop)) continue;
+							if(etc[prop] != "") {
+								$("body > div.search > div.sub-content > div.sub-etc > table > tbody").append(
+									"<tr><th>" + titles[prop] + "</th><td>" + etc[prop] + "</td></tr>"
+								);
+							};
+						};
+					</script>
 				</div>
 				</c:if>
 				<!--안내-->
 				<!--루프처리-->
 				<c:if test="${readPage  == 2}">
 				<div class="container guide-area">
-					<span class="title">
-						<i class="fa fa-flag" aria-hidden="true"></i>
-						일반요금
-					</span>
-					<table class="table">
-						<thead class="thead-dark">
-							<tr>
-								<th>평상시 주중</th>
-								<th>평상시 주말</th>
-								<th>성수기 주중</th>
-								<th>성수기 주말</th>
-							</tr>
-						</thead>
-						<tbody>
-                            <tr>
-                                <td>30,000</td>
-                                <td>30,000</td>
-                                <td>30,000</td>
-                                <td>30,000</td>
-                            </tr>
-                        </tbody>
-					</table>
+					<c:forEach var="paymentDto" items="${paymentList}">
+						<span class="title">
+							<i class="fa fa-flag" aria-hidden="true"></i>
+							${paymentDto.fee_name}
+						</span>
+						<table class="table">
+							<thead class="thead-dark">
+								<tr>
+									<th>평상시 주중</th>
+									<th>평상시 주말</th>
+									<th>성수기 주중</th>
+									<th>성수기 주말</th>
+								</tr>
+							</thead>
+							<tbody>
+	                            <tr>
+	                                <td>${paymentDto.normal_season_weekdays_fee}</td>
+	                                <td>${paymentDto.normal_season_holidays_fee}</td>
+	                                <td>${paymentDto.peak_season_weekdays_fee}</td>
+	                                <td>${paymentDto.peak_season_holidays_fee}</td>
+	                            </tr>
+	                        </tbody>
+						</table>
+					</c:forEach>
 				</div>
 				</c:if>
 				<!--지도-->

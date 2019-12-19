@@ -89,6 +89,10 @@
 	margin-right: 5px;
 }
 
+.search_list .name-content-area .camp-title {
+	color: #black;
+}
+
 .pageCount {
 	margin: 5px 0;
 	text-align: center;
