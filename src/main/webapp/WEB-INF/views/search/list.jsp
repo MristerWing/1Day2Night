@@ -759,7 +759,7 @@
 		<!-- 게시물 반복처리 -->
 		<div class="search_list">
 			<c:if test="${searchMap.searchList.size() > 0}">
-				<c:forEach var="searchDto" items="${searchMap.searchList}">
+				<c:forEach var="searchDto" varStatus="status" items="${searchMap.searchList}">
 					<div class="Each_search row">
 						<div class="col-sm-4 main_img">
 							<a href="#"><img src="${searchDto.main_image}"></a>
@@ -783,6 +783,56 @@
 									<span class="hp"> <i class='fa fa-map-marker'
 										aria-hidden='true'></i> ${searchDto.hp}
 									</span>
+								</c:if>
+								<c:if test="${searchDto.main_facilities != null}">
+									<div class="info row">
+									</div>
+									<script type="text/javascript">
+										var title = {
+											bolt: "전기",
+											wifi: "와이파이",
+											firewood: "장작판매",
+											hotWater: "온수",
+											trampoline: "트램폴린",
+											waterPark: "물놀이장",
+											playGround: "놀이터",
+											park: "산책로",
+											stadium: "운동장",
+											gym: "운동시설",
+											market: "마트.편의점"
+										};
+										console.log("${searchDto.main_facilities}");
+										var camp_main_info = "${searchDto.main_facilities}".split(",");
+										
+										var icons = {
+											bolt: "<i class='fa fa-bolt' aria-hidden='true'></i>",
+											wifi: "<i class='fa fa-wifi' aria-hidden='true'></i>",
+											firewood: "<i class='fa fa-free-code-camp' aria-hidden='true'></i>",
+											hotWater: "<i class='fa fa-thermometer-full' aria-hidden='true'></i>",
+											trampoline: "<i class='fa fa-circle' aria-hidden='true'></i>",
+											waterPark: "<i class='fa fa-bath' aria-hidden='true'></i>",
+											playGround: "<i class='fa fa-users' aria-hidden='true'></i>",
+											park: "<i class='fa fa-tree' aria-hidden='true'></i>",
+											stadium: "<i class='fa fa-futbol-o' aria-hidden='true'></i>",
+											gym: "<i class='fa fa-heart' aria-hidden='true'></i>",
+											market: "<i class='fa fa-shopping-basket' aria-hidden='true'></i>"
+										};
+									
+										var loop = 0;
+										
+										for(var prop in title) {
+											if(!title.hasOwnProperty(prop)) continue;
+											if(title[prop] == camp_main_info[loop]) {
+												$("#search_Content > div.search_list > div:nth-child(${status.index+1})").has("div.info.row").children().eq(1).children().eq(1).children().eq(3).append(
+															"<div class='icon-area'>" +
+															"<div class='main-icons col'>" + icons[prop] + "</div>" +
+															"<div class='name'>" + camp_main_info[loop] + "</div>" +
+															"</div>"	
+												);
+													loop++;
+											}
+										};
+									</script>
 								</c:if>
 							</div>
 						</div>

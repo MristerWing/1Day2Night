@@ -173,16 +173,55 @@
 						<i class="fa fa-info-circle" aria-hidden="true"></i>
 						캠핑장 시설정보
 					</span>
-					<div class="info"></div>
-					<script type="text/javascript">
-						var fac = {
-							wifi = "와이파이",
-							bolt
-						}
+					<div class="info row">
 					
+					</div>
+					<script type="text/javascript">
+						var title = {
+							bolt: "전기",
+							wifi: "와이파이",
+							firewood: "장작판매",
+							hotWater: "온수",
+							trampoline: "트램폴린",
+							waterPark: "물놀이장",
+							playGround: "놀이터",
+							park: "산책로",
+							stadium: "운동장",
+							gym: "운동시설",
+							market: "마트.편의점"
+						};
+
 						var camp_main_info = "${searchDto.main_facilities}".split(",");
+						console.log(camp_main_info);
 						
+						var icons = {
+							bolt: "<i class='fa fa-bolt' aria-hidden='true'></i>",
+							wifi: "<i class='fa fa-wifi' aria-hidden='true'></i>",
+							firewood: "<i class='fa fa-free-code-camp' aria-hidden='true'></i>",
+							hotWater: "<i class='fa fa-thermometer-full' aria-hidden='true'></i>",
+							trampoline: "<i class='fa fa-circle' aria-hidden='true'></i>",
+							waterPark: "<i class='fa fa-bath' aria-hidden='true'></i>",
+							playGround: "<i class='fa fa-users' aria-hidden='true'></i>",
+							park: "<i class='fa fa-tree' aria-hidden='true'></i>",
+							stadium: "<i class='fa fa-futbol-o' aria-hidden='true'></i>",
+							gym: "<i class='fa fa-heart' aria-hidden='true'></i>",
+							market: "<i class='fa fa-shopping-basket' aria-hidden='true'></i>"
+						};
+					
+						let loop = 0;
 						
+						for(let prop in title) {
+							if(!title.hasOwnProperty(prop)) continue;
+							if(title[prop] == camp_main_info[loop]) {
+								$("body > div.search > div.sub-content > div.sub-campinfo > div").append(
+									"<div class='icon-area'>" +
+									"<div class='main-icons col'>" + icons[prop] + "</div>" +
+									"<div class='name'>" + camp_main_info[loop] + "</div>" +
+									"</div>"
+								);
+									loop++;
+							}
+						};
 					</script>
 				</div>
 				<div class="sub-etc">
@@ -213,7 +252,6 @@
 								animal: "${searchDto.animal_access}", 
 								torch: "${searchDto.torch}"
 						};
-						
 						
 						for(let prop in etc) {
 							if(!etc.hasOwnProperty(prop)) continue;
