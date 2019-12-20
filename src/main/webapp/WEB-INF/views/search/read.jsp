@@ -149,7 +149,6 @@
 					$('body > div.search > div.container.main_content > div.row > button').click(
 						function() {
 							var url = '${root}/search/read.do?readPage=' + $(this).val() + "&camp-id=" + "${searchDto.camp_id}";
-							console.log(url);
 							location.href = url;
 						}
 					);
@@ -192,8 +191,6 @@
 						};
 
 						var camp_main_info = "${searchDto.main_facilities}".split(",");
-						console.log(camp_main_info);
-						
 						var icons = {
 							bolt: "<i class='fa fa-bolt' aria-hidden='true'></i>",
 							wifi: "<i class='fa fa-wifi' aria-hidden='true'></i>",

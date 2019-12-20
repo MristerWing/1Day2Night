@@ -83,6 +83,11 @@ public class SearchController {
 			}
 		}
 
+		// 지도면
+		if (request.getParameter("isMap") != null) {
+			mav.addObject("isMap", request.getParameter("isMap"));
+		}
+
 		mav.addObject("searchMap", searchMap);
 		mav.setViewName("search/list");
 

@@ -64,7 +64,6 @@
 					
 					<!-- 태그검색 초기화 -->
 					var tagArr = "${searchMap.tag}".split(",");
-					console.log(tagArr);
 					$("#layout-3 > div.tagBtn_group > ul > li > a").each(function() {
 						var tag = $(this).text().replace("#", "");
 						
@@ -76,10 +75,8 @@
 					});
 					
 					<!-- 상세검색 초기화 -->
-					var cityArr = "${searchMap.detailSearchCity}".split("|");
-					
+ 					var cityArr = "${searchMap.detailSearchCity}";
 					$("#campSearchForm3 > div > ul > li:nth-child(1) > div > div > div > ul > li > input").each(function() {
-						
 						if(cityArr.indexOf($(this).val()) > -1) {
 							$(this).prop("checked", true);
 					}
@@ -251,9 +248,6 @@
                                                                 thema +
                                                                 "&keyword=" +
                                                                 keyword;
-                                                            console.log(
-                                                              url  
-                                                            );
                                                             location.href = url;
                                                     	}
                                                             $(
@@ -554,27 +548,9 @@
                                                     "|"
                                                 );
                                                 // 링크로 이동
-                                                console.log(
-                                                    "area: ",
-                                                    detailSearchCity,
-                                                    "operation: ",
-                                                    detailSearchOperationType,
-                                                    "loc: ",
-                                                    detailSearchLocationType,
-                                                    "facility: ",
-                                                    detailSearchCampType,
-                                                    "floor: ",
-                                                    detailSearchBottomType,
-                                                    "auxiliary: ",
-                                                    detailSearchMainFacities
-                                                );
-												
                                                 // 수정필요 (지역별에서 구분자로 | 넣어주는데 마지막 |뺴주기 위한 코드)
                                                 
                                                 detailSearchCity = detailSearchCity.substring(0, detailSearchCity.length - 1);
-                                                alert(detailSearchCity + "," + detailSearchOperationType + "," + 
-                                                		detailSearchLocationType + "," + detailSearchCampType + "," + 
-                                                		detailSearchMainFacities + "," + detailSearchBottomType);
                                                 var url =
                                                 	"${root}/search/list.do?detailSearchCity=" 
                                                 			+ 
@@ -672,7 +648,6 @@
                                         $(this).css("background-color", "slateblue");
                                         tagArr.push(tag);
                                     }
-                                    console.log(tagArr);
                                 });
 
                                 // 태그 초기화
@@ -682,7 +657,6 @@
                                         "transparent"
                                     );
                                     tagArr = new Array();
-                                    console.log(tagArr);
                                 });
 
                                 // 검색
@@ -690,12 +664,8 @@
                                     var tag = tagArr.reduce((first, x) => (first += x.replace("#", "") + ","), "");
 
                                     // 이후 링크로 이동
-                                    console.log(tag);
-
                                     var url = "${root}/search/list.do?tag=" + tag;
-                                    
                                     location.href = url;
-
                                 });
                             </script>
 					</div>
@@ -706,6 +676,9 @@
 	</div>
 	<!-- 리스트부분 -->
 	<c:set var="url" value="${root}/search/list.do?" />
+	<c:if test="${isMap != null}">
+		<c:set var="url" value="${root}/search/list.do?isMap=MAP" />
+	</c:if>
 
 	<c:if
 		test="${searchMap.city != null || searchMap.thema != null || searchMap.keyword != null }">
@@ -727,7 +700,7 @@
 		<div>
 			<h2 style="color: black;">
 				총 <span style="color: #eb831d;">${searchMap.count}개</span> 캠핑장이
-				검색되었습니다.
+				검색되었습니다. ${isMap}
 			</h2>
 			<div class="search_Filter">
 				<select>
@@ -742,12 +715,7 @@
 		            	$(".search_Filter > select").change(function() {
 		            		var filter = 
 		            		$(".search_Filter > select option:selected").val();
-		            		
-		            		alert(filter);
 		            		var url = "${url}"+"filter=";
-		            		
-		            		console.log(url);
-		            		
 		            		location.href= url+filter;
 		            	})
 		            </script>
@@ -755,134 +723,136 @@
 				<button>지도로 보기</button>
 			</div>
 		</div>
+		<!-- 지도로 검색 -->
 
-		<!-- 게시물 반복처리 -->
-		<div class="search_list">
-			<c:if test="${searchMap.searchList.size() > 0}">
-				<c:forEach var="searchDto" varStatus="status" items="${searchMap.searchList}">
-					<div class="Each_search row">
-						<div class="col-sm-4 main_img">
-							<a href="#"><img src="${searchDto.main_image}"></a>
-						</div>
-						<div class="col-sm-7 Each_search_sub">
-							<div class="badges-area">
-								<span class="badge badge-primary">관광사업자 등록업체</span> <span
-									class="badge badge-secondary">리뷰수
-									${searchDto.review_count}</span> <span class="badge badge-info">조회수
-									${searchDto.read_count}</span> <span class="badge badge-dark">추천수
-									${searchDto.recommand_count}</span>
+		<c:if test="${isMap == null}">
+			<!-- 게시물 반복처리 -->
+			<div class="search_list">
+				<c:if test="${searchMap.searchList.size() > 0}">
+					<c:forEach var="searchDto" varStatus="status" items="${searchMap.searchList}">
+						<div class="Each_search row">
+							<div class="col-sm-4 main_img">
+								<a href="${root}/search/read.do?camp-id=${searchDto.camp_id}"><img src="${searchDto.main_image}"></a>
 							</div>
-							<div class="name-content-area">
-								<span class="namespace"><a class="camp-title" href="${root}/search/read.do?camp-id=${searchDto.camp_id}">${searchDto.camp_name}</a></span>
-								<c:if test="${searchDto.address != null}">
-									<span class="address"> <i class='fa fa-map-marker'
-										aria-hidden='true'></i> ${searchDto.address}
-									</span>
-								</c:if>
-								<c:if test="${searchDto.hp != null}">
-									<span class="hp"> <i class='fa fa-map-marker'
-										aria-hidden='true'></i> ${searchDto.hp}
-									</span>
-								</c:if>
-								<c:if test="${searchDto.main_facilities != null}">
-									<div class="info row">
-									</div>
-									<script type="text/javascript">
-										var title = {
-											bolt: "전기",
-											wifi: "와이파이",
-											firewood: "장작판매",
-											hotWater: "온수",
-											trampoline: "트램폴린",
-											waterPark: "물놀이장",
-											playGround: "놀이터",
-											park: "산책로",
-											stadium: "운동장",
-											gym: "운동시설",
-											market: "마트.편의점"
-										};
-										console.log("${searchDto.main_facilities}");
-										var camp_main_info = "${searchDto.main_facilities}".split(",");
+							<div class="col-sm-7 Each_search_sub">
+								<div class="badges-area">
+									<span class="badge badge-primary">관광사업자 등록업체</span> <span
+										class="badge badge-secondary">리뷰수
+										${searchDto.review_count}</span> <span class="badge badge-info">조회수
+										${searchDto.read_count}</span> <span class="badge badge-dark">추천수
+										${searchDto.recommand_count}</span>
+								</div>
+								<div class="name-content-area">
+									<span class="namespace"><a class="camp-title" href="${root}/search/read.do?camp-id=${searchDto.camp_id}">${searchDto.camp_name}</a></span>
+									<c:if test="${searchDto.address != null}">
+										<span class="address"> <i class='fa fa-map-marker'
+											aria-hidden='true'></i> ${searchDto.address}
+										</span>
+									</c:if>
+									<c:if test="${searchDto.hp != null}">
+										<span class="hp"> <i class='fa fa-map-marker'
+											aria-hidden='true'></i> ${searchDto.hp}
+										</span>
+									</c:if>
+									<c:if test="${searchDto.main_facilities != null}">
+										<div class="info row">
+										</div>
+										<script type="text/javascript">
+											var title = {
+												bolt: "전기",
+												wifi: "와이파이",
+												firewood: "장작판매",
+												hotWater: "온수",
+												trampoline: "트램폴린",
+												waterPark: "물놀이장",
+												playGround: "놀이터",
+												park: "산책로",
+												stadium: "운동장",
+												gym: "운동시설",
+												market: "마트.편의점"
+											};
+											var camp_main_info = "${searchDto.main_facilities}".split(",");
+											
+											var icons = {
+												bolt: "<i class='fa fa-bolt' aria-hidden='true'></i>",
+												wifi: "<i class='fa fa-wifi' aria-hidden='true'></i>",
+												firewood: "<i class='fa fa-free-code-camp' aria-hidden='true'></i>",
+												hotWater: "<i class='fa fa-thermometer-full' aria-hidden='true'></i>",
+												trampoline: "<i class='fa fa-circle' aria-hidden='true'></i>",
+												waterPark: "<i class='fa fa-bath' aria-hidden='true'></i>",
+												playGround: "<i class='fa fa-users' aria-hidden='true'></i>",
+												park: "<i class='fa fa-tree' aria-hidden='true'></i>",
+												stadium: "<i class='fa fa-futbol-o' aria-hidden='true'></i>",
+												gym: "<i class='fa fa-heart' aria-hidden='true'></i>",
+												market: "<i class='fa fa-shopping-basket' aria-hidden='true'></i>"
+											};
 										
-										var icons = {
-											bolt: "<i class='fa fa-bolt' aria-hidden='true'></i>",
-											wifi: "<i class='fa fa-wifi' aria-hidden='true'></i>",
-											firewood: "<i class='fa fa-free-code-camp' aria-hidden='true'></i>",
-											hotWater: "<i class='fa fa-thermometer-full' aria-hidden='true'></i>",
-											trampoline: "<i class='fa fa-circle' aria-hidden='true'></i>",
-											waterPark: "<i class='fa fa-bath' aria-hidden='true'></i>",
-											playGround: "<i class='fa fa-users' aria-hidden='true'></i>",
-											park: "<i class='fa fa-tree' aria-hidden='true'></i>",
-											stadium: "<i class='fa fa-futbol-o' aria-hidden='true'></i>",
-											gym: "<i class='fa fa-heart' aria-hidden='true'></i>",
-											market: "<i class='fa fa-shopping-basket' aria-hidden='true'></i>"
-										};
-									
-										var loop = 0;
-										
-										for(var prop in title) {
-											if(!title.hasOwnProperty(prop)) continue;
-											if(title[prop] == camp_main_info[loop]) {
-												$("#search_Content > div.search_list > div:nth-child(${status.index+1})").has("div.info.row").children().eq(1).children().eq(1).children().eq(3).append(
-															"<div class='icon-area'>" +
-															"<div class='main-icons col'>" + icons[prop] + "</div>" +
-															"<div class='name'>" + camp_main_info[loop] + "</div>" +
-															"</div>"	
-												);
-													loop++;
-											}
-										};
-									</script>
-								</c:if>
+											var loop = 0;
+											
+											for(var prop in title) {
+												if(!title.hasOwnProperty(prop)) continue;
+												if(title[prop] == camp_main_info[loop]) {
+													$("#search_Content > div.search_list > div:nth-child(${status.index+1})").has("div.info.row").children().eq(1).children().eq(1).children().eq(3).append(
+																"<div class='icon-area'>" +
+																"<div class='main-icons col'>" + icons[prop] + "</div>" +
+																"<div class='name'>" + camp_main_info[loop] + "</div>" +
+																"</div>"	
+													);
+														loop++;
+												}
+											};
+										</script>
+									</c:if>
+								</div>
 							</div>
 						</div>
-					</div>
-				</c:forEach>
-			</c:if>
-		</div>
-
-		<!-- 페이징 처리 부분 -->
-		<div class="pageCount">
-			<c:if test="${searchMap.count>0}">
-				<c:set var="pageBlock" value="${10}" />
-				<fmt:parseNumber var="pageCount" integerOnly="true"
-					value="${searchMap.count/searchMap.boardSize + (searchMap.count % searchMap.boardSize == 0 ? 0 : 1)}" />
-
-				<fmt:parseNumber var="result"
-					value="${(searchMap.currentPage-1)/pageBlock}" integerOnly="true" />
-				<c:set var="startPage" value="${result*pageBlock+1}" />
-				<c:set var="endPage" value="${startPage+pageBlock-1}" />
-
-				<c:if test="${endPage > pageCount }">
-					<c:set var="endPage" value="${pageCount}" />
-				</c:if>
-
-				<ul class="pagination">
-					<c:if test="${startPage > pageBlock}">
-						<li class="page-item"><a class="page-link"
-							href="${url}pageNumber=1"><i class="fa fa-angle-double-left" aria-hidden="true"></i></a></li>
-						<li class="page-item"><a class="page-link"
-							href="${url}pageNumber=${startPage - pageBlock}">PREV</a></li>
-					</c:if>
-					<c:forEach var="i" begin="${startPage}" end="${endPage}">
-						<c:if test="${i != searchMap.currentPage}">
-							<li class="page-item"><a class="page-link"
-								href="${url}pageNumber=${i}">${i}</a></li>
-						</c:if>
-						<c:if test="${i == searchMap.currentPage}">
-							<li class="page-item active"><a class="page-link"
-								href="${url}pageNumber=${i}">${i}</a></li>
-						</c:if>
 					</c:forEach>
-					<c:if test="${endPage < pageCount}">
-						<li class="page-item"><a class="page-link"
-							href="${url}pageNumber=${startPage + pageBlock}">NEXT</a></li>
-						<li class="page-item"><a class="page-link"
-							href="${url}pageNumber=154"><i class="fa fa-angle-double-right" aria-hidden="true"></i></a></li>
+				</c:if>
+			</div>
+	
+			<!-- 페이징 처리 부분 -->
+			<div class="pageCount">
+				<c:if test="${searchMap.count>0}">
+					<c:set var="pageBlock" value="${10}" />
+					<fmt:parseNumber var="pageCount" integerOnly="true"
+						value="${searchMap.count/searchMap.boardSize + (searchMap.count % searchMap.boardSize == 0 ? 0 : 1)}" />
+	
+					<fmt:parseNumber var="result"
+						value="${(searchMap.currentPage-1)/pageBlock}" integerOnly="true" />
+					<c:set var="startPage" value="${result*pageBlock+1}" />
+					<c:set var="endPage" value="${startPage+pageBlock-1}" />
+	
+					<c:if test="${endPage > pageCount }">
+						<c:set var="endPage" value="${pageCount}" />
 					</c:if>
-				</ul>
-			</c:if>
-		</div>
+	
+					<ul class="pagination">
+						<c:if test="${startPage > pageBlock}">
+							<li class="page-item"><a class="page-link"
+								href="${url}pageNumber=1"><i class="fa fa-angle-double-left" aria-hidden="true"></i></a></li>
+							<li class="page-item"><a class="page-link"
+								href="${url}pageNumber=${startPage - pageBlock}">PREV</a></li>
+						</c:if>
+						<c:forEach var="i" begin="${startPage}" end="${endPage}">
+							<c:if test="${i != searchMap.currentPage}">
+								<li class="page-item"><a class="page-link"
+									href="${url}pageNumber=${i}">${i}</a></li>
+							</c:if>
+							<c:if test="${i == searchMap.currentPage}">
+								<li class="page-item active"><a class="page-link"
+									href="${url}pageNumber=${i}">${i}</a></li>
+							</c:if>
+						</c:forEach>
+						<c:if test="${endPage < pageCount}">
+							<li class="page-item"><a class="page-link"
+								href="${url}pageNumber=${startPage + pageBlock}">NEXT</a></li>
+							<li class="page-item"><a class="page-link"
+								href="${url}pageNumber=154"><i class="fa fa-angle-double-right" aria-hidden="true"></i></a></li>
+						</c:if>
+					</ul>
+				</c:if>
+			</div>
+		</c:if>
 	</div>
 </body>
 </html>
