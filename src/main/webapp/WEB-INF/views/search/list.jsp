@@ -731,7 +731,7 @@
 		            	})
 		            </script>
 				<c:if test="${isMap == 'MAP'}">
-					<button onclick="javascript:location.href='${url}'">리스트 보기</button>
+					<button onclick="javascript:location.href='${url}'.replace('isMap=MAP','')">리스트 보기</button>
 				</c:if>
 				<c:if test="${isMap == null}">
 					<button onclick="javascript:location.href='${url}' + 'isMap=MAP'">지도로 보기</button>
