@@ -26,29 +26,8 @@ public class SearchController {
 		
 		mav.addObject("request",request);
 		
-		searchMapService.search(mav);
-		
-//		mav.addObject("searchMapDto",searchMapDto);
-//		searchMapService.map(mav);
-		
 		searchMapService.page(mav);
 		
-		
-//		searchMapService.getAddres(mav);
-		
 		return mav;
 	}
-	@RequestMapping(value = "/parse/map.do",method = RequestMethod.GET)
-	public ModelAndView map(HttpServletRequest request,HttpServletResponse response) {
-		ModelAndView mav = new ModelAndView();
-		
-		mav.addObject("request",request);
-		searchMapService.search(mav);
-		
-//		searchMapService.getAddres(mav);
-		
-		return mav;
-	
-	}
-	
 }

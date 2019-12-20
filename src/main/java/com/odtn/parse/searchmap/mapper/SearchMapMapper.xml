@@ -4,23 +4,14 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="dao.SearchMapMapper">
 
-
-	<select id="searchMapCount" resultType="int">
-	select count(*) from search
-	</select>
-
-<!-- 	<select id="seladdres" resultType="int">
-	select addres from search where addres like '%${addres}%' 
-	</select> -->
-		
-		<!-- <select id="test"  resultType="com.odtn.parse.searchmap.dto.SearchMapDto">
-		select * from search
-		</select>  -->
+		<select id="searchMapCount" resultType="int">
+		select count(*) from camp_data
+		</select>
 	
-		<select id="test2" parameterType="java.util.Map" resultType="com.odtn.parse.searchmap.dto.SearchMapDto">
+		<select id="selectPage" parameterType="java.util.Map" resultType="com.odtn.parse.searchmap.dto.SearchMapDto">
 		<![CDATA[
 		select * from (select rownum rnum,a.*from 
-		(select * from search  addres )a)
+		(select * from camp_data  addres )a)
 		 where rnum >= #{startRow} and rnum <= #{endRow}
      	]]>
 		</select> 

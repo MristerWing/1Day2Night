@@ -2,120 +2,119 @@ package com.odtn.parse.searchmap.dto;
 
 public class SearchMapDto {
 
-	private int num;
-	private String wi;
-	private String gyung;
-	private String addres;
-	private String campname;
-	private String jibeon;
-	private String phoneno;
+	private int camp_id;
+	private int wido;
+	private int gyeonddo;
+	private String address;
+	private String camp_name;
+	private String hp;
 	
 	public SearchMapDto() {}
 
-	public SearchMapDto(int num, String wi, String gyung, String addres, String campname, String jibeon,
-			String phoneno) {
+	public SearchMapDto(int camp_id, int wido, int gyeonddo, String address, String camp_name, String hp) {
 		super();
-		this.num = num;
-		this.wi = wi;
-		this.gyung = gyung;
-		this.addres = addres;
-		this.campname = campname;
-		this.jibeon = jibeon;
-		this.phoneno = phoneno;
+		this.camp_id = camp_id;
+		this.wido = wido;
+		this.gyeonddo = gyeonddo;
+		this.address = address;
+		this.camp_name = camp_name;
+		this.hp = hp;
 	}
 
 
 
-	public int getNum() {
-		return num;
+
+	public int getCamp_id() {
+		return camp_id;
 	}
 
 
 
-	public void setNum(int num) {
-		this.num = num;
+
+	public void setCamp_id(int camp_id) {
+		this.camp_id = camp_id;
 	}
 
 
 
-	public String getWi() {
-		return wi;
+
+	public int getWido() {
+		return wido;
 	}
 
 
 
-	public void setWi(String wi) {
-		this.wi = wi;
+
+	public void setWido(int wido) {
+		this.wido = wido;
 	}
 
 
 
-	public String getGyung() {
-		return gyung;
+
+	public int getGyeonddo() {
+		return gyeonddo;
 	}
 
 
 
-	public void setGyung(String gyung) {
-		this.gyung = gyung;
+
+	public void setGyeonddo(int gyeonddo) {
+		this.gyeonddo = gyeonddo;
 	}
 
 
 
-	public String getAddres() {
-		return addres;
+
+	public String getAddress() {
+		return address;
 	}
 
 
 
-	public void setAddres(String addres) {
-		this.addres = addres;
+
+	public void setAddress(String address) {
+		this.address = address;
 	}
 
 
 
-	public String getCampname() {
-		return campname;
+
+	public String getCamp_name() {
+		return camp_name;
 	}
 
 
 
-	public void setCampname(String campname) {
-		this.campname = campname;
+
+	public void setCamp_name(String camp_name) {
+		this.camp_name = camp_name;
 	}
 
 
 
-	public String getJibeon() {
-		return jibeon;
+
+	public String getHp() {
+		return hp;
 	}
 
 
 
-	public void setJibeon(String jibeon) {
-		this.jibeon = jibeon;
+
+	public void setHp(String hp) {
+		this.hp = hp;
 	}
 
-
-
-	public String getPhoneno() {
-		return phoneno;
-	}
-
-
-
-	public void setPhoneno(String phoneno) {
-		this.phoneno = phoneno;
-	}
 
 
 
 	@Override
 	public String toString() {
-		return "SearchMapDto [num=" + num + ", wi=" + wi + ", gyung=" + gyung + ", addres=" + addres + ", campname="
-				+ campname + ", jibeon=" + jibeon + ", phoneno=" + phoneno + "]";
+		return "SearchMapDto [camp_id=" + camp_id + ", wido=" + wido + ", gyeonddo=" + gyeonddo + ", address=" + address
+				+ ", camp_name=" + camp_name + ", hp=" + hp + "]";
 	}
 
+	
 	
 	
 	

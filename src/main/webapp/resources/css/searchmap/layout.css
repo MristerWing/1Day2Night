@@ -311,7 +311,7 @@ div.select_box {
     width: 160px;
     height: 31px;
     line-height: 31px;
-    background: url(https://www.gocamping.or.kr/img/2018/layout/arr2.png) no-repeat right 10px center;
+    /*background: url(https://www.gocamping.or.kr/img/2018/layout/arr2.png) no-repeat right 10px center;*/
     border: 0;
     margin: 10px 0;
 }
@@ -787,15 +787,6 @@ div.select_box select.detail_select {
     overflow: hidden;
 }
 
-div.select_box {
-    position: relative;
-    width: 160px;
-    height: 31px;
-    line-height: 31px;
-    background: url(https://www.gocamping.or.kr/img/2018/layout/arr2.png) no-repeat right 10px center;
-    border: 0;
-    margin: 10px 0;
-}
 
 div.select_box label {
     display: none;

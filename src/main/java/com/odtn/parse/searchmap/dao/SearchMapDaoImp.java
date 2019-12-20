@@ -21,24 +21,12 @@ public class SearchMapDaoImp implements SearchMapDao {
 		return sqlSessionTemplate.selectOne("dao.SearchMapMapper.searchMapCount");
 	}
 
-//	@Override
-//	public List<SearchMapDto> mapList(SearchMapDto searchMapDto) {
-//		// TODO Auto-generated method stub
-//		return sqlSessionTemplate.selectList("dao.SearchMapMapper.test",searchMapDto);
-//	}
-
 	@Override
-	public List<SearchMapDto> getSearchList(int startRow, int endRow) {
+	public List<SearchMapDto> searchList(int startRow, int endRow) {
 		// TODO Auto-generated method stub
 		Map<String, Integer> map = new HashMap<String, Integer>();
 		map.put("startRow", startRow);
 		map.put("endRow", endRow);
-		return  sqlSessionTemplate.selectList("dao.SearchMapMapper.test2",map);
+		return  sqlSessionTemplate.selectList("dao.SearchMapMapper.selectPage",map);
 	}
-	
-//	@Override
-//	public int addrescount() {
-//		// TODO Auto-generated method stub
-//		return sqlSessionTemplate.selectOne("dao.SearchMapMapper.seladdres");
-//	}
 }
