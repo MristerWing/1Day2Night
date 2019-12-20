@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.odtn.search.dao.mapper.SearchMapper">
+	<select id="GetSearchList" parameterType="java.util.Map" resultType="com.odtn.search.dto.SearchDto">
+		
+		select * from (select rownum ro, a.* from (select * from searchList
+		
+		<!-- 기본검색 -->
+		<where>
+			<if test="city != null">
+				regexp_like(address, #{city})
+			</if>
+			
+			<if test="thema != null">
+				AND regexp_like(location_type, #{thema})
+			</if>
+			
+			<if test="keyword != null">
+				AND regexp_like(camp_name, #{keyword})
+			</if>
+		</where>
+		
+		<!-- 태그검색 -->
+		<where>
+			<if test="tag != null">
+				<foreach item="item" index="index" collection="tag" separator="AND">
+					regexp_like(tag,#{item})
+				</foreach>
+			</if>
+		</where>
+		
+		<!-- 상세검색 -->
+		<where>
+			<if test="detailSearchCity != null">
+				regexp_like(address,#{detailSearchCity})
+			</if>
+			
+			<if test="detailSearchOperationType != null">
+				<foreach item="item" index="index" collection="detailSearchOperationType" open="AND" separator="AND">
+					regexp_like(Operation_Type,#{item})
+				</foreach>
+			</if>
+			
+			<if test="detailSearchLocationType != null">
+				<foreach item="item" index="index" collection="detailSearchLocationType" open="AND" separator="AND">
+					regexp_like(Location_type,#{item})
+				</foreach>
+			</if>
+			
+			<if test="detailSearchCampType != null">
+				<foreach item="item" index="index" collection="detailSearchCampType" open="AND" separator="AND">
+					regexp_like(Camp_Type,#{item})
+				</foreach>
+			</if>
+			
+			<if test="detailSearchBottomType != null">
+				<foreach item="item" index="index" collection="detailSearchBottomType" open="AND" separator="AND">
+					regexp_like(bottom_Type,#{item})
+				</foreach>
+			</if>
+			
+			<if test="detailSearchMainFacities != null">
+				<foreach item="item" index="index" collection="detailSearchMainFacities" open="AND" separator="AND">
+					regexp_like(Main_Facilities,#{item})
+				</foreach>
+			</if>
+		</where>
+		order by camp_id desc) a ) b
+		<![CDATA[ where ro >= #{startRow} and ro <= #{endRow} ]]>
+	</select>
+	
+	<select id="GetCount" parameterType="java.util.Map" resultType="int">
+		select count(*) from camp_data
+		<where>
+			<if test="city != null">
+				regexp_like(address, #{city})
+			</if>
+			
+			<if test="thema != null">
+				AND regexp_like(location_type, #{thema})
+			</if>
+			
+			<if test="keyword != null">
+				AND regexp_like(camp_name, #{keyword})
+			</if>
+		</where>
+		
+		<where>
+			<if test="tag != null">
+				<foreach item="item" index="index" collection="tag" separator="AND">
+					regexp_like(tag,#{item})
+				</foreach>
+			</if>
+		</where>
+		
+		<where>
+			<if test="detailSearchCity != null">
+				regexp_like(address,#{detailSearchCity})
+			</if>
+			
+			<if test="detailSearchOperationType != null">
+				<foreach item="item" index="index" collection="detailSearchOperationType" open="AND" separator="AND">
+					regexp_like(Operation_Type,#{item})
+				</foreach>
+			</if>
+			
+			<if test="detailSearchLocationType != null">
+				<foreach item="item" index="index" collection="detailSearchLocationType" open="AND" separator="AND">
+					regexp_like(Location_type,#{item})
+				</foreach>
+			</if>
+			
+			<if test="detailSearchCampType != null">
+				<foreach item="item" index="index" collection="detailSearchCampType" open="AND" separator="AND">
+					regexp_like(Camp_Type,#{item})
+				</foreach>
+			</if>
+			
+			<if test="detailSearchBottomType != null">
+				<foreach item="item" index="index" collection="detailSearchBottomType" open="AND" separator="AND">
+					regexp_like(bottom_Type,#{item})
+				</foreach>
+			</if>
+			
+			<if test="detailSearchMainFacities != null">
+				<foreach item="item" index="index" collection="detailSearchMainFacities" open="AND" separator="AND">
+					regexp_like(Main_Facilities,#{item})
+				</foreach>
+			</if>
+		</where>
+	</select>
+</mapper>
