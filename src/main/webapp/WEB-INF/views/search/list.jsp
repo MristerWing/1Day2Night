@@ -867,7 +867,7 @@
 							<li class="page-item"><a class="page-link"
 								href="${url}pageNumber=${startPage + pageBlock}">NEXT</a></li>
 							<li class="page-item"><a class="page-link"
-								href="${url}pageNumber=154"><i class="fa fa-angle-double-right" aria-hidden="true"></i></a></li>
+								href="${url}pageNumber=${pageCount}"><i class="fa fa-angle-double-right" aria-hidden="true"></i></a></li>
 						</c:if>
 					</ul>
 				</c:if>
