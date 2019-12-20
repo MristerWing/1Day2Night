@@ -447,20 +447,39 @@
 							var lng = parseFloat("${i.gyung}");
 							// 마커를 표시할 위치와 내용을 가지고 있는 객체 배열입니다 
 							var points = {
-								content : '<div>' + "${i.addres}" + '</div>',
-								
+								content : '<div>'+"${i.addres}"+'</div>' + '<div>'+"${i.campname}"+'</div>'+'<div>'+"${i.phoneno}"+'</div>',
 								latlng : new kakao.maps.LatLng(lat, lng)
 							}
-							$(function() {
-								$("#placesList").append("<li>"+ "<a href='#'>" + "${i.campname}" + "</a>" + "</li>");
+							$(function () {
+							$("#placesList").append(
+									"<li>" +
+									"["+"${i.campname}" +"]"+
+									"</br>"+
+									"${i.addres}"+
+									"</br>"+
+									"${i.phoneno}"+
+									"<input type='hidden' class='lat' value='${i.wi}'/>" + 
+									"<input type='hidden' class='lng' value='${i.gyung}'/>" +
+									"<input type='hidden' class='addres' value='${i.addres}'/>" +
+									"<input type='hidden' class='camp' value='${i.campname}'/>" +
+									"<input type='hidden' class='phoneno' value='${i.phoneno}'/>" +
+									"</li>");
 							});
 							
-							
 							positions.push(points);
-							
-							
 						</script>
 					</c:forEach>
+					<script type="text/javascript">
+					$(function() {
+						$("#placesList > li").css("cursor", "pointer");
+						$("#placesList > li").css("border-bottom", "1px solid #888");
+						
+						$("#placesList > li").click(function() {
+							category($(this).children().eq(2).val(), $(this).children().eq(3).val(), $(this).children().eq(4).val(), $(this).children().eq(5).val(), $(this).children().eq(6).val());
+						});
+						
+					});
+					</script>
 					<div class="map_wrap">
 						<div id="map"
 							style="width: 100%; height: 100%; position: relative; overflow: hidden;"></div>
@@ -502,7 +521,8 @@
 							</div>
 						</div>
 					</div>
-
+					<!-- 로드뷰를 표시할 div 입니다 -->
+					<div id="roadview" style="width:100%;height:300px;"></div>
 					<script>
 						var mapContainer = document.getElementById('map'), // 지도를 표시할 div  
 						mapOption = {
@@ -513,6 +533,7 @@
 						};
 
 						var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
+						
 						
 						// 지도를 재설정할 범위정보를 가지고 있을 LatLngBounds 객체를 생성합니다
 						var bounds = new kakao.maps.LatLngBounds();    
@@ -528,11 +549,50 @@
 						var zoomControl = new kakao.maps.ZoomControl();
 						map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);
 						
-						for (var i = 0; i < positions.length; i++) {
+						function category(lat, lng, content, campname, phoneno){
+							// 마커가 표시될 위치입니다 
+							var markerPosition  = new kakao.maps.LatLng(lat, lng); 
+							console.log(markerPosition);
+						 	// 현재 지도의 레벨을 얻어옵니다
+						    var level = map.getLevel();
+							
+						    var roadviewContainer = document.getElementById('roadview'); //로드뷰를 표시할 div
+							var roadview = new kakao.maps.Roadview(roadviewContainer); //로드뷰 객체
+							var roadviewClient = new kakao.maps.RoadviewClient(); //좌표로부터 로드뷰 파노ID를 가져올 로드뷰 helper객체
+						 	
+							var position = new kakao.maps.LatLng(lat, lng);
+						 	
 							// 마커를 생성합니다
 							var marker = new kakao.maps.Marker({
-								map : map, // 마커를 표시할 지도
-								position : positions[i].latlng
+							    position: markerPosition
+							
+							});
+							infowindow.setContent(
+									"<div class='category-text'>" +
+									"<a href='#'>" + 
+									campname + "</a>" +
+									"</br>" + "<span>" + 
+									content  + "</span>" + "</br>" + 
+									"<span>" + phoneno + "</span>" +
+									"</div>"
+									);
+							infowindow.open(map, marker);
+							 // 지도 중심을 부드럽게 이동시킵니다
+						 	// 지도를 1레벨 내립니다 (지도가 확대됩니다)
+						    map.setLevel(level - 10);
+						    // 만약 이동할 거리가 지도 화면보다 크면 부드러운 효과 없이 이동합니다
+						    map.panTo(markerPosition);     
+						 
+						 	// 특정 위치의 좌표와 가까운 로드뷰의 panoId를 추출하여 로드뷰를 띄운다.
+						    roadviewClient.getNearestPanoId(position, 50, function(panoId) {
+						        roadview.setPanoId(panoId, position); //panoId와 중심좌표를 통해 로드뷰 실행
+						    });
+						}
+						for (var i = 0; i < positions.length; i++) {
+							// 마커를 생성합니다
+							var  marker = new kakao.maps.Marker({
+							 map : map, // 마커를 표시할 지도
+							 position : positions[i].latlng
 							// 마커의 위치
 							});
 							
@@ -543,39 +603,34 @@
 							
 							// 마커에 표시할 인포윈도우를 생성합니다 
 							var infowindow = new kakao.maps.InfoWindow({
-								content : positions[i].content
+								content : positions[i].content,
+										 	
 							// 인포윈도우에 표시할 내용
 							});
 								
 							// 마커에 mouseover 이벤트와 mouseout 이벤트를 등록합니다
 							// 이벤트 리스너로는 클로저를 만들어 등록합니다 
 							// for문에서 클로저를 만들어 주지 않으면 마지막 마커에만 이벤트가 등록됩니다
-							kakao.maps.event.addListener(marker, 'mouseover',makeOverListener(map, marker, infowindow));
-							kakao.maps.event.addListener(marker, 'mouseout',makeOutListener(infowindow));
+							
+							//kakao.maps.event.addListener(marker, 'mouseover',makeOverListener(map, marker, infowindow));
+							//kakao.maps.event.addListener(marker, 'mouseout',makeOutListener(infowindow));
 						}
 						
-						// 인포윈도우를 표시하는 클로저를 만드는 함수입니다 
+							/* 마커클릭시 인포윈도우 텍스트띄우기
+							
+							인포윈도우를 표시하는 클로저를 만드는 함수입니다 
 						function makeOverListener(map, marker, infowindow) {
 							return function() {
 								infowindow.open(map, marker);
 							};
 						}
 
-						// 인포윈도우를 닫는 클로저를 만드는 함수입니다 
+						//인포윈도우를 닫는 클로저를 만드는 함수입니다 
 						function makeOutListener(infowindow) {
 							return function() {
 								infowindow.close();
 							};
-						}
-						
-						// 검색결과 목록 또는 마커를 클릭했을 때 호출되는 함수입니다
-						// 인포윈도우에 장소명을 표시합니다
-						function displayInfowindow(marker, title) {
-						    var content = '<div style="padding:5px;z-index:1;">' + title + '</div>';
-
-						    infowindow.setContent(content);
-						    infowindow.open(map, marker);
-						}
+						} */
 						
 						function setBounds() {
 						    // LatLngBounds 객체에 추가된 좌표들을 기준으로 지도의 범위를 재설정합니다
@@ -583,9 +638,8 @@
 						    map.setBounds(bounds);
 						}
 						
-						setBounds(); // 클릭없이 함수호출 바로 실행되게
 						
-						
+						setBounds(); // 클릭없이 좌표설정 함수호출 바로 실행되게
 					</script>
 					<!-- //지도파싱  -->
 

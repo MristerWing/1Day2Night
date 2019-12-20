@@ -85,6 +85,7 @@ public class SearchMapServiceImp implements SearchMapService {
 			LogAspect.logger.info(LogAspect.logMsg+maplist);
 		}
 
+		
 		request.setAttribute("boardSize", boardSize);
 		request.setAttribute("currentPage", currentPage);
 		request.setAttribute("count", count);

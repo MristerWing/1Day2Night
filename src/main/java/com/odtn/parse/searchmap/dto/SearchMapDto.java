@@ -8,13 +8,12 @@ public class SearchMapDto {
 	private String addres;
 	private String campname;
 	private String jibeon;
+	private String phoneno;
 	
 	public SearchMapDto() {}
 
-	
-	
-	
-	public SearchMapDto(int num, String wi, String gyung, String addres, String campname, String jibeon) {
+	public SearchMapDto(int num, String wi, String gyung, String addres, String campname, String jibeon,
+			String phoneno) {
 		super();
 		this.num = num;
 		this.wi = wi;
@@ -22,8 +21,8 @@ public class SearchMapDto {
 		this.addres = addres;
 		this.campname = campname;
 		this.jibeon = jibeon;
+		this.phoneno = phoneno;
 	}
-
 
 
 
@@ -33,17 +32,9 @@ public class SearchMapDto {
 
 
 
-
-
-
-
 	public void setNum(int num) {
 		this.num = num;
 	}
-
-
-
-
 
 
 
@@ -53,17 +44,9 @@ public class SearchMapDto {
 
 
 
-
-
-
-
 	public void setWi(String wi) {
 		this.wi = wi;
 	}
-
-
-
-
 
 
 
@@ -73,17 +56,9 @@ public class SearchMapDto {
 
 
 
-
-
-
-
 	public void setGyung(String gyung) {
 		this.gyung = gyung;
 	}
-
-
-
-
 
 
 
@@ -93,17 +68,9 @@ public class SearchMapDto {
 
 
 
-
-
-
-
 	public void setAddres(String addres) {
 		this.addres = addres;
 	}
-
-
-
-
 
 
 
@@ -113,17 +80,9 @@ public class SearchMapDto {
 
 
 
-
-
-
-
 	public void setCampname(String campname) {
 		this.campname = campname;
 	}
-
-
-
-
 
 
 
@@ -133,27 +92,31 @@ public class SearchMapDto {
 
 
 
-
-
-
-
 	public void setJibeon(String jibeon) {
 		this.jibeon = jibeon;
 	}
 
 
 
+	public String getPhoneno() {
+		return phoneno;
+	}
 
+
+
+	public void setPhoneno(String phoneno) {
+		this.phoneno = phoneno;
+	}
 
 
 
 	@Override
 	public String toString() {
 		return "SearchMapDto [num=" + num + ", wi=" + wi + ", gyung=" + gyung + ", addres=" + addres + ", campname="
-				+ campname + ", jibeon=" + jibeon + "]";
+				+ campname + ", jibeon=" + jibeon + ", phoneno=" + phoneno + "]";
 	}
 
 	
 	
-
-}
+	
+	}
