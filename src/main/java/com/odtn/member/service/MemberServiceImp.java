@@ -2,6 +2,8 @@ package com.odtn.member.service;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
@@ -14,6 +16,8 @@ import java.util.Date;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Component;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.JsonElement;
@@ -57,6 +61,8 @@ public class MemberServiceImp implements MemberService {
 //	configNull.setCacheEnabled(false);
 //	configuration.setJdbcTypeForNull(null);
 
+	
+	//회원가입
 	public void memberWriteOk(ModelAndView mav) {
 		Map<String, Object> map = mav.getModelMap();
 		HttpServletRequest request = (HttpServletRequest) map.get("request");
@@ -88,11 +94,14 @@ public class MemberServiceImp implements MemberService {
 //		mav.setViewName("member/registerOk");
 	}
 
+	//
 	@Override
 	public void getDtoEmailAuth(ModelAndView mav) {
 		Map<String, Object> map = mav.getModelMap();
 		MemberDto memberDto = (MemberDto) map.get("memberDto");
+		
 		HttpServletRequest request = (HttpServletRequest) map.get("request");
+		
 //		LogAspect.logger.info(LogAspect.logMsg+"MSI.gDEA.dto: "+memberDto.toString()); //npe발생
 		memberDto.setEmail(request.getParameter("email"));
 		memberDto.setEmail_auth_key(request.getParameter("authkey"));
@@ -103,6 +112,8 @@ public class MemberServiceImp implements MemberService {
 
 	}
 
+	//이메일 보내는 역할
+	@Override
 	public void emailSender(ModelAndView mav) {
 		Map<String, Object> map = mav.getModelMap();
 		MemberDto memberDto = (MemberDto) map.get("memberDto");
@@ -139,6 +150,7 @@ public class MemberServiceImp implements MemberService {
 		mav.setViewName("member/registerOk");
 	}
 
+	//이메일 인증 상태 변경
 	@Override
 	public MemberDto updateEmail_auth_status(ModelAndView mav) {
 		Map<String, Object> map = mav.getModelMap();
@@ -157,36 +169,155 @@ public class MemberServiceImp implements MemberService {
 		return memberDto;
 	}
 
+	
+	
+	//로그인 ok
 	@Override
 	public void memberLoginOk(ModelAndView mav) {
 		Map<String, Object> map = mav.getModelMap();
 		HttpServletRequest request = (HttpServletRequest) map.get("request");
+		
 		Map<String, String> hMap = new HashMap<String, String>();
 		LogAspect.logger.info(LogAspect.logMsg + "req.email:" + request.getParameter("email"));
 		LogAspect.logger.info(LogAspect.logMsg + "req.pw:" + request.getParameter("password"));
+		
 		hMap.put("email", request.getParameter("email"));
 		hMap.put("password", request.getParameter("password"));
+		
 		LogAspect.logger.info(LogAspect.logMsg + "MSI.mLO.email: " + hMap.get("email"));
 		LogAspect.logger.info(LogAspect.logMsg + "MSI.mLO.password: " + hMap.get("password"));
 		MemberDto memberDto = memberDao.memberLoginOk(hMap);
-		LogAspect.logger.info(LogAspect.logMsg + "MSI.mLO.dto: " + memberDto.toString());
-		mav.addObject("memberDto", memberDto);
+		
+		if(memberDto != null) {
+			LogAspect.logger.info(LogAspect.logMsg + "MSI.mLO.dto: " + memberDto.toString());
+			mav.addObject("memberDto", memberDto);
+			mav.setViewName("member/loginOk");
+		} else {
+			LogAspect.logger.info(LogAspect.logMsg + "아이디 혹은 비밀번호가 틀렸습니다 다시 시도해주세요");
+			mav.setViewName("member/login");
+		}
 
-		mav.setViewName("member/loginOk");
+		
 
 	}
 
+//	@Override
+//	public void memberUpdate(ModelAndView mav) {
+//		Map<String, Object> membInfoMap = mav.getModelMap();
+//		MemberDto memberDto = (MemberDto) membInfoMap.get("memberDto");
+//		LogAspect.logger.info(LogAspect.logMsg + "mWI:" + memberDto.toString());
+//		int check = memberDao.memberUpdate(memberDto);
+//
+//		mav.addObject("check", check);
+//		// mav.setViewName("index");
+//	}
+	
+	
+	
+	
+	//수정전 연동x이메일 회원들은 비밀번호 체크
 	@Override
-	public void memberWriteInfo(ModelAndView mav) {
-		Map<String, Object> membInfoMap = mav.getModelMap();
-		MemberDto memberDto = (MemberDto) membInfoMap.get("memberDto");
-		LogAspect.logger.info(LogAspect.logMsg + "mWI:" + memberDto.toString());
-		int check = memberDao.memberWriteInfo(memberDto);
-
+	public void memberUpdateP(ModelAndView mav) {
+		Map<String, Object> map = mav.getModelMap();
+		HttpServletRequest request= (HttpServletRequest)map.get("request");
+		HttpSession session = (HttpSession)map.get("session");
+		Map<String, Object> hMap = new HashMap<String, Object>();
+		
+		LogAspect.logger.info(LogAspect.logMsg+"MSI.mUP.req.getPpw: "+request.getParameter("password"));
+		LogAspect.logger.info(LogAspect.logMsg+"MSI.mUP.ses.getUnum: "+session.getAttribute("user_num"));
+		LogAspect.logger.info(LogAspect.logMsg+"MSI.mUP.ses.getemal: "+session.getAttribute("email"));
+		LogAspect.logger.info(LogAspect.logMsg+"MSI.mUP.ses.getEAK: "+session.getAttribute("email_auth_key"));
+		
+		hMap.put("password", request.getParameter("password"));
+		hMap.put("user_num", session.getAttribute("user_num"));
+		hMap.put("email", session.getAttribute("email"));
+		hMap.put("email_auth_key", session.getAttribute("email_auth_key"));
+		hMap.put("register_type", session.getAttribute("register_type"));
+		
+		MemberDto memberDto = memberDao.getMemberDtoP(hMap);
+		if(memberDto != null) {
+			LogAspect.logger.info(LogAspect.logMsg+"MSI.mUP.dto:"+memberDto.toString());
+			mav.addObject("memberDto", memberDto);
+			mav.setViewName("member/update");
+		} else {
+			LogAspect.logger.info(LogAspect.logMsg+"MSI.mUP.비밀번호가 틀렸습니다");
+			mav.setViewName("member/basic_elements");
+		}
+	}
+	
+	
+	//카카오 연동 회원 정보 수정 페이지 이동(기존 데이터 들고 가서 뿌림)
+	@Override
+	public void memberKakaoUpdate(ModelAndView mav, HttpSession session) {
+		
+		LogAspect.logger.info(LogAspect.logMsg+"MSI.mKU.ses.getUnum: "+session.getAttribute("user_num"));
+		LogAspect.logger.info(LogAspect.logMsg+"MSI.mKU.ses.getUai: "+session.getAttribute("user_auth_id"));
+		LogAspect.logger.info(LogAspect.logMsg+"MSI.mKU.ses.getregType: "+session.getAttribute("register_type"));
+		
+		Map<String, Object> hMap = new HashMap<String, Object>();
+		hMap.put("user_num", session.getAttribute("user_num"));
+		hMap.put("user_auth_id", session.getAttribute("user_auth_id"));
+		hMap.put("register_type", session.getAttribute("register_type"));
+		
+		MemberDto memberDto = memberDao.getKakaoMemberDto(hMap);
+		
+		
+		if(memberDto != null) {
+			LogAspect.logger.info(LogAspect.logMsg+"MSI.mKU.dto: "+memberDto.toString());
+			mav.addObject("memberDto", memberDto);	
+			mav.setViewName("member/kakaoMemberUpdate");
+		} else {
+			LogAspect.logger.info(LogAspect.logMsg+"MSI.mKU.dto:dto를 불러오지 못했습니다.(비었어요);");
+			mav.setViewName("member/basic_elements");
+		}
+	}
+	
+	//이메일가입 회원 정보 수정 db에 update
+	@Override
+	public void memberUpdateOk(ModelAndView mav, HttpSession session) {
+		Map<String, Object> map = mav.getModelMap();
+		MemberDto memberDto = (MemberDto)map.get("memberDto");
+		MultipartHttpServletRequest request = (MultipartHttpServletRequest)map.get("request");
+		
+		LogAspect.logger.info(LogAspect.logMsg+"MSI.mUO.dto: "+memberDto.toString());
+		
+		memberDto.setUser_num((Integer)session.getAttribute("user_num"));
+		
+		MultipartFile upFile = request.getFile("profile_image");
+		Long fileSize = upFile.getSize();
+		
+		if(fileSize != 0) {//이미 파일 존재
+			String fileName = Long.toString(System.currentTimeMillis())+"_"+upFile.getOriginalFilename();
+			File path = new File("C:\\ftp\\profile_image\\");
+			path.mkdir();
+			
+			if(path.exists() && path.isDirectory()){//경로가 있고 파일이 있으면
+				File file = new File(path, fileName);
+				try {
+					upFile.transferTo(file);
+				} catch(IOException e) {
+					e.printStackTrace();
+				}
+//				memberDto.setFileSize(fileSize);
+//				memberDto.setFileName(fileName);
+				memberDto.setProfile_image(file.getAbsolutePath());
+				
+			}
+			
+		}
+		
+		int check = 0;
+		
+		LogAspect.logger.info(LogAspect.logMsg+"MSI.mUO.dto: "+memberDto.toString());
+		check = memberDao.memberUpdateOk(memberDto);
+		LogAspect.logger.info(LogAspect.logMsg+"MSI.mUO.check: "+check);
+		
 		mav.addObject("check", check);
-		// mav.setViewName("index");
+		mav.setViewName("member/updateOk");
 	}
 
+	
+	
 	@Override
 	public void memberDeleteOk(ModelAndView mav) {
 		Map<String, Object> map = mav.getModelMap();
@@ -206,6 +337,7 @@ public class MemberServiceImp implements MemberService {
 		mav.addObject("check", check);
 	}
 
+	
 	@Override
 	public void kakaoDeleteOk(ModelAndView mav) {
 		Map<String, Object> map = mav.getModelMap();
@@ -232,13 +364,16 @@ public class MemberServiceImp implements MemberService {
 			session.removeAttribute("user_auth_id");
 			session.removeAttribute("user_num");
 			session.removeAttribute("access_token");
-			session.removeAttribute("nickname");
+			//session.removeAttribute("nickname");
 			session.removeAttribute("register_type");
 		}
 		mav.addObject("check", check);
 		mav.setViewName("member/kakaoDeleteOk");
 	}
 
+	
+	
+	//카카오 로그인 위한 액세스 토큰 겟
 	@Override
 	public String kakaoGetAccessToken(String authorize_code) {
 		String access_Token = "";
@@ -475,8 +610,10 @@ public class MemberServiceImp implements MemberService {
 			// LogAspect.logger.info(LogAspect.logMsg+"mDIN: "+memberDtoIsNew.toString());
 			if (memberDtoIsNew == null) {
 				check = memberDao.memberWrite(memberDto);
+				memberDto = memberDao.kakaoMemberNewLoad(memberDto);
 			} else if (!(memberDtoIsNew.getRegister_type().equals("KAKAO"))) {
 				check = memberDao.memberWrite(memberDto);
+				memberDto = memberDao.kakaoMemberNewLoad(memberDto);
 			} else if (memberDtoIsNew.getUser_auth_id().equals(memberDto.getUser_auth_id())) {
 				LogAspect.logger.info(LogAspect.logMsg + "MSI.KGUI.이미 있는 카카오 아이디이므로 로그인합니다.");
 				memberDto = memberDao.kakaoMemberLoad(memberDtoIsNew);
@@ -498,13 +635,13 @@ public class MemberServiceImp implements MemberService {
 //			} else {
 //				check = memberDao.memberWrite(memberDto);
 //			}
-
+			LogAspect.logger.info(LogAspect.logMsg + "MSI.gUIkakao.dto: " +memberDto.toString()); 
 			LogAspect.logger.info(LogAspect.logMsg + "MSI.gUIkakao.check: " + check);
 
 			mav.addObject("check", check);
 			mav.addObject("memberDto", memberDto);
 			mav.addObject("access_Token", access_Token);
-			
+			mav.addObject("nickname", memberDto.getNickname());
 			
 //			HttpSession session = request.getSession();
 //			session.setAttribute("nickname", memberDto.getNickname());
@@ -550,7 +687,36 @@ public class MemberServiceImp implements MemberService {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	@Override
+	public void kakaoMemberUpdateOk(ModelAndView mav, HttpSession session) {
+		Map<String, Object> map = mav.getModelMap();
+		MultipartHttpServletRequest request = (MultipartHttpServletRequest)map.get("request");
+				
+		MemberDto memberDto = (MemberDto)map.get("memberDto");
 		
+		LogAspect.logger.info(LogAspect.logMsg+"MSI.kMUO.ses.unum: "+session.getAttribute("user_num"));
+		LogAspect.logger.info(LogAspect.logMsg+"MSI.kMUO.ses.uai: "+session.getAttribute("user_auth_id"));
+		LogAspect.logger.info(LogAspect.logMsg+"MSI.kMUO.ses.regType: "+session.getAttribute("register_type"));
+		LogAspect.logger.info(LogAspect.logMsg+"MSI.kMUO.req.interest: "+request.getParameter("interest"));
+		
+		LogAspect.logger.info(LogAspect.logMsg+"MSI.kMUO.dtoBefore:"+memberDto.toString());
+		
+		
+		memberDto.setUser_num((Integer)session.getAttribute("user_num"));
+		memberDto.setUser_auth_id((Integer)session.getAttribute("user_auth_id"));
+		memberDto.setRegister_type((String)session.getAttribute("register_type"));
+		
+		memberDto.setInterest(request.getParameter("interest"));
+		
+		LogAspect.logger.info(LogAspect.logMsg+"MSI.kMUO.dto.sesAdd:"+memberDto.toString());
+		
+		int check = memberDao.kakaoMemberUpdateOk(memberDto);
+		
+		mav.addObject("check", check);
+		mav.addObject("nickname", memberDto.getNickname());
+		mav.setViewName("member/kakaoMemberUpdateOk");
 		
 	}
 

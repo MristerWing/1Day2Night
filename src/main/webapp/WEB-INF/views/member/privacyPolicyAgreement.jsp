@@ -10,7 +10,6 @@
 </head>
 <body>
 
-<!-- <textarea class="info_area_first" readonly	 -->
 	<p class="join_tt">이용약관</p>
 		<section>
 			<h2 class="skip">이용약관</h2>
@@ -137,7 +136,9 @@
 				<p>본 약관에 명시되지 않은 사항에 대해서는 관련법령에 의하고, 법에 명시되지 않은 부분에 대하여는 관습에 의합니다.</p>
 
 			</div>
+		
 
+		
 			<h2 class="skip">이용약관</h2>
 		</section>
 
@@ -158,7 +159,10 @@
 
 		</section>
 		
-		<a href="${root}/member/register.do">다음으로</a>
+		
+		
+		
+		<a href="${root}/member/register.do">다음으로(다음을 클릭하시면 동의한 것으로 간주합니다.)</a><br/>
 		<a href="${root}/index.jsp">메인으로</a>
 		
 </body>

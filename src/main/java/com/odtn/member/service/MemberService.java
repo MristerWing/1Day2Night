@@ -12,6 +12,7 @@ import javax.servlet.http.HttpSession;
 public interface MemberService {
 	public void memberWriteOk(ModelAndView mav);
 	public void getDtoEmailAuth(ModelAndView mav);
+	public void emailSender(ModelAndView mav);
 	public MemberDto updateEmail_auth_status(ModelAndView mav);
 	
 	public void memberLoginOk(ModelAndView mav);
@@ -22,6 +23,10 @@ public interface MemberService {
 	public void kakaoGetUserInfo(String access_Token, ModelAndView mav);
 	public void kakaoLogout(String access_Token);
 	
-	public void memberWriteInfo(ModelAndView mav);
+//	public void memberUpdate(ModelAndView mav);
+	public void memberUpdateP(ModelAndView mav);
+	public void memberUpdateOk(ModelAndView mav, HttpSession session);
+	public void memberKakaoUpdate(ModelAndView mav, HttpSession session);
+	public void kakaoMemberUpdateOk(ModelAndView mav, HttpSession session);
 	
 }

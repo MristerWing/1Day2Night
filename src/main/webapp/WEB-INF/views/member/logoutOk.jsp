@@ -9,17 +9,18 @@
 <title>로그아웃확인</title>
 </head>
 <body>
-<c:if test="${sessionScope.user_num == null}">
+<%session.invalidate(); %>
+<%-- <c:if test="${sessionScope.user_num == null}"> --%>
 		<script type="text/javascript">
-			alert("로그인 되었습니다.");
+			alert("로그아웃 되었습니다.");
 			location.href="${root}/index.jsp";
 		</script>
-	</c:if>
-	<c:if test="${sessionScope.user_num != null}">
+<%-- 	</c:if> --%>
+<%-- 	<c:if test="${sessionScope.user_num != null}"> --%>
 		<script type="text/javascript">
 			alert("로그인 실패");
 			location.href="${root}/index.jsp";
 		</script>
-	</c:if>
+<%-- 	</c:if> --%>
 </body>
 </html>

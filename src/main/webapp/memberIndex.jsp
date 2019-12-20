@@ -12,16 +12,18 @@
 <%-- 	<a href="${root}/member/start.do">시작</a> --%>
 
 	<c:if test="${sessionScope.user_auth_id != null}">
-	<h3>${sessionScope.nickname}님 환영합니다.</h3>
+	<h3>${nickname}님 환영합니다.</h3>
 		<h3>user_id : ${user_auth_id}</h3>
 		<h3>access_token: ${access_Token}</h3><br/>
 		<h3>sessionScope.a_token: ${sessionScope.access_Token}</h3>
 		<h3>s.id: ${sessionScope.user_auth_id}</h3>
 		<h3>s.num: ${sessionScope.user_num}</h3>
+		<h3>s.refToken: ${sessionScope.refresh_Token}</h3>
+		<h3>refToken: ${refresh_Token}<br/></h3>
 	</c:if>
 	
-	<c:if test="${sessionScope.email_auth_key != null}">
-		<c:if test = "${sessionScope.user_auth_id != null}">
+	<c:if test="${email_auth_key != null}">
+		<c:if test = "${user_auth_id == null}">
 		<h3>${email}님 환영합니다.</h3>
 		<h3>user_num : ${user_num}</h3>
 		
@@ -32,10 +34,12 @@
 	</c:if>
 		
 	<c:if test="${email == null}">
-		<a href="${root}/member/privacyPolicyAgreement.do">
-			<img src="./resources/images/emailSmashiconsFromFlaticon.png" width="100px" height="100px" alt="이메일 회원가입"/>
-		<br/>이메일로 회원가입</a><br/>
-		<a href="${root}/member/login.do">로그인</a>&nbsp;&nbsp;
+		<c:if test="${user_auth_id==null}">
+			<a href="${root}/member/privacyPolicyAgreement.do">
+				<img src="./resources/images/emailSmashiconsFromFlaticon.png" width="100px" height="100px" alt="이메일 회원가입"/>
+			<br/>이메일로 회원가입</a><br/>
+			<a href="${root}/member/login.do">로그인</a>&nbsp;&nbsp;
+		</c:if>
 	</c:if>
 	<c:if test="${sessionScope.email_auth_key != null}">
 		<c:if test="${sessionScope.user_auth_id == null}">
@@ -63,8 +67,8 @@
 	<c:if test="${sessionScope.user_auth_id != null}">
 		<a href="${root}/member/kakaoDelete.do">카카오회원 탈퇴</a>
 	</c:if>
-	<%-- 		<c:if test="${email == 'egeoda@protonmail.com'}"> --%>
+			<c:if test="${email == 'egeoda@protonmail.com'}">
 	&nbsp;&nbsp;<a href="${root}/member/adminPage.do">관리자 페이지</a>
-	
+	</c:if>	
 </body>
 </html>

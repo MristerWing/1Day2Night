@@ -16,11 +16,13 @@ public interface MemberDao {
 	public int memberDeleteOk(Map<String, Object> map);
 	public int kakaoDeleteOk(Map<String, Object> map);
 	public MemberDto kakaoMemberLoad(MemberDto memberDtoIsNew);
+	public MemberDto kakaoMemberNewLoad(MemberDto memberDto);
 	
 	public MemberDto isNewOAuthMember(Integer user_auth_id);
 	
-	public int memberWriteInfo(MemberDto memberDto);
+	public int memberUpdateOk(MemberDto memberDto);
 	
-	
-	
+	public MemberDto getMemberDtoP(Map<String, Object> map);
+	public MemberDto getKakaoMemberDto(Map<String, Object> map);
+	public int kakaoMemberUpdateOk(MemberDto memberDto);
 }

@@ -23,6 +23,14 @@ public class MemberController {
 	private MemberService memberService;
 	
 	
+	@RequestMapping(value="member/beforeRegister.do", method=RequestMethod.GET)
+	public ModelAndView memberBeforeRegister(HttpServletRequest request, HttpServletResponse response) {
+		ModelAndView mav = new ModelAndView();
+		
+		mav.setViewName("member/beforeRegister");
+		return mav;
+	}
+	
 	@RequestMapping(value="member/privacyPolicyAgreement.do", method=RequestMethod.GET)
 	public ModelAndView memberPrivacyPolicy(HttpServletRequest request, HttpServletResponse response) {
 		ModelAndView mav = new ModelAndView();
@@ -70,9 +78,12 @@ public class MemberController {
 		
 	}
 	@RequestMapping(value="member/login.do", method=RequestMethod.GET)
-	public ModelAndView memberLogin(HttpServletRequest request, HttpServletResponse response) {
+	public ModelAndView memberLogin(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+		
 		ModelAndView mav = new ModelAndView();
-		mav.setViewName("member/login");
+		if(session.getAttribute("user_num") == null)
+			mav.setViewName("member/login");
+		else mav.setViewName("member/loginOk");
 		return mav;
 	}
 	@RequestMapping(value="member/loginOk.do", method=RequestMethod.POST)
@@ -89,10 +100,14 @@ public class MemberController {
 		LogAspect.logger.info(LogAspect.logMsg+"map.keySet():"+map.keySet());
 		MemberDto memberDto = (MemberDto)map.get("memberDto");
 		//LogAspect.logger.info(LogAspect.logMsg+"MC.mLO.dto: "+memberDto.toString());
-		session.setAttribute("user_num", memberDto.getUser_num());
-		session.setAttribute("email", memberDto.getEmail());
-		session.setAttribute("email_auth_key", memberDto.getEmail_auth_key());
-		
+		if(memberDto != null) {
+			session.setAttribute("user_num", memberDto.getUser_num());
+			session.setAttribute("email", memberDto.getEmail());
+			session.setAttribute("email_auth_key", memberDto.getEmail_auth_key());
+			session.setAttribute("register_type", memberDto.getRegister_type());
+		} else {
+			LogAspect.logger.info(LogAspect.logMsg+"MC.mLO.dto가 비었습니다.로그인에 문제 발생");
+		}
 		return mav;
 	}
 	@RequestMapping(value="member/logout.do", method=RequestMethod.GET)
@@ -102,19 +117,68 @@ public class MemberController {
 		session.removeAttribute("user_num");
 		session.removeAttribute("email");
 		session.removeAttribute("email_auth_key");
+		session.removeAttribute("register_type");
 		
 		mav.setViewName("member/logoutOk");
 		return mav;
 		
 	}
 	@RequestMapping(value="member/update.do", method=RequestMethod.GET)
-	public ModelAndView memberWriteInfo(HttpServletRequest request, 
-			HttpServletResponse response, MemberDto memberDto) {
+	public ModelAndView memberUpdate(HttpServletRequest request, 
+			HttpServletResponse response, HttpSession session, MemberDto memberDto) {
 		ModelAndView mav = new ModelAndView();
-		mav.addObject("memberDto", memberDto);
+		
+		if(session.getAttribute("register_type") == null) {
+			LogAspect.logger.info(LogAspect.logMsg+"ses.forEmailmemb: ");
+			LogAspect.logger.info(LogAspect.logMsg+"MC.mU.ses.unum: "+session.getAttribute("user_num"));
+			LogAspect.logger.info(LogAspect.logMsg+"MC.mU.ses.email: "+session.getAttribute("email"));
+			LogAspect.logger.info(LogAspect.logMsg+"MC.mU.ses.eAK: "+session.getAttribute("email_auth_key"));
+			LogAspect.logger.info(LogAspect.logMsg+"MC.mU.ses.regType: "+session.getAttribute("register_type"));
+			mav.setViewName("member/updateP");
+		}
+		
+		if(session.getAttribute("user_auth_id") != null) {
+			LogAspect.logger.info(LogAspect.logMsg+"ses.forKakao: ");
+			LogAspect.logger.info(LogAspect.logMsg+"MC.mU.ses.uaid: "+session.getAttribute("user_auth_id"));
+			LogAspect.logger.info(LogAspect.logMsg+"MC.mU.ses.unum: "+session.getAttribute("user_num"));
+			LogAspect.logger.info(LogAspect.logMsg+"MC.mU.ses.rType: "+session.getAttribute("register_type"));
+			if((session.getAttribute("user_num").toString()) == "0") {
+				LogAspect.logger.info(LogAspect.logMsg+"MC.mu.재로그인 후 정보를 수정해 주세요.");
+			}
+			memberService.memberKakaoUpdate(mav, session);
+			mav.addObject("member/kakaoMemberUpdate");
+		}
+		
+		//mav.addObject("memberDto", memberDto);
 //		mav.addObject("request", request);
 		return mav;
 	}
+	
+	
+	//연동x 가입자 회원 정보 수정 시 비밀번호 입력 성공하면 여기로 옴
+	@RequestMapping(value="member/updatePo.do", method=RequestMethod.POST)
+	public ModelAndView memberUpdateP(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("request", request);
+		mav.addObject("session", session);
+		memberService.memberUpdateP(mav);
+		
+		return mav;
+	}
+	@RequestMapping(value="member/updateOk.do", method=RequestMethod.POST)
+	public ModelAndView memberUpdateOk(HttpServletRequest request, HttpServletResponse response 
+			, MemberDto memberDto, HttpSession session) {
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("request", request);
+		LogAspect.logger.info(LogAspect.logMsg+"MC.mUO.dto: "+memberDto.toString());
+		mav.addObject("memberDto", memberDto);
+		memberService.memberUpdateOk(mav, session);
+		
+		return mav;
+	}
+	
+	
+	
 	@RequestMapping(value="member/delete.do", method=RequestMethod.GET)
 	public ModelAndView memberDelete(HttpServletRequest request, HttpServletResponse response) {
 		ModelAndView mav = new ModelAndView();
@@ -130,6 +194,7 @@ public class MemberController {
 		session.removeAttribute("user_num");
 		session.removeAttribute("email");
 		session.removeAttribute("email_auth_key");
+		session.removeAttribute("register_type");
 		return mav;
 	}
 	
@@ -167,12 +232,12 @@ public class MemberController {
 		Map<String, Object> map = mav.getModelMap();
 		memberDto = (MemberDto)map.get("memberDto");
 //		session = request.getSession();
-		session.setAttribute("nickname", memberDto.getNickname());
+//		session.setAttribute("nickname", memberDto.getNickname());
 		session.setAttribute("user_auth_id", memberDto.getUser_auth_id());
 		session.setAttribute("user_num", memberDto.getUser_num());
 		session.setAttribute("access_Token", access_Token);
 		session.setAttribute("register_type", memberDto.getRegister_type());
-		mav.addObject("nickname", session.getAttribute("nickname"));
+//		mav.addObject("nickname", session.getAttribute("nickname"));
 		mav.addObject("user_auth_id", session.getAttribute("user_auth_id"));
 //		mav.addObject("access_Token", access_Token);
 
@@ -187,7 +252,7 @@ public class MemberController {
 		session.removeAttribute("access_Token");
 		session.removeAttribute("user_auth_id");
 		session.removeAttribute("user_num");
-		session.removeAttribute("nickname");
+//		session.removeAttribute("nickname");
 		session.removeAttribute("register_type");
 		mav.setViewName("member/kakaoLogoutOk");
 		return mav;
@@ -215,6 +280,29 @@ public class MemberController {
 		return mav;
 	}
 	
+//	@RequestMapping(value="member/update.do", method=RequestMethod.GET)
+//	public ModelAndView memberUpdate(HttpSession session) {
+//		ModelAndView mav = new ModelAndView();
+//		
+//
+//		
+//		
+//		LogAspect.logger.info(LogAspect.logMsg+"MC.mU.ses.forKakao: ");
+//		LogAspect.logger.info(LogAspect.logMsg+"MC.mU.ses.uaid: "+session.getAttribute("user_auth_id"));
+//		LogAspect.logger.info(LogAspect.logMsg+"MC.mU.ses.unum: "+session.getAttribute("user_num"));
+//		LogAspect.logger.info(LogAspect.logMsg+"MC.mU.ses.reg_t: "+session.getAttribute("register_type"));
+//		return mav;
+//	}
 	
+	@RequestMapping(value="member/kakaoMemberUpdateOk.do", method=RequestMethod.POST)
+	public ModelAndView kakaoMemberUpdateOk(HttpServletRequest request, HttpServletResponse response
+			, MemberDto memberDto, HttpSession session) {
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("request", request);
+		mav.addObject("memberDto", memberDto);
+		memberService.kakaoMemberUpdateOk(mav, session);
+		
+		return mav;
+	}
 	
 }

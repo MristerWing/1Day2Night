@@ -63,10 +63,26 @@ public class MemberDaoImp implements MemberDao {
 		
 		return sqlSessionTemplate.selectOne("kakaoMemberLoad", memberDtoIsNew);
 	}
+	@Override
+	public MemberDto kakaoMemberNewLoad(MemberDto memberDto) {
+		return sqlSessionTemplate.selectOne("kakaoMemberNewLoad", memberDto);
+	}
 	
-	
-	public int memberWriteInfo(MemberDto memberDto) {
-		return sqlSessionTemplate.insert("memberWriteInfo", memberDto);
+	public int memberUpdateOk(MemberDto memberDto) {
+		return sqlSessionTemplate.update("memberUpdateOk", memberDto);
+	}
+	@Override
+	public MemberDto getMemberDtoP(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		return sqlSessionTemplate.selectOne("getMemberDtoP", map);
+	}
+	@Override
+	public MemberDto getKakaoMemberDto(Map<String, Object> map) {
+		return sqlSessionTemplate.selectOne("getKakaoMemberDto", map);
+	}
+	@Override
+	public int kakaoMemberUpdateOk(MemberDto memberDto) {
+		return sqlSessionTemplate.update("kakaoMemberUpdateOk", memberDto);
 	}
 	
 }

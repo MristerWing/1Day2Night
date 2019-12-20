@@ -69,12 +69,16 @@
 					<input class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn" type="submit" value="로그인"/>
                 </div>
                 <div class="mb-2 d-flex">
-                  <button type="button" class="btn btn-facebook auth-form-btn flex-grow mr-1">
-                    <i class="ti-facebook mr-2"></i>Facebook
-                  </button>
-                  <button type="button" class="btn btn-google auth-form-btn flex-grow ml-1">
-                    <i class="ti-google mr-2"></i>Google
-                  </button>
+                	<a href="https://kauth.kakao.com/oauth/authorize?client_id=06ef11d13082c0f6655eada1dec1670a&redirect_uri=http://localhost:8181/camping/member/kakaoLogin.do&response_type=code">
+					<img src="${root}/resources/images/kr_02_medium_press.png" alt="카카오 로그인"/>
+					</a>&nbsp;&nbsp;
+                 	</button>
+<!--                   <button type="button" class="btn btn-facebook auth-form-btn flex-grow mr-1"> -->
+<!--                     <i class="ti-facebook mr-2"></i>Facebook -->
+<!--                   </button> -->
+<!--                   <button type="button" class="btn btn-google auth-form-btn flex-grow ml-1"> -->
+<!--                     <i class="ti-google mr-2"></i>Google -->
+<!--                   </button> -->
                 </div>
                 <div class="text-center mt-4 font-weight-light">
                   가입하지 않으셨나요? <a href="${root}/member/register.do" class="text-primary">가입하기</a>
