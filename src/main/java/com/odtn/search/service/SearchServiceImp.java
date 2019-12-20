@@ -1,5 +1,7 @@
 package com.odtn.search.service;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -71,11 +73,9 @@ public class SearchServiceImp implements SearchService {
 		int camp_id = Integer.parseInt(request.getParameter("camp-id"));
 		String readPage = request.getParameter("readPage");
 
-		int check = 0;
-
 		if (readPage == null) {
 			// 조회수 증가
-			check = searchDao.updateReadCount(camp_id);
+			searchDao.updateReadCount(camp_id);
 		} else {
 			// 요금정보 일경우 요금정보 호출
 			if (readPage.equals("2")) {
@@ -86,18 +86,15 @@ public class SearchServiceImp implements SearchService {
 			}
 		}
 
-		LogAspect.logger.info(LogAspect.logMsg + check);
-
 		// 정보 호출
 		SearchDto searchDto = searchDao.getCamp(camp_id);
 
-		/*
-		 * else if (readPage.equals("3")) {
-		 * 
-		 * }
-		 */
+		Map<String, Object> searchMap = new HashMap<String, Object>();
+		List<SearchDto> searchList = new ArrayList<SearchDto>();
+		searchList.add(searchDto);
+		searchMap.put("searchList", searchList);
 
-		mav.addObject("searchDto", searchDto);
+		mav.addObject("searchMap", searchMap);
 		mav.addObject("readPage", readPage);
 
 	}

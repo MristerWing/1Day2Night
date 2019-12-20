@@ -149,7 +149,7 @@
 	
 	<!-- KimJinsu 2019/12/18 select -->
 	<select id="getCamp" parameterType="int" resultType="com.odtn.search.dto.SearchDto">
-		SELECT * FROM CAMP_DATA WHERE camp_id = #{camp_id}
+		SELECT * FROM searchList WHERE camp_id = #{camp_id}
 	</select>
 	
 	<!-- KimJinsu 2019/12/19 update -->

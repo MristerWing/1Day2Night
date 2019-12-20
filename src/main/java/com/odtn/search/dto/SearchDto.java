@@ -33,18 +33,24 @@ public class SearchDto {
 	private Date camp_regisdate;
 	private int recommand_count;
 	private int review_count;
-	
+	private double wido;
+	private double gyeonddo;
+
 	SearchDto() {
-		
+
 	}
 
-	public SearchDto(int camp_id, String camp_name, String title, String camp_type, String tag, String main_image,
-			String address, String hp, String location_type, String operation_type, String operation_period,
-			String operation_day, String camp_link, String sub_image1, String sub_image2, String sub_image3,
-			String content, Date content_modified_date, String main_facilities, String etc_facilities,
-			String bottom_type, String site_size, String gramping_facilities, String karaban_facilities,
-			String animal_access, String torch, int read_count, Date camp_regisdate, int recommand_count,
-			int review_count) {
+	public SearchDto(int camp_id, String camp_name, String title,
+			String camp_type, String tag, String main_image, String address,
+			String hp, String location_type, String operation_type,
+			String operation_period, String operation_day, String camp_link,
+			String sub_image1, String sub_image2, String sub_image3,
+			String content, Date content_modified_date, String main_facilities,
+			String etc_facilities, String bottom_type, String site_size,
+			String gramping_facilities, String karaban_facilities,
+			String animal_access, String torch, int read_count,
+			Date camp_regisdate, int recommand_count, int review_count,
+			double wido, double gyeonddo) {
 		super();
 		this.camp_id = camp_id;
 		this.camp_name = camp_name;
@@ -76,6 +82,8 @@ public class SearchDto {
 		this.camp_regisdate = camp_regisdate;
 		this.recommand_count = recommand_count;
 		this.review_count = review_count;
+		this.wido = wido;
+		this.gyeonddo = gyeonddo;
 	}
 
 	public int getCamp_id() {
@@ -318,19 +326,43 @@ public class SearchDto {
 		this.review_count = review_count;
 	}
 
+	public double getWido() {
+		return wido;
+	}
+
+	public void setWido(double wido) {
+		this.wido = wido;
+	}
+
+	public double getGyeonddo() {
+		return gyeonddo;
+	}
+
+	public void setGyeonddo(double gyeonddo) {
+		this.gyeonddo = gyeonddo;
+	}
+
 	@Override
 	public String toString() {
-		return "SearchDto [camp_id=" + camp_id + ", camp_name=" + camp_name + ", title=" + title + ", camp_type="
-				+ camp_type + ", tag=" + tag + ", main_image=" + main_image + ", address=" + address + ", hp=" + hp
-				+ ", location_type=" + location_type + ", operation_type=" + operation_type + ", operation_period="
-				+ operation_period + ", operation_day=" + operation_day + ", camp_link=" + camp_link + ", sub_image1="
-				+ sub_image1 + ", sub_image2=" + sub_image2 + ", sub_image3=" + sub_image3 + ", content=" + content
-				+ ", content_modified_date=" + content_modified_date + ", main_facilities=" + main_facilities
-				+ ", etc_facilities=" + etc_facilities + ", bottom_type=" + bottom_type + ", site_size=" + site_size
-				+ ", gramping_facilities=" + gramping_facilities + ", karaban_facilities=" + karaban_facilities
-				+ ", animal_access=" + animal_access + ", torch=" + torch + ", read_count=" + read_count
-				+ ", camp_regisdate=" + camp_regisdate + ", recommand_count=" + recommand_count + ", review_count="
-				+ review_count + "]";
+		return "SearchDto [camp_id=" + camp_id + ", camp_name=" + camp_name
+				+ ", title=" + title + ", camp_type=" + camp_type + ", tag="
+				+ tag + ", main_image=" + main_image + ", address=" + address
+				+ ", hp=" + hp + ", location_type=" + location_type
+				+ ", operation_type=" + operation_type + ", operation_period="
+				+ operation_period + ", operation_day=" + operation_day
+				+ ", camp_link=" + camp_link + ", sub_image1=" + sub_image1
+				+ ", sub_image2=" + sub_image2 + ", sub_image3=" + sub_image3
+				+ ", content=" + content + ", content_modified_date="
+				+ content_modified_date + ", main_facilities=" + main_facilities
+				+ ", etc_facilities=" + etc_facilities + ", bottom_type="
+				+ bottom_type + ", site_size=" + site_size
+				+ ", gramping_facilities=" + gramping_facilities
+				+ ", karaban_facilities=" + karaban_facilities
+				+ ", animal_access=" + animal_access + ", torch=" + torch
+				+ ", read_count=" + read_count + ", camp_regisdate="
+				+ camp_regisdate + ", recommand_count=" + recommand_count
+				+ ", review_count=" + review_count + ", wido=" + wido
+				+ ", gyeonddo=" + gyeonddo + "]";
 	}
 
 }

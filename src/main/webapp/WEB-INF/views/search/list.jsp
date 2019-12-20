@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <c:set var="root" value="${pageContext.request.contextPath}" />
 <!DOCTYPE html>
 <html lang="ko">
@@ -52,6 +53,8 @@
 <!-- 검색 게시물 Content CSS  -->
 <link href="${root}/resources/css/search/searchBoard.css"
 	rel="stylesheet" />
+	
+
 
 <!-- 검색값 초기화 JS -->
 <script>
@@ -241,6 +244,8 @@
                                                             }
 
                                                             // 링크로 보낸다.
+                                                            var isMap = '${isMap}';
+                                                            
                                                             var url =
                                                                 "${root}/search/list.do?city=" +
                                                                 city +
@@ -248,6 +253,8 @@
                                                                 thema +
                                                                 "&keyword=" +
                                                                 keyword;
+                                                                
+                                                            if(isMap === 'MAP') url += "&isMap=" + isMap;
                                                             location.href = url;
                                                     	}
                                                             $(
@@ -570,6 +577,8 @@
                                                     "&detailSearchMainFacities=" +
                                                     
                                                     detailSearchMainFacities;
+                                                var isMap = '${isMap}';
+                                                if(isMap === 'MAP') url += "&isMap=" + isMap;
                                                 location.href = url;
                                             });
                                         </script>
@@ -665,6 +674,8 @@
 
                                     // 이후 링크로 이동
                                     var url = "${root}/search/list.do?tag=" + tag;
+                                    var isMap = '${isMap}';
+                                    if(isMap === 'MAP') url += "&isMap=" + isMap;
                                     location.href = url;
                                 });
                             </script>
@@ -676,8 +687,8 @@
 	</div>
 	<!-- 리스트부분 -->
 	<c:set var="url" value="${root}/search/list.do?" />
-	<c:if test="${isMap != null}">
-		<c:set var="url" value="${root}/search/list.do?isMap=MAP" />
+	<c:if test="${isMap == 'MAP'}">
+		<c:set var="url" value="${root}/search/list.do?isMap=MAP&" />
 	</c:if>
 
 	<c:if
@@ -700,7 +711,7 @@
 		<div>
 			<h2 style="color: black;">
 				총 <span style="color: #eb831d;">${searchMap.count}개</span> 캠핑장이
-				검색되었습니다. ${isMap}
+				검색되었습니다.
 			</h2>
 			<div class="search_Filter">
 				<select>
@@ -719,11 +730,20 @@
 		            		location.href= url+filter;
 		            	})
 		            </script>
-
-				<button>지도로 보기</button>
+				<c:if test="${isMap == 'MAP'}">
+					<button onclick="javascript:location.href='${url}'">리스트 보기</button>
+				</c:if>
+				<c:if test="${isMap == null}">
+					<button onclick="javascript:location.href='${url}' + 'isMap=MAP'">지도로 보기</button>
+				</c:if>
 			</div>
 		</div>
 		<!-- 지도로 검색 -->
+		<c:if test="${isMap == 'MAP'}">
+			<jsp:include page="./map.jsp">
+				<jsp:param name="searchMap" value="${searchMap}"/>
+			</jsp:include>
+		</c:if>
 
 		<c:if test="${isMap == null}">
 			<!-- 게시물 반복처리 -->

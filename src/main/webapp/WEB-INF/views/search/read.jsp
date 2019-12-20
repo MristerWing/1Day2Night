@@ -75,16 +75,16 @@
 			<div class="topline-background">
 				<div class="container read-background">
 					<div class="name-space">
-						<h1>${searchDto.camp_name}</h1>
-						<h3>${searchDto.title}</h3>
+						<h1>${searchMap.searchList[0].camp_name}</h1>
+						<h3>${searchMap.searchList[0].title}</h3>
 					</div>
-					<div class="tag-div"><label>tags</label><label>${searchDto.tag}</label></div>
+					<div class="tag-div"><label>tags</label><label>${searchMap.searchList[0].tag}</label></div>
 				</div>
 			</div>
 			<div class="container main_content">
 				<div class="img-area">
 					<img
-						src="${searchDto.main_image}"
+						src="${searchMap.searchList[0].main_image}"
 						alt="loding"
 					/>
 				</div>
@@ -104,13 +104,13 @@
 						};
 						
 						var camp = {
-								address: "${searchDto.address}",
-								hp: "${searchDto.hp}",
-								loc: "${searchDto.location_type}",
-								operationType: "${searchDto.operation_type}",
-								operationPeriod: "${searchDto.operation_period}", 
-								operationDay: "${searchDto.operation_day}", 
-								homepage: "<a href='" + "${searchDto.camp_link}" + "'>바로가기</a>"
+								address: "${searchMap.searchList[0].address}",
+								hp: "${searchMap.searchList[0].hp}",
+								loc: "${searchMap.searchList[0].location_type}",
+								operationType: "${searchMap.searchList[0].operation_type}",
+								operationPeriod: "${searchMap.searchList[0].operation_period}", 
+								operationDay: "${searchMap.searchList[0].operation_day}", 
+								homepage: "<a href='" + "${searchMap.searchList[0].camp_link}" + "'>바로가기</a>"
 						};
 						
 						
@@ -148,7 +148,7 @@
 					<script type="text/javascript">
 					$('body > div.search > div.container.main_content > div.row > button').click(
 						function() {
-							var url = '${root}/search/read.do?readPage=' + $(this).val() + "&camp-id=" + "${searchDto.camp_id}";
+							var url = '${root}/search/read.do?readPage=' + $(this).val() + "&camp-id=" + "${searchMap.searchList[0].camp_id}";
 							location.href = url;
 						}
 					);
@@ -159,13 +159,13 @@
 				<!--소개-->
 				<c:if test="${readPage == 1||readPage == null||readPage == ''}">
 				<div class="sub-img">
-					<img src="${searchDto.sub_image1}" alt="" />
-					<img src="${searchDto.sub_image2}" alt="" />
-					<img src="${searchDto.sub_image3}" alt="" />
+					<img src="${searchMap.searchList[0].sub_image1}" alt="" />
+					<img src="${searchMap.searchList[0].sub_image2}" alt="" />
+					<img src="${searchMap.searchList[0].sub_image3}" alt="" />
 				</div>
 				<div class="sub-index">
-					<span class="text">${searchDto.content}</span>
-					<span class="date">${searchDto.content_modified_date}</span>
+					<span class="text">${searchMap.searchList[0].content}</span>
+					<span class="date">${searchMap.searchList[0].content_modified_date}</span>
 				</div>
 				<div class="sub-campinfo">
 					<span class="title">
@@ -190,7 +190,7 @@
 							market: "마트.편의점"
 						};
 
-						var camp_main_info = "${searchDto.main_facilities}".split(",");
+						var camp_main_info = "${searchMap.searchList[0].main_facilities}".split(",");
 						var icons = {
 							bolt: "<i class='fa fa-bolt' aria-hidden='true'></i>",
 							wifi: "<i class='fa fa-wifi' aria-hidden='true'></i>",
@@ -241,13 +241,13 @@
 						};
 						
 						var etc = {
-								etc: "${searchDto.etc_facilities}", 
-								bottom: "${searchDto.bottom_type}", 
-								site: "${searchDto.site_size}", 
-								gramping: "${searchDto.gramping_facilities}", 
-								karaban: "${searchDto.karaban_facilities}", 
-								animal: "${searchDto.animal_access}", 
-								torch: "${searchDto.torch}"
+								etc: "${searchMap.searchList[0].etc_facilities}", 
+								bottom: "${searchMap.searchList[0].bottom_type}", 
+								site: "${searchMap.searchList[0].site_size}", 
+								gramping: "${searchMap.searchList[0].gramping_facilities}", 
+								karaban: "${searchMap.searchList[0].karaban_facilities}", 
+								animal: "${searchMap.searchList[0].animal_access}", 
+								torch: "${searchMap.searchList[0].torch}"
 						};
 						
 						for(let prop in etc) {
@@ -292,6 +292,12 @@
 				</div>
 				</c:if>
 				<!--지도-->
+				<c:if test="${readPage  == 3}">
+					<jsp:include page="./map.jsp">
+						<jsp:param name="searchMap" value="${searchMap}"/>
+						<jsp:param name="readPage" value="${readPage}"/>
+					</jsp:include>
+				</c:if>
 			</div>
 		</div>
 	</body>
