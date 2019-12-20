@@ -29,8 +29,19 @@ License URL: http://creativecommons.org/licenses/by/3.0/
     </script>
     <script src="${root}/resources/javascript/modules/jquery-3.4.1.js"></script>
    <script type="text/javascript">
-    	function content_alert(){
+     	function content_alert(){
     		alert
+    	} 
+    	var camp_value(this)=function(select_camp){
+    		var selected_index=select_camp.selectedIndex;
+    		var value=select_camp.options[selected_index].value;
+    		alert(value);
+    	}
+    	<script language="javascript">
+    	function select_camp(){
+    	 i=document.join.mail3.selectedIndex // 선택항목의 인덱스 번호
+    	 var mail=document.join.mail3.options[i].value // 선택항목 value
+    	 document.join.mail2.value=mail
     	}
     </script>  
     
@@ -86,7 +97,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                             <a href="#">캠핑톡 <span class="fa fa-angle-down" aria-hidden="true"></span></a>
                               <input type="checkbox" id="drop-2" />
                             <ul>
-                                <li><a href="${root}/board/campInfo/write.do">캠핑소식</a>
+                                <li><a href="${root}/board/campInfo/list.do">캠핑소식</a>
                                 </li>
                                 <li><a href="gallery.html">캠핑후기</a>
                                 </li>
@@ -145,53 +156,81 @@ License URL: http://creativecommons.org/licenses/by/3.0/
     <section class="about py-lg-5 py-md-5 py-5">
         <div class="container">
             <div class="inner-sec-w3pvt py-lg-5 py-3">
-                <h3 class="tittle text-center mb-lg-5 mb-3 px-lg-5">NEW 캠핑소식</h3>
+                <h3 class="tittle text-center mb-lg-5 mb-3 px-lg-5">캠핑장 리뷰</h3>
              <div class="info_content" >
 				
 				<label>캠핑소식 작성</label>
 			<!--썸머노트 form태그-->
-          <%--   <form class="campInfo_form" action="${root}/board/campInfo/writeOk.do" method="POST" 
-            	onsubmit="returnForm(this)" enctype="multipart/form-data"> --%>
+            <form class="campReview_form" action="${root}/board/campReview/writeOk.do" method="POST" 
+            	enctype="multipart/form-data" onsubmit="returnForm(this)">
+ 	
 			<ul class="">
 				<li>
-					<label>글번호</label>
-					<label>${campInfoDto.info_num}</label>
-				</li>
-				<li>
 					<label >제목(*)</label>
-					<span>${campInfoDto.title}</span>
+					<input name="title"  type="text" maxlength="100"/>
 				</li>
 				<li>
 					<label >작성자(*)</label>
-					<input name="writer" type="text" value="${campInfoDto.writer}" disabled="disabled"/>
+					<input name="user_number" type="text"/>
 				</li>
 
-			 	<li>
-					<label >파일명</label><br/>
-					<c:forEach var="i" items="${campInfoFileList}">
-							<label><a href="${root}/board/campInfo/downLoad.do?info_num=${campInfoDto.info_num}&file_name=${i.file_name}">${i.file_name}</a></label><br/>
-					</c:forEach>
-				
-				</li>  
+				<li>
+					<label >캠핑장 선택</label>
+					<select>
+						  <option value="">시,도</option>
+					</select>
+					<select>
+						  <option value="">시,구,군</option>
+					</select>
+					<select name="camp_id" id="camp_id">
+						  <option value="">캠핑장이름을 선택하세요</option>
+						  <option value="11111">111111</option>
+					</select>
+				</li>
+				<li>
+					<span>대표이미지를 넣어주세요
+							
+							<!-- 	<a href="" onclick="return addFileInput('P','fileTd'); return false;">
+								<img src="/img/2018/board/btn_addfile.png" alt="파일추가">
+							</a>
+							<a href="#ProgBtn" onclick="return addFileInput('M','fileTd'); return false;">
+								<img src="/img/2018/board/btn_delfile.png" alt="파일삭제">
+							</a> -->
+							<input type="file" id="file" name="file" onchange="uploadImg_Change(this.value,'userfile1')" title="첨부파일1"/>
+							</span>
+							<br>
+					
 				<li>
 					<label>내용</label>
-					<span>
-						<c:out value="${campInfoDto.content}" escapeXml="false"></c:out>
-					</span>
-							
-				</li>
-	
+					<textarea name="content" rows="3" id="content"></textarea>
+						<!--썸머노트 한글설정-->
+						<script type="text/javascript" src="${root}/resources/javascript/summernote/summernote-ko-KR.js">
+						</script>
+						
+						<script type="text/javascript">
+						$(document).ready(function() {
+					        $('#content').summernote({
+					        	
+					     		height:600,
+					     		minHeight:null,
+					     		maxHeight:null,
+					     		focus:true,
+					     		lang:'ko-KR'
+					       
+					        });
+					        var code=$('#content').summernote('code');
+					        $(".content").html(code);
+					    });
+					    </script>	
 				<li>
 					<p>
-					<!--로그인한사람만 보여줄 수정,삭제-->
-						<input class="btn" type="submit" value="수정" onclick="location.href='${root}/board/campInfo/update.do?info_num=${campInfoDto.info_num}&pageNumber=${pageNumber}'" />	
-						<input class="btn" type="button"  value="삭제" onclick="location.href='${root}/board/campInfo/delete.do?info_num=${campInfoDto.info_num}'"/>	
+						<input class="btn" type="submit" value="작성"/>	
 						<input class="btn" type="button"  value="목록" onclick="location.href='${root}/board/campInfo/list.do?pageNumber=${pageNumber}'"/>	
 					</p>
 				
 				</li>
 		</ul>
-		<!-- </form>             -->
+		</form>            
 	</div>   
             </div>
         </div>

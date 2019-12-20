@@ -86,7 +86,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                             <a href="#">캠핑톡 <span class="fa fa-angle-down" aria-hidden="true"></span></a>
                               <input type="checkbox" id="drop-2" />
                             <ul>
-                                <li><a href="${root}/board/campInfo/write.do">캠핑소식</a>
+                                <li><a href="${root}/board/campInfo/list.do">캠핑소식</a>
                                 </li>
                                 <li><a href="gallery.html">캠핑후기</a>
                                 </li>
@@ -150,48 +150,63 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 				
 				<label>캠핑소식 작성</label>
 			<!--썸머노트 form태그-->
-          <%--   <form class="campInfo_form" action="${root}/board/campInfo/writeOk.do" method="POST" 
-            	onsubmit="returnForm(this)" enctype="multipart/form-data"> --%>
+            <form class="campInfo_form" action="${root}/board/campInfo/writeOk.do" method="POST" 
+            	onsubmit="returnForm(this)" enctype="multipart/form-data">
+ 	
 			<ul class="">
 				<li>
-					<label>글번호</label>
-					<label>${campInfoDto.info_num}</label>
-				</li>
-				<li>
 					<label >제목(*)</label>
-					<span>${campInfoDto.title}</span>
+					<input name="title"  type="text" maxlength="100"/>
 				</li>
 				<li>
 					<label >작성자(*)</label>
-					<input name="writer" type="text" value="${campInfoDto.writer}" disabled="disabled"/>
+					<input name="writer" type="text"/>
 				</li>
 
-			 	<li>
-					<label >파일명</label><br/>
-					<c:forEach var="i" items="${campInfoFileList}">
-							<label><a href="${root}/board/campInfo/downLoad.do?info_num=${campInfoDto.info_num}&file_name=${i.file_name}">${i.file_name}</a></label><br/>
-					</c:forEach>
-				
-				</li>  
+				<li>
+					<label >파일 첨부</label>
+							<li>
+							<!-- 	<a href="" onclick="return addFileInput('P','fileTd'); return false;">
+								<img src="/img/2018/board/btn_addfile.png" alt="파일추가">
+							</a>
+							<a href="#ProgBtn" onclick="return addFileInput('M','fileTd'); return false;">
+								<img src="/img/2018/board/btn_delfile.png" alt="파일삭제">
+							</a> -->
+							<input multiple="multiple" type="file" id="file" name="file" onchange="uploadImg_Change(this.value,'userfile1')" title="첨부파일1"/>
+							<br>
+						
+							</li> 
 				<li>
 					<label>내용</label>
-					<span>
-						<c:out value="${campInfoDto.content}" escapeXml="false"></c:out>
-					</span>
-							
-				</li>
-	
+					<textarea name="content" rows="3" id="content"></textarea>
+						<!--썸머노트 한글설정-->
+						<script type="text/javascript" src="${root}/resources/javascript/summernote/summernote-ko-KR.js">
+						</script>
+						
+						<script type="text/javascript">
+						$(document).ready(function() {
+					        $('#content').summernote({
+					        	
+					     		height:600,
+					     		minHeight:null,
+					     		maxHeight:null,
+					     		focus:true,
+					     		lang:'ko-KR'
+					       
+					        });
+					        var code=$('#content').summernote('code');
+					        $(".content").html(code);
+					    });
+					    </script>	
 				<li>
 					<p>
-					<!--로그인한사람만 보여줄 수정,삭제-->
-						<input class="btn" type="submit" value="수정" onclick="location.href='${root}/board/campInfo/update.do?info_num=${campInfoDto.info_num}&pageNumber=${pageNumber}'" />	
-						<input class="btn" type="button"  value="삭제" onclick="location.href='${root}/board/campInfo/delete.do?info_num=${campInfoDto.info_num}'"/>	
+						<input class="btn" type="submit" value="작성"/>	
 						<input class="btn" type="button"  value="목록" onclick="location.href='${root}/board/campInfo/list.do?pageNumber=${pageNumber}'"/>	
 					</p>
 				
 				</li>
 		</ul>
-		<!-- </form>             -->
+		</form>            
 	</div>   
             </div>
         </div>

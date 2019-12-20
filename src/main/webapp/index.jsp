@@ -61,7 +61,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 				<!-- nav -->
 				<nav class="py-3">
 					<div id="logo">
-						<%-- <img class="logoImg" src="${root}/resources/css/images/ODTN.png" width="50"> --%>
+						<img class="logoImg" src="${root}/resources/images/ODTN.png" width="50">
 						<h1>
 							<a class="navbar-brand" href="#">ODTN</a>
 						</h1>
@@ -78,7 +78,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 								aria-hidden="true"></span></a> <input type="checkbox" id="drop-2" />
 							<ul>
 								<li><a href="${root}/board/campInfo/list.do">캠핑소식</a></li>
-								<li><a href="gallery.html">캠핑후기</a></li>
+								<li><a href="${root}/board/campReview/list.do">캠핑후기</a></li>
 								<li><a href="features.html">이벤트</a></li>
 								<li><a href="features.html">캠핑노하우</a></li>
 							</ul></li>
@@ -95,8 +95,8 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 							</ul>
 						</li>
 						<li>
-							<!-- First Tier Drop Down --> <label for="drop-2" class="toggle">Drop
-								Down <span class="fa fa-angle-down" aria-hidden="true"></span>
+							<!-- First Tier Drop Down --> 
+							<label for="drop-2" class="toggle">DropDown <span class="fa fa-angle-down" aria-hidden="true"></span>
 						</label> <a href="#">고객센터 <span class="fa fa-angle-down"
 								aria-hidden="true"></span></a> <input type="checkbox" id="drop-2" />
 							<ul>
@@ -105,6 +105,17 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 								<li><a href="features.html">캠핑장정보수정요청</a></li>
 								<li><a href="features.html">미등록야영장신고</a></li>
 								<li><a href="features.html">캠핑장공지사항</a></li>
+							</ul>
+						</li>
+						
+						<li>
+		
+						<a href="#">로그인/회원가입<span class="fa fa-angle-down"
+								aria-hidden="true"></span></a> <input type="checkbox" id="drop-2" />
+							<ul>
+								<li><a href="">로그인</a></li>
+								<li><a href="">회원가입</a></li>
+								
 							</ul>
 						</li>
 

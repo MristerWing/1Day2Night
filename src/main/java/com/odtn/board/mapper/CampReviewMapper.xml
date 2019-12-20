@@ -1,0 +1,65 @@
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+ <mapper namespace="board.mapper.CampReviewMapper">
+ 
+ 	<!--파일이없는 게시글 올리기-->
+ 	<insert id="reviewInsert" parameterType="com.odtn.board.dto.CampReviewDto">
+ 		INSERT INTO CAMP_REVIEW(REVIEW_NUM,
+ 							   USER_NUMBER,
+ 							   CONTENT,
+ 							   WRITE_DATE,
+ 							   READ_COUNT,
+ 							   CAMP_ID,
+ 							   TITLE)
+ 							   VALUES(camp_review_review_num_seq.nextval,
+ 							   #{user_number},
+ 							   #{content},
+ 							   #{write_date},
+ 							   #{read_count},
+ 							   #{camp_id},
+ 							   #{title})
+ 	</insert>
+ 	
+ 	<!--파일 있는 글 올릴때  게시글넘버 최대값 찾기-->
+ 	<select id="setMaxNum" resultType="int">
+ 		SELECT nvl(max(review_num),0)FROM CAMP_REVIEW
+ 	</select>
+ 	
+ 	<!--파일있는 글-->
+ 	<insert id="reviewFileInsert" parameterType="java.util.List">
+ 		<foreach collection="list" item="item" index="index" open="INSERT ALL" separator=" " close=" select * from dual"> 
+ 			INTO CAMP_REVIEW_FILE(
+ 							review_num,
+ 							file_name,
+ 							path,
+ 							file_size)
+ 							values(
+ 							#{item.review_num},
+ 							#{item.file_name},
+ 							#{item.path},
+ 							#{item.file_size}) 		
+ 		</foreach>
+ 	</insert>
+ 	
+ 	<!--글 총개수 구하기 -->
+ 	<select id="getCount" parameterType="com.odtn.board.dto.CampReviewDto"  resultType="int">
+ 		SELECT COUNT(*) FROM CAMP_REVIEW
+ 	</select>
+ 	
+ 	<!--글리스트에 대표이미지가있는지 세어보기-->
+ 	<select id="imgCount" parameterType="com.odtn.board.dto.CampReviewFileDto" resultType="int">
+ 		SELECT COUNT(FILE_NAME) FROM CAMP_REVIEW_FILE where review_num=#{review_num}
+ 	</select>
+ 	<!--글리스트 정렬-->
+ 	<select id="getCampReviewList" parameterType="java.util.Map" resultType="com.odtn.board.dto.CampReviewDto">
+ 		   <![CDATA[
+	        SELECT * FROM
+	         (SELECT ROWNUM AS RNUM, A.* FROM
+	         (SELECT REVIEW_NUM, TITLE, USER_NUMBER, WRITE_DATE,READ_COUNT FROM CAMP_REVIEW ORDER BY REVIEW_NUM DESC)A)
+	         B WHERE RNUM >=#{startRow} AND RNUM <= #{endRow}
+        ]]>
+ 	</select>
+ 	
+ </mapper>

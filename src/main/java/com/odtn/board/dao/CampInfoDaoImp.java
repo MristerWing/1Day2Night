@@ -23,7 +23,8 @@ public class CampInfoDaoImp implements CampInfoDao {
 		int defaultCheck = sqlSessionTemplate.insert("board.mapper.CampInfoMapper.campInfoInsert", campInfoDto);
 		if (defaultCheck > 0 && array.size() > 0) {
 			for (CampInfoFileDto campInfoFileDto : array) {
-				campInfoFileDto.setInfo_num(sqlSessionTemplate.selectOne("board.mapper.CampInfoMapper.campInfoMaxNum"));
+				int maxNum = sqlSessionTemplate.selectOne("board.mapper.CampInfoMapper.campInfoMaxNum");
+				campInfoFileDto.setInfo_num(maxNum);
 			}
 			check = sqlSessionTemplate.insert("board.mapper.CampInfoMapper.campFileInsert", array);
 

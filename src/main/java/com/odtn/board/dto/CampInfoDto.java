@@ -7,17 +7,20 @@ public class CampInfoDto {
 	private int info_num;
 	private String title;
 	private String writer;
+	private int camp_id;
 	private String content;
 	private Date write_date;
 	private int read_count;
 	
 	public CampInfoDto() {}
 
-	public CampInfoDto(int info_num, String title, String writer, String content, Date write_date, int read_count) {
+	public CampInfoDto(int info_num, String title, String writer, int camp_id, String content, Date write_date,
+			int read_count) {
 		super();
 		this.info_num = info_num;
 		this.title = title;
 		this.writer = writer;
+		this.camp_id = camp_id;
 		this.content = content;
 		this.write_date = write_date;
 		this.read_count = read_count;
@@ -47,6 +50,14 @@ public class CampInfoDto {
 		this.writer = writer;
 	}
 
+	public int getCamp_id() {
+		return camp_id;
+	}
+
+	public void setCamp_id(int camp_id) {
+		this.camp_id = camp_id;
+	}
+
 	public String getContent() {
 		return content;
 	}
@@ -73,9 +84,11 @@ public class CampInfoDto {
 
 	@Override
 	public String toString() {
-		return "CampInfoDto [info_num=" + info_num + ", title=" + title + ", writer=" + writer + ", content=" + content
-				+ ", write_date=" + write_date + ", read_count=" + read_count + "]";
+		return "CampInfoDto [info_num=" + info_num + ", title=" + title + ", writer=" + writer + ", camp_id=" + camp_id
+				+ ", content=" + content + ", write_date=" + write_date + ", read_count=" + read_count + "]";
 	}
+
+
 	
 	
 }
