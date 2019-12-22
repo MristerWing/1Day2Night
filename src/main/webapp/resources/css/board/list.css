@@ -41,13 +41,13 @@
 	text-align: right;
 	}
 
-/* #list_table{
+#list_table{
 	
 	display: table; width: 100%;
-} */
-/*사진있는 리스트 css수정 */
+}
+사진있는 리스트 css수정
 
-/* 
+
 .image_content >.col1, .col2, .col3, .col4, .col5,.col6{
 	 display: table-cell; padding: 3px; border-bottom: 1px solid;
 }
@@ -71,4 +71,4 @@
 .col6{
 	width: 10%
 	}
-  */
+ 

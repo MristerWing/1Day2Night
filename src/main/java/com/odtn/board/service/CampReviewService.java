@@ -9,4 +9,12 @@ public interface CampReviewService {
 	public void writeOk(ModelAndView mav);
 	//목록
 	public void list(ModelAndView mav);
+	//읽기
+	public void read(ModelAndView mav);
+	//삭제
+	public void delete(ModelAndView mav);
+	//수정
+	public void update(ModelAndView mav);
+	//수정확인
+	public void updateOk(ModelAndView mav);
 }

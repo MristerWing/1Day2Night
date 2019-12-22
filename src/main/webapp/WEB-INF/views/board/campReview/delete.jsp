@@ -12,14 +12,14 @@
 		<c:if test="${check>0}">
 			<script type="text/javascript">
 			alert("게시물이 삭제되었습니다.");
-			location.href="${root}/board/campInfo/list.do?pageNumber=${pageNumber}";
+			location.href="${root}/board/campReview/list.do?pageNumber=${pageNumber}";
 			</script>
 		</c:if>
 		
 		<c:if test="${check==0}">
 			<script type="text/javascript">
 			alert("게시물삭제에 실패하였습니다.");
-			location.href="${root}/board/campInfo/read.do?info_num=${info_num}&pageNumber=${pageNumber}";
+			location.href="${root}/board/campReview/read.do?review_num=${review_num}&pageNumber=${pageNumber}";
 			</script>
 		</c:if>
 </body>

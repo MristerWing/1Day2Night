@@ -12,7 +12,7 @@
 	<c:if test="${check>0}">
 		<script type="text/javascript">
 			alert("게시물이 작성되었습니다.")
-			location.href="${root}/board/campReview/write.do";
+			location.href="${root}/board/campReview/list.do";
 		</script>
 	</c:if>
 	

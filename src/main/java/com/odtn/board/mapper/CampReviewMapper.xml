@@ -3,6 +3,10 @@
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
  <mapper namespace="board.mapper.CampReviewMapper">
+ 	<!--멤버테이블에서 사용자이름 가져오기-->
+ 	<select id="getUser_name" resultType="String">
+ 		SELECT NAME FROM MEMBER WHERE USER_NUMBER=#{user_number}
+ 	</select>
  
  	<!--파일이없는 게시글 올리기-->
  	<insert id="reviewInsert" parameterType="com.odtn.board.dto.CampReviewDto">
@@ -62,4 +66,53 @@
         ]]>
  	</select>
  	
+ 	<!--글 읽었을떄 조회수 증가-->
+ 	<update id="readCount">
+ 		UPDATE CAMP_REVIEW SET READ_COUNT=READ_COUNT+1
+ 		WHERE REVIEW_NUM =#{review_num}
+ 	</update>
+ 	
+ 	<!--해당글 불러오기-->
+ 	<select id="readContent" parameterType="int" resultType="com.odtn.board.dto.CampReviewDto">
+ 		SELECT * FROM CAMP_REVIEW WHERE REVIEW_NUM=#{review_num}
+ 	</select>
+ 	
+ 	<!--삭제눌렀을때 디폴트로 파일이있는거 지워주기-->
+ 	<delete id="reviewFileDelete" parameterType="int">
+ 		DELETE FROM CAMP_REVIEW_FILE WHERE REVIEW_NUM=#{review_num}
+ 	</delete>
+ 	
+ 	<!--파일이있는거 지우고 content도 지우기 -->
+ 	<delete id="campReviewDelete" parameterType="int">
+ 		DELETE FROM CAMP_REVIEW WHERE REVIEW_NUM=#{review_num}
+ 	</delete>
+ 	
+ 	<!--수정눌렀을때 이미지 존재하면 뷰에 띄어주기위해서 가져오기-->
+ 	<select id="getFileName" resultType="String">
+ 		SELECT FILE_NAME FROM CAMP_REVIEW_FILE WHERE REVIEW_NUM=#{review_num}
+ 	</select>
+ 	
+ 	<!--수정시 파일을 새로 업로드하면 기존파일지워주기 -->
+ 	<delete id="fileDelete" parameterType="int">
+ 		DELETE FROM CAMP_REVIEW_FILE WHERE REVIEW_NUM=#{review_num}
+ 	</delete>
+ 	
+ 	<!--파일이 없는글 수정하기-->
+ 	<update id="campReviewUpdateOk" parameterType="com.odtn.board.dto.CampReviewDto">
+ 		UPDATE CAMP_REVIEW SET TITLE=#{title},CONTENT=#{content} WHERE REVIEW_NUM=#{review_num}
+ 	</update>
+ 	
+ 	<!--파일다시넣기-->
+ 	<insert id="campReviewFileInsert" parameterType="com.odtn.board.dto.CampReviewFileDto">
+ 		INSERT INTO CAMP_REVIEW_FILE(
+									  review_num,
+									  file_name,
+									  path,
+							 		  file_size)
+									  values
+									  (#{review_num},
+							  		  #{file_name},
+							  		  #{path},
+							  		  #{file_size})
+ 	</insert>
  </mapper>

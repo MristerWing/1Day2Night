@@ -38,13 +38,46 @@ public class CampReviewController {
 		campReviewService.writeOk(mav);
 		return mav;
 	}
+	//리뷰 목록 확인
 	@RequestMapping (value = "board/campReview/list.do", method = RequestMethod.GET)
 	public ModelAndView list(HttpServletRequest request, HttpServletResponse response,
-							 CampReviewDto campReviewDto, CampReviewFileDto campReviewFileDto) {
+							 CampReviewDto campReviewDto ) {
 			ModelAndView mav=new ModelAndView();
 			mav.addObject("request",request);
 			campReviewService.list(mav);
 			return mav;
 	}
-	
+	//글 읽기
+	@RequestMapping(value = "board/campReview/read.do",method = RequestMethod.GET  )
+	public ModelAndView read(HttpServletRequest request, HttpServletResponse response) {
+		ModelAndView mav=new ModelAndView();
+		mav.addObject("request",request);
+		campReviewService.read(mav);
+		return mav;
+	}
+	//글삭제
+	@RequestMapping(value="board/campReview/delete.do",method=RequestMethod.GET)
+	public ModelAndView delete(HttpServletRequest request,HttpServletResponse response) {
+		ModelAndView mav=new ModelAndView();
+		mav.addObject("request",request);
+		campReviewService.delete(mav);
+		return mav;
+	}
+	//글 수정
+	@RequestMapping(value="board/campReview/update.do",method=RequestMethod.GET)
+	public ModelAndView update(HttpServletRequest request, HttpServletResponse response) {
+		ModelAndView mav=new ModelAndView();
+		mav.addObject("request",request);
+		campReviewService.update(mav);
+		return mav;
+	}
+	// 글 수정 확인
+	@RequestMapping(value="board/campReview/updateOk.do",method=RequestMethod.POST)
+	public ModelAndView updateOk(HttpServletRequest request, HttpServletResponse response,
+								 CampReviewDto campReviewDto, CampReviewFileDto campReviewFileDto) {
+		ModelAndView mav=new ModelAndView();
+		mav.addObject("request",request);
+		campReviewService.updateOk(mav);
+		return mav;
+	}
 }

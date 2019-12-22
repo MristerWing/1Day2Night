@@ -52,7 +52,7 @@ public class CampInfoDaoImp implements CampInfoDao {
 	public CampInfoDto read(int info_num) {
 
 		// 조회수 증가
-		int check = sqlSessionTemplate.update("board.mapper.CampInfoMapper.readCount", info_num);
+		sqlSessionTemplate.update("board.mapper.CampInfoMapper.readCount", info_num);
 		// 글 읽기로 들어가기.
 		return sqlSessionTemplate.selectOne("board.mapper.CampInfoMapper.readContent", info_num);
 
@@ -87,7 +87,7 @@ public class CampInfoDaoImp implements CampInfoDao {
 
 		return sqlSessionTemplate.selectOne("board.mapper.CampInfoMapper.fileSelect", info_num);
 	}
-
+	//글삭제 눌렀을때 실행되는 메소드
 	@Override
 	public int delete(int info_num) {
 		int check = 0;

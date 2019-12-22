@@ -146,32 +146,35 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 
         <div class="container">
             <div class="inner-sec-w3pvt py-lg-5 py-3">
-                <h3 class="tittle text-center mb-lg-5 mb-3 px-lg-5">NEW 캠핑소식</h3>
+                <h3 class="tittle text-center mb-lg-5 mb-3 px-lg-5">캠핑장 리뷰</h3>
              <div class="info_content" >
 				
 				<label>캠핑소식 작성</label>
 			<!--썸머노트 form태그-->
-            <form class="campInfo_form" action="${root}/board/campInfo/updateOk.do" method="POST" 
+            <form class="campInfo_form" action="${root}/board/campReview/updateOk.do" method="POST" 
             	onsubmit="returnForm(this)" enctype="multipart/form-data">
             <!--사용자한테 안보이는값-->
  				<input type="hidden" name="pageNumber" value="${pageNumber}"/>
 			<ul class="">
 				<li>
-					<input name="info_num" type="hidden" value="${campInfoDto.info_num}">
+					<input name="review_num" type="hidden" value="${campReviewDto.review_num}">
 				</li>
 				<li>
 					<label >제목(*)</label>
-					<input name="title"  type="text" maxlength="100" value="${campInfoDto.writer}" onfocus="this.value=''">
+					<input name="title"  type="text" maxlength="100" value="${campReviewDto.title}" onfocus="this.value=''">
 				</li>
 				<li>
 					<label >작성자(*)</label>
-					<input name="writer" type="hidden" value="${campInfoDto.writer}"/>
-					<input name="writerview" type="text" value="${campInfoDto.writer}" disabled="disabled"/>
+					<input name="writer" type="hidden" value="${campReviewDto.user_number}"/>
+					<input name="writerview" type="text" value="${campReviewDto.user_number}" disabled="disabled"/>
 				</li>
 
 				<li>
-					<label >파일 첨부</label>
+					<label>첨부된 이미지</label>
+					<span> ${file_name}</span>
+					<br>
 							<li>
+							<label>파일 첨부</label>
 							<!-- 	<a href="" onclick="return addFileInput('P','fileTd'); return false;">
 								<img src="/img/2018/board/btn_addfile.png" alt="파일추가">
 							</a>
@@ -201,7 +204,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 					       
 					        });
 					       
-					        $('#content').summernote('code','${campInfoDto.content}')
+					        $('#content').summernote('code','${campReviewDto.content}')
 					        
 					        var code=$('#content').summernote('code');
 					        $(".content").html(code);
@@ -212,7 +215,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 				<li>
 					<p>
 						<input class="btn" type="submit" value="작성"/>	
-						<input class="btn" type="button"  value="목록" onclick="location.href='${root}/board/campInfo/list.do?pageNumber=${pageNumber}'"/>	
+						<input class="btn" type="button"  value="목록" onclick="location.href='${root}/board/campReview/list.do?pageNumber=${pageNumber}'"/>	
 					</p>
 				
 				</li>
@@ -262,7 +265,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                         <div class="footer-text">
                             <p>By subscribing to our mailing list you will always get latest news and updates from us.</p>
                             <form action="#" method="post">
-                                <input type="email" name="Email" placeholder="Enter your email..." required="">
+                                <input type="email" name="Email" placeholder="Enter your email..." >
                                 <button class="btn1"><span class="fa fa-paper-plane-o" aria-hidden="true"></span></button>
                                 <div class="clearfix"> </div>
                             </form>

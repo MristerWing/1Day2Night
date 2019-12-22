@@ -16,6 +16,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.odtn.aop.LogAspect;
 import com.odtn.board.dao.CampReviewDao;
+import com.odtn.board.dto.CampInfoDto;
+import com.odtn.board.dto.CampInfoFileDto;
 import com.odtn.board.dto.CampReviewDto;
 import com.odtn.board.dto.CampReviewFileDto;
 
@@ -45,7 +47,8 @@ public class CampReviewServiceImp implements CampReviewService{
 		MultipartHttpServletRequest request=(MultipartHttpServletRequest)map.get("request");
 		int user_number=Integer.parseInt(request.getParameter("user_number"));
 		LogAspect.logger.info(LogAspect.logMsg+"설정된 멤버넘버: "+user_number);
-		
+		String writer=campReviewDao.getUser_name(user_number);
+		LogAspect.logger.info(LogAspect.logMsg+"멤버이름 찾은값: "+writer);
 
 		int camp_id=Integer.parseInt(request.getParameter("camp_id"));
 		LogAspect.logger.info(LogAspect.logMsg+"캠핑장: "+camp_id);
@@ -90,10 +93,11 @@ public class CampReviewServiceImp implements CampReviewService{
 		mav.setViewName("board/campReview/writeOk");
 	}
 	@Override
+	//리뷰 목록
 	public void list(ModelAndView mav) {
 		
-		  Map<String,Object> map=mav.getModel(); HttpServletRequest
-		  request=(HttpServletRequest)map.get("request");
+		  Map<String,Object> map=mav.getModel(); 
+		  HttpServletRequest request=(HttpServletRequest)map.get("request");
 		  
 		  String pageNumber=request.getParameter("pageNumber"); 
 		  if(pageNumber==null ||pageNumber=="") pageNumber="1";
@@ -134,4 +138,127 @@ public class CampReviewServiceImp implements CampReviewService{
 		 request.setAttribute("campReviewList",campReviewList);
 		 mav.setViewName("board/campReview/list");
 	}
+	//글읽기
+	@Override
+	public void read(ModelAndView mav) {
+		Map<String, Object> map = mav.getModelMap();
+		HttpServletRequest request = (HttpServletRequest) map.get("request");
+		
+		
+		  int review_num = Integer.parseInt(request.getParameter("review_num"));
+		  LogAspect.logger.info(LogAspect.logMsg + "글번호: " + review_num);
+		  
+		  int pageNumber = Integer.parseInt(request.getParameter("pageNumber"));
+		  LogAspect.logger.info(LogAspect.logMsg + "페이지: " + pageNumber);
+		  
+		  CampReviewDto campReviewDto = campReviewDao.read(review_num);
+		  LogAspect.logger.info(LogAspect.logMsg + "불러온 글: " +
+		  campReviewDto.toString());
+		  
+		  mav.addObject("campReviewDto",campReviewDto);
+		  mav.addObject("pageNumber",pageNumber);
+		  mav.setViewName("board/campReview/read");
+		 
+	}
+	//글 삭제 
+	@Override
+	public void delete(ModelAndView mav) {
+		Map<String, Object> map = mav.getModelMap();
+		HttpServletRequest request = (HttpServletRequest) map.get("request");
+		int review_num = Integer.parseInt(request.getParameter("review_num"));
+		LogAspect.logger.info(LogAspect.logMsg + "게시글 번호: " + review_num);
+
+		// 파일을 서버에서 지워주기.
+		/* CampInfoFileDto campInfoFileDto = campInfoDao.slectFile(info_num); */
+		CampReviewFileDto campReviewFileDto = new CampReviewFileDto();
+		int check = campReviewDao.delete(review_num);
+
+		if (check > 0 && campReviewFileDto.getFile_name() != null) {
+			File file = new File(campReviewFileDto.getPath());
+			if (file.exists() && file.isFile())
+				file.delete();
+		}
+		LogAspect.logger.info(LogAspect.logMsg + "삭제check: " + check);
+
+		mav.addObject("check", check);
+		mav.setViewName("board/campReview/delete");	
+	}
+
+	@Override
+	public void update(ModelAndView mav) {
+		Map<String,Object> map=mav.getModelMap();
+		HttpServletRequest request=(HttpServletRequest)map.get("request");
+		
+		int review_num = Integer.parseInt(request.getParameter("review_num"));
+		LogAspect.logger.info(LogAspect.logMsg + "수정할글 번호:  " + review_num);
+		// 페이지번호
+		int pageNumber = Integer.parseInt(request.getParameter("pageNumber"));
+		LogAspect.logger.info(LogAspect.logMsg + "수정할 글의 페이지번호:  " + pageNumber);
+
+		CampReviewDto campReviewDto =campReviewDao.read(review_num);
+		LogAspect.logger.info(LogAspect.logMsg + "수정할 글 내용:  " + campReviewDto.toString());
+
+		// 파일이있는지여부확인
+		CampReviewFileDto campReviewFileDto=null;
+		int check=campReviewDao.imgCount(review_num);
+		LogAspect.logger.info(LogAspect.logMsg + "대표이미지 있는지: " + check);
+		if (check > 0) {
+			String file_name=campReviewDao.getFileName(review_num);
+			LogAspect.logger.info(LogAspect.logMsg + "이미지 이름: " + file_name);
+			mav.addObject("file_name", file_name);
+		}
+		mav.addObject("campReviewDto", campReviewDto);
+		mav.addObject("pageNumber", pageNumber);
+		mav.setViewName("board/campReview/update");
+	}
+	//수정확인
+	@Override
+	public void updateOk(ModelAndView mav) {
+		Map<String, Object> map = mav.getModelMap();
+
+		CampReviewDto campReviewDto = (CampReviewDto) map.get("campReviewDto");
+
+		MultipartHttpServletRequest request = (MultipartHttpServletRequest) map.get("request");
+
+		int review_num = Integer.parseInt(request.getParameter("review_num"));
+		LogAspect.logger.info(LogAspect.logMsg + "수정 게시판번호: " + review_num);
+		// 파일처리
+		CampReviewFileDto campReviewFileDto=new CampReviewFileDto();
+		MultipartFile mf = request.getFile("file");
+		long file_size = mf.getSize();
+		LogAspect.logger.info(LogAspect.logMsg+"파일크기"+file_size);
+		// 시간으로 파일이름 정하기
+		if (file_size != 0) {
+			int check = campReviewDao.fileDelete(review_num);
+			LogAspect.logger.info(LogAspect.logMsg + "파일삭제값 : " + check);
+			if (check>0) {
+				String file_name = Long.toString(System.currentTimeMillis()) + "_" + mf.getOriginalFilename();
+				if(file_name==null || file_name.equals(""));
+				// 파일경로설정
+				File path = new File("C:\\campingFile\\");
+				path.mkdir();
+				LogAspect.logger.info(LogAspect.logMsg+"수정할 파일명: "+file_name);
+				// 경로가있고 파일이 살아있으면
+				if (path.exists() && path.isDirectory()) {
+					File file = new File(path, file_name);
+					try {
+						mf.transferTo(file);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+					campReviewFileDto.setReview_num(review_num);
+					campReviewFileDto.setFile_name(file_name);
+					campReviewFileDto.setFile_size(file_size);
+					campReviewFileDto.setPath(file.getAbsolutePath());
+				}
+			}
+	}
+		// 자료저장확인용 check
+		int updateCheck = campReviewDao.updateOk(campReviewDto, campReviewFileDto);
+		LogAspect.logger.info(LogAspect.logMsg + "campReviewDto값: " + campReviewDto.toString());
+		LogAspect.logger.info(LogAspect.logMsg + "check값: " + updateCheck);
+		
+		mav.addObject("check", updateCheck);
+		mav.setViewName("board/campReview/updateOk");	
+}
 }

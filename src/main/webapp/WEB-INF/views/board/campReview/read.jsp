@@ -86,9 +86,9 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                             <a href="#">캠핑톡 <span class="fa fa-angle-down" aria-hidden="true"></span></a>
                               <input type="checkbox" id="drop-2" />
                             <ul>
-                                <li><a href="${root}/board/campInfo/write.do">캠핑소식</a>
+                                <li><a href="${root}/board/campInfo/list.do">캠핑소식</a>
                                 </li>
-                                <li><a href="gallery.html">캠핑후기</a>
+                                <li><a href="${root}/board/campReview/list.do">캠핑후기</a>
                                 </li>
                                 <li><a href="features.html">이벤트</a>
                                 </li>
@@ -155,28 +155,21 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 			<ul class="">
 				<li>
 					<label>글번호</label>
-					<label>${campInfoDto.info_num}</label>
+					<label>${campReviewDto.review_num}</label>
 				</li>
 				<li>
 					<label >제목(*)</label>
-					<span>${campInfoDto.title}</span>
+					<span>${campReviewDto.title}</span>
 				</li>
 				<li>
 					<label >작성자(*)</label>
-					<input name="writer" type="text" value="${campInfoDto.writer}" disabled="disabled"/>
+					<span>${campReviewDto.user_number}</span>
 				</li>
-
-			 	<li>
-					<label >파일명</label><br/>
-					<c:forEach var="i" items="${campInfoFileList}">
-							<label><a href="${root}/board/campInfo/downLoad.do?info_num=${campInfoDto.info_num}&file_name=${i.file_name}">${i.file_name}</a></label><br/>
-					</c:forEach>
-				
-				</li>  
+  
 				<li>
 					<label>내용</label>
 					<span>
-						<c:out value="${campInfoDto.content}" escapeXml="false"></c:out>
+						<c:out value="${campReviewDto.content}" escapeXml="false"></c:out>
 					</span>
 							
 				</li>
@@ -184,9 +177,9 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 				<li>
 					<p>
 					<!--로그인한사람만 보여줄 수정,삭제-->
-						<input class="btn" type="submit" value="수정" onclick="location.href='${root}/board/campInfo/update.do?info_num=${campInfoDto.info_num}&pageNumber=${pageNumber}'" />	
-						<input class="btn" type="button"  value="삭제" onclick="location.href='${root}/board/campInfo/delete.do?info_num=${campInfoDto.info_num}'"/>	
-						<input class="btn" type="button"  value="목록" onclick="location.href='${root}/board/campInfo/list.do?pageNumber=${pageNumber}'"/>	
+						<input class="btn" type="submit" value="수정" onclick="location.href='${root}/board/campReview/update.do?review_num=${campReviewDto.review_num}&pageNumber=${pageNumber}'" />	
+						<input class="btn" type="button"  value="삭제" onclick="location.href='${root}/board/campReview/delete.do?review_num=${campReviewDto.review_num}'"/>	
+						<input class="btn" type="button"  value="목록" onclick="location.href='${root}/board/campReview/list.do?pageNumber=${pageNumber}'"/>	
 					</p>
 				
 				</li>

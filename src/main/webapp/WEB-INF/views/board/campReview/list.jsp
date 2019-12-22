@@ -180,7 +180,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 					<div class="image_content">
 							<span class="col1"></span>
 							<span class="col2">${campReviewDto.review_num}</span>
-							<span class="col3"><a href="${root}/board/campReview/read.do?info_num=${campReviewDto.review_num}&pageNumber=${currentPage}">${campReviewDto.title}</a></span>
+							<span class="col3"><a href="${root}/board/campReview/read.do?review_num=${campReviewDto.review_num}&pageNumber=${currentPage}">${campReviewDto.title}</a></span>
 							<span class="col4">${campReviewDto.user_number}</span>
 							<span class="col5">
 							<fmt:formatDate value="${campReviewDto.write_date}" pattern="yyyy-MM-dd"/>
@@ -190,7 +190,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 					</c:forEach>
 				 </c:if> 
 					<div class="list_buttom">
-						<input type="button" value="글쓰기" onclick="location.href='${root}/board/campInfo/write.do'">
+						<input type="button" value="글쓰기" onclick="location.href='${root}/board/campReview/write.do'">
 					</div>	
 					<div align="center">
 				 <c:if test="${count>0}">
