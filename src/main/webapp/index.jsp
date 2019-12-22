@@ -67,9 +67,37 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 						</h1>
 					</div>
 
+<!-- 회원가입, 로그인 뜨지 않는 경우 ${sessionScope.email} 처럼 변수마다 앞에 sessionScope. 붙여봐야 할 거에요 -->
 					<label for="drop" class="toggle">Menu</label> <input
 						type="checkbox" id="drop" />
 					<ul class="menu mt-2">
+					<c:if test="${user_num==null}">
+						<c:if test="${user_auth_id==null}">
+							<c:if test="${email == null}">
+								<li><a href="${root}/member/beforeRegister.do">
+								회원가입</a></li>
+							</c:if>
+						<li><a href="${root}/member/login.do">로그인</a></li>
+						</c:if>
+					</c:if>
+						<c:if test="${user_num != null}">
+							<c:if test="${user_auth_id == null}">
+								<c:if test="${register_type == null}">
+									<li><a href="${root}/member/logout.do">로그아웃</a></li>
+									<c:if test="${email == 'egeoda@protonmail.com'}">
+										&nbsp;&nbsp;<a href="${root}/member/adminPage.do">관리자 페이지</a>
+									</c:if>	
+									<c:if test="${email=='chanhok95@naver.com'}">
+										&nbsp;&nbsp;<a href="${root}/member/adminPage.do">관리자 페이지</a>
+									</c:if>
+								</c:if>
+							</c:if>
+							<c:if test="${user_auth_id != null}">
+								<c:if test="${register_type != null}">
+									<li><a href="${root}/member/kakaoLogout.do">카카오 로그아웃</a></li>
+								</c:if>
+							</c:if>
+						</c:if>
 						<li class="active"><a href="${root}/search/list.do">캠핑장검색</a></li>
 						<!-- First Tier Drop Down -->
 						<li><label for="drop-2" class="toggle">Drop Down <span
@@ -707,3 +735,4 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 	<!-- //copyright -->
 </body>
 </html>
+>>>>>>> master
