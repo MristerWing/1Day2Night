@@ -87,6 +87,11 @@
  		DELETE FROM CAMP_REVIEW WHERE REVIEW_NUM=#{review_num}
  	</delete>
  	
+ 	<!--수정눌러서 해당글 불러오기-->
+ 	<select id="campReviewUpdate" parameterType="int" resultType="com.odtn.board.dto.CampReviewDto">
+ 		SELECT * FROM CAMP_REVIEW WHERE REVIEW_NUM=#{review_num}
+ 	</select>
+ 	
  	<!--수정눌렀을때 이미지 존재하면 뷰에 띄어주기위해서 가져오기-->
  	<select id="getFileName" resultType="String">
  		SELECT FILE_NAME FROM CAMP_REVIEW_FILE WHERE REVIEW_NUM=#{review_num}

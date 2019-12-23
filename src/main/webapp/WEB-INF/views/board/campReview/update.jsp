@@ -154,7 +154,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
             <form class="campInfo_form" action="${root}/board/campReview/updateOk.do" method="POST" 
             	onsubmit="returnForm(this)" enctype="multipart/form-data">
             <!--사용자한테 안보이는값-->
- 				<input type="hidden" name="pageNumber" value="${pageNumber}"/>
+ 			 	<input type="hidden" name="pageNumber" value="${pageNumber}"/>
 			<ul class="">
 				<li>
 					<input name="review_num" type="hidden" value="${campReviewDto.review_num}">

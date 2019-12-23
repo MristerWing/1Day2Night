@@ -144,7 +144,6 @@ public class CampReviewServiceImp implements CampReviewService{
 		Map<String, Object> map = mav.getModelMap();
 		HttpServletRequest request = (HttpServletRequest) map.get("request");
 		
-		
 		  int review_num = Integer.parseInt(request.getParameter("review_num"));
 		  LogAspect.logger.info(LogAspect.logMsg + "글번호: " + review_num);
 		  
@@ -195,7 +194,7 @@ public class CampReviewServiceImp implements CampReviewService{
 		int pageNumber = Integer.parseInt(request.getParameter("pageNumber"));
 		LogAspect.logger.info(LogAspect.logMsg + "수정할 글의 페이지번호:  " + pageNumber);
 
-		CampReviewDto campReviewDto =campReviewDao.read(review_num);
+		CampReviewDto campReviewDto =campReviewDao.update(review_num);
 		LogAspect.logger.info(LogAspect.logMsg + "수정할 글 내용:  " + campReviewDto.toString());
 
 		// 파일이있는지여부확인
@@ -217,7 +216,7 @@ public class CampReviewServiceImp implements CampReviewService{
 		Map<String, Object> map = mav.getModelMap();
 
 		CampReviewDto campReviewDto = (CampReviewDto) map.get("campReviewDto");
-
+		LogAspect.logger.info(LogAspect.logMsg + "campReviewDto 수정: " + campReviewDto.toString());
 		MultipartHttpServletRequest request = (MultipartHttpServletRequest) map.get("request");
 
 		int review_num = Integer.parseInt(request.getParameter("review_num"));

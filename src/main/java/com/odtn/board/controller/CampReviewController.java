@@ -77,6 +77,8 @@ public class CampReviewController {
 								 CampReviewDto campReviewDto, CampReviewFileDto campReviewFileDto) {
 		ModelAndView mav=new ModelAndView();
 		mav.addObject("request",request);
+		mav.addObject("campReviewDto",campReviewDto);
+		mav.addObject("campReviewFileDto",campReviewFileDto);
 		campReviewService.updateOk(mav);
 		return mav;
 	}

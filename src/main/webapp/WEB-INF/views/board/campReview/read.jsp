@@ -29,9 +29,17 @@ License URL: http://creativecommons.org/licenses/by/3.0/
     </script>
     <script src="${root}/resources/javascript/modules/jquery-3.4.1.js"></script>
    <script type="text/javascript">
-    	function content_alert(){
-    		alert
+    	function writeCmt(){
+    		var form=document.getElementById("reviewCommentForm");
+    		var review_num=form.review_num.value;
+    		var review_comment=form.review_comment.value;
+    		
+    		if(review_comment==null){
+    			alert("댓글을 입력하세요");
+    			return false;
+    		}
     	}
+ 
     </script>  
     
     <!--summerNote-->
@@ -147,12 +155,14 @@ License URL: http://creativecommons.org/licenses/by/3.0/
             <div class="inner-sec-w3pvt py-lg-5 py-3">
                 <h3 class="tittle text-center mb-lg-5 mb-3 px-lg-5">NEW 캠핑소식</h3>
              <div class="info_content" >
-				
+				<!--본문 -->
+				<!--댓글작성 form-->
+		<form id="reviewCommentForm">
+			<input type="hidden" name="review_num" value="${campReviewDto.review_num}">
+			<!--세션스콥받아오는 작업해주고 고치기-->
+<%-- 			<input type="hidden" name="user_num" value="${sessionScope.sessionID}">--%>			
 				<label>캠핑소식 작성</label>
-			<!--썸머노트 form태그-->
-          <%--   <form class="campInfo_form" action="${root}/board/campInfo/writeOk.do" method="POST" 
-            	onsubmit="returnForm(this)" enctype="multipart/form-data"> --%>
-			<ul class="">
+				<ul class="">
 				<li>
 					<label>글번호</label>
 					<label>${campReviewDto.review_num}</label>
@@ -170,21 +180,30 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 					<label>내용</label>
 					<span>
 						<c:out value="${campReviewDto.content}" escapeXml="false"></c:out>
-					</span>
-							
+					</span>			
 				</li>
-	
+				<!--로그인 했을경우에만 댓글 작성기능 나오게하기-->
+				<%-- <c:if test="${sessionScope.sessionId!=null}"> --%>
+				<%-- 	<!--댓글-->
+					<li>
+					<span>${campReviewDto.user_num}</span>
+					<textarea name="review_comment"rows="4" cols="70"></textarea>
+					<div id="review_btn" style="text-align: center;">
+						<p><a href="" onclick="writeCmt()"></a>[댓글등록]</p>
+					</div>
+					</li> --%>
+				<%-- </c:if> --%>
 				<li>
 					<p>
 					<!--로그인한사람만 보여줄 수정,삭제-->
-						<input class="btn" type="submit" value="수정" onclick="location.href='${root}/board/campReview/update.do?review_num=${campReviewDto.review_num}&pageNumber=${pageNumber}'" />	
+						<input class="btn" type="button" value="수정" onclick="location.href='${root}/board/campReview/update.do?review_num=${campReviewDto.review_num}&pageNumber=${pageNumber}'" />	
 						<input class="btn" type="button"  value="삭제" onclick="location.href='${root}/board/campReview/delete.do?review_num=${campReviewDto.review_num}'"/>	
 						<input class="btn" type="button"  value="목록" onclick="location.href='${root}/board/campReview/list.do?pageNumber=${pageNumber}'"/>	
 					</p>
 				
 				</li>
-		</ul>
-		<!-- </form>             -->
+			</ul>
+		</form>
 	</div>   
             </div>
         </div>
@@ -228,7 +247,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                         <div class="footer-text">
                             <p>By subscribing to our mailing list you will always get latest news and updates from us.</p>
                             <form action="#" method="post">
-                                <input type="email" name="Email" placeholder="Enter your email..." required="">
+                                <input type="email" name="Email" placeholder="Enter your email..." >
                                 <button class="btn1"><span class="fa fa-paper-plane-o" aria-hidden="true"></span></button>
                                 <div class="clearfix"> </div>
                             </form>

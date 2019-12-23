@@ -19,7 +19,8 @@ public interface CampReviewDao {
 	public CampReviewDto read(int review_num);
 	//글삭제
 	public int delete(int review_num);
-	//글 수정=>read같이씀.
+	//글 수정
+	public CampReviewDto update(int review_num);
 	//수정작성 시 때 대표이미지 불러오기
 	public String getFileName(int review_num);
 	//수정했을때 새로입력한 이미지에 이름이있다면 기존파일 삭제

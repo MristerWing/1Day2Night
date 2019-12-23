@@ -82,7 +82,12 @@ public class CampReviewDaoImp implements CampReviewDao {
     	}
     	return check;
     }
-    //글 수정=> 글읽기메소드 같이씀
+    //글 수정
+    @Override
+    public CampReviewDto update(int review_num) {
+    	
+    	return sqlSessionTemplate.selectOne("board.mapper.CampReviewMapper.campReviewUpdate",review_num);
+    }
     //수정시 이미지 있으면 이미지 불러오기
     @Override
     public String getFileName(int review_num) {
