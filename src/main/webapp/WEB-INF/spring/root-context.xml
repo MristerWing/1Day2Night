@@ -1,20 +1,23 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:tx="http://www.springframework.org/schema/tx"
-	xmlns:aop="http://www.springframework.org/schema/aop"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
+<?xml version="1.0" encoding="UTF-8" ?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:tx="http://www.springframework.org/schema/tx" xmlns:aop="http://www.springframework.org/schema/aop" xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.1.xsd
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.1.xsd">
 
 	<!-- Oracle JDBC 6 DB Pool -->
+	<!-- 20191211 18:33 conn.close()를 안한 탓에 org.springframework.transaction.CannotCreateTransactionException: Could not open JDBC Connection for transaction; nested exception is org.apache.commons.dbcp.SQLNestedException: Cannot create PoolableConnectionFactory (IO 오류: The Network Adapter could not establish the connection)
+	에러로 인해 풀 사이즈를 10씩 늘려봤습니다. 
+	남아있을때 구동이 안돼서 아이피를 제거로 바꿔놨습니다-->
 	<bean id="dataSource"
 		class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
 		<property name="driverClassName"
 			value="oracle.jdbc.driver.OracleDriver"></property>
 		<property name="url"
+<<<<<<< HEAD
 			value="jdbc:oracle:thin:@192.168.14.50
 			:1521:xe"></property>
+=======
+			value="jdbc:oracle:thin:@localhost:1521:xe"></property>
+>>>>>>> origin/admin
 		<property name="username" value="odtn"></property>
 		<property name="password" value="1234"></property>
 		<property name="maxActive" value="30"></property>
@@ -24,34 +27,33 @@
 
 	<!-- MyBatis -->
 	<!-- DefaultSqlSessionFactoryBean -->
-	<bean id="sqlSessionFactory"
-		class="org.mybatis.spring.SqlSessionFactoryBean">
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="dataSource">
 			<ref bean="dataSource" />
 		</property>
+<<<<<<< HEAD
 		<property name="mapperLocations" value="classpath:com/odtn/**/*Mapper.xml">
 		</property>
+=======
+		<property name="mapperLocations" value="classpath:com/odtn/**/*.xml"></property>
+>>>>>>> origin/admin
 	</bean>
 
 	<!-- Convert DefaultSqlSessionFactoryBean to SqlSessionTemplate -->
-	<bean id="sqlSessionTemplate"
-		class="org.mybatis.spring.SqlSessionTemplate">
+	<bean id="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate">
 		<constructor-arg>
 			<ref bean="sqlSessionFactory" />
 		</constructor-arg>
 	</bean>
 
 	<!-- Transaction -->
-	<bean id="transactionManager"
-		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
 		<property name="dataSource" ref="dataSource"></property>
 	</bean>
 
-	<tx:advice id="txAdvice"
-		transaction-manager="transactionManager">
+	<tx:advice id="txAdvice" transaction-manager="transactionManager">
 		<tx:attributes>
-			<tx:method name="*" propagation="REQUIRED"
-				rollback-for="
+			<tx:method name="*" propagation="REQUIRED" rollback-for="
 				Exception"></tx:method>
 		</tx:attributes>
 	</tx:advice>
@@ -60,5 +62,22 @@
 		<aop:pointcut expression="within(com.odtn..*)" id="pT" />
 		<aop:advisor advice-ref="txAdvice" pointcut-ref="pT" />
 	</aop:config>
+	
+	
+	<!--  이메일 인증을 위해서 추가한 부분입니다. -->
+	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+		<property name="host" value="smtp.gmail.com"/>
+		<property name="port" value="587"/>
+		<property name="username" value="egeodaa@gmail.com"/>
+		<property name="password" value="1Q2w3e4r1q2w3e4r"/>
+		<property name="javaMailProperties">
+			<props>
+				<prop key="mail.transport.protocol">smtp</prop>
+				<prop key="mail.smtp.auth">true</prop>
+				<prop key="mail.smtp.starttls.enable">true</prop>
+				<prop key="mail.debug">true</prop>
+			</props>
+		</property>
+	</bean>
 
 </beans>
