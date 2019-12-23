@@ -32,7 +32,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import com.odtn.member.service.TempKey;
-import com.sun.tools.javac.util.Log;
+
 
 /**
  * @author kkh
@@ -279,20 +279,22 @@ public class MemberServiceImp implements MemberService {
 		MemberDto memberDto = (MemberDto)map.get("memberDto");
 		MultipartHttpServletRequest request = (MultipartHttpServletRequest)map.get("request");
 		
+		LogAspect.logger.info(LogAspect.logMsg+"req: "+request);
 		LogAspect.logger.info(LogAspect.logMsg+"MSI.mUO.dto: "+memberDto.toString());
 		
 		memberDto.setUser_num((Integer)session.getAttribute("user_num"));
 		
+		LogAspect.logger.info(LogAspect.logMsg+"MSI.mUO.req.getFile.pImg: "+request.getFile("profile_image").toString());
 		MultipartFile upFile = request.getFile("profile_image");
-		Long fileSize = upFile.getSize();
+		Long file_size = upFile.getSize();
 		
-		if(fileSize != 0) {//이미 파일 존재
-			String fileName = Long.toString(System.currentTimeMillis())+"_"+upFile.getOriginalFilename();
+		if(file_size != 0) {//이미 파일 존재
+			String file_name = Long.toString(System.currentTimeMillis())+"_"+upFile.getOriginalFilename();
 			File path = new File("C:\\ftp\\profile_image\\");
 			path.mkdir();
 			
 			if(path.exists() && path.isDirectory()){//경로가 있고 파일이 있으면
-				File file = new File(path, fileName);
+				File file = new File(path, file_name);
 				try {
 					upFile.transferTo(file);
 				} catch(IOException e) {
@@ -301,7 +303,7 @@ public class MemberServiceImp implements MemberService {
 //				memberDto.setFileSize(fileSize);
 //				memberDto.setFileName(fileName);
 				memberDto.setProfile_image(file.getAbsolutePath());
-				
+				LogAspect.logger.info(LogAspect.logMsg+"MSI.mUO"+file.getAbsolutePath());
 			}
 			
 		}

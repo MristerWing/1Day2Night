@@ -167,11 +167,11 @@ public class MemberController {
 	}
 	@RequestMapping(value="member/updateOk.do", method=RequestMethod.POST)
 	public ModelAndView memberUpdateOk(HttpServletRequest request, HttpServletResponse response 
-			, MemberDto memberDto, HttpSession session) {
+			, HttpSession session) {
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("request", request);
-		LogAspect.logger.info(LogAspect.logMsg+"MC.mUO.dto: "+memberDto.toString());
-		mav.addObject("memberDto", memberDto);
+		//LogAspect.logger.info(LogAspect.logMsg+"MC.mUO.dto: "+memberDto.toString());
+		//mav.addObject("memberDto", memberDto);
 		memberService.memberUpdateOk(mav, session);
 		
 		return mav;
