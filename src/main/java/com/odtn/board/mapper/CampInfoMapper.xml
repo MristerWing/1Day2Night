@@ -12,12 +12,12 @@
 	<insert id="campInfoInsert" parameterType="com.odtn.board.dto.CampInfoDto">
 		INSERT INTO CAMPINFO(info_num,
 							 title,
-							 writer,
+							 user_num,
 							 content,
 							 write_date,
 							 read_count) values(campinfo_info_num_seq.nextval,
 							 #{title},
-							 #{writer},
+							 #{user_num},
 							 #{content},
 							 #{write_date},
 							 #{read_count})
@@ -48,7 +48,7 @@
 		  <![CDATA[
 		  SELECT * FROM
 	      (SELECT ROWNUM AS RNUM, A.* FROM
-	      (SELECT info_num, title, writer,write_date,read_count FROM CAMPINFO ORDER BY INFO_NUM DESC)A)
+	      (SELECT info_num, title, user_num,write_date,read_count FROM CAMPINFO ORDER BY INFO_NUM DESC)A)
 	      B WHERE RNUM >=#{startRow} AND RNUM <= #{endRow}
 		  ]]>
 	
@@ -72,7 +72,7 @@
 	
 	<!--파일카운트 세기-->
 		<select id="fileCount" parameterType="com.odtn.board.dto.CampInfoFileDto" resultType="int">
-			SELECT COUNT(FILE_NAME) FROM CAMPINFO_FILE WHERE INFO_NUM=#{info_num}
+			SELECT COUNT(NVL(FILE_NAME, 0)) FROM CAMPINFO_FILE WHERE INFO_NUM=#{info_num}
 		</select>
 	
  	<!--파일 이름 추출-->

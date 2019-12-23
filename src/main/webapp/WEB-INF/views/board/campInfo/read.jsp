@@ -163,7 +163,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 				</li>
 				<li>
 					<label >작성자(*)</label>
-					<input name="writer" type="text" value="${campInfoDto.writer}" disabled="disabled"/>
+					<input name="user_num" type="text" value="${campInfoDto.user_num}" disabled="disabled"/>
 				</li>
 
 			 	<li>

@@ -3,23 +3,24 @@ package com.odtn.board.dto;
 import java.util.Date;
 
 public class CampInfoDto {
-	
+
 	private int info_num;
 	private String title;
-	private String writer;
+	private int user_num;
 	private int camp_id;
 	private String content;
 	private Date write_date;
 	private int read_count;
-	
-	public CampInfoDto() {}
 
-	public CampInfoDto(int info_num, String title, String writer, int camp_id, String content, Date write_date,
-			int read_count) {
+	public CampInfoDto() {
+	}
+
+	public CampInfoDto(int info_num, String title, int user_num, int camp_id,
+			String content, Date write_date, int read_count) {
 		super();
 		this.info_num = info_num;
 		this.title = title;
-		this.writer = writer;
+		this.user_num = user_num;
 		this.camp_id = camp_id;
 		this.content = content;
 		this.write_date = write_date;
@@ -42,12 +43,12 @@ public class CampInfoDto {
 		this.title = title;
 	}
 
-	public String getWriter() {
-		return writer;
+	public int getuser_num() {
+		return user_num;
 	}
 
-	public void setWriter(String writer) {
-		this.writer = writer;
+	public void setuser_num(int user_num) {
+		this.user_num = user_num;
 	}
 
 	public int getCamp_id() {
@@ -84,11 +85,10 @@ public class CampInfoDto {
 
 	@Override
 	public String toString() {
-		return "CampInfoDto [info_num=" + info_num + ", title=" + title + ", writer=" + writer + ", camp_id=" + camp_id
-				+ ", content=" + content + ", write_date=" + write_date + ", read_count=" + read_count + "]";
+		return "CampInfoDto [info_num=" + info_num + ", title=" + title
+				+ ", user_num=" + user_num + ", camp_id=" + camp_id
+				+ ", content=" + content + ", write_date=" + write_date
+				+ ", read_count=" + read_count + "]";
 	}
 
-
-	
-	
 }

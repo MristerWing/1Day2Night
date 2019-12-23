@@ -181,7 +181,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 						<div class="row_content">
 							<span class="col1">${campInfoDto.info_num}</span>
 							<span class="col2"><a href="${root}/board/campInfo/read.do?info_num=${campInfoDto.info_num}&pageNumber=${currentPage}">${campInfoDto.title}</a></span>
-							<span class="col3">${campInfoDto.writer}</span>
+							<span class="col3">${campInfoDto.user_num}</span>
 							<span class="col4">
 							<fmt:formatDate value="${campInfoDto.write_date}" pattern="yyyy-MM-dd"/>
 							</span>
