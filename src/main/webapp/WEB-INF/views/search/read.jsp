@@ -39,7 +39,7 @@
                 type="text/javascript"
                 src="${root}/resources/javascript/search/searchRead.js"
             ></script>
-
+			
             <!-- Custom-Files -->
             <link rel="stylesheet" href="${root}/resources/css/styles/bootstrap.css" />
             <!-- Bootstrap-Core-CSS -->
@@ -138,7 +138,16 @@
 								aria-hidden="true"
 							></i>
 							예약하기
+							
 						</button>
+						<script>
+							$(function() {
+								$("body > div.search > div.container.main_content > div.content-area > div > button.btn.btn-dark").click(function() {
+									
+									location.href="${root}/reservation/list.do";
+								});
+							});
+						</script>
 					</div>
 				</div>
 				<div class="row">

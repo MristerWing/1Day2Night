@@ -39,7 +39,6 @@
                 type="text/javascript"
                 src="${root}/resources/javascript/search/searchRead.js"
             ></script>
-
             <!-- Custom-Files -->
             <link rel="stylesheet" href="${root}/resources/css/styles/bootstrap.css" />
             <!-- Bootstrap-Core-CSS -->
@@ -138,6 +137,14 @@
 							></i>
 							예약하기
 						</button>
+						
+						<script>
+							$(function() {
+								$("body > div.search > div.container.main_content > div.content-area > div > button.btn.btn-dark").click(function() {
+									alert("헤헤헤헤헿");
+								});
+							});
+						</script>
 					</div>
 				</div>
 				<div class="row">
