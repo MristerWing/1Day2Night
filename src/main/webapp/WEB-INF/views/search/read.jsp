@@ -39,7 +39,7 @@
                 type="text/javascript"
                 src="${root}/resources/javascript/search/searchRead.js"
             ></script>
-
+			
             <!-- Custom-Files -->
             <link rel="stylesheet" href="${root}/resources/css/styles/bootstrap.css" />
             <!-- Bootstrap-Core-CSS -->
@@ -138,10 +138,14 @@
 								aria-hidden="true"
 							></i>
 							예약하기
+							
 						</button>
-						<script type="text/javascript">
-							$("body > div.search > div.container.main_content > div.content-area > div > button.btn.btn-dark").click(function() {
-								location.href="${root}/reservation/select.do?camp-id=${searchMap.searchList[0].camp_id}";
+						<script>
+							$(function() {
+								$("body > div.search > div.container.main_content > div.content-area > div > button.btn.btn-dark").click(function() {
+									
+									location.href="${root}/reservation/select.do?camp-id=${searchMap.searchList[0].camp_id}";
+								});
 							});
 						</script>
 					</div>
