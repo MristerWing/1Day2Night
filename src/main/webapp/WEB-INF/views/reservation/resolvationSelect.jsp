@@ -9,10 +9,18 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<h3>${campList}</h3>
-	<form action="${root}/reservation/pay.do" method="get">
-		<input type="text" name="selectDate" />
-		<input type="submit" value="결제" />	
+	<h3>${campingList}</h3>
+	<form action="${root}/reservation/dateSold.do" method="get">
+		<input type="hidden" name="camp-id" value="${camp.camp_id}" />
+		<span>캠핑명</span>
+		<input type="text" name="camp_fee" />
+		<span>시작</span>
+		<input type="text" name="startDate" />
+		<span>끝</span>
+		<input type="text" name="endDate" />
+		<span>인원</span>
+		<input type="text" name="people" />
+		<input type="submit" value="날짜 확인" />	
 	</form>
 	
 </body>

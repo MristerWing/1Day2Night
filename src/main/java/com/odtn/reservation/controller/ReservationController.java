@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.odtn.reservation.service.ReservationService;
@@ -39,6 +40,23 @@ public class ReservationController {
 
 		modelAndView.setViewName("reservation/resolvationSelect");
 		return modelAndView;
+	}
+
+	/**
+	 * @request
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	@RequestMapping(value = "/reservation/dateSold.do", method = RequestMethod.GET)
+	@ResponseBody
+	public String reservationDatePicker(HttpServletRequest request,
+			HttpServletResponse response) {
+		String isSoldOut = "";
+
+		reservationService.datePicker(isSoldOut, request, response);
+
+		return isSoldOut;
 	}
 
 	/**

@@ -7,4 +7,19 @@
 		resultType="String">
 		select nvl(fee_name, 'invalid') from camp_fare where camp_id = #{camp_id}
 	</select>
+	
+	<resultMap id="soldMap" type="hashmap" />
+	
+	<select id="soldProcedureList" statementType="CALLABLE">
+		{ 
+			CALL ISSOLDOUT(
+				#{camp_id},
+				#{fee_name},
+				#{start_date},
+				#{end_date},
+				#{people},
+				#{resultMap, mode=OUT, jdbcType=CURSOR, javaType=ResultSet, resultMap=soldMap}
+			)
+		}
+	</select>
 </mapper>

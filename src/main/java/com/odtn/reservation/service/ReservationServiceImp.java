@@ -1,11 +1,15 @@
 package com.odtn.reservation.service;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -13,6 +17,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.odtn.aop.LogAspect;
 import com.odtn.reservation.dao.ReservationDao;
+import com.odtn.search.dao.SearchDao;
+import com.odtn.search.dto.SearchDto;
 
 /**
  * @author KimJinsu
@@ -25,6 +31,9 @@ public class ReservationServiceImp implements ReservationService {
 	@Autowired
 	private ReservationDao reservationDao;
 
+	@Autowired
+	private SearchDao searchDao;
+
 	/**
 	 * @apiNote 예약 선택
 	 */
@@ -35,12 +44,47 @@ public class ReservationServiceImp implements ReservationService {
 				.get("request");
 
 		int camp_id = Integer.parseInt(request.getParameter("camp-id"));
-		LogAspect.logger.info(LogAspect.logMsg + camp_id);
+		SearchDto camp = searchDao.getCamp(camp_id);
+		LogAspect.logger.info(LogAspect.logMsg + camp);
 
-		List<String> campList = reservationDao.getCampingList(camp_id);
-		LogAspect.logger.info(LogAspect.logMsg + campList);
+		List<String> campingList = reservationDao.getCampingList(camp_id);
+		LogAspect.logger.info(LogAspect.logMsg + campingList);
 
-		modelAndView.addObject("campList", campList);
+		modelAndView.addObject("campingList", campingList);
+		modelAndView.addObject("camp", camp);
+
+	}
+
+	/**
+	 * @author KimJinsu
+	 * @date 2019. 12. 23.
+	 * @apiNote 날짜 선택시 매진여부 확인 (매진: soldOut, 성공시: ok)
+	 */
+	@Override
+	public void datePicker(String isSoldOut, HttpServletRequest request,
+			HttpServletResponse response) {
+		int camp_id = Integer.parseInt(request.getParameter("camp-id"));
+		String campingName = request.getParameter("camp_fee");
+		Date startDate = null;
+		Date endDate = null;
+		int peopleOfNum = Integer.parseInt(request.getParameter("people"));
+
+		try {
+			startDate = new SimpleDateFormat("yyyy-MM-dd")
+					.parse(request.getParameter("startDate"));
+			endDate = new SimpleDateFormat("yyyy-MM-dd")
+					.parse(request.getParameter("endDate"));
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		LogAspect.logger.info(LogAspect.logMsg + camp_id + campingName
+				+ startDate + endDate + peopleOfNum);
+
+		ArrayList<HashMap<String, Object>> result = reservationDao
+				.getCampingSoldOutMap(camp_id, campingName, startDate, endDate,
+						peopleOfNum);
 
 	}
 
@@ -60,7 +104,7 @@ public class ReservationServiceImp implements ReservationService {
 
 		try {
 			selectDate = new SimpleDateFormat("yyyy-MM-dd")
-					.parse(request.getParameter("selectDate"));
+					.parse(request.getParameter("startDate"));
 		} catch (java.text.ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
