@@ -1,5 +1,8 @@
 package com.odtn.reservation.controller;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -48,15 +51,11 @@ public class ReservationController {
 	 * @param response
 	 * @return
 	 */
-	@RequestMapping(value = "/reservation/dateSold.do", method = RequestMethod.GET)
+	@RequestMapping(value = "/reservation/dateSold.json")
 	@ResponseBody
-	public String reservationDatePicker(HttpServletRequest request,
-			HttpServletResponse response) {
-		String isSoldOut = "";
-
-		reservationService.datePicker(isSoldOut, request, response);
-
-		return isSoldOut;
+	public ArrayList<HashMap<String, Object>> reservationDatePicker(
+			HttpServletRequest request, HttpServletResponse response) {
+		return reservationService.datePicker(request, response);
 	}
 
 	/**

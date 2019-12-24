@@ -10,7 +10,7 @@
 </head>
 <body>
 	<h3>${campingList}</h3>
-	<form action="${root}/reservation/dateSold.do" method="get">
+	<form action="${root}/reservation/dateSold.json" method="get">
 		<input type="hidden" name="camp-id" value="${camp.camp_id}" />
 		<span>캠핑명</span>
 		<input type="text" name="camp_fee" />

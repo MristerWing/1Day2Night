@@ -59,10 +59,11 @@ public class ReservationServiceImp implements ReservationService {
 	 * @author KimJinsu
 	 * @date 2019. 12. 23.
 	 * @apiNote 날짜 선택시 매진여부 확인 (매진: soldOut, 성공시: ok)
+	 * @return ArrayList<HashMap<String, Object>> result
 	 */
 	@Override
-	public void datePicker(String isSoldOut, HttpServletRequest request,
-			HttpServletResponse response) {
+	public ArrayList<HashMap<String, Object>> datePicker(
+			HttpServletRequest request, HttpServletResponse response) {
 		int camp_id = Integer.parseInt(request.getParameter("camp-id"));
 		String campingName = request.getParameter("camp_fee");
 		Date startDate = null;
@@ -86,6 +87,7 @@ public class ReservationServiceImp implements ReservationService {
 				.getCampingSoldOutMap(camp_id, campingName, startDate, endDate,
 						peopleOfNum);
 
+		return result;
 	}
 
 	/**
