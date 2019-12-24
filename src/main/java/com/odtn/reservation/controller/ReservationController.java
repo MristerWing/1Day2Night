@@ -37,7 +37,7 @@ public class ReservationController {
 
 		reservationService.reservationSelect(modelAndView);
 
-		modelAndView.setViewName("reservation/resolvationSelect");
+		modelAndView.setViewName("reservation/makeReservation");
 		return modelAndView;
 	}
 

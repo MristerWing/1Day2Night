@@ -144,7 +144,7 @@
 							$(function() {
 								$("body > div.search > div.container.main_content > div.content-area > div > button.btn.btn-dark").click(function() {
 									
-									location.href="${root}/reservation/list.do";
+									location.href="${root}/reservation/select.do?camp-id=${searchMap.searchList[0].camp_id}";
 								});
 							});
 						</script>
