@@ -72,7 +72,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                     <div id="logo">
                         <%-- 	<img class="logoImg" src="${root}/resources/css/images/ODTN.png" width="50"> --%>
                   		<h1> 
-                  		<a class="navbar-brand" href="${root}/index.jsp">CAMPINGINFO</a>
+                  		<a class="navbar-brand" href="index.html">QNA</a>
                        </h1>
                     </div>
 
@@ -142,60 +142,83 @@ License URL: http://creativecommons.org/licenses/by/3.0/
     </div>
     <!-- //main-content -->
   <!--/ab -->
-    <section class="about py-lg-5 py-md-5 py-5">
+ <section class="about py-lg-5 py-md-5 py-5">
+
         <div class="container">
             <div class="inner-sec-w3pvt py-lg-5 py-3">
-                <h3 class="tittle text-center mb-lg-5 mb-3 px-lg-5">NEW 캠핑소식</h3>
+                <h3 class="tittle text-center mb-lg-5 mb-3 px-lg-5">문의사항</h3>
              <div class="info_content" >
 				
-				<label>캠핑소식 작성</label>
+				<label>문의사항 수정</label>
 			<!--썸머노트 form태그-->
-          <%--   <form class="campInfo_form" action="${root}/board/campInfo/writeOk.do" method="POST" 
-            	onsubmit="returnForm(this)" enctype="multipart/form-data"> --%>
+			<c:if test="${sessionScope.user_id=='eunsol8287@gamil.com'}">
+				<c:set var="action" value="${root}/board/campQnA/writeOk.do"/>	
+			</c:if>
+			<c:if test="${sessionScope.user_id!='eunsol8287@gamil.com'}">
+				<c:set var="action" value="${root}/board/campQnA/updateOk.do"/>	
+			</c:if>
+            <form class="campInfo_form" action="${action}" method="POST" 
+            	onsubmit="returnForm(this)" enctype="multipart/form-data">
+            	<c:if test="${sessionScope.user_id=='eunsol8287@gamil.com'}">
+	            <input type="hidden" name="qna_num" value="${qna_num}"/>
+				<input type="hidden" name="group_num" value="${group_num}"/>
+				<input type="hidden" name="sequence_num" value="${sequence_num}"/>
+				<input type="hidden" name="sequence_level" value="${sequence_level}"/>
+				<input type="hidden" name="sequence_level" value="${sequence_level}"/>
+			</c:if>
+            <!--사용자한테 안보이는값-->
+ 			 	<input type="hidden" name="pageNumber" value="${pageNumber}"/>
 			<ul class="">
 				<li>
-					<label>글번호</label>
-					<label>${campInfoDto.info_num}</label>
+					<input name="qna_num" type="hidden" value="${campQnADto.qna_num}">
 				</li>
 				<li>
 					<label >제목(*)</label>
-					<span>${campInfoDto.title}</span>
+					<input name="title"  type="text" maxlength="100" value="${campQnADto.title}" onfocus="this.value=''">
 				</li>
 				<li>
 					<label >작성자(*)</label>
-					<span>${writer}</span>
+					<input name="user_num" type="hidden" value="${campQnADto.user_num}"/>
+					<input name="writer" type="text" value="${writer}" disabled="disabled"/>
 				</li>
-
-			 	<li>
-					<label >파일명</label><br/>
-					<c:forEach var="i" items="${campInfoFileList}">
-							<label><a href="${root}/board/campInfo/downLoad.do?info_num=${campInfoDto.info_num}&file_name=${i.file_name}">${i.file_name}</a></label><br/>
-					</c:forEach>
 				
-				</li>  
 				<li>
 					<label>내용</label>
-					<span>
-						<c:out value="${campInfoDto.content}" escapeXml="false"></c:out>
-					</span>
-							
-				</li>
-	
+					<textarea name="content" rows="3" id="content"></textarea>
+						<!--썸머노트 한글설정-->
+						<script type="text/javascript" src="${root}/resources/javascript/summernote/summernote-ko-KR.js">
+						</script>
+						
+						<script type="text/javascript">
+						$(document).ready(function() {
+					        $('#content').summernote({
+					        	
+					     		height:600,
+					     		minHeight:null,
+					     		maxHeight:null,
+					     		focus:true,
+					     		lang:'ko-KR'
+					       
+					        });
+					       
+					        $('#content').summernote('code','${campQnADto.content}')			        
+					        var code=$('#content').summernote('code')
+					        $(".content").html(code);  
+					    });
+					    </script>	
 				<li>
-					
-					<c:if test="${sessionScope.user_num ==campInfoDto.user_num}">
-						<input class="btn" type="submit" value="수정" onclick="location.href='${root}/board/campInfo/update.do?info_num=${campInfoDto.info_num}&user_num=${campInfoDto.user_num}&pageNumber=${pageNumber}'" />	
-						<input class="btn" type="button"  value="삭제" onclick="location.href='${root}/board/campInfo/delete.do?info_num=${campInfoDto.info_num}'"/>	
-					</c:if>
-						<input class="btn" type="button"  value="목록" onclick="location.href='${root}/board/campInfo/list.do?pageNumber=${pageNumber}'"/>	
-					
+					<p>
+						<input class="btn" type="submit" value="작성"/>	
+						<input class="btn" type="button"  value="목록" onclick="location.href='${root}/board/campQnA/list.do?pageNumber=${pageNumber}'"/>	
+					</p>
 				
 				</li>
 		</ul>
-		<!-- </form>             -->
+		</form>            
 	</div>   
             </div>
         </div>
+    
         <!-- //services -->
     </section>
 <!--footer -->
@@ -236,7 +259,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                         <div class="footer-text">
                             <p>By subscribing to our mailing list you will always get latest news and updates from us.</p>
                             <form action="#" method="post">
-                                <input type="email" name="Email" placeholder="Enter your email..." required="">
+                                <input type="email" name="Email" placeholder="Enter your email..." >
                                 <button class="btn1"><span class="fa fa-paper-plane-o" aria-hidden="true"></span></button>
                                 <div class="clearfix"> </div>
                             </form>

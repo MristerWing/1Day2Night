@@ -29,11 +29,27 @@ License URL: http://creativecommons.org/licenses/by/3.0/
     </script>
     <script src="${root}/resources/javascript/modules/jquery-3.4.1.js"></script>
    <script type="text/javascript">
-    	function content_alert(){
+     	function content_alert(){
     		alert
+    	} 
+    	var camp_value(this)=function(select_camp){
+    		var selected_index=select_camp.selectedIndex;
+    		var value=select_camp.options[selected_index].value;
+    		alert(value);
+    	}
+    	<script language="javascript">
+    	function select_camp(){
+    	 i=document.join.mail3.selectedIndex // 선택항목의 인덱스 번호
+    	 var mail=document.join.mail3.options[i].value // 선택항목 value
+    	 document.join.mail2.value=mail
     	}
     </script>  
-    
+        <!--++++++++++++++++++++++++++++++부트스트랩+++++++++++++++++++++++++++++++++++++++++++++=-->
+     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+	  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+	  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+	  
     <!--summerNote-->
     <link href="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.css" rel="stylesheet">
 <!-- 	<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script>  -->
@@ -72,7 +88,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                     <div id="logo">
                         <%-- 	<img class="logoImg" src="${root}/resources/css/images/ODTN.png" width="50"> --%>
                   		<h1> 
-                  		<a class="navbar-brand" href="${root}/index.jsp">CAMPINGINFO</a>
+                  		<a class="navbar-brand" href="${root}/index.jsp">문의사항</a>
                        </h1>
                     </div>
 
@@ -86,9 +102,9 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                             <a href="#">캠핑톡 <span class="fa fa-angle-down" aria-hidden="true"></span></a>
                               <input type="checkbox" id="drop-2" />
                             <ul>
-                                <li><a href="${root}/board/campInfo/write.do">캠핑소식</a>
+                                <li><a href="${root}/board/campInfo/list.do">캠핑소식</a>
                                 </li>
-                                <li><a href="gallery.html">캠핑후기</a>
+                                <li><a href="${root}/board/campReview/list.do">캠핑후기</a>
                                 </li>
                                 <li><a href="features.html">이벤트</a>
                                 </li>
@@ -145,56 +161,73 @@ License URL: http://creativecommons.org/licenses/by/3.0/
     <section class="about py-lg-5 py-md-5 py-5">
         <div class="container">
             <div class="inner-sec-w3pvt py-lg-5 py-3">
-                <h3 class="tittle text-center mb-lg-5 mb-3 px-lg-5">NEW 캠핑소식</h3>
-             <div class="info_content" >
+                <h3 class="tittle text-center mb-lg-5 mb-3 px-lg-5">문의사항</h3>
+             <div class="QnA_content" >
 				
-				<label>캠핑소식 작성</label>
+				<label>문의사항 작성</label>
 			<!--썸머노트 form태그-->
-          <%--   <form class="campInfo_form" action="${root}/board/campInfo/writeOk.do" method="POST" 
-            	onsubmit="returnForm(this)" enctype="multipart/form-data"> --%>
-			<ul class="">
-				<li>
-					<label>글번호</label>
-					<label>${campInfoDto.info_num}</label>
-				</li>
-				<li>
-					<label >제목(*)</label>
-					<span>${campInfoDto.title}</span>
-				</li>
-				<li>
-					<label >작성자(*)</label>
-					<span>${writer}</span>
-				</li>
-
-			 	<li>
-					<label >파일명</label><br/>
-					<c:forEach var="i" items="${campInfoFileList}">
-							<label><a href="${root}/board/campInfo/downLoad.do?info_num=${campInfoDto.info_num}&file_name=${i.file_name}">${i.file_name}</a></label><br/>
-					</c:forEach>
+            <form class="campReview_form" action="${root}/board/campQnA/writeOk.do" method="POST" 
+            	enctype="multipart/form-data" onsubmit="returnForm(this)">
+ 	
+				<input type="hidden" name="qna_num" value="${qna_num}"/>
+				<input type="hidden" name="group_num" value="${group_num}"/>
+				<input type="hidden" name="sequence_num" value="${sequence_num}"/>
+				<input type="hidden" name="sequence_level" value="${sequence_level}"/>
+				<input type="hidden" name="sequence_level" value="${sequence_level}"/>
 				
-				</li>  
-				<li>
-					<label>내용</label>
-					<span>
-						<c:out value="${campInfoDto.content}" escapeXml="false"></c:out>
-					</span>
-							
-				</li>
-	
-				<li>
-					
-					<c:if test="${sessionScope.user_num ==campInfoDto.user_num}">
-						<input class="btn" type="submit" value="수정" onclick="location.href='${root}/board/campInfo/update.do?info_num=${campInfoDto.info_num}&user_num=${campInfoDto.user_num}&pageNumber=${pageNumber}'" />	
-						<input class="btn" type="button"  value="삭제" onclick="location.href='${root}/board/campInfo/delete.do?info_num=${campInfoDto.info_num}'"/>	
-					</c:if>
-						<input class="btn" type="button"  value="목록" onclick="location.href='${root}/board/campInfo/list.do?pageNumber=${pageNumber}'"/>	
-					
-				
-				</li>
-		</ul>
-		<!-- </form>             -->
-	</div>   
-            </div>
+			  <div class="form-group">
+				  <label>제목(*)</label>
+				  <input type="text" class="form-control" id="title" name="title">
+			  </div>
+			  <div class="form-group">
+				  <label for="pwd">작성자(*)</label>
+				  <input name="user_num" type="hidden" value="${memberDto.user_num}">
+				  <input type="text" class="form-control" value="${writer}" name="user_name" disabled="disabled">
+			 </div>
+			  <div class="form-group">
+				  <label for="pwd">비밀번호 입력(*)</label>
+				  <input type="password" class="form-control" value="${writer}" name="password" onfocus="this.value=''">
+			 </div>
+				      <div class="form-group">
+					      <label for="sel1">문의유형(*)</label>
+					      <select class="form-control" id="qna_type" name="qna_type">
+					      	 <option>문의유형을 선택 해 주세요(*)</option>
+					      	 <option value="캠핑장">캠핑장 관련문의</option>
+						 	 <option value="이벤트">이벤트 관련문의</option>
+						     <option value="기타">기타문의</option>
+					      </select>
+      				</div>
+				     <div class="form-group">
+      				  <label>내용을 입력해주세요</label>
+      				  	<textarea name="content" rows="3" id="content"></textarea>
+						<!--썸머노트 한글설정-->
+						<script type="text/javascript" src="${root}/resources/javascript/summernote/summernote-ko-KR.js">
+						</script>
+						
+						<script type="text/javascript">
+						$(document).ready(function() {
+					        $('#content').summernote({
+					        	
+					     		height:600,
+					     		minHeight:null,
+					     		maxHeight:null,
+					     		focus:true,
+					     		lang:'ko-KR'
+					       
+					        });
+					        var code=$('#content').summernote('code');
+					        $(".content").html(code);
+					    });
+					    </script>	
+				     
+				    </div>
+			
+				    <button type="submit" class="btn btn-primary">작성</button>
+				    <button type="button" class="btn btn-primary" onclick="location.href='${root}/board/campQnA/list.do?pageNumber=${pageNumber}'" >목록</button>
+				 
+				  </form>
+			</div>   
+           </div>
         </div>
         <!-- //services -->
     </section>
@@ -236,7 +269,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                         <div class="footer-text">
                             <p>By subscribing to our mailing list you will always get latest news and updates from us.</p>
                             <form action="#" method="post">
-                                <input type="email" name="Email" placeholder="Enter your email..." required="">
+                                <input type="email" name="Email" placeholder="Enter your email..." >
                                 <button class="btn1"><span class="fa fa-paper-plane-o" aria-hidden="true"></span></button>
                                 <div class="clearfix"> </div>
                             </form>

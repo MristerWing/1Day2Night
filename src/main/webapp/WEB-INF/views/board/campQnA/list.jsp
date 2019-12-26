@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <c:set var="root" value="${pageContext.request.contextPath}"/>  
 <!--
@@ -29,10 +30,18 @@ License URL: http://creativecommons.org/licenses/by/3.0/
     </script>
     <script src="${root}/resources/javascript/modules/jquery-3.4.1.js"></script>
    <script type="text/javascript">
-    	function content_alert(){
-    		alert
-    	}
+    	function input_pwd(){
+    		var input = prompt('설정했던 비밀번호를 입력하세요');
+    		document.write(input);
+    		location.href="'${root}/board/campQnA/read.do?password='input'";
+    		}
     </script>  
+     <!--++++++++++++++++++++++리스트 부트스트랩+++++++++++++++++++++++++++++++++++++-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+	  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+	  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+    
     
     <!--summerNote-->
     <link href="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.css" rel="stylesheet">
@@ -46,6 +55,8 @@ License URL: http://creativecommons.org/licenses/by/3.0/
     <!-- //Meta tag Keywords -->
     <!-- Custom-Files -->
     <link rel="stylesheet" href="${root}/resources/css/styles/bootstrap.css">
+    <!--리스트전용 css-->
+    <link rel="stylesheet" href="${root}/resources/css/board/list.css">
     <!-- Bootstrap-Core-CSS -->
     <link rel="stylesheet" href="${root}/resources/css/styles/style.css" type="text/css" media="all" />
    
@@ -71,15 +82,14 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                 <nav class="py-3">
                     <div id="logo">
                         <%-- 	<img class="logoImg" src="${root}/resources/css/images/ODTN.png" width="50"> --%>
-                  		<h1> 
-                  		<a class="navbar-brand" href="${root}/index.jsp">CAMPINGINFO</a>
+                  		<h1>
                        </h1>
                     </div>
 
                     <label for="drop" class="toggle">Menu</label>
                     <input type="checkbox" id="drop" />
                     <ul class="menu mt-2">
-                        <li class="active"><a href="index.html">캠핑장검색</a></li>
+                        <li class="active"><a href="${root}/search/list.do">캠핑장검색</a></li>
                         	<!-- First Tier Drop Down -->
                            <li>
                             <label for="drop-2" class="toggle">Drop Down <span class="fa fa-angle-down" aria-hidden="true"></span> </label>
@@ -88,46 +98,18 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                             <ul>
                                 <li><a href="${root}/board/campInfo/write.do">캠핑소식</a>
                                 </li>
-                                <li><a href="gallery.html">캠핑후기</a>
-                                </li>
-                                <li><a href="features.html">이벤트</a>
-                                </li>
-                                <li><a href="features.html">캠핑노하우</a>
+                                <li><a href="${root}/board/campReview/list.do">캠핑후기</a>
                                 </li>
                             </ul>
                         </li>
-                        <li>
-                            <!-- First Tier Drop Down -->
-                            <label for="drop-2" class="toggle">Drop Down <span class="fa fa-angle-down" aria-hidden="true"></span> </label>
-                            <a href="#">캠핑플러스 <span class="fa fa-angle-down" aria-hidden="true"></span></a>
-                            <input type="checkbox" id="drop-2" />
-                            <ul>
-                                <li><a href="features.html">캠핑시작하기</a>
-                                </li>
-                                <li><a href="gallery.html">캠핑장비이야기</a>
-                                </li>
-                                <li><a href="features.html">안전한캠핑즐기기</a>
-                                </li>
-                                <li><a href="features.html">안전수칙동영상</a>
-                                </li>
-                            </ul>
-                        </li>
+                
                         <li>
                          <!-- First Tier Drop Down -->
                             <label for="drop-2" class="toggle">Drop Down <span class="fa fa-angle-down" aria-hidden="true"></span> </label>
                             <a href="#">고객센터 <span class="fa fa-angle-down" aria-hidden="true"></span></a>
                             <input type="checkbox" id="drop-2" />
                             <ul>
-                                <li><a href="features.html">공지사항</a>
-                                </li>
-                                <li><a href="gallery.html">캠핑상담</a>
-                                </li>
-                                <li><a href="features.html">캠핑장정보수정요청</a>
-                                </li>
-                                <li><a href="features.html">미등록야영장신고</a>
-                                </li>
-                                <li><a href="features.html">캠핑장공지사항</a>
-                                </li>
+								<li><a href="${root}/board/campQnA/list.do">문의사항</a></li>
                             </ul>
                         </li>
                       
@@ -145,57 +127,96 @@ License URL: http://creativecommons.org/licenses/by/3.0/
     <section class="about py-lg-5 py-md-5 py-5">
         <div class="container">
             <div class="inner-sec-w3pvt py-lg-5 py-3">
-                <h3 class="tittle text-center mb-lg-5 mb-3 px-lg-5">NEW 캠핑소식</h3>
-             <div class="info_content" >
-				
-				<label>캠핑소식 작성</label>
-			<!--썸머노트 form태그-->
-          <%--   <form class="campInfo_form" action="${root}/board/campInfo/writeOk.do" method="POST" 
-            	onsubmit="returnForm(this)" enctype="multipart/form-data"> --%>
-			<ul class="">
-				<li>
-					<label>글번호</label>
-					<label>${campInfoDto.info_num}</label>
-				</li>
-				<li>
-					<label >제목(*)</label>
-					<span>${campInfoDto.title}</span>
-				</li>
-				<li>
-					<label >작성자(*)</label>
-					<span>${writer}</span>
-				</li>
-
-			 	<li>
-					<label >파일명</label><br/>
-					<c:forEach var="i" items="${campInfoFileList}">
-							<label><a href="${root}/board/campInfo/downLoad.do?info_num=${campInfoDto.info_num}&file_name=${i.file_name}">${i.file_name}</a></label><br/>
-					</c:forEach>
-				
-				</li>  
-				<li>
-					<label>내용</label>
-					<span>
-						<c:out value="${campInfoDto.content}" escapeXml="false"></c:out>
-					</span>
-							
-				</li>
-	
-				<li>
-					
-					<c:if test="${sessionScope.user_num ==campInfoDto.user_num}">
-						<input class="btn" type="submit" value="수정" onclick="location.href='${root}/board/campInfo/update.do?info_num=${campInfoDto.info_num}&user_num=${campInfoDto.user_num}&pageNumber=${pageNumber}'" />	
-						<input class="btn" type="button"  value="삭제" onclick="location.href='${root}/board/campInfo/delete.do?info_num=${campInfoDto.info_num}'"/>	
+                <h3 class="tittle text-center mb-lg-5 mb-3 px-lg-5">문의사항</h3>
+	             <div class="info_list">
+					<div class="info_list_top">
+					<label>문의사항</label>
+						<div>
+						<input type="text" value="제목" disabled="disabled"/>
+						<input type="text" id="campinfo_search" value="검색어를 입력하세요" onfocus="this.value=''"/>
+						<input type="submit" id="campinfo_search" value="확인"  onclick="e"/>
+						</div> 
+					</div> 
+						
+					<div id="qna_list_content">
+					<c:if test="${count==0||campQnAList.size()==0}">
+						<div>
+							<span>게시판에 저장된 글이 없습니다.</span>
+						</div>
 					</c:if>
-						<input class="btn" type="button"  value="목록" onclick="location.href='${root}/board/campInfo/list.do?pageNumber=${pageNumber}'"/>	
+					<!--작성글이있다면-->
+								<div class="container">         
+						  <table class="table table-striped">
+						    <thead>
+						      <tr>
+						        <th>번호</th>
+						        <th>제목</th>
+						        <th>문의 유형</th>
+						        <th>작성자</th>
+						        <th>등록일</th>
+						        <th>조회수</th>
+						      </tr>
+						    </thead>
+						    <tbody>
+						       	 <c:if test="${count>0}">
+						       	 	<c:forEach var="campQnADto" varStatus="list" items="${campQnAList}">
+						       	 		 <tr>
+										        <td>${campQnADto.qna_num}</td>
+										        <c:if test="${sessionScope.email=='eunsol8287@gmail.com'}">
+										        	<td><a href="${root}/board/campQnA/read.do?qna_num=${campQnADto.qna_num}&pageNumber=${currentPage}">${campQnADto.title}</a></td>
+										        </c:if>
+										        <c:if test="${sessionScope.email != 'eunsol8287@gmail.com'}">
+										        	<td>${campQnADto.title}</td>
+										        </c:if>
+										       	<td>${campQnADto.qna_type}</td>
+										        <td>${writerList[list.index]}</td>
+										        <td><fmt:formatDate value="${campQnADto.write_date}" pattern="yyyy-MM-dd"/></td>
+										        <td>${campQnADto.read_count}</td>
+						     			 </tr>
+						       	 	</c:forEach>
+						       	 </c:if>
+						    </tbody>
+						  </table>
+						</div>
+				 <c:if test="${sessionScope.user_num != null}">
+					<div class="list_buttom">
+						<input type="button" value="글쓰기" onclick="location.href='${root}/board/campQnA/write.do?user_num=${user_num}'">
+					</div>	
+				</c:if>
+					<div align="center">
+				 <c:if test="${count>0}">
+					<fmt:parseNumber var="pageCount" integerOnly="true" value="${count/boardSize+(count%boardSize==0 ? 0:1)}"/>						
+					<c:set var="pageBlock" value="${10}"/>
 					
-				
-				</li>
-		</ul>
-		<!-- </form>             -->
-	</div>   
-            </div>
+					<fmt:parseNumber var="result" value="${(currentPage-1)/pageBlock}" integerOnly="true"/>
+					<c:set var="startPage" value="${result*pageBlock+1}"/>
+					<c:set var="endPage" value="${startPage+pageBlock-1}"/>
+						
+					<c:if test="${endPage>pageCount}">
+						<c:set var="endPage" value="${pageCount}"/>	
+					</c:if>
+					
+					<c:if test="${startPage>pageBlock}">
+						<a href="${root}/board/campReview/list.do?pageNumber=1">[처음]</a>
+					</c:if>
+					<c:if test="${startPage>pageBlock}">
+						<a href="${root}/board/campReview/list.do?pageNumber=${startPage-pageBlock}">[이전]</a>
+					</c:if>
+					
+					<c:forEach var="i" begin="${startPage}" end="${endPage}">
+						<a href="${root}/board/campReview/list.do?pageNumber=${i}">[${i}]</a>
+					</c:forEach>
+					
+					<c:if test="${endPage<pageCount}">
+						<a href="${root}/board/campReview/list.do?pageNumber=${startPage+pageBlock}">[다음]</a>
+					</c:if>
+				</c:if>
+					</div>
+	            </div>
+	          </div>  
         </div>
+       </div>
+         
         <!-- //services -->
     </section>
 <!--footer -->
@@ -231,13 +252,13 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                     </div>
                     <div class="col-lg-4 col-md-12 mt-lg-0 mt-4 col-sm-12 footer-grid_section_1its" data-aos="fade-left">
                         <div class="footer-title-w3pvt">
-                            <h3>Newsletter</h3>
+                            <h3>관리자로그인</h3>
                         </div>
                         <div class="footer-text">
                             <p>By subscribing to our mailing list you will always get latest news and updates from us.</p>
                             <form action="#" method="post">
-                                <input type="email" name="Email" placeholder="Enter your email..." required="">
-                                <button class="btn1"><span class="fa fa-paper-plane-o" aria-hidden="true"></span></button>
+                             <!--    <input type="email" name="Email" placeholder="Enter your email..." required=""> -->
+                                <button class="btn1"><span class="fa fa-paper-plane-o" aria-hidden="true">관리자 로그인</span></button>
                                 <div class="clearfix"> </div>
                             </form>
                         </div>

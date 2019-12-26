@@ -48,15 +48,34 @@ public class CampReviewDaoImp implements CampReviewDao {
 		map.put("endRow", endRow);
 		return sqlSessionTemplate.selectList("board.mapper.CampReviewMapper.getCampReviewList",map);
 	}
+	//파일목록 리스트
+	@Override
+	public List<CampReviewFileDto> getCampReviewFileList(int startRow, int endRow) {
+		HashMap<String,Integer> map=new HashMap<String,Integer>();
+		map.put("startRow", startRow);
+		map.put("endRow", endRow);
+		return sqlSessionTemplate.selectList("board.mapper.CampReviewMapper.getCampReviewFileList",map);
+	
+	}
 	//대표이미지에 뿌릴파일 개수가 있는지 구하기
 	@Override
 	public int imgCount(int review_num) {
 		return sqlSessionTemplate.selectOne("board.mapper.CampReviewMapper.imgCount",review_num);
 	}
-	//멤버테이블에서 작성자 이름 찾기
+	//대표이미지 경로 찾기
+	@Override
+	public String getFilePath(int review_num) {
+		return sqlSessionTemplate.selectOne("board.mapper.CampReviewMapper.getFilePath",review_num);
+	}
+	//멤버테이블에서 작성자이메일찾기
     @Override
-    public String getUser_name(int user_num) {
+    public String getEmail(int user_num) {
     	return sqlSessionTemplate.selectOne("board.mapper.CampReviewMapper.getUser_name",user_num);
+    }
+    //이메일없으면 카톡 프로필이름찾기
+    @Override
+    public String getProfilName(int user_num) {
+    	return sqlSessionTemplate.selectOne("board.mapper.CampReviewMapper.getProfilName",user_num);
     }
     //글읽기
     @Override

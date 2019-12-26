@@ -17,7 +17,6 @@
 			
 			email_auth_status,
 			phone_num,  
-			company_id,
 			
 			interest, 
 			user_name,
@@ -36,7 +35,6 @@
 		  
 		  , #{email_auth_status,javaType=String,jdbcType=VARCHAR}
 		  , #{phone_num,javaType=Integer,jdbcType=NUMERIC} 
-		  , #{company_id,javaType=Integer,jdbcType=NUMERIC} 
 		  
 		  , #{interest,javaType=String,jdbcType=VARCHAR}
 		  , #{user_name,javaType=String,jdbcType=VARCHAR}

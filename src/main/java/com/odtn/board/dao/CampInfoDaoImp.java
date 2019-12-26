@@ -15,7 +15,13 @@ import com.odtn.board.dto.CampInfoFileDto;
 public class CampInfoDaoImp implements CampInfoDao {
 	@Autowired
 	private SqlSessionTemplate sqlSessionTemplate;
-
+	//공지글작성 관리자 이름 불러오기
+	@Override
+	public String getNickName(int user_num) {
+	
+		return sqlSessionTemplate.selectOne("board.mapper.CampInfoMapper.getNickName",user_num);
+	}
+	
 	@Override
 	public int writeOK(CampInfoDto campInfoDto, List<CampInfoFileDto> array) {
 		int check = 0;

@@ -29,9 +29,13 @@ License URL: http://creativecommons.org/licenses/by/3.0/
     </script>
     <script src="${root}/resources/javascript/modules/jquery-3.4.1.js"></script>
    <script type="text/javascript">
-    	function content_alert(){
-    		alert
-    	}
+        function replyQnA(root,qna_num,group_num,sequence_num,sequence_level,pageNumber,user_num){
+        	 var url=root+"/board/campQnA/update.do?qna_num="+qna_num;
+    	     url +="&group_num="+group_num+"&sequence_num="+sequence_num;
+    	     url +="&sequence_level="+sequence_level+"&pageNumber="+pageNumber+"&user_num="+user_num;
+    	     alert(url);
+    	     location.href=url;
+        }
     </script>  
     
     <!--summerNote-->
@@ -72,7 +76,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                     <div id="logo">
                         <%-- 	<img class="logoImg" src="${root}/resources/css/images/ODTN.png" width="50"> --%>
                   		<h1> 
-                  		<a class="navbar-brand" href="${root}/index.jsp">CAMPINGINFO</a>
+                  		<a class="navbar-brand" href="index.html">CAMPINGINFO</a>
                        </h1>
                     </div>
 
@@ -86,9 +90,9 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                             <a href="#">캠핑톡 <span class="fa fa-angle-down" aria-hidden="true"></span></a>
                               <input type="checkbox" id="drop-2" />
                             <ul>
-                                <li><a href="${root}/board/campInfo/write.do">캠핑소식</a>
+                                <li><a href="${root}/board/campInfo/list.do">캠핑소식</a>
                                 </li>
-                                <li><a href="gallery.html">캠핑후기</a>
+                                <li><a href="${root}/board/campReview/list.do">캠핑후기</a>
                                 </li>
                                 <li><a href="features.html">이벤트</a>
                                 </li>
@@ -147,52 +151,48 @@ License URL: http://creativecommons.org/licenses/by/3.0/
             <div class="inner-sec-w3pvt py-lg-5 py-3">
                 <h3 class="tittle text-center mb-lg-5 mb-3 px-lg-5">NEW 캠핑소식</h3>
              <div class="info_content" >
-				
+				<!--본문 -->
+				<!--댓글작성 form-->
+		<form id="reviewCommentForm">
+			
+			<!--세션스콥받아오는 작업해주고 고치기-->
+<%-- 			<input type="hidden" name="user_num" value="${sessionScope.sessionID}">--%>			
 				<label>캠핑소식 작성</label>
-			<!--썸머노트 form태그-->
-          <%--   <form class="campInfo_form" action="${root}/board/campInfo/writeOk.do" method="POST" 
-            	onsubmit="returnForm(this)" enctype="multipart/form-data"> --%>
-			<ul class="">
+				<ul class="">
 				<li>
 					<label>글번호</label>
-					<label>${campInfoDto.info_num}</label>
+					<label>${campQnADto.qna_num}</label>
 				</li>
 				<li>
 					<label >제목(*)</label>
-					<span>${campInfoDto.title}</span>
+					<span>${campQnADto.title}</span>
 				</li>
 				<li>
 					<label >작성자(*)</label>
 					<span>${writer}</span>
 				</li>
-
-			 	<li>
-					<label >파일명</label><br/>
-					<c:forEach var="i" items="${campInfoFileList}">
-							<label><a href="${root}/board/campInfo/downLoad.do?info_num=${campInfoDto.info_num}&file_name=${i.file_name}">${i.file_name}</a></label><br/>
-					</c:forEach>
-				
-				</li>  
+  
 				<li>
 					<label>내용</label>
 					<span>
-						<c:out value="${campInfoDto.content}" escapeXml="false"></c:out>
-					</span>
-							
+						<c:out value="${campQnADto.content}" escapeXml="false"></c:out>
+					</span>			
 				</li>
-	
+			
 				<li>
-					
-					<c:if test="${sessionScope.user_num ==campInfoDto.user_num}">
-						<input class="btn" type="submit" value="수정" onclick="location.href='${root}/board/campInfo/update.do?info_num=${campInfoDto.info_num}&user_num=${campInfoDto.user_num}&pageNumber=${pageNumber}'" />	
-						<input class="btn" type="button"  value="삭제" onclick="location.href='${root}/board/campInfo/delete.do?info_num=${campInfoDto.info_num}'"/>	
-					</c:if>
-						<input class="btn" type="button"  value="목록" onclick="location.href='${root}/board/campInfo/list.do?pageNumber=${pageNumber}'"/>	
-					
-				
+					<c:if test="${sessionScope.user_num ==campQnADto.user_num}">
+						<input class="btn" type="button" value="수정" onclick="location.href='${root}/board/campQnA/update.do?qna_num=${campQnADto.qna_num}&user_num=${campQnADto.user_num}&pageNumber=${pageNumber}'" />	
+						<input class="btn" type="button"  value="삭제" onclick="location.href='${root}/board/campQnA/delete.do?qna_num=${campQnADto.qna_num}'"/>	
+					</c:if>		
+					<c:if test="${sessionScope.email=='eunsol8287@gmail.com'}">
+						<input  class="btn" type="button" value="답글" 
+						onclick="replyQnA('${root}','${campQnADto.qna_num}','${campQnADto.group_num}',
+						'${campQnADto.sequence_num}','${campQnADto.sequence_level}','${pageNumber}','${sessionScope.user_num}')"/>
+					</c:if>			
+						<input class="btn" type="button"  value="목록" onclick="location.href='${root}/board/campQnA/list.do?pageNumber=${pageNumber}'"/>	
 				</li>
-		</ul>
-		<!-- </form>             -->
+			</ul>
+		</form>
 	</div>   
             </div>
         </div>
@@ -236,7 +236,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                         <div class="footer-text">
                             <p>By subscribing to our mailing list you will always get latest news and updates from us.</p>
                             <form action="#" method="post">
-                                <input type="email" name="Email" placeholder="Enter your email..." required="">
+                                <input type="email" name="Email" placeholder="Enter your email..." >
                                 <button class="btn1"><span class="fa fa-paper-plane-o" aria-hidden="true"></span></button>
                                 <div class="clearfix"> </div>
                             </form>

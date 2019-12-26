@@ -1,12 +1,14 @@
 package com.odtn.board.service;
 
 import java.io.File;
+import java.lang.System.Logger;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -20,6 +22,7 @@ import com.odtn.board.dto.CampInfoDto;
 import com.odtn.board.dto.CampInfoFileDto;
 import com.odtn.board.dto.CampReviewDto;
 import com.odtn.board.dto.CampReviewFileDto;
+import com.odtn.member.dto.MemberDto;
 
 @Component
 public class CampReviewServiceImp implements CampReviewService{
@@ -27,34 +30,43 @@ public class CampReviewServiceImp implements CampReviewService{
 	private CampReviewDao campReviewDao;
 	//작성
 	@Override
-	public void write(ModelAndView mav) {
-		
+	public void write(ModelAndView mav,HttpSession session,MemberDto memberDto) {
 		Map<String,Object>map=mav.getModelMap();
 		HttpServletRequest request=(HttpServletRequest)map.get("request");
+		int user_num=Integer.parseInt(request.getParameter("user_num"));
+		LogAspect.logger.info(LogAspect.logMsg+"로그인된user_num: "+user_num);
+		String user_name=campReviewDao.getEmail(user_num);
+		LogAspect.logger.info(LogAspect.logMsg+"설정된 user_name: "+user_name);
+		if(user_name==null) {
+			user_name=campReviewDao.getProfilName(user_num);
+		}
+		mav.addObject("user_name", user_name);
+		mav.addObject("user_num",request.getParameter("user_num"));
 		mav.setViewName("board/campReview/write");
 	}
 	
 	//작성확인
 	@Override
-	public void writeOk(ModelAndView mav) {
+	public void writeOk(ModelAndView mav,MemberDto memberDto) {
 		Map<String,Object>map=mav.getModelMap();
 		CampReviewDto campReviewDto =(CampReviewDto)map.get("campReviewDto");
 		CampReviewFileDto campReviewFileDto=(CampReviewFileDto)map.get("campReviewFileDto");
 		campReviewDto.setWrite_date(new Date());
 		campReviewDto.setRead_count(0);
-		//read페이지에서 member테이블 참조해서 닉네임가져오기구현핮기
+		
 
 		MultipartHttpServletRequest request=(MultipartHttpServletRequest)map.get("request");
-		int user_number=Integer.parseInt(request.getParameter("user_number"));
-		LogAspect.logger.info(LogAspect.logMsg+"설정된 멤버넘버: "+user_number);
-		String writer=campReviewDao.getUser_name(user_number);
-		LogAspect.logger.info(LogAspect.logMsg+"멤버이름 찾은값: "+writer);
-
+		int user_num=Integer.parseInt(request.getParameter("user_num"));
+		LogAspect.logger.info(LogAspect.logMsg+"설정된 멤버넘버: "+user_num);
+		/*
+		 * String writer=campReviewDao.getUser_name(user_num);
+		 * LogAspect.logger.info(LogAspect.logMsg+"멤버이름 찾은값: "+writer);
+		 */
 		int camp_id=Integer.parseInt(request.getParameter("camp_id"));
 		LogAspect.logger.info(LogAspect.logMsg+"캠핑장: "+camp_id);
 
 		
-		campReviewDto.setUser_number(user_number);
+		campReviewDto.setUser_num(user_num);
 		campReviewDto.setCamp_id(camp_id);
 		//첨부파일처리
 		List<CampReviewFileDto> array = new ArrayList<CampReviewFileDto>();
@@ -94,19 +106,22 @@ public class CampReviewServiceImp implements CampReviewService{
 	}
 	@Override
 	//리뷰 목록
-	public void list(ModelAndView mav) {
-		
+	public void list(ModelAndView mav,HttpSession session,MemberDto memberDto) {
+		LogAspect.logger.info(LogAspect.logMsg+"세션되어있는 user_num: "+session.getAttribute("user_num"));
+		 
+	
 		  Map<String,Object> map=mav.getModel(); 
 		  HttpServletRequest request=(HttpServletRequest)map.get("request");
-		  
+		  //작성자 찾기
 		  String pageNumber=request.getParameter("pageNumber"); 
 		  if(pageNumber==null ||pageNumber=="") pageNumber="1";
 		  
 		  int currentPage = Integer.parseInt(pageNumber);
 		  
-		  int count=campReviewDao.getCount(); 
+		 int count=campReviewDao.getCount(); 
 		 LogAspect.logger.info(LogAspect.logMsg+"전체 글 개수: "+count);
-			
+		 
+		 
 		 int boardSize=10;
 		 int startRow=(currentPage-1)*boardSize+1;
 		 LogAspect.logger.info(LogAspect.logMsg+"startRow : "+startRow);
@@ -114,36 +129,49 @@ public class CampReviewServiceImp implements CampReviewService{
 		 LogAspect.logger.info(LogAspect.logMsg+"endRow : "+endRow);
 		 
 		 //글목록 리스트로받기
+		 List<String> writerList=new ArrayList<String>();
+		 List<String> pathList=new ArrayList<String>();
 		 List<CampReviewDto> campReviewList=null;
 		 if(count>0) {
 			 campReviewList=campReviewDao.getCampReviewList(startRow,endRow);
 			 LogAspect.logger.info(LogAspect.logMsg+"리뷰 리스트 사이즈: "+campReviewList.size());
-			/*
-			 * for (int i = 0; i < campReviewList.size(); i++) { int
-			 * review_num=Integer.parseInt(request.getParameter("review_num")); //대표이미지 경로
-			 * 불러오기
-			 * 
-			 * CampReviewFileDto campReviewFileDto=new CampReviewFileDto(); int
-			 * fileCount=campReviewDao.imgCount(review_num); if(fileCount>0) { String
-			 * path=campReviewFileDto.getPath();
-			 * LogAspect.logger.info(LogAspect.logMsg+"이미지 경로: "+path);
-			 * request.setAttribute("campReviewFileDto", campReviewFileDto);
-			 * 
-			 * } }
-			 */
+			 LogAspect.logger.info(LogAspect.logMsg+"endRow : "+endRow);
+			for (int i = 0; i < campReviewList.size(); i++) {
+				System.out.println("리스트 인덱스: "+i+campReviewList.get(i));
+				int user_num=campReviewList.get(i).getUser_num();
+				System.out.println("리스트안의 usernum"+user_num);
+				int review_num=campReviewList.get(i).getReview_num();
+				System.out.println("리스트안의 review_num"+review_num);
+				String path=campReviewDao.getFilePath(review_num);
+				if (path==null) {
+					path="http://3.bp.blogspot.com/-ZKBbW7TmQD4/U6P_DTbE2MI/AAAAAAAADjg/wdhBRyLv5e8/s1600/noimg.gif";
+					System.out.println("리스트안의 path"+path);
+				}
+					pathList.add(path);
+				String writer=campReviewDao.getEmail(user_num);
+				if(writer==null) {
+					writer=campReviewDao.getProfilName(user_num);
+					System.out.println("리스트안의 작성자 "+writer);
+				}
+					writerList.add(writer);
+			}
 		 }
+		 
 		 request.setAttribute("currentPage",currentPage);
 		 request.setAttribute("count",count);
 		 request.setAttribute("boardSize",boardSize);
 		 request.setAttribute("campReviewList",campReviewList);
+		 request.setAttribute("writerList",writerList);
+		 request.setAttribute("pathList",pathList);
+		 
 		 mav.setViewName("board/campReview/list");
 	}
 	//글읽기
 	@Override
 	public void read(ModelAndView mav) {
-		Map<String, Object> map = mav.getModelMap();
+		Map<String,Object> map = mav.getModelMap();
 		HttpServletRequest request = (HttpServletRequest) map.get("request");
-		
+	
 		  int review_num = Integer.parseInt(request.getParameter("review_num"));
 		  LogAspect.logger.info(LogAspect.logMsg + "글번호: " + review_num);
 		  
@@ -151,10 +179,19 @@ public class CampReviewServiceImp implements CampReviewService{
 		  LogAspect.logger.info(LogAspect.logMsg + "페이지: " + pageNumber);
 		  
 		  CampReviewDto campReviewDto = campReviewDao.read(review_num);
+		  
+		  int user_num=campReviewDto.getUser_num();
+		  LogAspect.logger.info(LogAspect.logMsg + "글번호: " + user_num);
+		  String writer=campReviewDao.getEmail(user_num);
+		  LogAspect.logger.info(LogAspect.logMsg+"설정된 user_name: "+writer);
+		  if(writer==null) {
+			  writer=campReviewDao.getProfilName(user_num);
+		  }
 		  LogAspect.logger.info(LogAspect.logMsg + "불러온 글: " +
 		  campReviewDto.toString());
 		  
 		  mav.addObject("campReviewDto",campReviewDto);
+		  mav.addObject("writer",writer);
 		  mav.addObject("pageNumber",pageNumber);
 		  mav.setViewName("board/campReview/read");
 		 
@@ -184,7 +221,8 @@ public class CampReviewServiceImp implements CampReviewService{
 	}
 
 	@Override
-	public void update(ModelAndView mav) {
+	public void update(ModelAndView mav,MemberDto memberDto,HttpSession session) {
+		LogAspect.logger.info(LogAspect.logMsg+"세션이있는 회원번호"+session.getAttribute("user_num"));
 		Map<String,Object> map=mav.getModelMap();
 		HttpServletRequest request=(HttpServletRequest)map.get("request");
 		
@@ -197,6 +235,15 @@ public class CampReviewServiceImp implements CampReviewService{
 		CampReviewDto campReviewDto =campReviewDao.update(review_num);
 		LogAspect.logger.info(LogAspect.logMsg + "수정할 글 내용:  " + campReviewDto.toString());
 
+		int user_num=Integer.parseInt(request.getParameter("user_num"));
+		LogAspect.logger.info(LogAspect.logMsg + "수정글 작성 자: " + user_num);
+		
+		String writer=campReviewDao.getEmail(user_num);
+		LogAspect.logger.info(LogAspect.logMsg+"수정글 writer: "+writer);
+		if(writer==null) {
+			writer=campReviewDao.getProfilName(user_num);
+		}
+		
 		// 파일이있는지여부확인
 		CampReviewFileDto campReviewFileDto=null;
 		int check=campReviewDao.imgCount(review_num);
@@ -206,6 +253,7 @@ public class CampReviewServiceImp implements CampReviewService{
 			LogAspect.logger.info(LogAspect.logMsg + "이미지 이름: " + file_name);
 			mav.addObject("file_name", file_name);
 		}
+		mav.addObject("writer", writer);
 		mav.addObject("campReviewDto", campReviewDto);
 		mav.addObject("pageNumber", pageNumber);
 		mav.setViewName("board/campReview/update");

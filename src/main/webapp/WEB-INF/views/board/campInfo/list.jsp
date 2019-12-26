@@ -34,6 +34,11 @@ License URL: http://creativecommons.org/licenses/by/3.0/
     		alert
     	}
     </script>  
+        <!--++++++++++++++++++++++리스트 부트스트랩+++++++++++++++++++++++++++++++++++++-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+	  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+	  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
     
     <!--summerNote-->
     <link href="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.css" rel="stylesheet">
@@ -75,7 +80,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                     <div id="logo">
                         <%-- 	<img class="logoImg" src="${root}/resources/css/images/ODTN.png" width="50"> --%>
                   		<h1> 
-                  		<a class="navbar-brand" href="index.html">CAMPINGINFO</a>
+                  		<a class="navbar-brand" href="${root}/index.jsp">CAMPINGINFO</a>
                        </h1>
                     </div>
 
@@ -151,6 +156,13 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                 <h3 class="tittle text-center mb-lg-5 mb-3 px-lg-5">NEW 캠핑소식</h3>
 	             <div class="info_list">
 					<div class="info_list_top">
+					 <div class="input-group mb-3">
+   						 <div class="input-group-prepend">
+     						 <button class="btn btn-outline-primary" type="button">제목</button>  
+    					</div>
+    						<input type="text" class="form-control" placeholder="검색어입력">
+  						</div>
+					
 					<label>캠핑소식</label>
 						<div>
 						<input type="text" value="제목" disabled="disabled"/>
@@ -167,31 +179,39 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 					</c:if>
 					<!--작성글이있다면-->
 				 <c:if test="${count>0}">
-						<div id="list_table">
-							<div class="row">
-								<span class="col1">번호</span>
-								<span class="col2">제목</span>
-								<span class="col3">작성자</span>
-								<span class="col4">등록일</span>
-								<span class="col5">조회수</span>
-							</div>
-						
-						</div>
-					<c:forEach var="campInfoDto" items="${campInfoList}">
-						<div class="row_content">
-							<span class="col1">${campInfoDto.info_num}</span>
-							<span class="col2"><a href="${root}/board/campInfo/read.do?info_num=${campInfoDto.info_num}&pageNumber=${currentPage}">${campInfoDto.title}</a></span>
-							<span class="col3">${campInfoDto.writer}</span>
-							<span class="col4">
-							<fmt:formatDate value="${campInfoDto.write_date}" pattern="yyyy-MM-dd"/>
-							</span>
-							<span class="col5">${campInfoDto.read_count}</span>
-						</div>	
-					</c:forEach>
-				 </c:if> 
-					<div class="list_buttom">
-						<input type="button" value="글쓰기" onclick="location.href='${root}/board/campInfo/write.do'">
+				 			
+					<div class="container">         
+						  <table class="table table-striped">
+						    <thead>
+						      <tr>
+						        <th>번호</th>
+						        <th>제목</th>
+						        <th>작성자</th>
+						        <th>등록일</th>
+						        <th>조회수</th>
+						      </tr>
+						    </thead>
+						    <tbody>
+						    <c:if test="${count>0}">
+						       	<c:forEach var="campInfoDto" varStatus="list" items="${campInfoList}">
+						       	 <tr>
+								    <td>${campInfoDto.info_num}</td>
+									<td><a href="${root}/board/campInfo/read.do?info_num=${campInfoDto.info_num}&pageNumber=${currentPage}">${campInfoDto.title}</a></td>
+									<td>${writerList[list.index]}</td>
+									<td><fmt:formatDate value="${campInfoDto.write_date}" pattern="yyyy-MM-dd"/></td>
+									<td>${campInfoDto.read_count}</td>
+								 </tr>
+						       	 	</c:forEach>
+						     </c:if>
+						    </tbody>
+						  </table>
 					</div>	
+				 </c:if> 
+				  <c:if test="${sessionScope.email=='eunsol8287@gmail.com'}">
+					<div class="list_buttom">
+						<input type="button" value="글쓰기" onclick="location.href='${root}/board/campInfo/write.do?user_num=${user_num}'">
+					</div>	
+				  </c:if>
 					<div align="center">
 				 <c:if test="${count>0}">
 					<fmt:parseNumber var="pageCount" integerOnly="true" value="${count/boardSize+(count%boardSize==0 ? 0:1)}"/>						

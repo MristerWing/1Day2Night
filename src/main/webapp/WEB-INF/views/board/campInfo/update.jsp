@@ -72,7 +72,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                     <div id="logo">
                         <%-- 	<img class="logoImg" src="${root}/resources/css/images/ODTN.png" width="50"> --%>
                   		<h1> 
-                  		<a class="navbar-brand" href="index.html">CAMPINGINFO</a>
+                  		<a class="navbar-brand" href="${root}/index.jsp">CAMPINGINFO</a>
                        </h1>
                     </div>
 
@@ -161,12 +161,12 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 				</li>
 				<li>
 					<label >제목(*)</label>
-					<input name="title"  type="text" maxlength="100" value="${campInfoDto.writer}" onfocus="this.value=''">
+					<input name="title"  type="text" maxlength="100" value="${campInfoDto.title}" onfocus="this.value=''">
 				</li>
 				<li>
 					<label >작성자(*)</label>
-					<input name="writer" type="hidden" value="${campInfoDto.writer}"/>
-					<input name="writerview" type="text" value="${campInfoDto.writer}" disabled="disabled"/>
+					<input name="user_num" type="hidden" value="${campInfoDto.user_num}"/>
+					<input name="writer" type="text" value="${writer}" disabled="disabled"/>
 				</li>
 
 				<li>

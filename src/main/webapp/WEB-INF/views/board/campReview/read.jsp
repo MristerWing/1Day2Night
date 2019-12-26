@@ -29,17 +29,25 @@ License URL: http://creativecommons.org/licenses/by/3.0/
     </script>
     <script src="${root}/resources/javascript/modules/jquery-3.4.1.js"></script>
    <script type="text/javascript">
-    	function writeCmt(){
-    		var form=document.getElementById("reviewCommentForm");
-    		var review_num=form.review_num.value;
-    		var review_comment=form.review_comment.value;
-    		
-    		if(review_comment==null){
-    			alert("댓글을 입력하세요");
-    			return false;
-    		}
-    	}
- 
+   function fn_comment(code){
+	    var url="${root}/reviewComment/insert.do"
+	    $.ajax({
+	        type:'POST',
+	        url :root+"",
+	        data:$("#commentForm").serialize(),
+	        success : function(data){
+	            if(data=="success")
+	            {
+	                getCommentList();
+	                $("#comment").val("");
+	            }
+	        },
+	        error:function(request,status,error){
+	            //alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+	       }
+	        
+	    });
+	}
     </script>  
     
     <!--summerNote-->
@@ -157,7 +165,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
              <div class="info_content" >
 				<!--본문 -->
 				<!--댓글작성 form-->
-		<form id="reviewCommentForm">
+	
 			<input type="hidden" name="review_num" value="${campReviewDto.review_num}">
 			<!--세션스콥받아오는 작업해주고 고치기-->
 <%-- 			<input type="hidden" name="user_num" value="${sessionScope.sessionID}">--%>			
@@ -173,7 +181,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 				</li>
 				<li>
 					<label >작성자(*)</label>
-					<span>${campReviewDto.user_number}</span>
+					<span>${writer}</span>
 				</li>
   
 				<li>
@@ -182,28 +190,56 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 						<c:out value="${campReviewDto.content}" escapeXml="false"></c:out>
 					</span>			
 				</li>
-				<!--로그인 했을경우에만 댓글 작성기능 나오게하기-->
-				<%-- <c:if test="${sessionScope.sessionId!=null}"> --%>
-				<%-- 	<!--댓글-->
-					<li>
-					<span>${campReviewDto.user_num}</span>
-					<textarea name="review_comment"rows="4" cols="70"></textarea>
-					<div id="review_btn" style="text-align: center;">
-						<p><a href="" onclick="writeCmt()"></a>[댓글등록]</p>
-					</div>
-					</li> --%>
-				<%-- </c:if> --%>
 				<li>
-					<p>
-					<!--로그인한사람만 보여줄 수정,삭제-->
-						<input class="btn" type="button" value="수정" onclick="location.href='${root}/board/campReview/update.do?review_num=${campReviewDto.review_num}&pageNumber=${pageNumber}'" />	
+					<c:if test="${sessionScope.user_num ==campReviewDto.user_num}">
+						<input class="btn" type="button" value="수정" onclick="location.href='${root}/board/campReview/update.do?review_num=${campReviewDto.review_num}&user_num=${campReviewDto.user_num}&pageNumber=${pageNumber}'" />	
 						<input class="btn" type="button"  value="삭제" onclick="location.href='${root}/board/campReview/delete.do?review_num=${campReviewDto.review_num}'"/>	
+					</c:if>					
 						<input class="btn" type="button"  value="목록" onclick="location.href='${root}/board/campReview/list.do?pageNumber=${pageNumber}'"/>	
-					</p>
-				
 				</li>
+			<!--댓글리스트-->
+				<li>
+					<div class="container">
+					    <form id="commentListForm" name="commentListForm" method="post">
+					        <div id="commentList">
+					        </div>
+					    </form>
+					</div>
+				</li>
+			<!--댓글쓰는란-->
+			<c:if test="${sessionScope.user_num != null}">
+				<li>
+					<div class="container">
+					
+				    <form id="commentForm" name="commentForm" method="post" action="${root}/reviewComment/insert.do">
+				    <br><br>
+				        <div>
+				            <div>
+				                <span><strong>Comments</strong></span> <span id="cCnt"></span>
+				            </div>
+				            <div>
+				                <table class="table">                    
+				                    <tr>
+				                        <td>
+				                            <textarea style="width: 1100px" rows="3" cols="30" id="comment_content" name="comment_content" placeholder="댓글을 입력하세요"></textarea>
+				                            <br>
+				                            <div>
+				                               <input type="submit" value="등록"/>
+				                            </div>
+				                        </td>
+				                    </tr>
+				                </table>
+				            </div>
+				        </div>
+				        <input type="hidden" id="pageNumber" name="pageNumber" value="${pageNumber}" /> 
+				        <input type="hidden" id="review_num" name="review_num" value="${campReviewDto.review_num}" /> 
+				        <input type="hidden" id="user_num" name="user_num" value="${sessionScope.user_num}">       
+				    </form>
+					</div>
+				</li>
+			</c:if>
 			</ul>
-		</form>
+
 	</div>   
             </div>
         </div>

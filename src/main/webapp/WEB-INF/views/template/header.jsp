@@ -1,3 +1,4 @@
+
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -10,11 +11,15 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 -->
 
 <c:set var="root" value="${pageContext.request.contextPath}" />
-<!DOCTYPE html>
-<html>
+<html lang="zxx">
+
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
+<title>ODTN-Perfect camping 4 U</title>
+<!-- Meta tag Keywords -->
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="UTF-8" />
+<meta name="keywords"
+	content="Camping Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template, Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design" />
 <script>
 	addEventListener("load", function() {
 		setTimeout(hideURLbar, 0);
@@ -22,18 +27,19 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 
 	function hideURLbar() {
 		window.scrollTo(0, 1);
+		
 	}
 </script>
 <!-- //Meta tag Keywords -->
 
 <!-- Custom-Files -->
-<link rel="stylesheet" href="${root}/resources/css/test/bootstrap.css">
+<link rel="stylesheet" href="${root}/resources/css/styles/bootstrap.css">
 <!-- Bootstrap-Core-CSS -->
-<link rel="stylesheet" href="${root}/resources/css/test/style.css"
+<link rel="stylesheet" href="${root}/resources/css/styles/style.css"
 	type="text/css" media="all" />
 <!-- Style-CSS -->
 <!-- font-awesome-icons -->
-<link href="${root}/resources/css/test/font-awesome.css"
+<link href="${root}/resources/css/styles/font-awesome.css"
 	rel="stylesheet">
 <!-- //font-awesome-icons -->
 <!-- /Fonts -->
@@ -44,68 +50,78 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 	href="//fonts.googleapis.com/css?family=Dosis:200,300,400,500,600,700,800"
 	rel="stylesheet">
 <!-- //Fonts -->
+
 </head>
+
 <body>
 	<!-- mian-content -->
-	<div class="main-content inner" id="home">
+	<div class="main-content" id="home">
 		<!-- header -->
 		<header class="header">
 			<div class="container">
 				<!-- nav -->
 				<nav class="py-3">
 					<div id="logo">
-						<%-- 	<img class="logoImg" src="${root}/resources/css/images/ODTN.png" width="50"> --%>
+						<img class="logoImg" src="${root}/resources/images/ODTN.png" width="50">
 						<h1>
-							<a class="navbar-brand" href="index.html">CAMPINGINFO</a>
+							<a class="navbar-brand" href="#">ODTN</a>
 						</h1>
 					</div>
 
+<!-- 회원가입, 로그인 뜨지 않는 경우 ${sessionScope.email} 처럼 변수마다 앞에 sessionScope. 붙여봐야 할 거에요 -->
 					<label for="drop" class="toggle">Menu</label> <input
 						type="checkbox" id="drop" />
 					<ul class="menu mt-2">
-						<li class="active"><a href="index.html">캠핑장검색</a></li>
+					<c:if test="${user_num==null}">
+						<c:if test="${user_auth_id==null}">
+							<c:if test="${email == null}">
+								<li><a href="${root}/member/beforeRegister.do">
+								회원가입</a></li>
+							</c:if>
+						<li><a href="${root}/member/login.do">로그인</a></li>
+						</c:if>
+					</c:if>
+						<c:if test="${user_num != null}">
+							<c:if test="${user_auth_id == null}">
+								<c:if test="${register_type == null}">
+									<li><a href="${root}/member/logout.do">로그아웃</a></li>
+									<c:if test="${email == 'egeoda@protonmail.com'}">
+										&nbsp;&nbsp;<a href="${root}/member/adminPage.do">관리자 페이지</a>
+									</c:if>	
+									<c:if test="${email=='chanhok95@naver.com'}">
+										&nbsp;&nbsp;<a href="${root}/member/adminPage.do">관리자 페이지</a>
+									</c:if>
+								</c:if>
+							</c:if>
+							<c:if test="${user_auth_id != null}">
+								<c:if test="${register_type != null}">
+									<li><a href="${root}/member/kakaoLogout.do">카카오 로그아웃</a></li>
+								</c:if>
+							</c:if>
+						</c:if>
+						<li class="active"><a href="${root}/search/list.do">캠핑장검색</a></li>
 						<!-- First Tier Drop Down -->
 						<li><label for="drop-2" class="toggle">Drop Down <span
 								class="fa fa-angle-down" aria-hidden="true"></span>
 						</label> <a href="#">캠핑톡 <span class="fa fa-angle-down"
 								aria-hidden="true"></span></a> <input type="checkbox" id="drop-2" />
 							<ul>
-								<li><a href="${root}/board/campInfo/write.do">캠핑소식</a></li>
-								<li><a href="gallery.html">캠핑후기</a></li>
-								<li><a href="features.html">이벤트</a></li>
-								<li><a href="features.html">캠핑노하우</a></li>
+								<li><a href="${root}/board/campInfo/list.do">캠핑공지</a></li>
+								<li><a href="${root}/board/campReview/list.do">캠핑후기</a></li>
+
 							</ul></li>
-						<li>
-							<!-- First Tier Drop Down --> <label for="drop-2" class="toggle">Drop
-								Down <span class="fa fa-angle-down" aria-hidden="true"></span>
-						</label> <a href="#">캠핑플러스 <span class="fa fa-angle-down"
-								aria-hidden="true"></span></a> <input type="checkbox" id="drop-2" />
-							<ul>
-								<li><a href="features.html">캠핑시작하기</a></li>
-								<li><a href="gallery.html">캠핑장비이야기</a></li>
-								<li><a href="features.html">안전한캠핑즐기기</a></li>
-								<li><a href="features.html">안전수칙동영상</a></li>
-							</ul>
-						</li>
-						<li>
-							<!-- First Tier Drop Down --> <label for="drop-2" class="toggle">Drop
-								Down <span class="fa fa-angle-down" aria-hidden="true"></span>
+						<li> 
+							<!-- First Tier Drop Down --> 
+							<label for="drop-2" class="toggle">DropDown <span class="fa fa-angle-down" aria-hidden="true"></span>
 						</label> <a href="#">고객센터 <span class="fa fa-angle-down"
 								aria-hidden="true"></span></a> <input type="checkbox" id="drop-2" />
 							<ul>
-								<li><a href="features.html">공지사항</a></li>
-								<li><a href="gallery.html">캠핑상담</a></li>
-								<li><a href="features.html">캠핑장정보수정요청</a></li>
-								<li><a href="features.html">미등록야영장신고</a></li>
-								<li><a href="features.html">캠핑장공지사항</a></li>
+								<li><a href="${root}/board/campQnA/list.do">캠핑문의</a></li>
 							</ul>
 						</li>
 
 					</ul>
-
-
 				</nav>
-				<!-- //nav -->
 			</div>
 		</header>
 		<!-- //header -->

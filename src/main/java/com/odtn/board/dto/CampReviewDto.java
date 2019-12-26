@@ -5,7 +5,7 @@ import java.util.Date;
 public class CampReviewDto {
 	
 	private int review_num;
-	private int user_number;
+	private int user_num;
 	private String title;
 	private String content;
 	private int read_count;
@@ -14,11 +14,11 @@ public class CampReviewDto {
 	
 	public CampReviewDto(){}
 
-	public CampReviewDto(int review_num, int user_number, String title, String content, int read_count, int camp_id,
+	public CampReviewDto(int review_num, int user_num, String title, String content, int read_count, int camp_id,
 			Date write_date) {
 		super();
 		this.review_num = review_num;
-		this.user_number = user_number;
+		this.user_num = user_num;
 		this.title = title;
 		this.content = content;
 		this.read_count = read_count;
@@ -34,12 +34,12 @@ public class CampReviewDto {
 		this.review_num = review_num;
 	}
 
-	public int getUser_number() {
-		return user_number;
+	public int getUser_num() {
+		return user_num;
 	}
 
-	public void setUser_number(int user_number) {
-		this.user_number = user_number;
+	public void setUser_num(int user_num) {
+		this.user_num = user_num;
 	}
 
 	public String getTitle() {
@@ -84,11 +84,9 @@ public class CampReviewDto {
 
 	@Override
 	public String toString() {
-		return "CampReviewDto [review_num=" + review_num + ", user_number=" + user_number + ", title=" + title
-				+ ", content=" + content + ", read_count=" + read_count + ", camp_id=" + camp_id + ", write_date="
-				+ write_date + "]";
+		return "CampReviewDto [review_num=" + review_num + ", user_num=" + user_num + ", title=" + title + ", content="
+				+ content + ", read_count=" + read_count + ", camp_id=" + camp_id + ", write_date=" + write_date + "]";
 	}
-	
 	
 	
 	

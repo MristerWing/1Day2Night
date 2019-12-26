@@ -12,6 +12,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.xml.crypto.dsig.keyinfo.PGPData;
 
 import org.apache.ibatis.logging.Log;
@@ -27,6 +28,7 @@ import com.odtn.aop.LogAspect;
 import com.odtn.board.dao.CampInfoDao;
 import com.odtn.board.dto.CampInfoDto;
 import com.odtn.board.dto.CampInfoFileDto;
+import com.odtn.member.dto.MemberDto;
 
 @Component
 public class CampInfoServiceImp implements CampInfoService {
@@ -34,15 +36,22 @@ public class CampInfoServiceImp implements CampInfoService {
 	private CampInfoDao campInfoDao;
 
 	@Override
-	public void write(ModelAndView mav) {
+	public void write(ModelAndView mav,MemberDto memberDto,HttpSession session) {
 
 		Map<String, Object> map = mav.getModelMap();
 		HttpServletRequest request = (HttpServletRequest) map.get("request");
+		int user_num=Integer.parseInt(request.getParameter("user_num"));
+		LogAspect.logger.info(LogAspect.logMsg+"관리자 user_num"+user_num);
+		String writer=campInfoDao.getNickName(user_num);
+		LogAspect.logger.info(LogAspect.logMsg+"관리자닉네임"+writer);
+		
+		mav.addObject("user_num",user_num);
+		mav.addObject("writer", writer);
 		mav.setViewName("board/campInfo/write");
 	}
 
 	@Override
-	public void writeOk(ModelAndView mav) {
+	public void writeOk(ModelAndView mav,MemberDto memberDto) {
 		Map<String, Object> map = mav.getModelMap();
 
 		CampInfoDto campInfoDto = (CampInfoDto) map.get("campInfoDto");
@@ -51,7 +60,9 @@ public class CampInfoServiceImp implements CampInfoService {
 		campInfoDto.setRead_count(0);
 
 		MultipartHttpServletRequest request = (MultipartHttpServletRequest) map.get("request");
-
+		int user_num=Integer.parseInt(request.getParameter("user_num"));
+		LogAspect.logger.info(LogAspect.logMsg + "작성확인 user_num: " + user_num);
+		campInfoDto.setUser_num(user_num);
 		// 첨부파일처리
 		List<CampInfoFileDto> array = new ArrayList<CampInfoFileDto>();
 		List<MultipartFile> fileList = request.getFiles("file");
@@ -92,7 +103,7 @@ public class CampInfoServiceImp implements CampInfoService {
 
 	// 글목록
 	@Override
-	public void list(ModelAndView mav) {
+	public void list(ModelAndView mav,HttpSession session,MemberDto memberDto) {
 		Map<String, Object> map = mav.getModel();
 		HttpServletRequest request = (HttpServletRequest) map.get("request");
 
@@ -115,23 +126,30 @@ public class CampInfoServiceImp implements CampInfoService {
 		LogAspect.logger.info(LogAspect.logMsg + "시작번호: " + startRow + "," + "끝번호: " + endRow);
 
 		// 작성글 받기
+		List<String> writerList=new ArrayList<String>();
 		List<CampInfoDto> campInfoList = null;
 		// 글이 하나라도 있으면
 		if (count > 0) {
 			campInfoList = campInfoDao.getCampInfoList(startRow, endRow);
 			LogAspect.logger.info(LogAspect.logMsg + "작성글 사이즈" + campInfoList.size());
-
+			for (int i = 0; i < campInfoList.size(); i++) {
+				int user_num=campInfoList.get(i).getUser_num();
+				String writer=campInfoDao.getNickName(user_num);
+				LogAspect.logger.info(LogAspect.logMsg+"공지글쓴사람 이름들"+writer);
+				writerList.add(writer);
+				System.out.println("이름들"+writer);
+			}		
 		}
 		request.setAttribute("currentPage", currentPage);
 		request.setAttribute("count", count);
 		request.setAttribute("boardSize", boardSize);
 		request.setAttribute("campInfoList", campInfoList);
-
+		request.setAttribute("writerList",writerList);
 		mav.setViewName("board/campInfo/list");
 	}
 
 	// 글 읽기
-	public void read(ModelAndView mav) {
+	public void read(ModelAndView mav,MemberDto memberDto) {
 		Map<String, Object> map = mav.getModelMap();
 		HttpServletRequest request = (HttpServletRequest) map.get("request");
 
@@ -143,7 +161,10 @@ public class CampInfoServiceImp implements CampInfoService {
 
 		CampInfoDto campInfoDto = campInfoDao.read(info_num);
 		LogAspect.logger.info(LogAspect.logMsg + "불러온 글: " + campInfoDto.toString());
-
+		int user_num=campInfoDto.getUser_num();
+		String writer=campInfoDao.getNickName(user_num);
+		LogAspect.logger.info(LogAspect.logMsg+"읽은글 관리자 이름: "+writer);
+		
 		// 파일이있는지여부확인
 		List<CampInfoFileDto> campInfoFileList = null;
 		int fileCount = campInfoDao.fileCount(info_num);
@@ -154,6 +175,7 @@ public class CampInfoServiceImp implements CampInfoService {
 		}
 		mav.addObject("campInfoFileList", campInfoFileList);
 		mav.addObject("campInfoDto", campInfoDto);
+		mav.addObject("writer", writer);
 		mav.addObject("pageNumber", pageNumber);
 		mav.setViewName("board/campInfo/read");
 	}
@@ -236,7 +258,7 @@ public class CampInfoServiceImp implements CampInfoService {
 
 	// 수정할 글 불러오기
 	@Override
-	public void update(ModelAndView mav) {
+	public void update(ModelAndView mav,HttpSession session,MemberDto memberDto) {
 		Map<String, Object> map = mav.getModelMap();
 		HttpServletRequest request = (HttpServletRequest) map.get("request");
 		// 가져올 info_num
@@ -247,8 +269,14 @@ public class CampInfoServiceImp implements CampInfoService {
 		LogAspect.logger.info(LogAspect.logMsg + "수정할 글의 페이지번호:  " + pageNumber);
 
 		CampInfoDto campInfoDto = campInfoDao.update(info_num);
-		LogAspect.logger.info(LogAspect.logMsg + "수정할 글 내용:  " + campInfoDto);
-
+		LogAspect.logger.info(LogAspect.logMsg + "수정할 글 내용:  " + campInfoDto.toString());
+		
+		int user_num=Integer.parseInt(request.getParameter("user_num"));
+		LogAspect.logger.info(LogAspect.logMsg+"수정글의 user_num: "+user_num); 
+		
+		String writer=campInfoDao.getNickName(user_num);
+		LogAspect.logger.info(LogAspect.logMsg+"수정글의 writer: "+writer);
+		
 		// 파일이있는지여부확인
 		List<CampInfoFileDto> campInfoFileList = null;
 		int fileCount = campInfoDao.fileCount(info_num);
@@ -258,6 +286,7 @@ public class CampInfoServiceImp implements CampInfoService {
 			LogAspect.logger.info(LogAspect.logMsg + "파일 이름들: " + campInfoFileList.toString());
 			mav.addObject("campInfoFileList", campInfoFileList);
 		}
+		mav.addObject("writer",writer);
 		mav.addObject("campInfoDto", campInfoDto);
 		mav.addObject("pageNumber", pageNumber);
 		mav.setViewName("board/campInfo/update");

@@ -1,8 +1,9 @@
 package com.odtn.board.controller;
 
-import javax.management.MalformedObjectNameException;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,6 +14,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.odtn.board.dto.CampReviewDto;
 import com.odtn.board.dto.CampReviewFileDto;
 import com.odtn.board.service.CampReviewService;
+import com.odtn.member.dto.MemberDto;
 
 @Controller
 public class CampReviewController {
@@ -21,37 +23,38 @@ public class CampReviewController {
 	private CampReviewService campReviewService;
 	//리뷰작성
 	@RequestMapping (value = "board/campReview/write.do",method = RequestMethod.GET)
-	public ModelAndView write(HttpServletRequest request, HttpServletResponse response) {
+	public ModelAndView write(HttpServletRequest request, HttpServletResponse response,HttpSession session,MemberDto memberDto) {
 		ModelAndView mav=new ModelAndView();
 		mav.addObject("request",request);
-		campReviewService.write(mav);
+		campReviewService.write(mav,session,memberDto);
 		return mav;
 	}
 	//리뷰작성확인
 	@RequestMapping (value = "board/campReview/writeOk.do",method = RequestMethod.POST)
 	public ModelAndView writeOk(HttpServletRequest request,HttpServletResponse response,
-								CampReviewDto campReviewDto,CampReviewFileDto campReviewFileDto) {
+								CampReviewDto campReviewDto,CampReviewFileDto campReviewFileDto,MemberDto memberDto) {
 		ModelAndView mav=new ModelAndView();
 		mav.addObject("request",request);
 		mav.addObject("campReviewDto", campReviewDto);
 		mav.addObject("campReviewFileDto", campReviewFileDto);
-		campReviewService.writeOk(mav);
+		campReviewService.writeOk(mav,memberDto);
 		return mav;
 	}
 	//리뷰 목록 확인
 	@RequestMapping (value = "board/campReview/list.do", method = RequestMethod.GET)
 	public ModelAndView list(HttpServletRequest request, HttpServletResponse response,
-							 CampReviewDto campReviewDto ) {
+							 CampReviewDto campReviewDto,HttpSession session,MemberDto memberDto) {
 			ModelAndView mav=new ModelAndView();
 			mav.addObject("request",request);
-			campReviewService.list(mav);
+			campReviewService.list(mav,session,memberDto);
 			return mav;
 	}
 	//글 읽기
 	@RequestMapping(value = "board/campReview/read.do",method = RequestMethod.GET  )
-	public ModelAndView read(HttpServletRequest request, HttpServletResponse response) {
+	public ModelAndView read(HttpServletRequest request, HttpServletResponse response,MemberDto memberDto) {
 		ModelAndView mav=new ModelAndView();
 		mav.addObject("request",request);
+		mav.addObject("memberDto",memberDto);
 		campReviewService.read(mav);
 		return mav;
 	}
@@ -65,10 +68,10 @@ public class CampReviewController {
 	}
 	//글 수정
 	@RequestMapping(value="board/campReview/update.do",method=RequestMethod.GET)
-	public ModelAndView update(HttpServletRequest request, HttpServletResponse response) {
+	public ModelAndView update(HttpServletRequest request, HttpServletResponse response,MemberDto memberDto,HttpSession session) {
 		ModelAndView mav=new ModelAndView();
 		mav.addObject("request",request);
-		campReviewService.update(mav);
+		campReviewService.update(mav,memberDto,session);
 		return mav;
 	}
 	// 글 수정 확인
