@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="board.mapper.CampQnAMapper">
+
+	<!--작성자 찾기 -->
+	<select id="getNickName" resultType="String">
+		SELECT EMAIL FROM MEMBER WHERE USER_NUM=#{user_num}
+	</select>
+	
+	<!-- 작성자찾기: 프로필이름찾기 -->
+	<select id="getProfileName" resultType="String">
+		SELECT NICKNAME FROM MEMBER WHERE USER_NUM=#{user_num}
+	</select>
+	
+	<!--작성확인-->
+	<insert id="writeOk" parameterType="com.odtn.board.dto.CampQnADto">
+		INSERT INTO QNA(QNA_NUM,
+						TITLE,
+						USER_NUM,
+						PASSWORD,
+						QNA_TYPE,
+						CONTENT,
+						WRITE_DATE,
+						READ_COUNT,
+						GROUP_NUM,
+						SEQUENCE_NUM,
+						SEQUENCE_LEVEL)
+						VALUES (qna_qna_num_seq.nextval,
+						#{title},
+						#{user_num},
+						#{password},
+						#{qna_type},
+						#{content},
+						#{write_date},
+						#{read_count},
+						#{group_num},
+						#{sequence_num},
+						#{sequence_level})
+	</insert>
+	 
+	 <!--maxNum 구하기-->
+	 <select id="getQnAMaxNum" resultType="int">
+	 	SELECT NVL(MAX(QNA_NUM),0) FROM QNA
+	 </select>
+	 
+	 <!--전체 글 개수구하기-->
+	 <select id="getCount" resultType="int">
+	 	SELECT COUNT(*)FROM QNA
+	 </select>
+	 
+	 <!--글목록 리스트로 가져오기-->
+	 <select id="getCampQnAList" parameterType="java.util.Map" resultType="com.odtn.board.dto.CampQnADto">
+	 	 <![CDATA[
+		  SELECT * FROM
+	      (SELECT ROWNUM AS RNUM, A.* FROM
+	      (SELECT QNA_NUM, TITLE, QNA_TYPE, USER_NUM, WRITE_DATE, READ_COUNT FROM QNA ORDER BY QNA_NUM DESC)A)
+	      B WHERE RNUM >=#{startRow} AND RNUM <= #{endRow}
+		  ]]>
+	 </select>
+	 
+	 
+	 <!--누를때 조회수 증가-->
+	 <update id="readCount">
+	 	UPDATE QNA SET READ_COUNT=READ_COUNT+1
+	 	WHERE QNA_NUM=#{qna_num}
+	 </update>
+	 
+	 <!--해당글 불러오기-->
+	 <select id="readContent" parameterType="int" resultType="com.odtn.board.dto.CampQnADto">
+	 	SELECT * FROM QNA WHERE QNA_NUM=#{qna_num}
+	 </select>
+	 
+	 <!--해당 글 삭제-->
+	 <delete id="deleteQnA" parameterType="int">
+	 	 DELETE FROM QNA WHERE QNA_NUM=#{qna_num}
+	 </delete>
+	 
+	 <!--해당 글 수정 -->
+	 <select id="QnAupdate" parameterType="int" resultType="com.odtn.board.dto.CampQnADto">
+	 	SELECT * FROM QNA WHERE QNA_NUM=#{qna_num}
+	 </select>
+	 
+	 <!--글 수정 확인-->
+	 <update id="QnAupdateOk" parameterType="com.odtn.board.dto.CampQnADto">
+	 	UPDATE QNA SET TITLE=#{title},CONTENT=#{content} WHERE QNA_NUM=#{qna_num}
+	 </update>
+</mapper>

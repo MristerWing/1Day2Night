@@ -460,6 +460,13 @@ a.contact:hover {
 
 /*-- banner --*/
 
+.content_topline{
+	border-width: 10px; 
+}
+.container>label{
+	font-size: 50;
+}
+
 .main-content {
     background: url('../../images/photo-1508873696983-2dfd5898f08b.jpg') no-repeat center;
     background-size: cover;

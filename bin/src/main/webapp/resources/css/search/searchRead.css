@@ -1,42 +1,42 @@
 .search .topline-background {
-	width: 100%;
-	min-height: 300px;
-	margin-top: 10px;
-	background: url('../../images/search/searchReadBackground.jpg') no-repeat;
-	background-size: cover;
-	overflow: hidden;
-	padding-top: 93px;
+    width: 100%;
+    min-height: 300px;
+    margin-top: 10px;
+    background: url("../../images/search/searchReadBackground.jpg") no-repeat;
+    background-size: cover;
+    overflow: hidden;
+    padding-top: 93px;
 }
 
 .search i {
-	margin-right: 5px;
+    margin-right: 5px;
 }
 
 .search span > i {
-	color: royalblue;
+    color: royalblue;
 }
 
 .read-background {
-	color: whitesmoke;
-	text-shadow: 1px 1px 2px black;
-	margin: auto;
+    color: whitesmoke;
+    text-shadow: 1px 1px 2px black;
+    margin: auto;
 }
 
 .search .name-space {
-	margin-bottom: 10px;
-	overflow: hidden;
+    margin-bottom: 10px;
+    overflow: hidden;
 }
 
 .search .name-space > * {
-	margin-bottom: 5px;
+    margin-bottom: 5px;
 }
 
 .search .tag-div {
-	border-top: 1px solid grey;
+    border-top: 1px solid grey;
 }
 
 .search .tag-div > * {
-	margin-top: 10px;
+    margin-top: 10px;
 }
 
 /* div main-content */
@@ -44,139 +44,159 @@
 .search .main-content,
 .search .img-area,
 .search .content-area {
-	/* border: 3px solid red; */
-	margin: 10px auto 0 auto;
-	overflow: hidden;
+    /* border: 3px solid red; */
+    margin: 10px auto 0 auto;
+    overflow: hidden;
 }
 
 .search .content-area {
-	margin-left: 15px;
+    margin-left: 15px;
 }
 
 .search .img-area,
 .search .content-area {
-	display: inline-block;
+    display: inline-block;
 }
 
 .search .img-area {
-	width: 55%;
+    width: 55%;
 }
 
 .search .content-area tbody {
-	border-top: 1px solid #dee2e6;
-	border-bottom: 1px solid #dee2e6;
+    border-top: 1px solid #dee2e6;
+    border-bottom: 1px solid #dee2e6;
 }
 
 .search .content-area {
-	width: 40%;
-	height: 493px;
+    width: 40%;
+    height: 493px;
 }
 
 .search .button-area {
-	text-align: center;
+    text-align: center;
 }
 
 .search .button-area > button {
-	margin: 0 auto;
-	width: 30%;
+    margin: 0 auto;
+    width: 30%;
 }
 
 /* div row */
 
 .search .row button {
-	margin: 0 5px;
+    margin: 0 5px;
 }
 
 /* div sub-content */
 .search .sub-content {
-	max-width: 1200px;
-	margin: 0 auto;
-	padding: 0 15px;
-	overflow: hidden;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 15px;
+    min-height: 400px;
+    overflow: hidden;
 }
 
 .search .sub-content > div {
-	overflow: hidden;
-	margin: 10px auto;
+    overflow: hidden;
+    margin: 10px auto;
 }
 
 .search .sub-content > div:nth-child(even) {
-	border-top: 2px solid black;
-	border-bottom: 2px solid black;
+    border-top: 2px solid black;
+    border-bottom: 2px solid black;
 }
 
 /*img*/
 .search .sub-content .sub-img {
-	text-align: center;
+    text-align: center;
 }
 
 /*index*/
 .search .sub-content .sub-index > span {
-	display: block;
-	padding: 0 8px;
+    display: block;
+    padding: 0 8px;
 }
 
 .search .sub-content .sub-index > .text {
-	height: 90%;
+    height: 90%;
 }
 
 .search .sub-content .sub-index > .date {
-	height: 9%;
-	font-size: 13px;
-	color: #888;
+    height: 9%;
+    font-size: 13px;
+    color: #888;
 }
 
 /*campinfo*/
 .search .sub-content .sub-campinfo > * {
-	overflow: hidden;
-	width: 100%;
+    overflow: hidden;
+    width: 100%;
 }
 
 .search .sub-content .title {
-	padding-left: 5px;
-	display: block;
-	font-size: 20px;
-	line-height: 27px;
-	margin: 25px 0 13px 0;
+    padding-left: 5px;
+    display: block;
+    font-size: 20px;
+    line-height: 27px;
+    margin: 25px 0 13px 0;
 }
 
 .search .sub-content .sub-campinfo .info {
-	height: 180px;
-	padding: 30px 3%;
-	background: #f9f9f9;
-	border-radius: 5px;
+    height: 180px;
+    padding: 30px 3%;
+    background: #f9f9f9;
+    border-radius: 5px;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+}
+
+/*icons*/
+.search .sub-content .icon-area {
+    flex: 1 1 0;
+    overflow: hidden;
+}
+
+.search .sub-content .icon-area > * {
+    text-align: center;
+}
+
+.search .sub-content .icon-area > .main-icons {
+    color: orange;
+    font-size: 36px;
+    margin-bottom: 3px;
 }
 
 /*etc*/
 
 .search .sub-content .sub-etc {
-	font-size: 14px;
-	overflow: hidden;
+    font-size: 14px;
+    overflow: hidden;
 }
 
 .search .sub-content .sub-etc th {
-	width: 20%;
-	border: 0;
+    width: 20%;
+    border: 0;
 }
 
 .search .sub-content .sub-etc td:nth-child(even) {
-	color: #888;
-	font-size: 13px;
-	text-align: left;
+    color: #888;
+    font-size: 13px;
+    text-align: left;
 }
 
 .search .sub-content .sub-etc tr:first-child > td {
-	border: 0;
+    border: 0;
 }
 
 /*안내*/
 
 .search .sub-content .guide-area .table {
-	text-align: center;
-	font-size: 14px;
-	border-bottom: 1px solid black;
+    text-align: center;
+    font-size: 14px;
+    border-bottom: 1px solid black;
 }
 
 .search .sub-content .guide-area .title {
-	font-size: 18px;
+    font-size: 18px;
 }
