@@ -1,7 +1,7 @@
 package com.odtn.boardComment.service;
 
+import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -11,11 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.google.gson.JsonArray;
 import com.odtn.aop.LogAspect;
-import com.odtn.board.dto.CampInfoDto;
-import com.odtn.board.dto.CampInfoFileDto;
-import com.odtn.board.dto.CampQnADto;
 import com.odtn.boardComment.dao.ReviewCommentDao;
 import com.odtn.boardComment.dto.ReviewCommentDto;
 
@@ -29,7 +25,8 @@ public class ReviewCommentServiceImp implements ReviewCommentService {
 	public void insert(ModelAndView mav) {
 		Map<String, Object> map = mav.getModelMap();
 
-		ReviewCommentDto reviewCommentDto = (ReviewCommentDto) map.get("reviewCommentDto");
+		ReviewCommentDto reviewCommentDto = (ReviewCommentDto) map
+				.get("reviewCommentDto");
 		reviewCommentDto.setWrite_date(new Date());
 		HttpServletRequest request = (HttpServletRequest) map.get("request");
 		int pageNumber = Integer.parseInt(request.getParameter("pageNumber"));
@@ -42,7 +39,8 @@ public class ReviewCommentServiceImp implements ReviewCommentService {
 		reviewCommentDto.setUser_num(user_num);
 		reviewCommentDto.setReview_num(review_num);
 
-		LogAspect.logger.info(LogAspect.logMsg + "입력내용" + reviewCommentDto.toString());
+		LogAspect.logger
+				.info(LogAspect.logMsg + "입력내용" + reviewCommentDto.toString());
 		// 자료저장확인용 check
 		int check = reviewCommentDao.insert(reviewCommentDto);
 		LogAspect.logger.info(LogAspect.logMsg + "check값: " + check);
@@ -69,7 +67,8 @@ public class ReviewCommentServiceImp implements ReviewCommentService {
 		List<ReviewCommentDto> reviewCommentList = null;
 		if (count > 0) {
 			reviewCommentList = reviewCommentDao.getCommentList(review_num);
-			LogAspect.logger.info(LogAspect.logMsg + "댓글 리스트 사이즈: " + reviewCommentList.size());
+			LogAspect.logger.info(LogAspect.logMsg + "댓글 리스트 사이즈: "
+					+ reviewCommentList.size());
 
 			/*
 			 * for (int i = 0; i < reviewCommentList.size(); i++) {
@@ -79,7 +78,8 @@ public class ReviewCommentServiceImp implements ReviewCommentService {
 			 * writer=reviewCommentDao.getUserName(user_num); if(writer==null) {
 			 * writer=reviewCommentDao.getEmail(user_num); if (writer==null) {
 			 * writer=reviewCommentDao.getNickName(user_num);
-			 * System.out.println("리스트안의 작성자 "+writer); } } writerList.add(writer); }
+			 * System.out.println("리스트안의 작성자 "+writer); } }
+			 * writerList.add(writer); }
 			 */
 		}
 	}

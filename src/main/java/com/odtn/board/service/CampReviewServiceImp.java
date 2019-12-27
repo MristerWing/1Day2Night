@@ -49,8 +49,6 @@ public class CampReviewServiceImp implements CampReviewService {
 	public void writeOk(ModelAndView mav, MemberDto memberDto) {
 		Map<String, Object> map = mav.getModelMap();
 		CampReviewDto campReviewDto = (CampReviewDto) map.get("campReviewDto");
-		CampReviewFileDto campReviewFileDto = (CampReviewFileDto) map
-				.get("campReviewFileDto");
 		campReviewDto.setWrite_date(new Date());
 		campReviewDto.setRead_count(0);
 
@@ -103,7 +101,7 @@ public class CampReviewServiceImp implements CampReviewService {
 		LogAspect.logger.info(LogAspect.logMsg + "작성 check: " + check);
 
 		mav.addObject("check", check);
-		mav.setViewName("board/campReview/writeOk.tiles");
+		mav.setViewName("board/campReview/writeOk.empty");
 	}
 
 	@Override
@@ -255,7 +253,6 @@ public class CampReviewServiceImp implements CampReviewService {
 		}
 
 		// 파일이있는지여부확인
-		CampReviewFileDto campReviewFileDto = null;
 		int check = campReviewDao.imgCount(review_num);
 		LogAspect.logger.info(LogAspect.logMsg + "대표이미지 있는지: " + check);
 		if (check > 0) {
