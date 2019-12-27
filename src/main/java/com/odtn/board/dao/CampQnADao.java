@@ -24,5 +24,7 @@ public interface CampQnADao {
    public CampQnADto update(int qna_num);
    //수정확인
    public int updateOk(CampQnADto campQnADto);
+   //답글 작성확인
+   public int writeAnswerOk(CampQnADto campQnADto);
    
 }

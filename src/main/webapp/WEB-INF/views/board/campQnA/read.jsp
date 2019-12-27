@@ -30,7 +30,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
     <script src="${root}/resources/javascript/modules/jquery-3.4.1.js"></script>
    <script type="text/javascript">
         function replyQnA(root,qna_num,group_num,sequence_num,sequence_level,pageNumber,user_num){
-        	 var url=root+"/board/campQnA/update.do?qna_num="+qna_num;
+        	 var url=root+"/board/campQnA/writeAnswer.do?qna_num="+qna_num;
     	     url +="&group_num="+group_num+"&sequence_num="+sequence_num;
     	     url +="&sequence_level="+sequence_level+"&pageNumber="+pageNumber+"&user_num="+user_num;
     	     alert(url);

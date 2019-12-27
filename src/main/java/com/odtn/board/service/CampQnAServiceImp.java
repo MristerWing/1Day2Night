@@ -249,4 +249,64 @@ public class CampQnAServiceImp implements CampQnAService {
 		mav.addObject("check", check);
 		mav.setViewName("board/campQnA/updateOk.tiles");
 	}
+
+	 //답글작성
+	   @Override
+	   public void writeAnswer(ModelAndView mav, MemberDto memberDto) {
+	      Map<String,Object> map=mav.getModelMap();
+	      HttpServletRequest request=(HttpServletRequest)map.get("request");
+	      
+	      int qna_num = Integer.parseInt(request.getParameter("qna_num"));
+	      LogAspect.logger.info(LogAspect.logMsg + "수정할글 번호:  " + qna_num);
+	      // 페이지번호
+	      int pageNumber = Integer.parseInt(request.getParameter("pageNumber"));
+	      LogAspect.logger.info(LogAspect.logMsg + "수정할 글의 페이지번호:  " + pageNumber);
+
+	      CampQnADto campQnADto =campQnADao.update(qna_num);
+	      LogAspect.logger.info(LogAspect.logMsg + "답글 내용:  " + campQnADto.toString());
+
+	      int user_num=Integer.parseInt(request.getParameter("user_num"));
+	      LogAspect.logger.info(LogAspect.logMsg + "수정글 작성 자: " + user_num);
+	      String writer=campQnADao.getNickName(user_num);
+	      if(writer==null) {
+	         writer=campQnADao.getProfileName(user_num);
+	      }
+	      
+	      String password=campQnADto.getPassword();
+	      LogAspect.logger.info(LogAspect.logMsg + "수정글password: " + password);
+	      
+	      int group_num=Integer.parseInt(request.getParameter("group_num"));
+	      int sequence_num=Integer.parseInt(request.getParameter("sequence_num"));
+	      int sequence_level=Integer.parseInt(request.getParameter("sequence_level"));   
+	      
+	      
+	      mav.addObject("user_num", user_num);
+	      mav.addObject("group_num", group_num);
+	      mav.addObject("sequence_num", sequence_num);
+	      mav.addObject("sequence_level", sequence_level);
+	      mav.addObject("qna_num", qna_num);
+	      mav.addObject("writer", writer);
+	      mav.addObject("campQnADto", campQnADto);
+	      mav.addObject("pageNumber", pageNumber);
+	      mav.addObject("password", password);
+	      mav.setViewName("board/campQnA/writeAnswer");
+	   }
+	//답글작성확인
+	@Override
+	public void writeAnswerOk(ModelAndView mav) {
+		Map<String, Object>map=mav.getModelMap();
+		CampQnADto campQnADto=(CampQnADto)map.get("campQnADto");
+		//HttpServletRequest request=(HttpServletRequest)map.get("request");
+		campQnAwriteNum(campQnADto);
+		campQnADto.setWrite_date(new Date());
+		campQnADto.setRead_count(0);
+		LogAspect.logger.info(LogAspect.logMsg+"입력: "+campQnADto.toString());
+		
+		int check=campQnADao.writeAnswerOk(campQnADto);
+		LogAspect.logger.info(LogAspect.logMsg+"입력확인 check: "+check);
+		
+		mav.addObject("check",check);
+		mav.setViewName("board/campQnA/writeAnswerOk");	
+	}
+	
 }
