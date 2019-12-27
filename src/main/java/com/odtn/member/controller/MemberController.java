@@ -1,6 +1,9 @@
 package com.odtn.member.controller;
 
+import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -11,6 +14,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.odtn.aop.LogAspect;
@@ -58,6 +63,78 @@ public class MemberController {
 		
 		return mav;
 	}
+	
+	@RequestMapping(value="member/emailDupCheck.do", method=RequestMethod.POST)
+	public @ResponseBody int emailDupCheck(@RequestParam("email") String email, ModelAndView mav) {
+		int result=0;
+		MemberDto memDto=memberService.emailDupCheck(email);
+		
+		String regex = "^[_a-zA-Z0-9-\\.]{1,64}+@[\\.a-zA-Z0-9]+\\.[a-zA-Z]+$";
+		Boolean b = email.matches(regex);
+		
+		if(memDto==null) {
+			if(b==false) {
+				LogAspect.logger.info(LogAspect.logMsg+"MC.emailDupCheck.이메일 형식에 맞지 않습니다.");
+				result = -1;
+			}
+			if(b) {
+				result = 0;
+				LogAspect.logger.info(LogAspect.logMsg+"MC.emailDupCheck.이메일 사용가능");
+				LogAspect.logger.info(LogAspect.logMsg+"MC.emailDupCheck.result= "+result);
+			}
+			
+		} else if(memDto.getEmail().equals(email)) {
+			LogAspect.logger.info(LogAspect.logMsg+"MC.emailDupCheck.이미 사용중인 이메일입니다.");
+			result= 1;
+		} else if(memDto.getRegister_type()!=null && memDto.getRegister_type().contentEquals("KAKAO")) {
+			LogAspect.logger.info(LogAspect.logMsg+"MC.emailDupCheck.같은 메일을 사용하는 카카오 계정으로 가입하셨습니다.");
+			result = 2;
+		}
+		return result;
+	}
+	
+	@RequestMapping(value="member/passwordCheck.do", method=RequestMethod.POST)
+	public @ResponseBody int passwordCheck(@RequestParam String email, @RequestParam String password) {
+		LogAspect.logger.info(LogAspect.logMsg+"MC.passwordCheck method");
+//		LogAspect.logger.info(LogAspect.logMsg+"pwCheck.email: "+hMap.get("email"));
+//		LogAspect.logger.info(LogAspect.logMsg+"pwCheck.password: "+hMap.get("password"));
+		LogAspect.logger.info(LogAspect.logMsg+"pwCheck.email: "+email);
+		LogAspect.logger.info(LogAspect.logMsg+"pwCheck.password: "+password);
+		
+		int check = 0;
+		LogAspect.logger.info(LogAspect.logMsg+"pwCheck.check: "+check);
+		String password_check = "^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[$@$!%*?&`~'\"+=])[A-Za-z[0-9]$@$!%*?&`~'\"+=]{11,20}$"; 
+				
+		Pattern patternSymbol = Pattern.compile(password_check);
+		Matcher matcherSymbol = patternSymbol.matcher(password);
+		
+		if(matcherSymbol.matches()) {
+			check = 1;
+			LogAspect.logger.info(LogAspect.logMsg+"MC.passCheck.사용가능한 비밀번호입니다.");
+			LogAspect.logger.info(LogAspect.logMsg+"MC.passCheck.사가비.check= "+check);
+			
+		}
+		if(matcherSymbol.find()) {
+			check = 1;
+			LogAspect.logger.info(LogAspect.logMsg+"MC.passCheck.사용가능한 패스워드입니다.");
+			LogAspect.logger.info(LogAspect.logMsg+"MC.passCheck.사가패.check= "+check);
+		}
+		if(password.contains(email)) {
+			check = -1;
+			LogAspect.logger.info(LogAspect.logMsg+"MC.passCheck.비번에 이메일을 넣으시면 귀하의 소중한 개인정보가 유출되기 쉬워집니다.");
+			if(!password.contains(email))
+				LogAspect.logger.info(LogAspect.logMsg+"MC.passCheck.잘정해");
+		}
+		if(password.contains(" ")) {
+			check = -3;
+			LogAspect.logger.info(LogAspect.logMsg+"MC.passCheck.비밀번호에 공백이 포함될 수 없습니다.");
+		}
+		
+		return check;
+	}
+	
+	
+	
 	@RequestMapping(value="member/emailVerify.do", method=RequestMethod.GET)
 	public ModelAndView memberEmailVerify(HttpServletRequest request, 
 			HttpServletResponse response,
@@ -105,8 +182,11 @@ public class MemberController {
 			session.setAttribute("email", memberDto.getEmail());
 			session.setAttribute("email_auth_key", memberDto.getEmail_auth_key());
 			session.setAttribute("register_type", memberDto.getRegister_type());
+			session.setAttribute("email_auth_status", memberDto.getEmail_auth_status());
+			mav.addObject("login_fail", "f");
 		} else {
 			LogAspect.logger.info(LogAspect.logMsg+"MC.mLO.dto가 비었습니다.로그인에 문제 발생");
+			mav.addObject("login_fail", "t");
 		}
 		return mav;
 	}
@@ -118,6 +198,7 @@ public class MemberController {
 		session.removeAttribute("email");
 		session.removeAttribute("email_auth_key");
 		session.removeAttribute("register_type");
+		session.removeAttribute("email_auth_status");
 		
 		mav.setViewName("member/logoutOk");
 		return mav;
@@ -170,6 +251,7 @@ public class MemberController {
 			, HttpSession session) {
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("request", request);
+		LogAspect.logger.info(LogAspect.logMsg+"MC.mUO.ses.uNum: "+session.getAttribute("user_num"));
 		//LogAspect.logger.info(LogAspect.logMsg+"MC.mUO.dto: "+memberDto.toString());
 		//mav.addObject("memberDto", memberDto);
 		memberService.memberUpdateOk(mav, session);
@@ -294,12 +376,13 @@ public class MemberController {
 //		return mav;
 //	}
 	
+	//, MemberDto memberDto 받으면 dto에 profile이 dto에선스트링인데 req에선 파일타입이기때문에 에러남
 	@RequestMapping(value="member/kakaoMemberUpdateOk.do", method=RequestMethod.POST)
-	public ModelAndView kakaoMemberUpdateOk(HttpServletRequest request, HttpServletResponse response
-			, MemberDto memberDto, HttpSession session) {
+	public ModelAndView kakaoMemberUpdateOk(MultipartHttpServletRequest request, HttpServletResponse response
+			, HttpSession session) { 
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("request", request);
-		mav.addObject("memberDto", memberDto);
+//		mav.addObject("memberDto", memberDto);
 		memberService.kakaoMemberUpdateOk(mav, session);
 		
 		return mav;

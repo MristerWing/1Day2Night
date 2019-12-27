@@ -13,5 +13,13 @@
 	비밀번호 <input type="password" name="password"/>
 	<input type="submit" value="탈퇴"/>
 	</form>
+	<c:if test="${memberDto == null}">
+		<c:if test="${password_fail == 't'}">
+			<script type="text/javascript">
+				alert("비밀번호가 잘못 입력되었습니다.");
+				//location.href="${root}/index.jsp";
+			</script>
+		</c:if>
+	</c:if>
 </body>
 </html>

@@ -15,6 +15,7 @@ public interface MemberService {
 	public void emailSender(ModelAndView mav);
 	public MemberDto updateEmail_auth_status(ModelAndView mav);
 	
+	public MemberDto emailDupCheck(String email);
 	public void memberLoginOk(ModelAndView mav);
 	public void memberDeleteOk(ModelAndView mav);
 	public void kakaoDeleteOk(ModelAndView mav);

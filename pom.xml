@@ -249,6 +249,21 @@
    			<version>1.6.2</version>
 		</dependency>
 		
+		<!-- 20191226 오후 7:16 ajax를 이용한 실시간 중복 체크에 사용하기 위함 -->
+		<!--  Jackson -->
+		<!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind -->
+<!-- 		<dependency> -->
+<!--  		   <groupId>com.fasterxml.jackson.core</groupId> -->
+<!--   		   <artifactId>jackson-databind</artifactId> -->
+<!--   		   <version>2.9.8</version> -->
+<!-- 		</dependency> -->
+<!-- https://mvnrepository.com/artifact/org.codehaus.jackson/jackson-mapper-asl -->
+	<dependency>
+    	<groupId>org.codehaus.jackson</groupId>
+    	<artifactId>jackson-mapper-asl</artifactId>
+    	<version>1.9.13</version>
+	</dependency>
+
 		
 
 	</dependencies>

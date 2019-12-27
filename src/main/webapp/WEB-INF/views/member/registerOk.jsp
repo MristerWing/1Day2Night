@@ -9,7 +9,7 @@
 </head>
 <body>
 	<c:set var="root" value="${pageContext.request.contextPath}"/>
-	<c:out value="${check}"/>
+<%-- 	<c:out value="${check}"/> --%>
 	
 	<c:if test="${check>0}">
 <!-- 		<h3>회원 등록이 완료되었습니다.<br/> -->
@@ -23,7 +23,7 @@
 	</c:if>
 	<c:if test="${check==0}">
 		<script type="text/javascript">
-			alert("이메일 비번 정보등록이 잘 되지 않았습니다.");
+			alert("이메일 비밀번호 정보등록이 잘 되지 않았습니다.");
 			location.href="${root}/index.jsp";
 		</script>
 	</c:if>

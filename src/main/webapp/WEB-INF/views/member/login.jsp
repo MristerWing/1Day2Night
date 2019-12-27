@@ -105,5 +105,22 @@
   <script src="${root}/resources/javascript/member/js/template.js"></script>
   <script src="${root}/resources/javascript/member/js/todolist.js"></script>
   <!-- endinject -->
+  
+  <c:if test="${memberDto == null}">
+		<c:if test="${login_fail == 't'}">
+			<script type="text/javascript">
+				alert("아이디 혹은 비밀번호를 확인해 주십시오.");
+				//location.href="${root}/login.jsp";
+			</script>
+		</c:if>
+	</c:if>
+  
+  <c:if test="${email_auth_status != null}">
+  	<script type="text/javascript">
+  		alert("이메일 인증을 하셔야 로그인 하실 수 있습니다.");
+  	</script>
+  	<% session.invalidate(); %>
+  </c:if>
+  
 </body>
 </html>

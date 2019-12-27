@@ -20,9 +20,37 @@
   <link rel="stylesheet" href="../../../resources/css/member/style.css">
   <!-- endinject -->
   <link rel="shortcut icon" href="../../../resources/css/member/images/favicon.png" />
+  
+  <script type="text/javascript">
+  	function modifyForm(obj){
+  		//interest를 받기 위해 만듬
+  		alert("modFormOk");
+  		var str="";
+  		var cnt=0;
+  		for(var i=0;i<obj.interest.length;i++){
+  			if(obj.interest[i].checked==true){
+  				str += obj.interest[i].value+",";
+  				cnt++;
+  			}
+  		}
+  		alert("interestStr: "+str);
+  		obj.interesth.value=str;
+  		
+  		var gen="";
+  		for(var i=0;i<obj.gender.length;i++){
+  			if(obj.gender[i].checked==true) {
+  				gen += obj.gender[i].value;
+  			}
+  		}
+  		alert("genderStr: "+gen);
+  		obj.genderh.value=gen;
+  	}
+  </script>
+  
 </head>
 
 <body>
+<c:if test="${memberDto != null}">
   <div class="container-scroller">
 
     <!-- partial -->
@@ -38,12 +66,12 @@
             <div class="col-12 grid-margin stretch-card">
               <div class="card">
                 <div class="card-body">
-                  <h4 class="card-title">Basic form elements</h4>
+                  <h4 class="card-title">회원 정보 수정</h4>
                   <p class="card-description">
-                    Basic form elements
+                    회원 정보 수정
                   </p>
                   <form class="forms-sample" action="${root}/member/updateOk.do" method="post"
-                  	enctype="multipart/form-data">
+                  	enctype="multipart/form-data" name="updateForm" onsubmit="modifyForm(this)">
                     <div class="form-group">
                       <label for="exampleInputName1">이름</label>
                       <input type="hidden" name="user_nameHidden" value="${memberDto.user_name}"/>
@@ -84,23 +112,23 @@
                     	<div class="form-check form-check-primary">
                             <h3>흥미 있는 키워드들을 선택해주세요 </h3>
                             <label class="form-check-label" for="check-01">
-                            	<input type="checkbox" class="form-check-input" id="check-01" name="interestValue" value="mountain">
+                            	<input type="checkbox" class="form-check-input" id="check-01" name="interest" value="mountain">
                             	엄홍길
                             </label>
                             <label class="form-check-label" for="check-02">
-                            	<input type="checkbox" class="form-check-input" id="check-02" name="interestValue" value="sea">
+                            	<input type="checkbox" class="form-check-input" id="check-02" name="interest" value="sea">
                             	박태환
                             </label>
                             <label class="form-check-label" for="check-03">
-                            	<input type="checkbox" class="form-check-input" id="check-03" name="interestValue" value="mountain">
+                            	<input type="checkbox" class="form-check-input" id="check-03" name="interest" value="mountain">
                             	김병만
                             </label>
-                            <input type="hidden" name="interestHidden" value="interest"/>
+                            <input type="hidden" name="interesth"/>
                     	 </div>
                     </div>
                     <div class="form-group">
                       <label>프로필 사진 파일 업로드</label>
-                      <input type="file" name = "profile_image" class="file-upload-default">
+                      <input type="file" name = "profile_image" class="file-upload-default" size="255"/>
 <!--                       <div class="input-group col-xs-12"> -->
 <%--                       	<input type="hidden" name="profile_imageHidden" value="${memberDto.profile_image}"/> --%>
 <!--                         <input type="text" class="form-control file-upload-info" disabled placeholder="Upload Image"/> -->
@@ -110,6 +138,13 @@
 <!--                         </span> -->
 <!--                       </div> -->
                     </div>
+                    <div class="form-group">
+                      <label>성별</label>
+                      <input type="radio" name = "gender" value="m">
+                      <label>남</label>
+                      <input type="radio" name = "gender" value="f">
+                      <label>여</label>
+                      <input type="hidden" name="radioh"/>
                     
                     <button type="submit" class="btn btn-primary mr-2">Submit</button>
 <!--                     <button class="btn btn-light">Cancel</button> -->
@@ -152,6 +187,14 @@
   <!-- Custom js for this page-->
   <script src="../../js/file-upload.js"></script>
   <!-- End custom js for this page-->
+</c:if>
+
+<c:if test="${memberDto == null}">
+	<script type="text/javascript">
+		alert("비밀번호가 틀렸습니다.");
+		location.href="${root}/index.jsp";
+	</script>
+</c:if>
 </body>
 
 </html>
