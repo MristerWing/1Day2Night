@@ -2,6 +2,7 @@ package com.odtn.boardComment.service;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -25,7 +26,8 @@ public class ReviewCommentServiceImp implements ReviewCommentService {
 	public void insert(ModelAndView mav) {
 		Map<String, Object> map = mav.getModelMap();
 
-		ReviewCommentDto reviewCommentDto = (ReviewCommentDto) map.get("reviewCommentDto");
+		ReviewCommentDto reviewCommentDto = (ReviewCommentDto) map
+				.get("reviewCommentDto");
 		reviewCommentDto.setWrite_date(new Date());
 		HttpServletRequest request = (HttpServletRequest) map.get("request");
 		int pageNumber = Integer.parseInt(request.getParameter("pageNumber"));
@@ -38,7 +40,8 @@ public class ReviewCommentServiceImp implements ReviewCommentService {
 		reviewCommentDto.setUser_num(user_num);
 		reviewCommentDto.setReview_num(review_num);
 
-		LogAspect.logger.info(LogAspect.logMsg + "입력내용" + reviewCommentDto.toString());
+		LogAspect.logger
+				.info(LogAspect.logMsg + "입력내용" + reviewCommentDto.toString());
 		// 자료저장확인용 check
 		int check = reviewCommentDao.insert(reviewCommentDto);
 		LogAspect.logger.info(LogAspect.logMsg + "check값: " + check);
@@ -65,7 +68,8 @@ public class ReviewCommentServiceImp implements ReviewCommentService {
 		List<ReviewCommentDto> reviewCommentList = null;
 		if (count > 0) {
 			reviewCommentList = reviewCommentDao.getCommentList(review_num);
-			LogAspect.logger.info(LogAspect.logMsg + "댓글 리스트 사이즈: " + reviewCommentList.size());
+			LogAspect.logger.info(LogAspect.logMsg + "댓글 리스트 사이즈: "
+					+ reviewCommentList.size());
 
 			for (int i = 0; i < reviewCommentList.size(); i++) {
 				System.out.println("댓글 인덱스: " + i + reviewCommentList.get(i));
@@ -82,7 +86,7 @@ public class ReviewCommentServiceImp implements ReviewCommentService {
 				writerList.add(writer);
 			}
 		}
-		map.put("reviewCommentList", (Object) reviewCommentList);
+		map.put("reviewCommentList", reviewCommentList);
 		map.put("writerList", writerList);
 		return map;
 	}
