@@ -35,10 +35,10 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 		   
 		  	function showCommentList(){
 		  		var review_num = ${campReviewDto.review_num};
-		  		var url="${root}/reviewComment/list.do?review_num="+review_num;
+		  		var url="${root}/reviewComment/list.json?review_num="+review_num;
 		  			alert(url);
 		  		$.ajax({
-		  			type:'POST',
+		  			type:'GET',
 		  			url:url,
 		  			dataType: 'json',
 		  			success:function(data){

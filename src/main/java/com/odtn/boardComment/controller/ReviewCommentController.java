@@ -1,5 +1,9 @@
 package com.odtn.boardComment.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -34,11 +38,9 @@ public class ReviewCommentController {
 		
 	//글 리스트
 		@ResponseBody
-		@RequestMapping(value ="reviewComment/list.do",method = RequestMethod.POST)
-		public ModelAndView list(HttpServletRequest request,HttpServletResponse respons) {
-			ModelAndView mav=new ModelAndView();
-			mav.addObject("request",request);
-			reviewCommentService.list(mav);
-			return mav;
+		@RequestMapping(value ="reviewComment/list.json",method = RequestMethod.GET)
+		public Map<String, Object> list(HttpServletRequest request,HttpServletResponse response) {
+			
+			return reviewCommentService.list(request);
 		}
 }
