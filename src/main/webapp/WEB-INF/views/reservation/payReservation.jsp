@@ -10,12 +10,8 @@
         <title>결제</title>
 
         <!-- VsCode용 CSS, JavaScript-->
-        <link href="${root}/resources/css/styles/font-awesome.css" rel="stylesheet"/>
-        <link href="${root}/resources/css/styles/bootstrap.css" rel="stylesheet"/>
         <link href="${root}/resources/css/reservation/payReservation.css" rel="stylesheet"/>
         
-        <script src="${root}/resources/javascript/modules/jquery-3.4.1.js"></script>
-        <script src="${root}/resources/javascript/modules/bootstrap.js"></script>
         <script>
         	$(function() {
         		
@@ -86,7 +82,7 @@
         </script>
     </head>
     <body>
-        <div class="container">
+        <div class="container background rounded">
 
             <!-- 전체 레이아웃 div -->
             <div id="Content">

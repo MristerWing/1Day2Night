@@ -107,12 +107,12 @@ public class MemberServiceImp implements MemberService {
 		} else if (memberDtoIsNew.getRegister_type() != null && memberDtoIsNew.getRegister_type().equals("KAKAO")) {
 			LogAspect.logger.info(LogAspect.logMsg + "이미 이 이메일을 사용하는 카카오 계정으로 가입하신 적이 있습니다.");
 			mav.addObject("register_type", memberDtoIsNew.getRegister_type());
-			mav.setViewName("member/login");
+			mav.setViewName("member/login.tiles");
 
 		} else {
 			LogAspect.logger.info(LogAspect.logMsg + "이미 가입하신 이메일입니다.");
 			mav.addObject("isNewMember", "f");
-			mav.setViewName("member/login");
+			mav.setViewName("member/login.tiles");
 		}
 
 		// mav.setViewName("member/registerOk");
@@ -236,11 +236,11 @@ public class MemberServiceImp implements MemberService {
 			LogAspect.logger.info(LogAspect.logMsg + "MSI.mLO.dto: " + memberDto.toString());
 			mav.addObject("memberDto", memberDto);
 
-			mav.setViewName("member/loginOk");
+			mav.setViewName("member/loginOk.empty");
 		} else {
 			LogAspect.logger.info(LogAspect.logMsg + "아이디 혹은 비밀번호가 틀렸습니다 다시 시도해주세요");
 			mav.addObject("memberDto", memberDto);
-			mav.setViewName("member/login");
+			mav.setViewName("member/login.tiles");
 		}
 
 	}

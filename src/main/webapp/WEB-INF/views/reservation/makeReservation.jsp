@@ -11,11 +11,7 @@
         <!-- VsCode용 CSS, JavaScript-->
         <link href="${root}/resources/css/reservation/reservation.css" rel="stylesheet"/>
         <link href="${root}/resources/css/reservation/date.css" rel="stylesheet"/>
-        <link href="${root}/resources/css/styles/font-awesome.css" rel="stylesheet"/>
-        <link href="${root}/resources/css/styles/bootstrap.css" rel="stylesheet"/>
-        
-        <script src="${root}/resources/javascript/modules/jquery-3.4.1.js"></script>
-        <script src="${root}/resources/javascript/modules/bootstrap.js"></script>
+        <script src="${root}/resources/javascript/reservation/t-datepicker.js"></script>
         <script>
         	$(function() {
         		if(${campingList.size() == 0}) {
@@ -100,7 +96,7 @@
         		});
         		
         		
-        		$("body > div > div.re_do > button.btn.btn-success.btn-block").click(function() {
+        		$("body > div > div > div.re_do > button.btn.btn-success.btn-block").click(function() {
         			
         			var checkTr = $("#Content > div > div.re_ch_right > div > table > tbody > tr").text();
         			
@@ -121,7 +117,7 @@
     				});
         		});
         		
-        		$("body > div > div.re_do > button.btn.btn-primary.btn-block").click(function() {
+        		$("body > div > div > div.re_do > button.btn.btn-primary.btn-block").click(function() {
         			location.href="${root}/search/read.do?camp-id=${camp.camp_id}";
         		});
         	});
@@ -129,7 +125,7 @@
     </head>
     <body>
     	<c:if test="${campingList.size() != 0}">
-	        <div class="container">
+	        <div class="container background">
 	            <!-- 전체 레이아웃 div-->
 	            <div id="Content">
 	                <!-- 캠핑장 예약관련 div -->
@@ -258,8 +254,7 @@
 	                                </div>
 	                                <br/><br/>
 	                                <button type="button" class="btn btn-success" style="margin-left:333px;">예약가능 유무</button>
-	                                <script src="${root}/resources/javascript/reservation/t-datepicker.js"></script>
-	                                <script>
+	                                <script type="text/javascript">
 	                                    $(document).ready(function(){
 	                                        // Call global the function
 	                                        $('.t-datepicker').tDatePicker({

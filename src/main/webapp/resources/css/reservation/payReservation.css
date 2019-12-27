@@ -1,10 +1,12 @@
 @charset "UTF-8";
 
-.container {
+.background {
 	background-color: #dbdbdb;
+	margin: 10px auto;
+	padding: 5px;
 }
 
-.Content {
+#Content {
 	overflow:hidden;
 }
 

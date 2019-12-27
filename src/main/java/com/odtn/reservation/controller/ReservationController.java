@@ -73,7 +73,7 @@ public class ReservationController {
 
 		reservationService.reservationPay(modelAndView);
 
-		modelAndView.setViewName("reservation/payReservation");
+		modelAndView.setViewName("reservation/payReservation.tiles");
 
 		return modelAndView;
 	}
