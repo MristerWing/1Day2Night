@@ -18,7 +18,7 @@ public class LogAspect {
 	public static Logger logger = Logger.getLogger(LogAspect.class.getName());
 	public static final String logMsg = "LogMsg---------------------------";
 
-	@Around("within(com.java..*)")
+	@Around("within(com.odtn..*)")
 	public Object advice(ProceedingJoinPoint joinPoint) throws Throwable {
 		Object obj = null;
 
