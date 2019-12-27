@@ -54,6 +54,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 </head>
 
 <body>
+
 	<!-- mian-content -->
 	<div class="main-content" id="home">
 		<!-- header -->
@@ -89,7 +90,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 									<c:if test="${email == 'egeoda@protonmail.com'}">
 										&nbsp;&nbsp;<a href="${root}/admin/list.do">관리자 페이지</a>
 									</c:if>	
-									<c:if test="${email=='chanhok95@naver.com'}">
+									<c:if test="${email=='eunsol8287@gmail.com'}">
 										&nbsp;&nbsp;<a href="${root}/admin/list.do">관리자 페이지</a>
 									</c:if>
 								</c:if>
