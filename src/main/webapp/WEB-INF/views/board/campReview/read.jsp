@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <c:set var="root" value="${pageContext.request.contextPath}"/>  
 <!--
@@ -17,19 +18,80 @@ License URL: http://creativecommons.org/licenses/by/3.0/
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta charset="UTF-8" />
     <meta name="keywords" content="Camping Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template, Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design" />
-    <script >
-        addEventListener("load", function() {
-            setTimeout(hideURLbar, 0);
-        }, false);
-
-        function hideURLbar() {
-            window.scrollTo(0, 1);
-        }
-
-    </script>
+   
     <script src="${root}/resources/javascript/modules/jquery-3.4.1.js"></script>
-   <script type="text/javascript">
-   function fn_comment(code){
+   	<script type="text/javascript">
+		   addEventListener("load", function() {
+		       setTimeout(hideURLbar, 0);
+		   }, false);
+		
+		   function hideURLbar() {
+		       window.scrollTo(0, 1);
+		   };
+		   /*댓글*/
+		 	$(document).ready(function(){
+		  		showCommentList();
+		  	});
+		   
+		  	function showCommentList(){
+		  		var review_num = ${campReviewDto.review_num};
+		  		var url="${root}/reviewComment/list.json?review_num="+review_num;
+		  			var indexNum = 0;
+		  		$.ajax({
+		  			type:'GET',
+		  			url:url,
+		  			dataType: 'json',
+		  			success:function(data){
+		  				console.log(data.reviewCommentList[0], data.writerList[0]);
+		  				var htmls="";
+		  				if (data.lenth<1) {
+							html.push("등록된 댓글이 없습니다.");
+							alert("data < 1");
+						}else{
+							$(data.reviewCommentList).each(function(){
+							     htmls += '<div class="media text-muted pt-3" id="rid' + data.writerList[indexNum] + '">';
+
+			                     htmls += '<svg class="bd-placeholder-img mr-2 rounded" width="32" height="32" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder:32x32">';
+
+			                     htmls += '<title>Placeholder</title>';
+
+			                     htmls += '<rect width="100%" height="100%" fill="#007bff"></rect>';
+
+			                     htmls += '<text x="50%" fill="#007bff" dy=".3em">32x32</text>';
+
+			                     htmls += '</svg>';
+
+			                     htmls += '<p class="media-body pb-3 mb-0 small lh-125 border-bottom horder-gray">';
+
+			                     htmls += '<span class="d-block">';
+
+			                     htmls += '<strong class="text-gray-dark">' + data.writerList[indexNum] + '</strong>';
+
+			                     htmls += '<span style="padding-left: 7px; font-size: 9pt">';
+
+			                     htmls += '<a href="javascript:void(0)" onclick="fn_editReply(' + this.rid + ', \'' + this.reg_id + '\', \'' + this.content + '\' )" style="padding-right:5px">수정</a>';
+
+			                     htmls += '<a href="javascript:void(0)" onclick="fn_deleteReply(' + this.rid + ')" >삭제</a>';
+
+			                     htmls += '</span>';
+
+			                     htmls += '</span>';
+
+			                     htmls += this.comment_content;
+
+			                     htmls += '</p>';
+
+			                     htmls += '</div>';
+			                     
+			                     $("#commentList").append(htmls);
+			                     htmls = "";
+			                     indexNum++;
+							});
+						}
+		  			}
+		  		});
+		  	}
+/*    function fn_comment(code){
 	    var url="${root}/reviewComment/insert.do"
 	    $.ajax({
 	        type:'POST',
@@ -47,9 +109,15 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 	       }
 	        
 	    });
-	}
+	} */
     </script>  
-    
+
+     <!--++++++++++++++++++++++리스트 부트스트랩+++++++++++++++++++++++++++++++++++++-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+	  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+	  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+
     <!--summerNote-->
     <link href="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.css" rel="stylesheet">
 <!-- 	<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script>  -->
@@ -197,15 +265,17 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 					</c:if>					
 						<input class="btn" type="button"  value="목록" onclick="location.href='${root}/board/campReview/list.do?pageNumber=${pageNumber}'"/>	
 				</li>
-			<!--댓글리스트-->
-				<li>
-					<div class="container">
-					    <form id="commentListForm" name="commentListForm" method="post">
-					        <div id="commentList">
-					        </div>
-					    </form>
-					</div>
+				
+			<!--++++++++++++++댓글리스트++++++++++++++++-->
+			    <li>
+					<div class="my-3 p-3 bg-white rounded shadow-sm" style="padding-top: 10px">
+		
+						<h6 class="border-bottom pb-2 mb-0">댓글목록</h6>
+		
+						<div id="commentList"></div>
+					</div> 
 				</li>
+	
 			<!--댓글쓰는란-->
 			<c:if test="${sessionScope.user_num != null}">
 				<li>
@@ -223,7 +293,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 				                        <td>
 				                            <textarea style="width: 1100px" rows="3" cols="30" id="comment_content" name="comment_content" placeholder="댓글을 입력하세요"></textarea>
 				                            <br>
-				                            <div>
+				                            <div align="right">
 				                               <input type="submit" value="등록"/>
 				                            </div>
 				                        </td>

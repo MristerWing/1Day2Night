@@ -94,6 +94,8 @@ public class SearchServiceImp implements SearchService {
 		searchList.add(searchDto);
 		searchMap.put("searchList", searchList);
 
+		LogAspect.logger.info(LogAspect.logMsg + readPage);
+
 		mav.addObject("searchMap", searchMap);
 		mav.addObject("readPage", readPage);
 

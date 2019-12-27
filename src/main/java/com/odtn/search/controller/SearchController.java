@@ -89,7 +89,7 @@ public class SearchController {
 		}
 
 		mav.addObject("searchMap", searchMap);
-		mav.setViewName("search/list");
+		mav.setViewName("search/list.tiles");
 
 		return mav;
 	}
@@ -109,7 +109,7 @@ public class SearchController {
 		mav.addObject("request", request);
 
 		searchService.searchRead(mav);
-		mav.setViewName("search/read");
+		mav.setViewName("search/read.tiles");
 
 		return mav;
 	}

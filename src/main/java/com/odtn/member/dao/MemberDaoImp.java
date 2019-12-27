@@ -19,12 +19,23 @@ public class MemberDaoImp implements MemberDao {
 		return sqlSessionTemplate.insert("memberWrite", memberDto);
 	}
 	@Override
+	public String getSaltByEmail(String email) {
+		
+		return sqlSessionTemplate.selectOne("getSaltByEmail", email);
+	}
+	
+	@Override
 	public MemberDto isNewMember(String email) {
 		return sqlSessionTemplate.selectOne("isNewMember", email);
 	}
 	@Override
-	public int updateEmail_auth_key(MemberDto memberDto) {
+	public int emailDupCheck(String email) {
 		
+		return sqlSessionTemplate.selectOne("emailDupCheck", email);
+	}
+	
+	@Override
+	public int updateEmail_auth_key(MemberDto memberDto) {
 		return sqlSessionTemplate.update("createAuthKey", memberDto);
 	}
 	@Override

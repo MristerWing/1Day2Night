@@ -182,7 +182,7 @@
 					        <option>시,구,군</option>
 					      </select>
 					      <br>
-					      <select class="form-control" id="sel1" name="sellist1">
+					      <select class="form-control" id="camp_id" name="camp_id">
 					        <option>캠핑장 이름을 선택해 주세요</option>
 					        <option value="11111">111111</option>
 					      </select>

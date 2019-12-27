@@ -56,7 +56,7 @@
 	 	 <![CDATA[
 		  SELECT * FROM
 	      (SELECT ROWNUM AS RNUM, A.* FROM
-	      (SELECT QNA_NUM, TITLE, QNA_TYPE, USER_NUM, WRITE_DATE, READ_COUNT FROM QNA ORDER BY QNA_NUM DESC)A)
+	      (SELECT * FROM QNA ORDER BY GROUP_NUM DESC,SEQUENCE_NUM ASC )A)
 	      B WHERE RNUM >=#{startRow} AND RNUM <= #{endRow}
 		  ]]>
 	 </select>
@@ -87,4 +87,28 @@
 	 <update id="QnAupdateOk" parameterType="com.odtn.board.dto.CampQnADto">
 	 	UPDATE QNA SET TITLE=#{title},CONTENT=#{content} WHERE QNA_NUM=#{qna_num}
 	 </update>
+	 
+	 <!--답글작성 확인-->
+	 	<insert id="writeAnswerOk" parameterType="com.odtn.board.dto.CampQnADto">
+		INSERT INTO QNA(QNA_NUM,
+						TITLE,
+						USER_NUM,
+						PASSWORD,					
+						CONTENT,
+						WRITE_DATE,
+						READ_COUNT,
+						GROUP_NUM,
+						SEQUENCE_NUM,
+						SEQUENCE_LEVEL)
+						VALUES (qna_qna_num_seq.nextval,
+						#{title},
+						#{user_num},
+						#{password},
+						#{content},
+						#{write_date},
+						#{read_count},
+						#{group_num},
+						#{sequence_num},
+						#{sequence_level})
+	</insert>
 </mapper>

@@ -151,21 +151,8 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 				
 				<label>문의사항 수정</label>
 			<!--썸머노트 form태그-->
-			<c:if test="${sessionScope.user_id=='eunsol8287@gamil.com'}">
-				<c:set var="action" value="${root}/board/campQnA/writeOk.do"/>	
-			</c:if>
-			<c:if test="${sessionScope.user_id!='eunsol8287@gamil.com'}">
-				<c:set var="action" value="${root}/board/campQnA/updateOk.do"/>	
-			</c:if>
-            <form class="campInfo_form" action="${action}" method="POST" 
+            <form class="campInfo_form" action="${root}/board/campQnA/updateOk.do" method="POST" 
             	onsubmit="returnForm(this)" enctype="multipart/form-data">
-            	<c:if test="${sessionScope.user_id=='eunsol8287@gamil.com'}">
-	            <input type="hidden" name="qna_num" value="${qna_num}"/>
-				<input type="hidden" name="group_num" value="${group_num}"/>
-				<input type="hidden" name="sequence_num" value="${sequence_num}"/>
-				<input type="hidden" name="sequence_level" value="${sequence_level}"/>
-				<input type="hidden" name="sequence_level" value="${sequence_level}"/>
-			</c:if>
             <!--사용자한테 안보이는값-->
  			 	<input type="hidden" name="pageNumber" value="${pageNumber}"/>
 			<ul class="">

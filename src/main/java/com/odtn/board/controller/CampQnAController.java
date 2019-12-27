@@ -87,5 +87,22 @@ public class CampQnAController {
 			campQnAService.updateOk(mav);
 			return mav;
 		}
-
+	//답글달기
+		@RequestMapping(value = "board/campQnA/writeAnswer.do", method = RequestMethod.GET)
+		public ModelAndView writeAnswer(HttpServletRequest request,HttpServletResponse response,MemberDto memberDto) {
+			ModelAndView mav=new ModelAndView();
+			mav.addObject("request",request);
+			campQnAService.writeAnswer(mav,memberDto);
+			return mav;
+		}
+	//답글 작성 확인
+		@RequestMapping(value= "board/campQnA/writeAnswerOk.do", method=RequestMethod.POST)
+		public ModelAndView writeAnswerOk(HttpServletRequest request,HttpServletResponse response,
+									CampQnADto campQnADto){
+			ModelAndView mav=new ModelAndView();
+			mav.addObject("request",request);
+			mav.addObject("campQnADto",campQnADto);
+			campQnAService.writeAnswerOk(mav);
+			return mav;			
+		}
 }

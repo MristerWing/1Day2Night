@@ -1,3 +1,8 @@
+#home {
+	background: url('../../images/search/searchHeader.jpg') no-repeat;
+	background-size: cover;
+}
+
 .search .name-space {
 	background-color: white;
 	min-height: 4em;
@@ -8,7 +13,6 @@
 }
 
 .search .topline-background {
-	margin-top: 10px;
 	background: url('../../images/search/searchBarBackground.jpg') no-repeat;
 	background-size: cover;
 	overflow: hidden;
@@ -19,7 +23,6 @@
 .search #layout-2,
 .search #layout-3 {
 	overflow: hidden;
-	margin-top: 15px;
 	margin-bottom: 15px;
 }
 
@@ -29,6 +32,7 @@
 }
 
 #campSearchForm2 > div {
+	margin-top: 12px;
 	padding-top: 10px;
 }
 

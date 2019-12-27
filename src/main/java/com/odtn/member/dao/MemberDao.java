@@ -6,7 +6,9 @@ import com.odtn.member.dto.MemberDto;
 
 public interface MemberDao {
 	public int memberWrite(MemberDto memberDto);
+	public String getSaltByEmail(String email);
 	public MemberDto isNewMember(String email);
+	public int emailDupCheck(String email);
 	
 	public int isNewEmailAuthKey(String email_auth_key);
 	public int updateEmail_auth_key(MemberDto memberDto);

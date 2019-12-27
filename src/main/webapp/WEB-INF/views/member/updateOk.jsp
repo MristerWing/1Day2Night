@@ -30,13 +30,13 @@
 	<c:if test="${check >0}">
 		<script type="text/javascript">
 			alert("회원 정보가 수정되었습니다.");
-			//location.href="${root}/memberIndex.jsp";
+			location.href="${root}/memberIndex.jsp";
 		</script>
 	</c:if>
 	<c:if test="${check==0}">
 		<script type="text/javascript">
 			alert("회원 정보 수정 실패");
-			//location.href="${root}/memberIndex.jsp";
+			location.href="${root}/memberIndex.jsp";
 		</script>
 	</c:if>
 

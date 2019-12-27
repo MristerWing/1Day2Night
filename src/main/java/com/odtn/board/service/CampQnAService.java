@@ -22,4 +22,8 @@ public interface CampQnAService {
 	public void update(ModelAndView mav,MemberDto memberDto);
 	//글 수정확인
 	public void updateOk(ModelAndView mav);
+	//답글작성 
+	public void writeAnswer(ModelAndView mav,MemberDto memberDto);
+	//답글 작성 확인
+	public void writeAnswerOk(ModelAndView mav);
 }
