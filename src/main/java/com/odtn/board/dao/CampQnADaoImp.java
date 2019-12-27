@@ -73,4 +73,10 @@ public class CampQnADaoImp implements CampQnADao {
 	public int updateOk(CampQnADto campQnADto) {
 		return sqlSessionTemplate.update("board.mapper.CampQnAMapper.QnAupdateOk",campQnADto);
 	}
+	//답글 작성확인
+	@Override
+	public int writeAnswerOk(CampQnADto campQnADto) {
+		int check=sqlSessionTemplate.insert("board.mapper.CampQnAMapper.writeAnswerOk",campQnADto);
+		return check;
+	}
 }

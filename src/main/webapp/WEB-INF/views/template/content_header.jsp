@@ -22,7 +22,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
         addEventListener("load", function() {
             setTimeout(hideURLbar, 0);
         }, false);
-
+"src/main/webapp/WEB-INF/views/template/content_header.jsp"
         function hideURLbar() {
             window.scrollTo(0, 1);
         }
@@ -111,7 +111,8 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                 </nav>
                 <!-- //nav -->
             </div>
-        </header>
+		       </header>
+          </div>
         <!-- //header -->
 </body>
 </html>

@@ -149,15 +149,20 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                 <h3 class="tittle text-center mb-lg-5 mb-3 px-lg-5">문의사항</h3>
              <div class="info_content" >
 				
-				<label>문의사항 수정</label>
+				<label>문의사항 답글</label>
 			<!--썸머노트 form태그-->
-            <form class="campInfo_form" action="${root}/board/campQnA/updateOk.do" method="POST" 
+            <form class="campInfo_form" action="${root}/board/campQnA/writeAnswerOk.do" method="POST" 
             	onsubmit="returnForm(this)" enctype="multipart/form-data">
             <!--사용자한테 안보이는값-->
+            	<input type="hidden" name="qna_num" value="${qna_num}"/>
+				<input type="hidden" name="group_num" value="${group_num}"/>
+				<input type="hidden" name="sequence_num" value="${sequence_num}"/>
+				<input type="hidden" name="sequence_level" value="${sequence_level}"/>
+				<input type="hidden" name="sequence_level" value="${sequence_level}"/>
  			 	<input type="hidden" name="pageNumber" value="${pageNumber}"/>
+ 			 	<input type="hidden" name="password" value="${password}"/>
 			<ul class="">
 				<li>
-					<input name="qna_num" type="hidden" value="${campQnADto.qna_num}">
 				</li>
 				<li>
 					<label >제목(*)</label>
@@ -165,7 +170,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 				</li>
 				<li>
 					<label >작성자(*)</label>
-					<input name="user_num" type="hidden" value="${campQnADto.user_num}"/>
+					<input name="user_num" type="hidden" value="${user_num}"/>
 					<input name="writer" type="text" value="${writer}" disabled="disabled"/>
 				</li>
 				
