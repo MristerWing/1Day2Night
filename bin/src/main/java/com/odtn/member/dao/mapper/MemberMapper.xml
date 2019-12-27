@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.odtn.member.dao.mapper.MemberMapper">
+	
+	<insert id="memberWrite" parameterType="com.odtn.member.dto.MemberDto">
+		INSERT INTO member(
+			user_num,
+			register_date,
+			
+			email, 
+			email_auth_key,
+			password, 
+			register_type,
+			user_auth_id,
+			
+			email_auth_status,
+			phone_num,  
+			company_id,
+			
+			interest, 
+			user_name,
+			nickname, 
+			profile_image, 
+			thumbnail_image
+		) VALUES(
+			member_user_num_seq.nextval
+		  , #{register_date}
+		  
+		  , #{email,javaType=String,jdbcType=VARCHAR}
+		  , #{email_auth_key,javaType=String,jdbcType=VARCHAR}
+		  , #{password,javaType=String,jdbcType=VARCHAR} 
+		  ,	#{register_type,javaType=String,jdbcType=VARCHAR}
+		  , #{user_auth_id,javaType=Integer,jdbcType=NUMERIC}
+		  
+		  , #{email_auth_status,javaType=String,jdbcType=VARCHAR}
+		  , #{phone_num,javaType=Integer,jdbcType=NUMERIC} 
+		  , #{company_id,javaType=Integer,jdbcType=NUMERIC} 
+		  
+		  , #{interest,javaType=String,jdbcType=VARCHAR}
+		  , #{user_name,javaType=String,jdbcType=VARCHAR}
+		  , #{nickname,javaType=String,jdbcType=VARCHAR}
+		  , #{profile_image,javaType=String,jdbcType=VARCHAR}
+		  , #{thumbnail_image,javaType=String,jdbcType=VARCHAR}
+		)
+	</insert>
+	
+	<select id="isNewMember" parameterType="String" resultType="com.odtn.member.dto.MemberDto">
+		SELECT * FROM member WHERE email = #{email,javaType=String,jdbcType=VARCHAR}
+	</select>
+	
+	<select id="isNewOAuthMember" parameterType="Integer"
+		resultType="com.odtn.member.dto.MemberDto">
+		SELECT * FROM member WHERE user_auth_id=#{user_auth_id,javaType=Integer,jdbcType=NUMERIC}
+	</select>
+	
+	<select id = "kakaoMemberLoad" parameterType="com.odtn.member.dto.MemberDto"
+	resultType="com.odtn.member.dto.MemberDto">
+		SELECT * FROM member 
+			WHERE user_num=#{user_num,javaType=int,jdbcType=NUMERIC}
+			AND user_auth_id=#{user_auth_id,javaType=Integer,jdbcType=NUMERIC}
+			AND register_type='KAKAO'
+	</select>
+	
+	<select id = "kakaoMemberNewLoad" parameterType="com.odtn.member.dto.MemberDto"
+	resultType="com.odtn.member.dto.MemberDto">
+		SELECT * FROM member 
+			WHERE user_auth_id=#{user_auth_id,javaType=Integer,jdbcType=NUMERIC}
+			AND register_type='KAKAO'
+	</select>
+	
+<!-- 	이메일 인증 -->
+	<!--  키 중복체크 -->
+	<select id="isNewEmailAuthKey" parameterType="String" resultType="int">
+		SELECT NVL(COUNT(*), 0) FROM member WHERE email_auth_key = #{email_auth_key}
+	</select>
+	<!-- 키 만들기 -->
+	<update id="createAuthKey" parameterType="com.odtn.member.dto.MemberDto">
+		UPDATE member SET email_auth_key = #{email_auth_key,javaType=String,jdbcType=VARCHAR} WHERE email = #{email,javaType=String,jdbcType=VARCHAR}
+	</update>
+	<!-- 이메일 인증 상태 전환 -->
+	<update id="emailAuthStatus" parameterType="com.odtn.member.dto.MemberDto">
+		UPDATE member SET email_auth_status = #{email_auth_status,jdbcType=VARCHAR} WHERE email_auth_key = #{email_auth_key,javaType=String,jdbcType=VARCHAR} AND email = #{email,javaType=String,jdbcType=VARCHAR}
+	</update>
+	
+	<select id="getDtoEmailAuth" parameterType="String" resultType="com.odtn.member.dto.MemberDto">
+		SELECT * FROM member WHERE email = #{email,jdbcType=VARCHAR} AND email_auth_key = #{email_auth_key,javaType=String,jdbcType=VARCHAR}
+	</select>
+	
+	<select id = "memberLoginOk" parameterType="java.util.HashMap" resultType="com.odtn.member.dto.MemberDto">
+		SELECT * FROM member WHERE email = #{email,jdbcType=VARCHAR} AND password = #{password,jdbcType=VARCHAR}
+	</select>
+	
+	<delete id = "memberDeleteOk" parameterType="java.util.HashMap">
+		DELETE FROM member 
+			WHERE user_num = #{user_num,javaType=INTEGER,jdbcType=NUMERIC}
+			AND email = #{email,jdbcType=VARCHAR}
+		 	AND email_auth_key = #{email_auth_key,javaType=String,jdbcType=VARCHAR}
+		 	AND password = #{password,javaType=String,jdbcType=VARCHAR}
+	</delete>
+	
+	<delete id = "kakaoDeleteOk" parameterType="java.util.Map">
+		DELETE FROM member
+			WHERE user_num = #{user_num,javaType=INTEGER,jdbcType=NUMERIC}
+			AND user_auth_id = #{user_auth_id,javaType=Integer,jdbcType=NUMERIC}
+			AND register_type = 'KAKAO'
+	</delete>
+	
+	<select id ="getMemberDtoP" parameterType="java.util.HashMap"
+		resultType="com.odtn.member.dto.MemberDto">
+		SELECT * FROM member 
+			WHERE user_num = #{user_num,javaType=INTEGER,jdbcType=NUMERIC}
+			AND email = #{email,jdbcType=VARCHAR}
+		 	AND email_auth_key = #{email_auth_key,javaType=String,jdbcType=VARCHAR}
+		 	AND password = #{password,javaType=String,jdbcType=VARCHAR}
+		 	AND register_type IS NULL
+	</select>
+	<select id="getKakaoMemberDto" parameterType="java.util.HashMap"
+		resultType="com.odtn.member.dto.MemberDto">
+		SELECT * FROM member
+			WHERE user_num = #{user_num,javaType=INTEGER,jdbcType=NUMERIC}
+			AND user_auth_id = #{user_auth_id,javaType=Integer,jdbcType=NUMERIC}
+			AND register_type = #{register_type,javaType=String,jdbcType=VARCHAR}
+	</select>
+	
+	<update id="memberUpdateOk" parameterType="com.odtn.member.dto.MemberDto">
+		UPDATE member SET
+			email=#{email,javaType=String,jdbcType=VARCHAR}
+		  , password=#{password,javaType=String,jdbcType=VARCHAR}
+		  , phone_num=#{phone_num,javaType=Integer,jdbcType=NUMERIC}
+		  , user_name=#{user_name,javaType=String,jdbcType=VARCHAR}
+		  , nickname=#{nickname,javaType=String,jdbcType=VARCHAR}
+		  , profile_image=#{profile_image,javaType=String,jdbcType=VARCHAR}
+		  , interest=#{interest,javaType=String,jdbcType=VARCHAR}
+		  WHERE user_num = #{user_num,javaType=INTEGER,jdbcType=NUMERIC}
+		 	AND register_type IS NULL
+	</update>
+	
+<!-- 	<update id="memberUpdateOk" parameterType="com.odtn.member.dto.MemberDto"> -->
+<!-- 		UPDATE member SET -->
+<!-- 			email=#{email} -->
+<!-- 		  , password=#{password} -->
+<!-- 		  , phone_num=#{phone_num} -->
+<!-- 		  , user_name=#{user_name} -->
+<!-- 		  , nickname=#{nickname} -->
+<!-- 		  , profile_image=#{profile_image} -->
+<!-- 		  , interest=#{interest,javaType=String,jdbcType=VARCHAR} -->
+<!-- 		  WHERE user_num = #{user_num} -->
+<!-- 			AND email = #{email} -->
+<!-- 		 	AND email_auth_key = #{email_auth_key} -->
+<!-- 		 	AND register_type IS NULL -->
+<!-- 	</update> -->
+	
+	<update id="kakaoMemberUpdateOk" parameterType="com.odtn.member.dto.MemberDto">
+		UPDATE member SET
+			email=#{email,javaType=String,jdbcType=VARCHAR}
+		  , password=#{password,javaType=String,jdbcType=VARCHAR}
+		  , phone_num=#{phone_num,javaType=Integer,jdbcType=NUMERIC}
+		  , user_name=#{user_name,javaType=String,jdbcType=VARCHAR}
+		  , nickname=#{nickname,javaType=String,jdbcType=VARCHAR}
+		  , profile_image=#{profile_image,javaType=String,jdbcType=VARCHAR}
+		  , interest=#{interest,javaType=String,jdbcType=VARCHAR}
+		  WHERE user_num = #{user_num,javaType=INTEGER,jdbcType=NUMERIC}
+		  	AND user_auth_id = #{user_auth_id,javaType=Integer,jdbcType=NUMERIC}
+		  	AND register_type = #{register_type,javaType=String,jdbcType=VARCHAR}
+		  	
+	</update>
+	
+</mapper>

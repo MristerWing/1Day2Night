@@ -61,7 +61,6 @@ p {
 }
 
 ul {
-    margin: 0;
     padding: 0;
 }
 
@@ -251,6 +250,7 @@ nav ul ul {
     padding: 10px;
     z-index: 999;
     border: 1px solid #ddd;
+    margin-left: -75px;
 }
 
 /* Display Dropdowns on Hover */
@@ -459,6 +459,13 @@ a.contact:hover {
 /*-- //header --*/
 
 /*-- banner --*/
+
+.content_topline{
+	border-width: 10px; 
+}
+.container>label{
+	font-size: 50;
+}
 
 .main-content {
     background: url('../../images/photo-1508873696983-2dfd5898f08b.jpg') no-repeat center;

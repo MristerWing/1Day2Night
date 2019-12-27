@@ -9,7 +9,6 @@ License: Creative Commons Attribution 3.0 Unported
 License URL: http://creativecommons.org/licenses/by/3.0/
 -->
 
-<!DOCTYPE html>
 <c:set var="root" value="${pageContext.request.contextPath}" />
 <html lang="zxx">
 
@@ -27,6 +26,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 
 	function hideURLbar() {
 		window.scrollTo(0, 1);
+		
 	}
 </script>
 <!-- //Meta tag Keywords -->
@@ -61,15 +61,43 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 				<!-- nav -->
 				<nav class="py-3">
 					<div id="logo">
-						<%-- <img class="logoImg" src="${root}/resources/css/images/ODTN.png" width="50"> --%>
+						<img class="logoImg" src="${root}/resources/images/ODTN.png" width="50">
 						<h1>
 							<a class="navbar-brand" href="#">ODTN</a>
 						</h1>
 					</div>
 
+<!-- 회원가입, 로그인 뜨지 않는 경우 ${sessionScope.email} 처럼 변수마다 앞에 sessionScope. 붙여봐야 할 거에요 -->
 					<label for="drop" class="toggle">Menu</label> <input
 						type="checkbox" id="drop" />
 					<ul class="menu mt-2">
+					<c:if test="${user_num==null}">
+						<c:if test="${user_auth_id==null}">
+							<c:if test="${email == null}">
+								<li><a href="${root}/member/beforeRegister.do">
+								회원가입</a></li>
+							</c:if>
+						<li><a href="${root}/member/login.do">로그인</a></li>
+						</c:if>
+					</c:if>
+						<c:if test="${user_num != null}">
+							<c:if test="${user_auth_id == null}">
+								<c:if test="${register_type == null}">
+									<li><a href="${root}/member/logout.do">로그아웃</a></li>
+									<c:if test="${email == 'egeoda@protonmail.com'}">
+										&nbsp;&nbsp;<a href="${root}/member/adminPage.do">관리자 페이지</a>
+									</c:if>	
+									<c:if test="${email=='chanhok95@naver.com'}">
+										&nbsp;&nbsp;<a href="${root}/member/adminPage.do">관리자 페이지</a>
+									</c:if>
+								</c:if>
+							</c:if>
+							<c:if test="${user_auth_id != null}">
+								<c:if test="${register_type != null}">
+									<li><a href="${root}/member/kakaoLogout.do">카카오 로그아웃</a></li>
+								</c:if>
+							</c:if>
+						</c:if>
 						<li class="active"><a href="${root}/search/list.do">캠핑장검색</a></li>
 						<!-- First Tier Drop Down -->
 						<li><label for="drop-2" class="toggle">Drop Down <span
@@ -77,8 +105,8 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 						</label> <a href="#">캠핑톡 <span class="fa fa-angle-down"
 								aria-hidden="true"></span></a> <input type="checkbox" id="drop-2" />
 							<ul>
-								<li><a href="${root}/board/campInfo/write.do">캠핑소식</a></li>
-								<li><a href="gallery.html">캠핑후기</a></li>
+								<li><a href="${root}/board/campInfo/list.do">캠핑소식</a></li>
+								<li><a href="${root}/board/campReview/list.do">캠핑후기</a></li>
 								<li><a href="features.html">이벤트</a></li>
 								<li><a href="features.html">캠핑노하우</a></li>
 							</ul></li>
@@ -95,8 +123,8 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 							</ul>
 						</li>
 						<li>
-							<!-- First Tier Drop Down --> <label for="drop-2" class="toggle">Drop
-								Down <span class="fa fa-angle-down" aria-hidden="true"></span>
+							<!-- First Tier Drop Down --> 
+							<label for="drop-2" class="toggle">DropDown <span class="fa fa-angle-down" aria-hidden="true"></span>
 						</label> <a href="#">고객센터 <span class="fa fa-angle-down"
 								aria-hidden="true"></span></a> <input type="checkbox" id="drop-2" />
 							<ul>
@@ -105,6 +133,17 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 								<li><a href="features.html">캠핑장정보수정요청</a></li>
 								<li><a href="features.html">미등록야영장신고</a></li>
 								<li><a href="features.html">캠핑장공지사항</a></li>
+							</ul>
+						</li>
+						
+						<li>
+		
+						<a href="#">로그인/회원가입<span class="fa fa-angle-down"
+								aria-hidden="true"></span></a> <input type="checkbox" id="drop-2" />
+							<ul>
+								<li><a href="">로그인</a></li>
+								<li><a href="">회원가입</a></li>
+								
 							</ul>
 						</li>
 
@@ -707,3 +746,4 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 	<!-- //copyright -->
 </body>
 </html>
+>>>>>>> master
