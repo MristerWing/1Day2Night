@@ -1,0 +1,140 @@
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+ <mapper namespace="board.mapper.CampReviewMapper">
+ 	<!--멤버테이블에서 사용자이름 가져오기-->
+ 	<select id="getUser_name" resultType="String">
+ 		SELECT EMAIL FROM MEMBER WHERE USER_NUM=#{user_num}
+ 	</select>
+ 	<!--멤버테이블에서 카톡프로필이름 가져오기-->
+ 	<select id="getProfilName" resultType="String">
+ 		SELECT NICKNAME FROM MEMBER WHERE USER_NUM=#{user_num}
+ 	</select>
+ 
+ 	<!--파일이없는 게시글 올리기-->
+ 	<insert id="reviewInsert" parameterType="com.odtn.board.dto.CampReviewDto">
+ 		INSERT INTO CAMP_REVIEW(REVIEW_NUM,
+ 							   USER_NUM,
+ 							   CONTENT,
+ 							   WRITE_DATE,
+ 							   READ_COUNT,
+ 							   CAMP_ID,
+ 							   TITLE)
+ 							   VALUES(camp_review_review_num_seq.nextval,
+ 							   #{user_num},
+ 							   #{content},
+ 							   #{write_date},
+ 							   #{read_count},
+ 							   #{camp_id},
+ 							   #{title})
+ 	</insert>
+ 	
+ 	<!--파일 있는 글 올릴때  게시글넘버 최대값 찾기-->
+ 	<select id="setMaxNum" resultType="int">
+ 		SELECT nvl(max(review_num),0)FROM CAMP_REVIEW
+ 	</select>
+ 	
+ 	<!--파일있는 글-->
+ 	<insert id="reviewFileInsert" parameterType="java.util.List">
+ 		<foreach collection="list" item="item" index="index" open="INSERT ALL" separator=" " close=" select * from dual"> 
+ 			INTO CAMP_REVIEW_FILE(
+ 							review_num,
+ 							file_name,
+ 							path,
+ 							file_size)
+ 							values(
+ 							#{item.review_num},
+ 							#{item.file_name},
+ 							#{item.path},
+ 							#{item.file_size}) 		
+ 		</foreach>
+ 	</insert>
+ 	
+ 	<!--글 총개수 구하기 -->
+ 	<select id="getCount" parameterType="com.odtn.board.dto.CampReviewDto"  resultType="int">
+ 		SELECT COUNT(*) FROM CAMP_REVIEW
+ 	</select>
+ 	
+ 	<!--글리스트에 대표이미지가있는지 세어보기-->
+ 	<select id="imgCount" parameterType="com.odtn.board.dto.CampReviewFileDto" resultType="int">
+ 		SELECT COUNT(FILE_NAME) FROM CAMP_REVIEW_FILE where review_num
+ 		=#{review_num}
+ 	</select>
+ 	<!--이미지 경로 구하기-->
+ 	<select id="getFilePath" parameterType="com.odtn.board.dto.CampReviewFileDto" resultType="String">
+ 		SELECT PATH FROM CAMP_REVIEW_FILE WHERE REVIEW_NUM=#{REVIEW_NUM}
+ 	</select>
+ 	<!--글리스트 정렬-->
+ 	<select id="getCampReviewList" parameterType="java.util.Map" resultType="com.odtn.board.dto.CampReviewDto">
+ 		   <![CDATA[
+	        SELECT * FROM
+	         (SELECT ROWNUM AS RNUM, A.* FROM
+	         (SELECT REVIEW_NUM, TITLE, USER_NUM, WRITE_DATE,READ_COUNT FROM CAMP_REVIEW ORDER BY REVIEW_NUM DESC)A)
+	         B WHERE RNUM >=#{startRow} AND RNUM <= #{endRow}
+        ]]>
+ 	</select>
+ 	<!--파일리스트-->
+ 	<select id="getCampReviewFileList" parameterType="java.util.Map" resultType="com.odtn.board.dto.CampReviewFileDto">
+ 			   <![CDATA[
+	        SELECT * FROM
+	         (SELECT ROWNUM AS RNUM, A.* FROM
+	         (SELECT REVIEW_NUM, FIlE_NAME, PATH FROM CAMP_REVIEW_FILE ORDER BY REVIEW_NUM DESC)A)
+	         B WHERE RNUM >=#{startRow} AND RNUM <= #{endRow}
+        ]]>
+ 	</select>
+ 	<!--글 읽었을떄 조회수 증가-->
+ 	<update id="readCount">
+ 		UPDATE CAMP_REVIEW SET READ_COUNT=READ_COUNT+1
+ 		WHERE REVIEW_NUM =#{review_num}
+ 	</update>
+ 	
+ 	<!--해당글 불러오기-->
+ 	<select id="readContent" parameterType="int" resultType="com.odtn.board.dto.CampReviewDto">
+ 		SELECT * FROM CAMP_REVIEW WHERE REVIEW_NUM=#{review_num}
+ 	</select>
+ 	
+ 	<!--삭제눌렀을때 디폴트로 파일이있는거 지워주기-->
+ 	<delete id="reviewFileDelete" parameterType="int">
+ 		DELETE FROM CAMP_REVIEW_FILE WHERE REVIEW_NUM=#{review_num}
+ 	</delete>
+ 	
+ 	<!--파일이있는거 지우고 content도 지우기 -->
+ 	<delete id="campReviewDelete" parameterType="int">
+ 		DELETE FROM CAMP_REVIEW WHERE REVIEW_NUM=#{review_num}
+ 	</delete>
+ 	
+ 	<!--수정눌러서 해당글 불러오기-->
+ 	<select id="campReviewUpdate" parameterType="int" resultType="com.odtn.board.dto.CampReviewDto">
+ 		SELECT * FROM CAMP_REVIEW WHERE REVIEW_NUM=#{review_num}
+ 	</select>
+ 	
+ 	<!--수정눌렀을때 이미지 존재하면 뷰에 띄어주기위해서 가져오기-->
+ 	<select id="getFileName" resultType="String">
+ 		SELECT FILE_NAME FROM CAMP_REVIEW_FILE WHERE REVIEW_NUM=#{review_num}
+ 	</select>
+ 	
+ 	<!--수정시 파일을 새로 업로드하면 기존파일지워주기 -->
+ 	<delete id="fileDelete" parameterType="int">
+ 		DELETE FROM CAMP_REVIEW_FILE WHERE REVIEW_NUM=#{review_num}
+ 	</delete>
+ 	
+ 	<!--파일이 없는글 수정하기-->
+ 	<update id="campReviewUpdateOk" parameterType="com.odtn.board.dto.CampReviewDto">
+ 		UPDATE CAMP_REVIEW SET TITLE=#{title},CONTENT=#{content} WHERE REVIEW_NUM=#{review_num}
+ 	</update>
+ 	
+ 	<!--파일다시넣기-->
+ 	<insert id="campReviewFileInsert" parameterType="com.odtn.board.dto.CampReviewFileDto">
+ 		INSERT INTO CAMP_REVIEW_FILE(
+									  review_num,
+									  file_name,
+									  path,
+							 		  file_size)
+									  values
+									  (#{review_num},
+							  		  #{file_name},
+							  		  #{path},
+							  		  #{file_size})
+ 	</insert>
+ </mapper>

@@ -67,7 +67,22 @@
 				</foreach>
 			</if>
 		</where>
-		order by camp_id desc) a ) b
+		
+		<choose>
+			<when test="filter.equals('readCount')">
+				order by read_count desc
+			</when>
+			<when test="filter.equals('reCommand')">
+				order by recommand_count desc
+			</when>
+			<when test="filter.equals('reviewCount')">
+				order by review_count desc
+			</when>
+			<otherwise>
+				order by camp_id desc
+			</otherwise>
+		</choose>
+		) a ) b
 		<![CDATA[ where ro >= #{startRow} and ro <= #{endRow} ]]>
 	</select>
 	
@@ -130,5 +145,20 @@
 				</foreach>
 			</if>
 		</where>
+	</select>
+	
+	<!-- KimJinsu 2019/12/18 select -->
+	<select id="getCamp" parameterType="int" resultType="com.odtn.search.dto.SearchDto">
+		SELECT * FROM searchList WHERE camp_id = #{camp_id}
+	</select>
+	
+	<!-- KimJinsu 2019/12/19 update -->
+	<update id="updateReadCount" parameterType="int">
+		UPDATE CAMP_DATA SET read_count = read_count + 1 WHERE camp_id = #{camp_id} 
+	</update>
+	
+	<!-- KimJinsu 2019/12/19 select -->
+	<select id="getPayment" parameterType="int" resultType="com.odtn.search.dto.SearchPaymentDto">
+		SELECT * FROM CAMP_FARE WHERE camp_id = #{camp_id}
 	</select>
 </mapper>
