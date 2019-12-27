@@ -49,6 +49,8 @@ public class ReservationDaoImp implements ReservationDao {
 		@SuppressWarnings("unchecked")
 		ArrayList<HashMap<String, Object>> result = (ArrayList<HashMap<String, Object>>) soldMap
 				.get("resultMap");
+		
+		LogAspect.logger.info(LogAspect.logMsg + result);
 
 		return result;
 	}

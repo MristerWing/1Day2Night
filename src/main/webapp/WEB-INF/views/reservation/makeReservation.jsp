@@ -22,6 +22,108 @@
         			alert("예약 불가능한 캠핑장이므로 전화로 문의해주세요.")
         			location.href="${root}/search/read.do?camp-id=${camp.camp_id}";
         		}
+        		
+        		var sendData = "";
+        		
+        		$("#Content > div > div.re_ch_right > ul > li:nth-child(3) > button").click(function() {
+        			
+					var campType = $(".form-check-inline > .form-check-label > input:checked").val();
+					
+					if(campType == null) {
+						alert("캠핑장 유형을 선택해주세요.");
+						return;
+					} 
+					
+					var peopleOfNum = 0;
+					
+					$("select#sel1").each(function() {
+						
+						if($(this).val() != "default") {
+							peopleOfNum += Number($(this).val());
+						}
+						
+					});
+					
+					if(peopleOfNum == 0) {
+						alert("예약 인원을 선택해주세요.")
+						return;
+					}
+					
+					var startDate = $("#Content > div > div.re_ch_right > ul > li:nth-child(3) > div > div.t-check-in > input").val();
+					var endDate = $("#Content > div > div.re_ch_right > ul > li:nth-child(3) > div > div.t-check-out > input").val();
+					
+					if(startDate == "null" || endDate == "null") {
+						alert("예약날짜를 제대로 선택해주세요.")
+						return;
+					}
+					
+					sendData = "camp-id=" + ${camp.camp_id} + "&camp_fee=" + campType + "&people=" + peopleOfNum +"&startDate=" + startDate + "&endDate=" + endDate;
+					
+					$.ajax({
+						
+						url:"${root}/reservation/dateSold.json?" + sendData,
+						type:"get",
+						dataType:"text",
+						success:function(data) {
+							
+							var jsonDate = JSON.parse(data);
+							
+							
+							$("#Content > div > div.re_ch_right > div > table").html("<thead><tr><th>예약날짜</th><th>예약 유무</th></tr></thead><tbody></tbody>");
+							
+							for(var i=0; i< jsonDate.length; i++) {
+								
+								var day = new Date(jsonDate[i].SELECT_DATE);
+								
+								var year = day.getFullYear();
+								var month = day.getMonth() + 1;
+								var date = day.getDate();
+								var formatDate = year + "년 " + month + "월 " + date + "일 "; 
+								
+								
+								if(jsonDate[i].ACCEPT_PEOPLE >= 0) {
+									$("#Content > div > div.re_ch_right > div > table > tbody")
+									.append("<tr><td>" + formatDate + "</td><td>가능 (예약가능 인원 : " + jsonDate[i].ACCEPT_PEOPLE + ")</td></tr>");
+								} else {
+									$("#Content > div > div.re_ch_right > div > table > tbody")
+									.append("<tr><td>" + formatDate + "</td><td>불가능</td></tr>");									
+								}
+								
+							} 
+							
+						},
+						error:function(xhr, status, error) {
+							alert(xhr + "," + status + "," + error);
+						}	
+					}); 
+					
+        		});
+        		
+        		
+        		$("body > div > div.re_do > button.btn.btn-success.btn-block").click(function() {
+        			
+        			var checkTr = $("#Content > div > div.re_ch_right > div > table > tbody > tr").text();
+        			
+        			if(checkTr == "") {
+        				alert("예약 가능 유무를 재확인해주세요.");
+						return;
+        			}
+        			
+        			$("#Content > div > div.re_ch_right > div > table > tbody > tr").each(function() {
+    						
+       					var checkSuccess = $(this).find("td:nth-child(2)").text();
+       					
+       					if(/불가능/.test(checkSuccess)) {
+   							alert("예약 가능 유무를 재확인해주세요.");
+   							return;
+       					}
+       					location.href="${root}/reservation/pay.do?"+sendData;
+    				});
+        		});
+        		
+        		$("body > div > div.re_do > button.btn.btn-primary.btn-block").click(function() {
+        			location.href="${root}/search/read.do?camp-id=${camp.camp_id}";
+        		});
         	});
         </script>
     </head>
@@ -32,17 +134,12 @@
 	            <div id="Content">
 	                <!-- 캠핑장 예약관련 div -->
 	                <div class="re_ch">
-	                    <div class="re_ch_left">
+	                    <div class="re_ch_left" style="margin-top:30px;">
 	                        
 	                        <!-- 주소 및 지도-->
 	                        <div>
 	                            <h2 style="text-align: center;">${camp.camp_name}</h2>
 	                            <span>주소 : ${camp.address}</span>&nbsp;&nbsp;&nbsp;&nbsp;
-	                            <script>
-	                            	$(function() {
-	                            		
-	                            	});
-	                            </script>
 	                        </div>
 	
 	                        <!-- 이미지 슬라이드-->
@@ -102,7 +199,7 @@
 	                                <c:forEach var="i" varStatus="status" items="${campingList}">
 	                                	<div class="form-check-inline">
 		                                    <label class="form-check-label" for="radio${status.index+1}">
-		                                        <input type="radio" class="form-check-input" id="radio${status.index+1}" name="optradio" value="option1">${i}
+		                                        <input type="radio" class="form-check-input" id="radio${status.index+1}" name="optradio" value="${i}">${i}
 		                                    </label>
 		                                </div>
 	                                </c:forEach>
@@ -113,42 +210,41 @@
 	                                <h2><i class="fa fa-male" aria-hidden="true"></i>  예약인원</h2>
 	                                <div>
 	                                    <select class="form-control" id="sel1" style="width: 70px; padding:0px;" >
-	                                        <option>성인</option>
-	                                        <option>1</option>
-	                                        <option>2</option>
-	                                        <option>3</option>
-	                                        <option>4</option>
-	                                        <option>5</option>
-	                                        <option>6</option>
-	                                        <option>7</option>
-	                                        <option>8</option>
+	                                        <option value="default">성인</option>
+	                                        <option value="1">1</option>
+	                                        <option value="2">2</option>
+	                                        <option value="3">3</option>
+	                                        <option value="4">4</option>
+	                                        <option value="5">5</option>
+	                                        <option value="6">6</option>
+	                                        <option value="7">7</option>
+	                                        <option value="8">8</option>
 	                                    </select>
 	                                </div>
 	                                <div>
 	                                    <select class="form-control" id="sel1" style="width: 70px; padding: 0px; margin: 0px 20px 0px;">
-	                                        <option>청소년</option>
-	                                        <option>1</option>
-	                                        <option>2</option>
-	                                        <option>3</option>
-	                                        <option>4</option>
-	                                        <option>5</option>
-	                                        <option>6</option>
-	                                        <option>7</option>
-	                                        <option>8</option>
+	                                        <option value="default">청소년</option>
+	                                        <option value="1">1</option>
+	                                        <option value="2">2</option>
+	                                        <option value="3">3</option>
+	                                        <option value="4">4</option>
+	                                        <option value="5">5</option>
+	                                        <option value="6">6</option>
+	                                        <option value="7">7</option>
+	                                        <option value="8">8</option>
 	                                    </select>
 	                                </div>
 	                                <div>
 	                                    <select class="form-control" id="sel1" style="width: 70px; padding:0px;">
-	                                        <option>유아</option>
-	                                        <option>1</option>
-	                                        <option>1</option>
-	                                        <option>2</option>
-	                                        <option>3</option>
-	                                        <option>4</option>
-	                                        <option>5</option>
-	                                        <option>6</option>
-	                                        <option>7</option>
-	                                        <option>8</option>
+	                                        <option value="default">유아</option>
+	                                        <option value="1">1</option>
+	                                        <option value="2">2</option>
+	                                        <option value="3">3</option>
+	                                        <option value="4">4</option>
+	                                        <option value="5">5</option>
+	                                        <option value="6">6</option>
+	                                        <option value="7">7</option>
+	                                        <option value="8">8</option>
 	                                    </select>
 	                                </div>
 	                            </li>
@@ -160,6 +256,8 @@
 	                                    <div class="t-check-in"></div>
 	                                    <div class="t-check-out"></div>
 	                                </div>
+	                                <br/><br/>
+	                                <button type="button" class="btn btn-success" style="margin-left:333px;">예약가능 유무</button>
 	                                <script src="${root}/resources/javascript/reservation/t-datepicker.js"></script>
 	                                <script>
 	                                    $(document).ready(function(){
@@ -185,15 +283,18 @@
 	                                </script>
 	                            </li>
 	                        </ul>
+	                        <div style="margin-top: 10px; min-height: 335.455px;">
+	                        	<table class="table rounded" style="font-size: 12px; background-color: white;"></table>
+	                        </div>
 	                    </div>
 	                </div>
 	                
 	            </div>
 	            <!-- 기본사항 -->
 	            <div class="re_prec" style="clear: both;">
-	                <div class="jumbotron">
+	                <div class="jumbotron" style="background-color: white">
 	                    <h3><i class="fa fa-info-circle" aria-hidden="true"></i> 기본사항</h3>
-	                    <span style="color: blue;">- 입실시간은 이용당일 14:00 ~ 22:00까지 입니다.</span style="color: blue;"><br/>
+	                    <span style="color: blue;">- 입실시간은 이용당일 14:00 ~ 22:00까지 입니다.</span><br/>
 	                    <span>- 22:00 이후 펜션에 도착하실 경우 미리 연락하셔야 하며, 사전 연락이 없을 경우 입실이 불가합니다.</span><br/>
 	                    <span>- 객실정리 시간이 12:00부터 14:00까지 이므로 이전 입실은 어렵습니다.</span><br/>
 	                    <span>- 객실은 예약 확인후에 받을 수 있습니다.</span><br/>
@@ -212,8 +313,8 @@
 	                    <span>- 바베큐 그릴, 참숯 또는 번개탄이 필요하실 경우 미리 말씀하시면 준비해드립니다.</span><br/>
 	                    <span>- 다음 분을 위해 집기류를 소중히 사용하여 주시면 감사하겠습니다.</span><br/>
 	                    <span style="color: blue;">- 애견과 같이 입실은 불가합니다.</span><br/>
-	                    <span style="color: blue;">- 객실 내에서 고기를 구워먹는 일은 절대 금지입니다.</span style="color: blue;"><br/>
-	                    <span style="color: red;">- pick up이 필요하신 분은 예약시 미리 말씀해주세요.</span style="color: blue;"><br/>
+	                    <span style="color: blue;">- 객실 내에서 고기를 구워먹는 일은 절대 금지입니다.</span><br/>
+	                    <span style="color: red;">- pick up이 필요하신 분은 예약시 미리 말씀해주세요.</span><br/>
 	                </div>
 	            </div>
 	

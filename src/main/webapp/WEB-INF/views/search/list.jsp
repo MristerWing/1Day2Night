@@ -130,6 +130,34 @@
 					
 					<!-- 필터검색 초기화 -->
 					$('#search_Content > div:nth-child(1) > div > select option[value="${searchMap.filter}"]').attr("selected",true);
+					
+					$("searchKrwd2").autocomplete({
+						
+						source : function(request, response) {
+
+							$.ajax({
+								type: "post";,
+								url: ; "";,
+								dataType: "json";,
+								data: { value : request.term},
+								success: function(data) {
+									response {
+										$.map(data, function(item) {
+											return {
+												label : item.data,
+												value : item.data
+											}
+										})
+									}
+								}
+							});
+						},
+						// 최소 몇자 이상 입력시 통신 시작
+						minLength: 2,
+						
+						// 만약 검색리스트에서 선택하였을 때, 선택한 데이터에 의한 이벤트 발생처리부분
+						select:function(event, ui) {}
+					});
 				});
             </script>
 
