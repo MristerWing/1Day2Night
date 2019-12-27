@@ -91,7 +91,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                             <a href="#">캠핑톡 <span class="fa fa-angle-down" aria-hidden="true"></span></a>
                               <input type="checkbox" id="drop-2" />
                             <ul>
-                                <li><a href="${root}/board/campInfo/write.do">캠핑공지</a>
+                                <li><a href="${root}/board/campInfo/list.do">캠핑공지</a>
                                 </li>
                                 <li><a href="${root}/board/campReview/list.do">캠핑후기</a>
                                 </li>

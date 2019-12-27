@@ -59,9 +59,9 @@ public class ReviewCommentServiceImp implements ReviewCommentService {
 	}
 	//리스트
 	@Override
-	public void list(ModelAndView mav) {
-		Map<String,Object> map=mav.getModel(); 
-		HttpServletRequest request=(HttpServletRequest)map.get("request");
+	public Map<String, Object> list(HttpServletRequest request) {
+		
+		Map<String, Object> map= new HashMap<String, Object>();
 		int review_num=Integer.parseInt(request.getParameter("review_num"));
 			LogAspect.logger.info(LogAspect.logMsg+"해당 글 번호:: "+review_num);
 	
@@ -75,17 +75,23 @@ public class ReviewCommentServiceImp implements ReviewCommentService {
 			 reviewCommentList=reviewCommentDao.getCommentList(review_num);
 			 LogAspect.logger.info(LogAspect.logMsg+"댓글 리스트 사이즈: "+reviewCommentList.size());
 		
-			
-			/*
-			 * for (int i = 0; i < reviewCommentList.size(); i++) {
-			 * System.out.println("댓글 인덱스: "+i+reviewCommentList.get(i)); int
-			 * user_num=reviewCommentList.get(i).getUser_num();
-			 * System.out.println("댓글 사용자번호"+user_num); String
-			 * writer=reviewCommentDao.getUserName(user_num); if(writer==null) {
-			 * writer=reviewCommentDao.getEmail(user_num); if (writer==null) {
-			 * writer=reviewCommentDao.getNickName(user_num);
-			 * System.out.println("리스트안의 작성자 "+writer); } } writerList.add(writer); }
-			 */
+			for (int i = 0; i < reviewCommentList.size(); i++) {
+				System.out.println("댓글 인덱스: " + i + reviewCommentList.get(i));
+				int user_num = reviewCommentList.get(i).getUser_num();
+				System.out.println("댓글 사용자번호" + user_num);
+				String writer = reviewCommentDao.getUserName(user_num);
+				if (writer == null) {
+					writer = reviewCommentDao.getEmail(user_num);
+					if (writer == null) {
+						writer = reviewCommentDao.getNickName(user_num);
+						System.out.println("리스트안의 작성자 " + writer);
+					}
+				}
+				writerList.add(writer);
+			}	
 		 }	 
+		 map.put("reviewCommentList", (Object) reviewCommentList);
+		 map.put("writerList", writerList);
+		 return map;
 	}
 }
