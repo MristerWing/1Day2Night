@@ -36,19 +36,20 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 		  	function showCommentList(){
 		  		var review_num = ${campReviewDto.review_num};
 		  		var url="${root}/reviewComment/list.json?review_num="+review_num;
-		  			alert(url);
+		  			var indexNum = 0;
 		  		$.ajax({
 		  			type:'GET',
 		  			url:url,
 		  			dataType: 'json',
 		  			success:function(data){
-		  				var html="";
+		  				console.log(data.reviewCommentList[0], data.writerList[0]);
+		  				var htmls="";
 		  				if (data.lenth<1) {
 							html.push("등록된 댓글이 없습니다.");
 							alert("data < 1");
 						}else{
-							$(data).each(function(){
-							     htmls += '<div class="media text-muted pt-3" id="rid' + this.wrtier + '">';
+							$(data.reviewCommentList).each(function(){
+							     htmls += '<div class="media text-muted pt-3" id="rid' + data.writerList[indexNum] + '">';
 
 			                     htmls += '<svg class="bd-placeholder-img mr-2 rounded" width="32" height="32" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder:32x32">';
 
@@ -64,7 +65,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 
 			                     htmls += '<span class="d-block">';
 
-			                     htmls += '<strong class="text-gray-dark">' + this.writer + '</strong>';
+			                     htmls += '<strong class="text-gray-dark">' + data.writerList[indexNum] + '</strong>';
 
 			                     htmls += '<span style="padding-left: 7px; font-size: 9pt">';
 
@@ -76,11 +77,15 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 
 			                     htmls += '</span>';
 
-			                     htmls += this.content;
+			                     htmls += this.comment_content;
 
 			                     htmls += '</p>';
 
 			                     htmls += '</div>';
+			                     
+			                     $("#commentList").append(htmls);
+			                     htmls = "";
+			                     indexNum++;
 							});
 						}
 		  			}
