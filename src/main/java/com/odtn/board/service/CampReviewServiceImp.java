@@ -1,7 +1,6 @@
 package com.odtn.board.service;
 
 import java.io.File;
-import java.lang.System.Logger;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;

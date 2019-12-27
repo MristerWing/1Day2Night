@@ -9,10 +9,14 @@ import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.mail.MessagingException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Component;
@@ -26,13 +30,6 @@ import com.google.gson.JsonParser;
 import com.odtn.aop.LogAspect;
 import com.odtn.member.dao.MemberDao;
 import com.odtn.member.dto.MemberDto;
-
-import javax.mail.MessagingException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-
-import com.odtn.member.service.TempKey;
-import com.sun.tools.javac.util.Log;
 
 /**
  * @author kkh

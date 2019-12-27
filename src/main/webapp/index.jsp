@@ -62,9 +62,9 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 				<!-- nav -->
 				<nav class="py-3">
 					<div id="logo">
-						<img class="logoImg" src="${root}/resources/images/ODTN.png" width="50">
+				<%--<img class="logoImg" src="${root}/resources/images/ODTN.png" width="50"> --%>
 						<h1>
-							<a class="navbar-brand" href="#">ODTN</a>
+							<a class="navbar-brand" href="#">ODTN LOGO</a>
 						</h1>
 					</div>
 
@@ -87,10 +87,10 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 								<c:if test="${register_type == null}">
 									<li><a href="${root}/member/logout.do">로그아웃</a></li>
 									<c:if test="${email == 'egeoda@protonmail.com'}">
-										&nbsp;&nbsp;<a href="${root}/member/adminPage.do">관리자 페이지</a>
+										&nbsp;&nbsp;<a href="${root}/admin/list.do">관리자 페이지</a>
 									</c:if>	
 									<c:if test="${email=='chanhok95@naver.com'}">
-										&nbsp;&nbsp;<a href="${root}/member/adminPage.do">관리자 페이지</a>
+										&nbsp;&nbsp;<a href="${root}/admin/list.do">관리자 페이지</a>
 									</c:if>
 								</c:if>
 							</c:if>
