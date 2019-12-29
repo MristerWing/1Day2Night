@@ -30,11 +30,6 @@ import com.google.gson.JsonParser;
 import com.odtn.aop.LogAspect;
 import com.odtn.member.dao.MemberDao;
 import com.odtn.member.dto.MemberDto;
-
-import javax.mail.MessagingException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-
 import com.odtn.member.util.MailUtils;
 import com.odtn.member.util.SHA256Util;
 import com.odtn.member.util.TempKey;
@@ -92,7 +87,8 @@ public class MemberServiceImp implements MemberService {
 		password = SHA256Util.getEncrypt(password, salt);
 
 		memberDto.setPassword(password);
-		LogAspect.logger.info(LogAspect.logMsg + "MSI.mWO.SHApw: " + memberDto.getPassword());
+		LogAspect.logger.info(
+				LogAspect.logMsg + "MSI.mWO.SHApw: " + memberDto.getPassword());
 
 		MemberDto memberDtoIsNew = new MemberDto();
 		memberDtoIsNew = memberDao.isNewMember(memberDto.getEmail());
@@ -104,15 +100,17 @@ public class MemberServiceImp implements MemberService {
 			// request.getParameter("email"); //npe
 			emailSender(mav);
 
-		} else if (memberDtoIsNew.getRegister_type() != null && memberDtoIsNew.getRegister_type().equals("KAKAO")) {
-			LogAspect.logger.info(LogAspect.logMsg + "이미 이 이메일을 사용하는 카카오 계정으로 가입하신 적이 있습니다.");
+		} else if (memberDtoIsNew.getRegister_type() != null
+				&& memberDtoIsNew.getRegister_type().equals("KAKAO")) {
+			LogAspect.logger.info(
+					LogAspect.logMsg + "이미 이 이메일을 사용하는 카카오 계정으로 가입하신 적이 있습니다.");
 			mav.addObject("register_type", memberDtoIsNew.getRegister_type());
-			mav.setViewName("member/login");
+			mav.setViewName("member/login.tiles");
 
 		} else {
 			LogAspect.logger.info(LogAspect.logMsg + "이미 가입하신 이메일입니다.");
 			mav.addObject("isNewMember", "f");
-			mav.setViewName("member/login");
+			mav.setViewName("member/login.tiles");
 		}
 
 		// mav.setViewName("member/registerOk");
@@ -136,7 +134,8 @@ public class MemberServiceImp implements MemberService {
 		memberDto.setEmail(request.getParameter("email"));
 		memberDto.setEmail_auth_key(request.getParameter("authkey"));
 		memberDto = memberDao.getDtoEmailAuth(memberDto);
-		LogAspect.logger.info(LogAspect.logMsg + "MSI.gDEA.dtoAfter: " + memberDto.toString());
+		LogAspect.logger.info(LogAspect.logMsg + "MSI.gDEA.dtoAfter: "
+				+ memberDto.toString());
 
 		mav.addObject("memberDto", memberDto);
 
@@ -154,16 +153,21 @@ public class MemberServiceImp implements MemberService {
 		}
 		memberDto.setEmail_auth_key(email_auth_key);
 		int akCheck = memberDao.updateEmail_auth_key(memberDto);
-		LogAspect.logger.info(LogAspect.logMsg + "MSI.mWO.afterUEak.dto: " + memberDto.toString());
+		LogAspect.logger.info(LogAspect.logMsg + "MSI.mWO.afterUEak.dto: "
+				+ memberDto.toString());
 		// 자동으로 보내지는 mail 내용 작성
 		try {
-			LogAspect.logger.info(LogAspect.logMsg + "MSI.mWO.mail.dto:" + memberDto.toString());
+			LogAspect.logger.info(LogAspect.logMsg + "MSI.mWO.mail.dto:"
+					+ memberDto.toString());
 			MailUtils sendMail = new MailUtils(mailSender);
 			sendMail.setSubject("1Day2Night 회원가입 이메일 인증입니다.");
-			sendMail.setText(new StringBuffer().append("<h3>이메일 인증</h3>").append("<p>아래의 링크를 클릭하시면 이메일 인증이 완료됩니다.</p>")
+			sendMail.setText(new StringBuffer().append("<h3>이메일 인증</h3>")
+					.append("<p>아래의 링크를 클릭하시면 이메일 인증이 완료됩니다.</p>")
 					.append("<a href='http://localhost:8181/camping/member/emailVerify.do?uid=")
-					.append(memberDto.getUser_num()).append("&email=").append(memberDto.getEmail()).append("&authkey=")
-					.append(email_auth_key).append("' target=_blank'>이메일 인증 확인</a>").toString());
+					.append(memberDto.getUser_num()).append("&email=")
+					.append(memberDto.getEmail()).append("&authkey=")
+					.append(email_auth_key)
+					.append("' target=_blank'>이메일 인증 확인</a>").toString());
 			sendMail.setFrom("egeodaa@gmail.com", "admin1");
 			sendMail.setTo(memberDto.getEmail());
 			sendMail.send();
@@ -174,8 +178,10 @@ public class MemberServiceImp implements MemberService {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		LogAspect.logger.info(LogAspect.logMsg + "MSI.mS.akupdCheck: " + akCheck);
-		LogAspect.logger.info(LogAspect.logMsg + "MSI.mS.dto: " + memberDto.toString());
+		LogAspect.logger
+				.info(LogAspect.logMsg + "MSI.mS.akupdCheck: " + akCheck);
+		LogAspect.logger
+				.info(LogAspect.logMsg + "MSI.mS.dto: " + memberDto.toString());
 		mav.addObject("memberDto", memberDto);
 		mav.setViewName("member/registerOk.tiles");
 	}
@@ -186,12 +192,15 @@ public class MemberServiceImp implements MemberService {
 		Map<String, Object> map = mav.getModelMap();
 		MemberDto memberDto = (MemberDto) map.get("memberDto");
 
-		LogAspect.logger.info(LogAspect.logMsg + "MSI.uEas.dtobefor: " + memberDto.toString());
+		LogAspect.logger.info(LogAspect.logMsg + "MSI.uEas.dtobefor: "
+				+ memberDto.toString());
 		memberDto.setEmail_auth_status(null);
-		LogAspect.logger.info(LogAspect.logMsg + "MSI.uEas.dtoAfter: " + memberDto.toString());
+		LogAspect.logger.info(LogAspect.logMsg + "MSI.uEas.dtoAfter: "
+				+ memberDto.toString());
 
 		int check = memberDao.updateEmail_auth_status(memberDto);
-		LogAspect.logger.info(LogAspect.logMsg + "MSI.uEas.dtoAfterUpd:" + memberDto.toString());
+		LogAspect.logger.info(LogAspect.logMsg + "MSI.uEas.dtoAfterUpd:"
+				+ memberDto.toString());
 		LogAspect.logger.info(LogAspect.logMsg + "MSI.uEas.check:" + check);
 		mav.addObject("check", check);
 		mav.addObject("memberDto", memberDto);
@@ -207,8 +216,10 @@ public class MemberServiceImp implements MemberService {
 
 		String email = request.getParameter("email");
 		String password = request.getParameter("password");
-		LogAspect.logger.info(LogAspect.logMsg + "req.email:" + request.getParameter("email"));
-		LogAspect.logger.info(LogAspect.logMsg + "req.pw:" + request.getParameter("password"));
+		LogAspect.logger.info(LogAspect.logMsg + "req.email:"
+				+ request.getParameter("email"));
+		LogAspect.logger.info(LogAspect.logMsg + "req.pw:"
+				+ request.getParameter("password"));
 		LogAspect.logger.info(LogAspect.logMsg + "str.email:" + email);
 		LogAspect.logger.info(LogAspect.logMsg + "str.pw:" + password);
 
@@ -224,23 +235,28 @@ public class MemberServiceImp implements MemberService {
 
 		Map<String, String> hMap = new HashMap<String, String>();
 
-		LogAspect.logger.info(LogAspect.logMsg + "MSI.mLO.reqEmail: " + request.getParameter("email"));
+		LogAspect.logger.info(LogAspect.logMsg + "MSI.mLO.reqEmail: "
+				+ request.getParameter("email"));
 		hMap.put("email", request.getParameter("email"));
 		hMap.put("password", password);
 
-		LogAspect.logger.info(LogAspect.logMsg + "MSI.mLO.email: " + hMap.get("email"));
-		LogAspect.logger.info(LogAspect.logMsg + "MSI.mLO.password: " + hMap.get("password"));
+		LogAspect.logger
+				.info(LogAspect.logMsg + "MSI.mLO.email: " + hMap.get("email"));
+		LogAspect.logger.info(
+				LogAspect.logMsg + "MSI.mLO.password: " + hMap.get("password"));
 		memberDto = memberDao.memberLoginOk(hMap);
 
 		if (memberDto != null) {
-			LogAspect.logger.info(LogAspect.logMsg + "MSI.mLO.dto: " + memberDto.toString());
+			LogAspect.logger.info(
+					LogAspect.logMsg + "MSI.mLO.dto: " + memberDto.toString());
 			mav.addObject("memberDto", memberDto);
 
-			mav.setViewName("member/loginOk");
+			mav.setViewName("member/loginOk.empty");
 		} else {
-			LogAspect.logger.info(LogAspect.logMsg + "아이디 혹은 비밀번호가 틀렸습니다 다시 시도해주세요");
+			LogAspect.logger
+					.info(LogAspect.logMsg + "아이디 혹은 비밀번호가 틀렸습니다 다시 시도해주세요");
 			mav.addObject("memberDto", memberDto);
-			mav.setViewName("member/login");
+			mav.setViewName("member/login.tiles");
 		}
 
 	}
@@ -264,16 +280,22 @@ public class MemberServiceImp implements MemberService {
 		HttpSession session = (HttpSession) map.get("session");
 		Map<String, Object> hMap = new HashMap<String, Object>();
 
-		LogAspect.logger.info(LogAspect.logMsg + "MSI.mUP.req.getPpw: " + request.getParameter("password"));
-		LogAspect.logger.info(LogAspect.logMsg + "MSI.mUP.ses.getUnum: " + session.getAttribute("user_num"));
-		LogAspect.logger.info(LogAspect.logMsg + "MSI.mUP.ses.getemal: " + session.getAttribute("email"));
-		LogAspect.logger.info(LogAspect.logMsg + "MSI.mUP.ses.getEAK: " + session.getAttribute("email_auth_key"));
+		LogAspect.logger.info(LogAspect.logMsg + "MSI.mUP.req.getPpw: "
+				+ request.getParameter("password"));
+		LogAspect.logger.info(LogAspect.logMsg + "MSI.mUP.ses.getUnum: "
+				+ session.getAttribute("user_num"));
+		LogAspect.logger.info(LogAspect.logMsg + "MSI.mUP.ses.getemal: "
+				+ session.getAttribute("email"));
+		LogAspect.logger.info(LogAspect.logMsg + "MSI.mUP.ses.getEAK: "
+				+ session.getAttribute("email_auth_key"));
 
-		String salt = memberDao.getSaltByEmail((String) session.getAttribute("email"));
+		String salt = memberDao
+				.getSaltByEmail((String) session.getAttribute("email"));
 		String password = request.getParameter("password");
 		LogAspect.logger.info(LogAspect.logMsg + password);
 		password = SHA256Util.getEncrypt(password, salt);
-		LogAspect.logger.info(LogAspect.logMsg + "업데이트부분+MSI.mUP.salt: " + salt);
+		LogAspect.logger
+				.info(LogAspect.logMsg + "업데이트부분+MSI.mUP.salt: " + salt);
 		LogAspect.logger.info(LogAspect.logMsg + "MSI.mUP.pwSHA: " + password);
 
 		hMap.put("password", password);
@@ -284,15 +306,17 @@ public class MemberServiceImp implements MemberService {
 
 		MemberDto memberDto = memberDao.getMemberDtoP(hMap);
 		if (memberDto != null) {
-			LogAspect.logger.info(LogAspect.logMsg + "MSI.mUP.dto:" + memberDto.toString());
-			LogAspect.logger.info(LogAspect.logMsg + "MSI.mUP.dto:" + memberDto.toString());
+			LogAspect.logger.info(
+					LogAspect.logMsg + "MSI.mUP.dto:" + memberDto.toString());
+			LogAspect.logger.info(
+					LogAspect.logMsg + "MSI.mUP.dto:" + memberDto.toString());
 			memberDto.setPassword(request.getParameter("password"));
 			mav.addObject("memberDto", memberDto);
 			mav.setViewName("member/update.tiles");
 		} else {
 			LogAspect.logger.info(LogAspect.logMsg + "MSI.mUP.비밀번호가 틀렸습니다");
 			mav.addObject("password_fail", "t");
-			mav.setViewName("member/updateP");
+			mav.setViewName("member/updateP.empty");
 		}
 	}
 
@@ -300,9 +324,12 @@ public class MemberServiceImp implements MemberService {
 	@Override
 	public void memberKakaoUpdate(ModelAndView mav, HttpSession session) {
 
-		LogAspect.logger.info(LogAspect.logMsg + "MSI.mKU.ses.getUnum: " + session.getAttribute("user_num"));
-		LogAspect.logger.info(LogAspect.logMsg + "MSI.mKU.ses.getUai: " + session.getAttribute("user_auth_id"));
-		LogAspect.logger.info(LogAspect.logMsg + "MSI.mKU.ses.getregType: " + session.getAttribute("register_type"));
+		LogAspect.logger.info(LogAspect.logMsg + "MSI.mKU.ses.getUnum: "
+				+ session.getAttribute("user_num"));
+		LogAspect.logger.info(LogAspect.logMsg + "MSI.mKU.ses.getUai: "
+				+ session.getAttribute("user_auth_id"));
+		LogAspect.logger.info(LogAspect.logMsg + "MSI.mKU.ses.getregType: "
+				+ session.getAttribute("register_type"));
 
 		Map<String, Object> hMap = new HashMap<String, Object>();
 		hMap.put("user_num", session.getAttribute("user_num"));
@@ -312,13 +339,15 @@ public class MemberServiceImp implements MemberService {
 		MemberDto memberDto = memberDao.getKakaoMemberDto(hMap);
 
 		if (memberDto != null) {
-			LogAspect.logger.info(LogAspect.logMsg + "MSI.mKU.dto: " + memberDto.toString());
+			LogAspect.logger.info(
+					LogAspect.logMsg + "MSI.mKU.dto: " + memberDto.toString());
 			mav.addObject("memberDto", memberDto);
-			mav.setViewName("member/kakaoMemberUpdate");
+			mav.setViewName("member/kakaoMemberUpdate.tiles");
 		} else {
-			LogAspect.logger.info(LogAspect.logMsg + "MSI.mKU.dto:dto를 불러오지 못했습니다.(비었어요);");
+			LogAspect.logger.info(
+					LogAspect.logMsg + "MSI.mKU.dto:dto를 불러오지 못했습니다.(비었어요);");
 			mav.addObject("memberDto_null", "t");
-			mav.setViewName("member/kakaoMemberUpdate");
+			mav.setViewName("member/kakaoMemberUpdate.tiles");
 		}
 	}
 
@@ -328,40 +357,48 @@ public class MemberServiceImp implements MemberService {
 		Map<String, Object> map = mav.getModelMap();
 		// MemberDto memberDto = (MemberDto)map.get("memberDto");
 		MemberDto memberDto = new MemberDto();
-		MultipartHttpServletRequest request = (MultipartHttpServletRequest) map.get("request");
+		MultipartHttpServletRequest request = (MultipartHttpServletRequest) map
+				.get("request");
 
 		LogAspect.logger.info(LogAspect.logMsg + "req: " + request);
-		// LogAspect.logger.info(LogAspect.logMsg+"MSI.mUO.dto: "+memberDto.toString());
+		// LogAspect.logger.info(LogAspect.logMsg+"MSI.mUO.dto:
+		// "+memberDto.toString());
 
 		memberDto.setEmail(request.getParameter("email"));
-		LogAspect.logger.info(LogAspect.logMsg + "MSI.mUO.reqEmail: " + request.getParameter("email"));
-		LogAspect.logger.info(LogAspect.logMsg + "MSI.mUO.dtoEmail: " + memberDto.getEmail());
+		LogAspect.logger.info(LogAspect.logMsg + "MSI.mUO.reqEmail: "
+				+ request.getParameter("email"));
+		LogAspect.logger.info(
+				LogAspect.logMsg + "MSI.mUO.dtoEmail: " + memberDto.getEmail());
 
 		// 암호화 한다면 달라져야 될 부분일 듯 - 그리 해보도록 하지요
 		String salt = SHA256Util.generateSalt();
-		LogAspect.logger.info(LogAspect.logMsg + "MSI.mUO.reqPw: " + request.getParameter("password"));
+		LogAspect.logger.info(LogAspect.logMsg + "MSI.mUO.reqPw: "
+				+ request.getParameter("password"));
 		LogAspect.logger.info(LogAspect.logMsg + "MSI.mUO.salt: " + salt);
 		String password = request.getParameter("password");
 		password = SHA256Util.getEncrypt(password, salt);
 		memberDto.setPassword(password);
 		memberDto.setSalt(salt);
 
-		LogAspect.logger.info(LogAspect.logMsg + "MSI.mUO.interest: " + request.getParameter("result"));
+		LogAspect.logger.info(LogAspect.logMsg + "MSI.mUO.interest: "
+				+ request.getParameter("result"));
 		memberDto.setUser_num((Integer) session.getAttribute("user_num"));
 		memberDto.setInterest(request.getParameter("result"));
 		memberDto.setUser_name(request.getParameter("user_name"));
 		memberDto.setNickname(request.getParameter("nickname"));
-		memberDto.setPhone_num(Integer.valueOf(request.getParameter("phone_num")));
+		memberDto.setPhone_num(
+				Integer.valueOf(request.getParameter("phone_num")));
 		// memberDto.setGender(request.getParameter("genderh"));
 		// memberDto.setAge(Integer.parseInt(request.getParameter("age")));
 
-		LogAspect.logger
-				.info(LogAspect.logMsg + "MSI.mUO.req.getFile.pImg: " + request.getFile("profile_image").toString());
+		LogAspect.logger.info(LogAspect.logMsg + "MSI.mUO.req.getFile.pImg: "
+				+ request.getFile("profile_image").toString());
 		MultipartFile upFile = request.getFile("profile_image");
 		Long file_size = upFile.getSize();
 
 		if (file_size != 0) {// 이미 파일 존재
-			String file_name = Long.toString(System.currentTimeMillis()) + "_" + upFile.getOriginalFilename();
+			String file_name = Long.toString(System.currentTimeMillis()) + "_"
+					+ upFile.getOriginalFilename();
 			File path = new File("C:\\ftp\\profile_image\\");
 			path.mkdir();
 
@@ -375,14 +412,16 @@ public class MemberServiceImp implements MemberService {
 				// memberDto.setFileSize(fileSize);
 				// memberDto.setFileName(fileName);
 				memberDto.setProfile_image(file.getAbsolutePath());
-				LogAspect.logger.info(LogAspect.logMsg + "MSI.mUO" + file.getAbsolutePath());
+				LogAspect.logger.info(
+						LogAspect.logMsg + "MSI.mUO" + file.getAbsolutePath());
 			}
 
 		}
 
 		int check = 0;
 
-		LogAspect.logger.info(LogAspect.logMsg + "MSI.mUO.dto: " + memberDto.toString());
+		LogAspect.logger.info(
+				LogAspect.logMsg + "MSI.mUO.dto: " + memberDto.toString());
 		check = memberDao.memberUpdateOk(memberDto);
 		LogAspect.logger.info(LogAspect.logMsg + "MSI.mUO.check: " + check);
 
@@ -395,10 +434,14 @@ public class MemberServiceImp implements MemberService {
 		Map<String, Object> map = mav.getModelMap();
 		HttpServletRequest request = (HttpServletRequest) map.get("request");
 		HttpSession session = request.getSession();
-		LogAspect.logger.info(LogAspect.logMsg + "MSI.mDO.sesUnum: " + session.getAttribute("user_num"));
-		LogAspect.logger.info(LogAspect.logMsg + "MSI.mDO.sesemail: " + session.getAttribute("email"));
-		LogAspect.logger.info(LogAspect.logMsg + "MSI.mDO.sesEAKey: " + session.getAttribute("email_auth_key"));
-		LogAspect.logger.info(LogAspect.logMsg + "MSI.mDO.reqPassword: " + request.getParameter("password"));
+		LogAspect.logger.info(LogAspect.logMsg + "MSI.mDO.sesUnum: "
+				+ session.getAttribute("user_num"));
+		LogAspect.logger.info(LogAspect.logMsg + "MSI.mDO.sesemail: "
+				+ session.getAttribute("email"));
+		LogAspect.logger.info(LogAspect.logMsg + "MSI.mDO.sesEAKey: "
+				+ session.getAttribute("email_auth_key"));
+		LogAspect.logger.info(LogAspect.logMsg + "MSI.mDO.reqPassword: "
+				+ request.getParameter("password"));
 		Map<String, Object> hMap = new HashMap<String, Object>();
 		hMap.put("user_num", session.getAttribute("user_num"));
 		hMap.put("email", session.getAttribute("email"));
@@ -406,7 +449,8 @@ public class MemberServiceImp implements MemberService {
 
 		// 비번 암호화로 인해 변화
 
-		String salt = memberDao.getSaltByEmail((String) session.getAttribute("email"));
+		String salt = memberDao
+				.getSaltByEmail((String) session.getAttribute("email"));
 
 		String password = request.getParameter("password");
 
@@ -426,9 +470,12 @@ public class MemberServiceImp implements MemberService {
 		// MemberDto memberDto = new MemberDto();
 
 		Map<String, Object> hMap = new HashMap<String, Object>();
-		LogAspect.logger.info(LogAspect.logMsg + "MSI.kDO.ses.uaid: " + session.getAttribute("user_auth_id"));
-		LogAspect.logger.info(LogAspect.logMsg + "MSI.kDO.ses.unum: " + session.getAttribute("user_num"));
-		LogAspect.logger.info(LogAspect.logMsg + "MSI.kDO.ses.a_t: " + session.getAttribute("access_token"));
+		LogAspect.logger.info(LogAspect.logMsg + "MSI.kDO.ses.uaid: "
+				+ session.getAttribute("user_auth_id"));
+		LogAspect.logger.info(LogAspect.logMsg + "MSI.kDO.ses.unum: "
+				+ session.getAttribute("user_num"));
+		LogAspect.logger.info(LogAspect.logMsg + "MSI.kDO.ses.a_t: "
+				+ session.getAttribute("access_token"));
 		hMap.put("user_auth_id", session.getAttribute("user_auth_id"));
 		hMap.put("user_num", session.getAttribute("user_num"));
 		// hMap.put("access_token", session.getAttribute("access_token"));
@@ -467,11 +514,13 @@ public class MemberServiceImp implements MemberService {
 			conn.setDoOutput(true);
 
 			// 주소 이어 만들어 bw에 저장
-			BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(conn.getOutputStream()));
+			BufferedWriter bw = new BufferedWriter(
+					new OutputStreamWriter(conn.getOutputStream()));
 			StringBuilder sb = new StringBuilder();
 			sb.append("grant_type=authorization_code");
 			sb.append("&client_id=06ef11d13082c0f6655eada1dec1670a");
-			sb.append("&redirect_uri=http://localhost:8181/camping/member/kakaoLogin.do");
+			sb.append(
+					"&redirect_uri=http://localhost:8181/camping/member/kakaoLogin.do");
 			sb.append("&code=" + authorize_code);
 			LogAspect.logger.info(LogAspect.logMsg + "sb.append: " + sb);
 			bw.write(sb.toString());
@@ -481,14 +530,16 @@ public class MemberServiceImp implements MemberService {
 			int responseCode = conn.getResponseCode();
 			LogAspect.logger.info(LogAspect.logMsg + responseCode);
 
-			BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+			BufferedReader br = new BufferedReader(
+					new InputStreamReader(conn.getInputStream()));
 			String line = "";
 			String result = "";
 
 			while ((line = br.readLine()) != null) {
 				result += line;
 			}
-			LogAspect.logger.info(LogAspect.logMsg + "response body: " + result);
+			LogAspect.logger
+					.info(LogAspect.logMsg + "response body: " + result);
 
 			// JSON객체 받아서 스트링으로 만들기 (gson 라이브러리 사용)
 			// json 파서 선언하고
@@ -498,11 +549,15 @@ public class MemberServiceImp implements MemberService {
 			JsonElement jsonElement = jsonParser.parse(result);
 			// 엘러먼트에 저장된 json 객체를 get하고 거기서 a_token과 r_token을 얻는데 스트링타입으로서
 			// get한다.
-			access_Token = jsonElement.getAsJsonObject().get("access_token").getAsString();
-			refresh_Token = jsonElement.getAsJsonObject().get("refresh_token").getAsString();
+			access_Token = jsonElement.getAsJsonObject().get("access_token")
+					.getAsString();
+			refresh_Token = jsonElement.getAsJsonObject().get("refresh_token")
+					.getAsString();
 
-			LogAspect.logger.info(LogAspect.logMsg + "access_token : " + access_Token);
-			LogAspect.logger.info(LogAspect.logMsg + "refresh_token : " + refresh_Token);
+			LogAspect.logger
+					.info(LogAspect.logMsg + "access_token : " + access_Token);
+			LogAspect.logger.info(
+					LogAspect.logMsg + "refresh_token : " + refresh_Token);
 
 			// 다 썼으면 닫아주기(먼저 연 걸 나중에 닫음)
 			if (br != null)
@@ -569,7 +624,8 @@ public class MemberServiceImp implements MemberService {
 	// if(kakao_account.getAsJsonObject().get("email") != null &&
 	// kakao_account.getAsJsonObject().get("email_needs_agreement").getAsBoolean()
 	// == false) {
-	// //String email = kakao_account.getAsJsonObject().get("email").getAsString();
+	// //String email =
+	// kakao_account.getAsJsonObject().get("email").getAsString();
 	// userInfoMap.put("email",
 	// kakao_account.getAsJsonObject().get("email").getAsString());
 	// } else {
@@ -577,7 +633,8 @@ public class MemberServiceImp implements MemberService {
 	// userInfoMap.put("email", "");
 	// }
 	//
-	// if(kakao_account.getAsJsonObject().get("profile_needs_agreement") !=null &&
+	// if(kakao_account.getAsJsonObject().get("profile_needs_agreement") !=null
+	// &&
 	// kakao_account.getAsJsonObject().get("profile_needs_agreement").getAsBoolean()
 	// == false) {
 	// if(properties.getAsJsonObject().get("profile_image") != null)
@@ -614,9 +671,11 @@ public class MemberServiceImp implements MemberService {
 			conn.setRequestProperty("Authorization", "Bearer " + access_Token);
 
 			// 200 나오면됨
-			LogAspect.logger.info(LogAspect.logMsg + "MSI.gUI.responseCode: " + conn.getResponseCode());
+			LogAspect.logger.info(LogAspect.logMsg + "MSI.gUI.responseCode: "
+					+ conn.getResponseCode());
 
-			BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+			BufferedReader br = new BufferedReader(
+					new InputStreamReader(conn.getInputStream()));
 			String line = "";
 			String result = "";
 
@@ -624,20 +683,25 @@ public class MemberServiceImp implements MemberService {
 				result += line;
 			}
 
-			LogAspect.logger.info(LogAspect.logMsg + "MSI.gUI.responseBody: " + result);
+			LogAspect.logger
+					.info(LogAspect.logMsg + "MSI.gUI.responseBody: " + result);
 
 			// json 객체 파싱
 			JsonParser jsonParser = new JsonParser();
 			JsonElement jsonElement = jsonParser.parse(result);
 
 			// json객체 내의 배열 properties와 kakao_account를 선언
-			JsonObject properties = jsonElement.getAsJsonObject().get("properties").getAsJsonObject();
-			JsonObject kakao_account = jsonElement.getAsJsonObject().get("kakao_account").getAsJsonObject();
-			LogAspect.logger.info(LogAspect.logMsg + jsonElement.getAsJsonObject().get("id").getAsString());
-			LogAspect.logger
-					.info(LogAspect.logMsg + Integer.valueOf(jsonElement.getAsJsonObject().get("id").getAsString()));
+			JsonObject properties = jsonElement.getAsJsonObject()
+					.get("properties").getAsJsonObject();
+			JsonObject kakao_account = jsonElement.getAsJsonObject()
+					.get("kakao_account").getAsJsonObject();
+			LogAspect.logger.info(LogAspect.logMsg
+					+ jsonElement.getAsJsonObject().get("id").getAsString());
+			LogAspect.logger.info(LogAspect.logMsg + Integer.valueOf(
+					jsonElement.getAsJsonObject().get("id").getAsString()));
 			if (jsonElement.getAsJsonObject().get("id") != null) {
-				memberDto.setUser_auth_id(Integer.valueOf(jsonElement.getAsJsonObject().get("id").getAsString()));
+				memberDto.setUser_auth_id(Integer.valueOf(
+						jsonElement.getAsJsonObject().get("id").getAsString()));
 				mav.addObject("user_auth_id", memberDto.getUser_auth_id());
 			} else {
 				LogAspect.logger.info(LogAspect.logMsg + "고유 id를 찾을 수 없습니다");
@@ -645,36 +709,48 @@ public class MemberServiceImp implements MemberService {
 			}
 
 			// 각 배열 내에 있는 하나씩 뽑아 String 변수에 하나씩 저장하기
-			if (properties.getAsJsonObject().get("nickname").getAsString() != null) {
+			if (properties.getAsJsonObject().get("nickname")
+					.getAsString() != null) {
 				// String nickname =
 				// properties.getAsJsonObject().get("nickname").getAsString();
-				memberDto.setNickname(properties.getAsJsonObject().get("nickname").getAsString());
+				memberDto.setNickname(properties.getAsJsonObject()
+						.get("nickname").getAsString());
 				mav.addObject("nickname", memberDto.getNickname());
 			}
 			// } else {
 			// memberDto.setNickname("");
 			// }
 			if (kakao_account.getAsJsonObject().get("email") != null
-					&& (kakao_account.getAsJsonObject().get("email_needs_agreement") != null
-							&& kakao_account.getAsJsonObject().get("email_needs_agreement").getAsBoolean() == false)) {
+					&& (kakao_account.getAsJsonObject()
+							.get("email_needs_agreement") != null
+							&& kakao_account.getAsJsonObject()
+									.get("email_needs_agreement")
+									.getAsBoolean() == false)) {
 				// String email =
 				// kakao_account.getAsJsonObject().get("email").getAsString();
-				memberDto.setEmail(kakao_account.getAsJsonObject().get("email").getAsString());
+				memberDto.setEmail(kakao_account.getAsJsonObject().get("email")
+						.getAsString());
 			} else {
 				// memberDto.setEmail("");
 				memberDto.setEmail_auth_status("x");
 			}
 
-			if (kakao_account.getAsJsonObject().get("profile_needs_agreement") != null
-					&& (kakao_account.getAsJsonObject().get("profile_needs_agreement") != null && kakao_account
-							.getAsJsonObject().get("profile_needs_agreement").getAsBoolean() == false)) {
+			if (kakao_account.getAsJsonObject()
+					.get("profile_needs_agreement") != null
+					&& (kakao_account.getAsJsonObject()
+							.get("profile_needs_agreement") != null
+							&& kakao_account.getAsJsonObject()
+									.get("profile_needs_agreement")
+									.getAsBoolean() == false)) {
 
 				if (properties.getAsJsonObject().get("profile_image") != null)
-					memberDto.setProfile_image(properties.getAsJsonObject().get("profile_image").getAsString());
+					memberDto.setProfile_image(properties.getAsJsonObject()
+							.get("profile_image").getAsString());
 				// else memberDto.setProfile_image("");
 
 				if (properties.getAsJsonObject().get("thumbnail_image") != null)
-					memberDto.setThumbnail_image(properties.getAsJsonObject().get("thumbnail_image").getAsString());
+					memberDto.setThumbnail_image(properties.getAsJsonObject()
+							.get("thumbnail_image").getAsString());
 				// else memberDto.setThumbnail_image("");
 			}
 			// } else {
@@ -694,7 +770,8 @@ public class MemberServiceImp implements MemberService {
 			int check = 0;
 
 			MemberDto memberDtoIsNew = new MemberDto();
-			memberDtoIsNew = memberDao.isNewOAuthMember(memberDto.getUser_auth_id());
+			memberDtoIsNew = memberDao
+					.isNewOAuthMember(memberDto.getUser_auth_id());
 
 			// LogAspect.logger.info(LogAspect.logMsg + "MSI.kGUI.isNew.dto: " +
 			// memberDtoIsNew.toString());
@@ -703,7 +780,8 @@ public class MemberServiceImp implements MemberService {
 			// LogAspect.logger.info(LogAspect.logMsg + "dto.uid:
 			// "+memberDto.getUser_auth_id());
 			//
-			// LogAspect.logger.info(LogAspect.logMsg+"MSI.kGUI.isNewKaKao(t is f):
+			// LogAspect.logger.info(LogAspect.logMsg+"MSI.kGUI.isNewKaKao(t is
+			// f):
 			// "+memberDtoIsNew.getRegister_type().equals("KAKAO"));
 			// LogAspect.logger.info(LogAspect.logMsg+"MSI.kGUI.isNewAuthId:
 			// "+memberDtoIsNew.getUser_auth_id().equals(memberDto.getUser_auth_id()));
@@ -715,8 +793,10 @@ public class MemberServiceImp implements MemberService {
 			} else if (!(memberDtoIsNew.getRegister_type().equals("KAKAO"))) {
 				check = memberDao.memberWrite(memberDto);
 				memberDto = memberDao.kakaoMemberNewLoad(memberDto);
-			} else if (memberDtoIsNew.getUser_auth_id().equals(memberDto.getUser_auth_id())) {
-				LogAspect.logger.info(LogAspect.logMsg + "MSI.KGUI.이미 있는 카카오 아이디이므로 로그인합니다.");
+			} else if (memberDtoIsNew.getUser_auth_id()
+					.equals(memberDto.getUser_auth_id())) {
+				LogAspect.logger.info(
+						LogAspect.logMsg + "MSI.KGUI.이미 있는 카카오 아이디이므로 로그인합니다.");
 				memberDto = memberDao.kakaoMemberLoad(memberDtoIsNew);
 			}
 			// } else if(memberDtoIsNew.getUser_auth_id()==null &&
@@ -727,8 +807,10 @@ public class MemberServiceImp implements MemberService {
 
 			// if (memberDtoIsNew != null) {
 			// if(memberDtoIsNew.getRegister_type().equals("KAKAO")){
-			// if(memberDtoIsNew.getUser_auth_id().equals(memberDto.getUser_auth_id())) {
-			// LogAspect.logger.info(LogAspect.logMsg + "MSI.KGUI.이미 있는 카카오 아이디이므로
+			// if(memberDtoIsNew.getUser_auth_id().equals(memberDto.getUser_auth_id()))
+			// {
+			// LogAspect.logger.info(LogAspect.logMsg + "MSI.KGUI.이미 있는 카카오
+			// 아이디이므로
 			// 로그인합니다.");
 			// memberDto = memberDao.kakaoMemberLoad(memberDtoIsNew);
 			// }
@@ -738,8 +820,10 @@ public class MemberServiceImp implements MemberService {
 			// } else {
 			// check = memberDao.memberWrite(memberDto);
 			// }
-			LogAspect.logger.info(LogAspect.logMsg + "MSI.gUIkakao.dto: " + memberDto.toString());
-			LogAspect.logger.info(LogAspect.logMsg + "MSI.gUIkakao.check: " + check);
+			LogAspect.logger.info(LogAspect.logMsg + "MSI.gUIkakao.dto: "
+					+ memberDto.toString());
+			LogAspect.logger
+					.info(LogAspect.logMsg + "MSI.gUIkakao.check: " + check);
 
 			mav.addObject("check", check);
 			mav.addObject("memberDto", memberDto);
@@ -748,10 +832,12 @@ public class MemberServiceImp implements MemberService {
 
 			// HttpSession session = request.getSession();
 			// session.setAttribute("nickname", memberDto.getNickname());
-			// session.setAttribute("user_auth_id", memberDto.getUser_auth_id());
+			// session.setAttribute("user_auth_id",
+			// memberDto.getUser_auth_id());
 			// session.setAttribute("user_num", memberDto.getUser_num());
 			// session.setAttribute("access_Token", access_Token);
-			// session.setAttribute("register_type", memberDto.getRegister_type());
+			// session.setAttribute("register_type",
+			// memberDto.getRegister_type());
 			//
 			mav.setViewName("member/kakaoLoginOk.tiles");
 
@@ -773,11 +859,14 @@ public class MemberServiceImp implements MemberService {
 			conn.setDoOutput(true);
 			conn.setRequestMethod("POST");
 			conn.setRequestProperty("Authorization", "Bearer " + access_Token);
-			LogAspect.logger.info(LogAspect.logMsg + "MSI.kLo.a_t: " + access_Token);
+			LogAspect.logger
+					.info(LogAspect.logMsg + "MSI.kLo.a_t: " + access_Token);
 
-			LogAspect.logger.info(LogAspect.logMsg + "MSI.kLo.responseCode: " + conn.getResponseCode());
+			LogAspect.logger.info(LogAspect.logMsg + "MSI.kLo.responseCode: "
+					+ conn.getResponseCode());
 
-			BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+			BufferedReader br = new BufferedReader(
+					new InputStreamReader(conn.getInputStream()));
 
 			String result = "";
 			String line = "";
@@ -785,7 +874,8 @@ public class MemberServiceImp implements MemberService {
 			while ((line = br.readLine()) != null) {
 				result += line;
 			}
-			LogAspect.logger.info(LogAspect.logMsg + "MSI.kLo.result: " + result);
+			LogAspect.logger
+					.info(LogAspect.logMsg + "MSI.kLo.result: " + result);
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -795,26 +885,34 @@ public class MemberServiceImp implements MemberService {
 	@Override
 	public void kakaoMemberUpdateOk(ModelAndView mav, HttpSession session) {
 		Map<String, Object> map = mav.getModelMap();
-		MultipartHttpServletRequest request = (MultipartHttpServletRequest) map.get("request");
+		MultipartHttpServletRequest request = (MultipartHttpServletRequest) map
+				.get("request");
 
 		// MemberDto memberDto = (MemberDto)map.get("memberDto");
 		MemberDto memberDto = new MemberDto();
 
-		LogAspect.logger.info(LogAspect.logMsg + "MSI.kMUO.ses.unum: " + session.getAttribute("user_num"));
-		LogAspect.logger.info(LogAspect.logMsg + "MSI.kMUO.ses.uai: " + session.getAttribute("user_auth_id"));
-		LogAspect.logger.info(LogAspect.logMsg + "MSI.kMUO.ses.regType: " + session.getAttribute("register_type"));
-		LogAspect.logger.info(LogAspect.logMsg + "MSI.kMUO.req.interest: " + request.getParameter("interest"));
+		LogAspect.logger.info(LogAspect.logMsg + "MSI.kMUO.ses.unum: "
+				+ session.getAttribute("user_num"));
+		LogAspect.logger.info(LogAspect.logMsg + "MSI.kMUO.ses.uai: "
+				+ session.getAttribute("user_auth_id"));
+		LogAspect.logger.info(LogAspect.logMsg + "MSI.kMUO.ses.regType: "
+				+ session.getAttribute("register_type"));
+		LogAspect.logger.info(LogAspect.logMsg + "MSI.kMUO.req.interest: "
+				+ request.getParameter("interest"));
 
 		// LogAspect.logger.info(LogAspect.logMsg+"MSI.kMUO.dtoBefore:"+memberDto.toString());
 
 		memberDto.setUser_num((Integer) session.getAttribute("user_num"));
-		memberDto.setUser_auth_id((Integer) session.getAttribute("user_auth_id"));
-		memberDto.setRegister_type((String) session.getAttribute("register_type"));
+		memberDto.setUser_auth_id(
+				(Integer) session.getAttribute("user_auth_id"));
+		memberDto.setRegister_type(
+				(String) session.getAttribute("register_type"));
 
 		memberDto.setInterest(request.getParameter("interestHidden"));
 		memberDto.setUser_name(request.getParameter("user_name"));
 		memberDto.setNickname(request.getParameter("nickname"));
-		memberDto.setPhone_num(Integer.valueOf(request.getParameter("phone_num")));
+		memberDto.setPhone_num(
+				Integer.valueOf(request.getParameter("phone_num")));
 		// memberDto.setGender(request.getParameter("genderh"));
 		// memberDto.setAge(Integer.parseInt(request.getParameter("age")));
 
@@ -824,7 +922,8 @@ public class MemberServiceImp implements MemberService {
 		Long file_size = upFile.getSize();
 
 		if (file_size != 0) {// 이미 파일 존재
-			String file_name = Long.toString(System.currentTimeMillis()) + "_" + upFile.getOriginalFilename();
+			String file_name = Long.toString(System.currentTimeMillis()) + "_"
+					+ upFile.getOriginalFilename();
 			File path = new File("C:\\ftp\\profile_image\\");
 			path.mkdir();
 
@@ -838,18 +937,20 @@ public class MemberServiceImp implements MemberService {
 				// memberDto.setFileSize(fileSize);
 				// memberDto.setFileName(fileName);
 				memberDto.setProfile_image(file.getAbsolutePath());
-				LogAspect.logger.info(LogAspect.logMsg + "MSI.mUO" + file.getAbsolutePath());
+				LogAspect.logger.info(
+						LogAspect.logMsg + "MSI.mUO" + file.getAbsolutePath());
 			}
 
 		}
 
-		LogAspect.logger.info(LogAspect.logMsg + "MSI.kMUO.dto.sesAdd:" + memberDto.toString());
+		LogAspect.logger.info(LogAspect.logMsg + "MSI.kMUO.dto.sesAdd:"
+				+ memberDto.toString());
 
 		int check = memberDao.kakaoMemberUpdateOk(memberDto);
 
 		mav.addObject("check", check);
 		mav.addObject("nickname", memberDto.getNickname());
-		mav.setViewName("member/kakaoMemberUpdateOk");
+		mav.setViewName("member/kakaoMemberUpdateOk.empty");
 
 	}
 

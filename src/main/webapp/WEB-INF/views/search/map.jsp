@@ -65,7 +65,6 @@
 	}
 </script>
 
-
 <!-- kakaomap -->
 <link rel="stylesheet"
 	href="${root}/resources/css/searchmap/layout.css">

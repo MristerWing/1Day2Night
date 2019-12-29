@@ -4,14 +4,15 @@
     max-height: 600px;
 }
 
-.container {
+.background {
     overflow:visible;
-    background-color: orange;
+    background-color: #dbdbdb;
 }
 
 .re_ch_left {
     float:left;
     margin-left: 70px;
+    
 }
 .re_ch_right, .re_ch_right > list-group {
     float:left;

@@ -51,7 +51,7 @@ public class ReservationController {
 	 * @param response
 	 * @return
 	 */
-	@RequestMapping(value = "/reservation/dateSold.json")
+	@RequestMapping(value = "/reservation/dateSold.json", method = RequestMethod.GET)
 	@ResponseBody
 	public ArrayList<HashMap<String, Object>> reservationDatePicker(
 			HttpServletRequest request, HttpServletResponse response) {
@@ -73,7 +73,8 @@ public class ReservationController {
 
 		reservationService.reservationPay(modelAndView);
 
-		modelAndView.setViewName("reservation/resolvationPay.tiles");
+		modelAndView.setViewName("reservation/payReservation.tiles");
+
 		return modelAndView;
 	}
 }

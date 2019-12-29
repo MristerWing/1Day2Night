@@ -22,48 +22,18 @@ License URL: http://creativecommons.org/licenses/by/3.0/
         addEventListener("load", function() {
             setTimeout(hideURLbar, 0);
         }, false);
-"src/main/webapp/WEB-INF/views/template/content_header.jsp"
         function hideURLbar() {
             window.scrollTo(0, 1);
         }
 
     </script>
     <script src="${root}/resources/javascript/modules/jquery-3.4.1.js"></script>
-   <script type="text/javascript">
-    
-    </script>  
-    <!--++++++++++++++++++++++리스트 부트스트랩+++++++++++++++++++++++++++++++++++++-->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
-	  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-	  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-	  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
-
-   
-   
-    <!--summerNote-->
-    <link href="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.css" rel="stylesheet">
-<!-- 	<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script>  -->
-	<script src="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.js"></script> 
-	
-	<!-- include summernote css/js -->
-	<link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote.css" rel="stylesheet">
-	<script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote.js"></script>
-    
-    <!-- //Meta tag Keywords -->
-    <!-- Custom-Files -->
     <link rel="stylesheet" href="${root}/resources/css/styles/bootstrap.css">
-    <!-- Bootstrap-Core-CSS -->
+    <script src="${root}/resources/javascript/modules/bootstrap.js"></script>
     <link rel="stylesheet" href="${root}/resources/css/styles/style.css" type="text/css" media="all" />
-   
-    <!-- Style-CSS -->
-    <!-- font-awesome-icons -->
     <link href="${root}/resources/css/styles/font-awesome.css" rel="stylesheet">
-    <!-- /Fonts -->
     <link href="//fonts.googleapis.com/css?family=Poppins:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900" rel="stylesheet">
     <link href="//fonts.googleapis.com/css?family=Dosis:200,300,400,500,600,700,800" rel="stylesheet">
-
-    <!-- //Fonts -->
-
 </head>
 
 <body>
