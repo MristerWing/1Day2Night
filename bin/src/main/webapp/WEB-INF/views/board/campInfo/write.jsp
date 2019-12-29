@@ -72,7 +72,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                     <div id="logo">
                         <%-- 	<img class="logoImg" src="${root}/resources/css/images/ODTN.png" width="50"> --%>
                   		<h1> 
-                  		<a class="navbar-brand" href="index.html">CAMPINGINFO</a>
+                  		<a class="navbar-brand" href="${root}/index.jsp">CAMPINGINFO</a>
                        </h1>
                     </div>
 
@@ -160,7 +160,8 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 				</li>
 				<li>
 					<label >작성자(*)</label>
-					<input name="writer" type="text"/>
+					<input name="user_num" type="hidden" value="${memberDto.user_num}"/>
+					<input name="writer" type="text" value="${writer}" disabled="disabled"/>
 				</li>
 
 				<li>

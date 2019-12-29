@@ -25,8 +25,8 @@
   	$(function(){
   		$("#emailAuthBtn").click(function(){
   			var emailAddr = $("#exampleInputEmail3").val();
-  			if(emailAddr == ""){
-  				
+  			if(emailAddr != ""){
+  				var url = "${root}/member/emailAuthKey.do?"+emailAddr;
   			}
   		});
   	})
@@ -35,6 +35,11 @@
 </head>
 
 <body>
+<c:if test="${memberDto_null = 't'}">
+	<script type="text/javascript">
+		alert("정보를 제대로 불러오지 못했습니다.");
+	</script>
+</c:if>
   <div class="container-scroller">
 
     <!-- partial -->
@@ -50,11 +55,12 @@
             <div class="col-12 grid-margin stretch-card">
               <div class="card">
                 <div class="card-body">
-                  <h4 class="card-title">Basic form elements</h4>
+                  <h4 class="card-title">카카오 연동 회원 정보 수정</h4>
                   <p class="card-description">
-                    Basic form elements
+                    카카오 연동 회원 정보 수정
                   </p>
-                  <form class="forms-sample" action="${root}/member/kakaoMemberUpdateOk.do" method="post">
+                  <form class="forms-sample" action="${root}/member/kakaoMemberUpdateOk.do" method="post"
+                  enctype="multipart/form-data">
                     <div class="form-group">
                       <label for="exampleInputName1">이름</label>
                       <input type="hidden" name="user_nameHidden" value="${memberDto.user_name}"/>
@@ -111,20 +117,22 @@
                     	 </div>
                 
                     <div class="form-group">
-                      <label>프로필 사진 파일 업로드</label>
-                      <input type="file" name="img[]" class="file-upload-default">
-                      <div class="input-group col-xs-12">
-                      	<input type="hidden" name="profile_imageHidden" value="${memberDto.profile_image}"/>
-                        <input type="file" class="form-control file-upload-info" disabled placeholder="Upload Image" name = "profile_image" value="${memberDto.profile_image}"/>
+                      <label>프로필 사진 파일 업로드<br/>
+                      	<h5>카카오와 다른 사진을 사용하고 싶다면 파일을 선택하신 후 확인을 눌러주십시오.</h6>
+                      </label>
+                      
+                      <input type="file" name="profile_image" class="file-upload-default" size="255"/>
+<!--                       <div class="input-group col-xs-12"> -->
+<%--                       	<input type="hidden" name="profile_imageHidden" value="${memberDto.profile_image}"/> --%>
+<%--                         <input type="text" class="form-control file-upload-info" disabled placeholder="Upload Image" name = "profile_image_" value="${memberDto.profile_image}"/> --%>
                         
-                        <span class="input-group-append">
-                          <button class="file-upload-browse btn btn-primary" type="button">Upload</button>
-                        </span>
-                      </div>
+<!--                         <span class="input-group-append"> -->
+<!--                           <button class="file-upload-browse btn btn-primary" type="button">Upload</button> -->
+<!--                         </span> -->
+<!--                       </div> -->
                     </div>
                     
-                    <button type="submit" class="btn btn-primary mr-2">Submit</button>
-                    <button class="btn btn-light">Cancel</button>
+                    <button type="submit" class="btn btn-primary mr-2">확인</button>
                   </form>
                 </div>
               </div>
