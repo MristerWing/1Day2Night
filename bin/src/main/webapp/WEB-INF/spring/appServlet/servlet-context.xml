@@ -30,7 +30,7 @@
 	<!-- Annotation scan -->
 	<context:component-scan
 		base-package="com.odtn.*" />
-
+	 
 	<!-- Application AOP -->
 	<aop:aspectj-autoproxy></aop:aspectj-autoproxy>
 

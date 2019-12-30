@@ -1,11 +1,19 @@
+#home {
+	background: url('../../images/search/searchReadHeader.jpg') no-repeat;
+	background-size: cover;
+}
+
 .search .topline-background {
     width: 100%;
     min-height: 300px;
-    margin-top: 10px;
     background: url("../../images/search/searchReadBackground.jpg") no-repeat;
     background-size: cover;
     overflow: hidden;
     padding-top: 93px;
+}
+
+.search {
+	min-height = 2000px;
 }
 
 .search i {
@@ -65,6 +73,11 @@
 .search .content-area tbody {
     border-top: 1px solid #dee2e6;
     border-bottom: 1px solid #dee2e6;
+    font-size: 14px;
+}
+
+.search .content-area tbody th {
+	width: 30%;
 }
 
 .search .content-area {

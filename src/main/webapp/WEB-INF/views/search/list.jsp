@@ -7,59 +7,24 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-<meta charset="UTF-8" />
-<head>
-<meta charset="UTF-8" />
-<title>ODTN-Perfect camping 4 U</title>
-<!-- Meta tag Keywords -->
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<meta charset="UTF-8" />
-<meta name="keywords"
-	content="Camping Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template, Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design" />
-<script>
-                addEventListener(
-                    "load",
-                    function() {
-                        setTimeout(hideURLbar, 0);
-                    },
-                    false
-                );
-
-                function hideURLbar() {
-                    window.scrollTo(0, 1);
-                }
-            </script>
-<!-- //Meta tag Keywords -->
-<script src="${root}/resources/javascript/modules/jquery-3.4.1.js"></script>
-<script src="${root}/resources/javascript/modules/jquery-ui.js"></script>
 <script type="text/javascript"
 	src="${root}/resources/javascript/search/searchList.js"></script>
-
-<!-- Custom-Files -->
-<link rel="stylesheet" href="${root}/resources/css/styles/bootstrap.css" />
-<!-- Bootstrap-Core-CSS -->
-<link rel="stylesheet" href="${root}/resources/css/styles/style.css"
-	type="text/css" media="all" />
-<!-- Style-CSS -->
-<!-- font-awesome-icons -->
-<link href="${root}/resources/css/styles/font-awesome.css"
-	rel="stylesheet" />
 <!--getSearchCSS-->
 <link href="${root}/resources/css/search/search.css" rel="stylesheet" />
 <link href="${root}/resources/css/search/searchBar.css" rel="stylesheet" />
 <link href="${root}/resources/css/search/searchList.css"
 	rel="stylesheet" />
-
 <!-- 검색 게시물 Content CSS  -->
 <link href="${root}/resources/css/search/searchBoard.css"
 	rel="stylesheet" />
 	
-
-
+<!-- 실시간 자동검색 완성 css / js -->
+<link href="${root}/resources/css/styles/jquery-ui.css" rel="stylesheet"/>	
+<script src="${root}/resources/javascript/modules/jquery-ui.js"></script>
 <!-- 검색값 초기화 JS -->
 <script>
 				$(function() {
-					
+					// 수정하기전 작업이야!!!!!!!!!!!ㅇㅇ
 					<!-- 기본검색 초기화 -->
 					$('#c_do option[value="${searchMap.city}"]').attr("selected",true);
 					$('#searchLctCl option[value="${searchMap.thema}"]').attr("selected",true);
@@ -72,7 +37,6 @@
 						
 						if(tagArr.indexOf(tag) > -1) {
 							 $(this).css("background-color", "slateblue");
-							 
                         }
 					
 					});
@@ -82,7 +46,7 @@
 					$("#campSearchForm3 > div > ul > li:nth-child(1) > div > div > div > ul > li > input").each(function() {
 						if(cityArr.indexOf($(this).val()) > -1) {
 							$(this).prop("checked", true);
-					}
+						}
 						
 					
 					});
@@ -130,21 +94,54 @@
 					
 					<!-- 필터검색 초기화 -->
 					$('#search_Content > div:nth-child(1) > div > select option[value="${searchMap.filter}"]').attr("selected",true);
+					
+					<!-- 실시간 자동검색 -->
+					$("#searchKrwd2").autocomplete({
+						
+						source: function(request, response) {
+							
+							$.ajax({
+								
+								type:"post",
+								url:"${root}/search/autoComplete.json",
+								// request.term = $("searchKrwd2").val() [참고용]
+								data:{ searchName: request.term },
+								dataType:"json",
+								success: function(data) {
+									response(
+										$.map(data, function(item) {
+											return {
+												label : item.data,
+												value: item.data
+											}
+										})
+									);
+								},
+								error:function(xhr, status, error) {
+									alert(xhr + "," + status + "," + error);
+								}
+							});
+						},
+						minLength:2,
+						delay:500,
+						
+						focus: function(eventCheck, ui) {
+							eventCheck.preventDefault();
+							console.log(ui.item.label);
+							
+							$("#searchKrwd2").keydown(function(key) {
+								
+								if(key.which == 13) {
+									$("#searchKrwd2").val(ui.item.label);
+									event();
+								}
+							});
+						}
+					});
 				});
-            </script>
-
-<!-- /Fonts -->
-<link
-	href="//fonts.googleapis.com/css?family=Poppins:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900"
-	rel="stylesheet" />
-<link
-	href="//fonts.googleapis.com/css?family=Dosis:200,300,400,500,600,700,800"
-	rel="stylesheet" />
-<!-- //Fonts -->
-</head>
+</script>
 </head>
 <body>
-	<div class="main-content top"></div>
 	<div class="search">
 		<div class="topline-background">
 			<div class="container">
@@ -267,7 +264,7 @@
 																if(key.which == 13) {
 																	event();
 																}
-															});
+															});  
                                                         </script>
 												</li>
 											</ul>
@@ -726,22 +723,26 @@
 		            	$(".search_Filter > select").change(function() {
 		            		var filter = 
 		            		$(".search_Filter > select option:selected").val();
+		            		
 		            		var url = "${url}"+"filter=";
 		            		location.href= url+filter;
-		            	})
-		            </script>
+		            	}) 
+	            </script>
 				<c:if test="${isMap == 'MAP'}">
-					<button onclick="javascript:location.href='${url}'.replace('isMap=MAP','')">리스트 보기</button>
+					<button
+						onclick="javascript:location.href='${url}'.replace('isMap=MAP','') + '&filter=${searchMap.filter}' + '&pageNumber=${searchMap.currentPage}'">리스트
+						보기</button>
 				</c:if>
 				<c:if test="${isMap == null}">
-					<button onclick="javascript:location.href='${url}' + 'isMap=MAP'">지도로 보기</button>
+					<button onclick="javascript:location.href='${url}' + 'isMap=MAP' + '&filter=${searchMap.filter}' + '&pageNumber=${searchMap.currentPage}'">지도로
+						보기</button>
 				</c:if>
 			</div>
 		</div>
 		<!-- 지도로 검색 -->
 		<c:if test="${isMap == 'MAP'}">
 			<jsp:include page="./map.jsp">
-				<jsp:param name="searchMap" value="${searchMap}"/>
+				<jsp:param name="searchMap" value="${searchMap}" />
 			</jsp:include>
 		</c:if>
 
@@ -749,10 +750,12 @@
 			<!-- 게시물 반복처리 -->
 			<div class="search_list">
 				<c:if test="${searchMap.searchList.size() > 0}">
-					<c:forEach var="searchDto" varStatus="status" items="${searchMap.searchList}">
+					<c:forEach var="searchDto" varStatus="status"
+						items="${searchMap.searchList}">
 						<div class="Each_search row">
 							<div class="col-sm-4 main_img">
-								<a href="${root}/search/read.do?camp-id=${searchDto.camp_id}"><img src="${searchDto.main_image}"></a>
+								<a href="${root}/search/read.do?camp-id=${searchDto.camp_id}"><img
+									src="${searchDto.main_image}"></a>
 							</div>
 							<div class="col-sm-7 Each_search_sub">
 								<div class="badges-area">
@@ -763,7 +766,8 @@
 										${searchDto.recommand_count}</span>
 								</div>
 								<div class="name-content-area">
-									<span class="namespace"><a class="camp-title" href="${root}/search/read.do?camp-id=${searchDto.camp_id}">${searchDto.camp_name}</a></span>
+									<span class="namespace"><a class="camp-title"
+										href="${root}/search/read.do?camp-id=${searchDto.camp_id}">${searchDto.camp_name}</a></span>
 									<c:if test="${searchDto.address != null}">
 										<span class="address"> <i class='fa fa-map-marker'
 											aria-hidden='true'></i> ${searchDto.address}
@@ -775,8 +779,7 @@
 										</span>
 									</c:if>
 									<c:if test="${searchDto.main_facilities != null}">
-										<div class="info row">
-										</div>
+										<div class="info row"></div>
 										<script type="text/javascript">
 											var title = {
 												bolt: "전기",
@@ -829,45 +832,47 @@
 					</c:forEach>
 				</c:if>
 			</div>
-	
+
 			<!-- 페이징 처리 부분 -->
 			<div class="pageCount">
 				<c:if test="${searchMap.count>0}">
 					<c:set var="pageBlock" value="${10}" />
 					<fmt:parseNumber var="pageCount" integerOnly="true"
 						value="${searchMap.count/searchMap.boardSize + (searchMap.count % searchMap.boardSize == 0 ? 0 : 1)}" />
-	
+
 					<fmt:parseNumber var="result"
 						value="${(searchMap.currentPage-1)/pageBlock}" integerOnly="true" />
 					<c:set var="startPage" value="${result*pageBlock+1}" />
 					<c:set var="endPage" value="${startPage+pageBlock-1}" />
-	
+
 					<c:if test="${endPage > pageCount }">
 						<c:set var="endPage" value="${pageCount}" />
 					</c:if>
-	
+
 					<ul class="pagination">
 						<c:if test="${startPage > pageBlock}">
 							<li class="page-item"><a class="page-link"
-								href="${url}pageNumber=1"><i class="fa fa-angle-double-left" aria-hidden="true"></i></a></li>
+								href="${url}pageNumber=1&filter=${searchMap.filter}"><i class="fa fa-angle-double-left"
+									aria-hidden="true"></i></a></li>
 							<li class="page-item"><a class="page-link"
-								href="${url}pageNumber=${startPage - pageBlock}">PREV</a></li>
+								href="${url}pageNumber=${startPage - pageBlock}&filter=${searchMap.filter}">PREV</a></li>
 						</c:if>
 						<c:forEach var="i" begin="${startPage}" end="${endPage}">
 							<c:if test="${i != searchMap.currentPage}">
 								<li class="page-item"><a class="page-link"
-									href="${url}pageNumber=${i}">${i}</a></li>
+									href="${url}pageNumber=${i}&filter=${searchMap.filter}">${i}</a></li>
 							</c:if>
 							<c:if test="${i == searchMap.currentPage}">
 								<li class="page-item active"><a class="page-link"
-									href="${url}pageNumber=${i}">${i}</a></li>
+									href="${url}pageNumber=${i}&filter=${searchMap.filter}">${i}</a></li>
 							</c:if>
 						</c:forEach>
 						<c:if test="${endPage < pageCount}">
 							<li class="page-item"><a class="page-link"
-								href="${url}pageNumber=${startPage + pageBlock}">NEXT</a></li>
+								href="${url}pageNumber=${startPage + pageBlock}&filter=${searchMap.filter}">NEXT</a></li>
 							<li class="page-item"><a class="page-link"
-								href="${url}pageNumber=${pageCount}"><i class="fa fa-angle-double-right" aria-hidden="true"></i></a></li>
+								href="${url}pageNumber=${pageCount}&filter=${searchMap.filter}"><i
+									class="fa fa-angle-double-right" aria-hidden="true"></i></a></li>
 						</c:if>
 					</ul>
 				</c:if>

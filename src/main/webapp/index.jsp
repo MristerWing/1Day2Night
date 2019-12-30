@@ -1,3 +1,4 @@
+
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -9,7 +10,6 @@ License: Creative Commons Attribution 3.0 Unported
 License URL: http://creativecommons.org/licenses/by/3.0/
 -->
 
-<!DOCTYPE html>
 <c:set var="root" value="${pageContext.request.contextPath}" />
 <html lang="zxx">
 
@@ -27,6 +27,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 
 	function hideURLbar() {
 		window.scrollTo(0, 1);
+		
 	}
 </script>
 <!-- //Meta tag Keywords -->
@@ -61,9 +62,9 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 				<!-- nav -->
 				<nav class="py-3">
 					<div id="logo">
-						<%-- <img class="logoImg" src="${root}/resources/css/images/ODTN.png" width="50"> --%>
+				<%--<img class="logoImg" src="${root}/resources/images/ODTN.png" width="50"> --%>
 						<h1>
-							<a class="navbar-brand" href="#">ODTN</a>
+							<a class="navbar-brand" href="#">ODTN LOGO</a>
 						</h1>
 					</div>
 
@@ -85,10 +86,10 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 								<c:if test="${register_type == null}">
 									<li><a href="${root}/member/logout.do">로그아웃</a></li>
 									<c:if test="${email == 'egeoda@protonmail.com'}">
-										&nbsp;&nbsp;<a href="${root}/member/adminPage.do">관리자 페이지</a>
+										&nbsp;&nbsp;<a href="${root}/admin/list.do">관리자 페이지</a>
 									</c:if>	
 									<c:if test="${email=='chanhok95@naver.com'}">
-										&nbsp;&nbsp;<a href="${root}/member/adminPage.do">관리자 페이지</a>
+										&nbsp;&nbsp;<a href="${root}/admin/list.do">관리자 페이지</a>
 									</c:if>
 								</c:if>
 							</c:if>
@@ -107,34 +108,17 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 						</label> <a href="#">캠핑톡 <span class="fa fa-angle-down"
 								aria-hidden="true"></span></a> <input type="checkbox" id="drop-2" />
 							<ul>
-								<li><a href="${root}/board/campInfo/write.do">캠핑소식</a></li>
-								<li><a href="gallery.html">캠핑후기</a></li>
-								<li><a href="features.html">이벤트</a></li>
-								<li><a href="features.html">캠핑노하우</a></li>
+								<li><a href="${root}/board/campInfo/list.do">캠핑공지</a></li>
+								<li><a href="${root}/board/campReview/list.do">캠핑후기</a></li>
+
 							</ul></li>
-						<li>
-							<!-- First Tier Drop Down --> <label for="drop-2" class="toggle">Drop
-								Down <span class="fa fa-angle-down" aria-hidden="true"></span>
-						</label> <a href="#">캠핑플러스 <span class="fa fa-angle-down"
-								aria-hidden="true"></span></a> <input type="checkbox" id="drop-2" />
-							<ul>
-								<li><a href="features.html">캠핑시작하기</a></li>
-								<li><a href="gallery.html">캠핑장비이야기</a></li>
-								<li><a href="features.html">안전한캠핑즐기기</a></li>
-								<li><a href="features.html">안전수칙동영상</a></li>
-							</ul>
-						</li>
-						<li>
-							<!-- First Tier Drop Down --> <label for="drop-2" class="toggle">Drop
-								Down <span class="fa fa-angle-down" aria-hidden="true"></span>
+						<li> 
+							<!-- First Tier Drop Down --> 
+							<label for="drop-2" class="toggle">DropDown <span class="fa fa-angle-down" aria-hidden="true"></span>
 						</label> <a href="#">고객센터 <span class="fa fa-angle-down"
 								aria-hidden="true"></span></a> <input type="checkbox" id="drop-2" />
 							<ul>
-								<li><a href="features.html">공지사항</a></li>
-								<li><a href="gallery.html">캠핑상담</a></li>
-								<li><a href="features.html">캠핑장정보수정요청</a></li>
-								<li><a href="features.html">미등록야영장신고</a></li>
-								<li><a href="features.html">캠핑장공지사항</a></li>
+								<li><a href="${root}/board/campQnA/list.do">캠핑문의</a></li>
 							</ul>
 						</li>
 
@@ -150,12 +134,12 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 				<div class="row banner-grids">
 					<div class="col-lg-6 banner-info-w3ls">
 						<h2>Enjoy Your Holiday Trip</h2>
-						<h3 class="mb-3">Plan Your Holiday Trip Now Exceptional
-							Adventure</h3>
+						<h3 class="mb-3">Perfect Camping for You</h3>
+						<a href="${root}/owner/login.do">사업자</a>
 						<p class="mb-4">Vestibulum ante ipsum primis in faucibus orci
 							luctus et ultrices posuere cubilia Curae; Nulla mollis dapibus
 							nunc, ut rhoncus turpis sodales quis.</p>
-						<a href="about.html" class="btn">Read More</a>
+						<a href="about.html" class="btn">캠핑장 검색</a>
 					</div>
 
 				</div>

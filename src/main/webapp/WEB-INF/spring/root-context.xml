@@ -6,7 +6,7 @@
 	<!-- Oracle JDBC 6 DB Pool -->
 	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
 		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"></property>
-		<property name="url" value="jdbc:oracle:thin:@localhost:1521:xe"></property>
+		<property name="url" value="jdbc:oracle:thin:@192.168.14.30:1521:xe"></property>
 		<property name="username" value="odtn"></property>
 		<property name="password" value="0001"></property>
 		<property name="maxActive" value="30"></property>
@@ -46,7 +46,6 @@
 		<aop:pointcut expression="within(com.odtn..*)" id="pT" />
 		<aop:advisor advice-ref="txAdvice" pointcut-ref="pT" />
 	</aop:config>
-	
 	
 	<!--  이메일 인증을 위해서 추가한 부분입니다. -->
 	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">

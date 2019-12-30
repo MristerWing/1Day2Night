@@ -161,4 +161,9 @@
 	<select id="getPayment" parameterType="int" resultType="com.odtn.search.dto.SearchPaymentDto">
 		SELECT * FROM CAMP_FARE WHERE camp_id = #{camp_id}
 	</select>
+	
+	<!-- ParkSungSoo 2019/12/29 select -->
+	<select id="getSearchComplete" parameterType="String" resultType="String">
+		<![CDATA[SELECT CAMP_NAME FROM CAMP_DATA WHERE regexp_like(CAMP_NAME,#{value}) AND ROWNUM <= 10]]>
+	</select>
 </mapper>

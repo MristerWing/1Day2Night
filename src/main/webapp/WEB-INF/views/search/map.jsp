@@ -65,7 +65,6 @@
 	}
 </script>
 
-
 <!-- kakaomap -->
 <link rel="stylesheet"
 	href="${root}/resources/css/searchmap/layout.css">
@@ -163,15 +162,20 @@
 										</c:if>
 										
 										<c:if test="${startPage > pageBlock }">
-											<a href="${root }/search/list.do?isMap=MAP&pageNumber=${startPage-pageBlock}">[이전]</a>		
+											<a href="${root }/search/list.do?isMap=MAP&pageNumber=${startPage-pageBlock}&filter=${searchMap.filter}">[이전]</a>		
 										</c:if>
 										
 										<c:forEach var="i" begin="${startPage }" end="${endPage }">
-											<a href="${root }/search/list.do?isMap=MAP&pageNumber=${i}">[${i}]</a>
+											<c:if test="${i != searchMap.currentPage}">
+												<a href="${root }/search/list.do?isMap=MAP&pageNumber=${i}&filter=${searchMap.filter}">[${i}]</a>
+											</c:if>
+											<c:if test="${i == searchMap.currentPage}">
+												<a href="${root }/search/list.do?isMap=MAP&pageNumber=${i}&filter=${searchMap.filter}" style="font-weight:bold;">[${i}]</a>
+											</c:if>
 										</c:forEach>
 										
 										<c:if test="${endPage < pageCount }">
-											<a href="${root }/search/list.do?isMap=MAP&pageNumber=${startPage+pageBlock}">[다음]</a>
+											<a href="${root }/search/list.do?isMap=MAP&pageNumber=${startPage+pageBlock}&filter=${searchMap.filter}">[다음]</a>
 										</c:if>
 									</c:if>
 								</div>

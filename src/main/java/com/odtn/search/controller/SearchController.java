@@ -2,6 +2,7 @@ package com.odtn.search.controller;
 
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -11,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.odtn.search.service.SearchService;
@@ -89,7 +91,7 @@ public class SearchController {
 		}
 
 		mav.addObject("searchMap", searchMap);
-		mav.setViewName("search/list");
+		mav.setViewName("search/list.tiles");
 
 		return mav;
 	}
@@ -109,8 +111,22 @@ public class SearchController {
 		mav.addObject("request", request);
 
 		searchService.searchRead(mav);
-		mav.setViewName("search/read");
+		mav.setViewName("search/read.tiles");
 
 		return mav;
+	}
+	
+	/**
+	 * @author ParkSungSoo
+	 * @date 2019/12/29
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	@RequestMapping(value = "/search/autoComplete.json", method = RequestMethod.POST)
+	@ResponseBody
+	public List<Map<String, Object>> autoComplete(HttpServletRequest request, HttpServletResponse response) {
+		
+		return searchService.searchAutoComplete(request.getParameter("searchName"));
 	}
 }
