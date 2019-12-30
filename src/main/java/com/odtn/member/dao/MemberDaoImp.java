@@ -35,6 +35,11 @@ public class MemberDaoImp implements MemberDao {
 	}
 	
 	@Override
+	public int nicknameDuplCheck(String nickname) {
+		return sqlSessionTemplate.selectOne("nicknameDuplCheck", nickname);
+	}
+	
+	@Override
 	public int updateEmail_auth_key(MemberDto memberDto) {
 		return sqlSessionTemplate.update("createAuthKey", memberDto);
 	}

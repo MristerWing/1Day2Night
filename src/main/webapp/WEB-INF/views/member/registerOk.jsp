@@ -19,6 +19,7 @@
 			alert("회원 등록이 완료되었습니다. 입력하신 이메일 주소의 메일을 확인해서 인증해주십시오.");
 			location.href="${root}/index.jsp";
 		</script>
+<%-- 		<c:remove var="" --%>
 <%-- 		<a href="${root}/member/emailVerify.do?uid=${sessionScope.user_num}&email=${sessionScope.email}&authkey=${sessionScope.user_auth_key}">재발송</a> --%>
 	</c:if>
 	<c:if test="${check==0}">

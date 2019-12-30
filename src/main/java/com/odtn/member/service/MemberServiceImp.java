@@ -12,6 +12,8 @@ import java.net.URL;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
@@ -117,8 +119,89 @@ public class MemberServiceImp implements MemberService {
 	}
 
 	@Override
-	public MemberDto emailDupCheck(String email) {
-		return memberDao.isNewMember(email);
+	public int emailDupCheck(String email) {
+		int result = 0;
+		MemberDto memDto = memberDao.isNewMember(email);
+
+		String regex = "^[_a-zA-Z0-9-\\.]{1,64}+@[\\.a-zA-Z0-9]+\\.[a-zA-Z]+$";
+		Boolean b = email.matches(regex);
+
+		if (memDto == null) {
+			if (b == false) {
+				LogAspect.logger.info(
+						LogAspect.logMsg + "MC.emailDupCheck.이메일 형식에 맞지 않습니다.");
+				result = -1;
+			}
+			if (b) {
+				result = 0;
+				LogAspect.logger
+						.info(LogAspect.logMsg + "MC.emailDupCheck.이메일 사용가능");
+				LogAspect.logger.info(LogAspect.logMsg
+						+ "MC.emailDupCheck.result= " + result);
+			}
+
+		} else if (memDto.getEmail().equals(email)) {
+			LogAspect.logger.info(
+					LogAspect.logMsg + "MC.emailDupCheck.이미 사용중인 이메일입니다.");
+			result = 1;
+		} else if (memDto.getRegister_type() != null
+				&& memDto.getRegister_type().contentEquals("KAKAO")) {
+			LogAspect.logger.info(LogAspect.logMsg
+					+ "MC.emailDupCheck.같은 메일을 사용하는 카카오 계정으로 가입하셨습니다.");
+			result = 2;
+		}
+		return result;
+	}
+
+	@Override
+	public int passwordCheck(String email, String password) {
+
+		int check = 0;
+		LogAspect.logger.info(LogAspect.logMsg + "pwCheck.check: " + check);
+		// String password_check =
+		// "^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[$@$!%*?&`~'\"+=])[A-Za-z[0-9]$@$!%*?&`~'\"+=]{11,20}$";
+		String password_check = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[$@$!%*?&`~'\"+=])[A-Za-z\\d$@$!%*?&`~'\"+=]{11,20}";
+
+		Pattern patternSymbol = Pattern.compile(password_check);
+		Matcher matcherSymbol = patternSymbol.matcher(password);
+
+		if (matcherSymbol.matches()) {
+			check = 1;
+			LogAspect.logger
+					.info(LogAspect.logMsg + "MC.passCheck.사용가능한 비밀번호입니다.");
+			LogAspect.logger.info(
+					LogAspect.logMsg + "MC.passCheck.사가비.check= " + check);
+
+		}
+		if (matcherSymbol.find()) {
+			check = 1;
+			LogAspect.logger
+					.info(LogAspect.logMsg + "MC.passCheck.사용가능한 패스워드입니다.");
+			LogAspect.logger.info(
+					LogAspect.logMsg + "MC.passCheck.사가패.check= " + check);
+		}
+		if (email != "" && password.contains(email)) {
+			check = -1;
+			LogAspect.logger.info(LogAspect.logMsg
+					+ "MC.passCheck.비번에 이메일을 넣으시면 귀하의 소중한 개인정보가 유출되기 쉬워집니다.");
+			if (!password.contains(email))
+				LogAspect.logger
+						.info(LogAspect.logMsg + "MC.passCheck.잘만들어보c5");
+		}
+		if (password.contains(" ")) {
+			check = -2;
+			LogAspect.logger.info(
+					LogAspect.logMsg + "MC.passCheck.비밀번호에 공백이 포함될 수 없습니다.");
+		}
+
+		return check;
+	}
+
+	@Override
+	public int nicknameDuplCheck(String nickname) {
+		int check = memberDao.nicknameDuplCheck(nickname);
+
+		return check;
 	}
 
 	//
@@ -146,6 +229,7 @@ public class MemberServiceImp implements MemberService {
 	public void emailSender(ModelAndView mav) {
 		Map<String, Object> map = mav.getModelMap();
 		MemberDto memberDto = (MemberDto) map.get("memberDto");
+		HttpServletRequest request = (HttpServletRequest) map.get("request");
 		// 이메일 인증 키 생성
 		String email_auth_key = new TempKey().getKey(50, false);
 		while (memberDao.isNewEmailAuthKey(email_auth_key) > 0) {
@@ -157,6 +241,8 @@ public class MemberServiceImp implements MemberService {
 				+ memberDto.toString());
 		// 자동으로 보내지는 mail 내용 작성
 		try {
+			// String mailLink = request.getContextPath();
+
 			LogAspect.logger.info(LogAspect.logMsg + "MSI.mWO.mail.dto:"
 					+ memberDto.toString());
 			MailUtils sendMail = new MailUtils(mailSender);
@@ -213,6 +299,16 @@ public class MemberServiceImp implements MemberService {
 	public void memberLoginOk(ModelAndView mav) {
 		Map<String, Object> map = mav.getModelMap();
 		HttpServletRequest request = (HttpServletRequest) map.get("request");
+
+		// String mailLink = request.getContextPath();
+		// LogAspect.logger.info(LogAspect.logMsg + "MSI.mLO.getConPath:
+		// "+mailLink);
+		// LogAspect.logger.info(LogAspect.logMsg + "MSI.mLO.getReqURI:
+		// "+request.getRequestURI());
+		// LogAspect.logger.info(LogAspect.logMsg + "MSI.mLO.mL.getRpath:
+		// "+request.getRealPath(mailLink));
+		LogAspect.logger.info(LogAspect.logMsg + "MSI.mLO.getSPath: "
+				+ request.getServletPath());
 
 		String email = request.getParameter("email");
 		String password = request.getParameter("password");
