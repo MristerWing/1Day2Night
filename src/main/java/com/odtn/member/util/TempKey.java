@@ -1,4 +1,4 @@
-package com.odtn.member.service;
+package com.odtn.member.util;
 
 import java.util.Random;
 

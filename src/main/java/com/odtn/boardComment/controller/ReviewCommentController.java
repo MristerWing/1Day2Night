@@ -52,8 +52,8 @@ public class ReviewCommentController {
 	//해당 댓글 수정확인
 		@ResponseBody
 		@RequestMapping(value="reviewComment/update.do",method = RequestMethod.POST)
-		public int update(ReviewCommentDto reviewCommentDto) {
-			return reviewCommentService.update(reviewCommentDto);
+		public int update(int comment_num) {
+			return reviewCommentService.update(comment_num);
 		}
 		
 }

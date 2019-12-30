@@ -99,7 +99,7 @@ public class ReviewCommentServiceImp implements ReviewCommentService {
 	}
 	//수정확인
 	@Override
-	public int update(ReviewCommentDto reviewCommentDto) {
-		return reviewCommentDao.update(reviewCommentDto);
+	public int update(int comment_num) {
+		return reviewCommentDao.update(comment_num);
 	}
 }

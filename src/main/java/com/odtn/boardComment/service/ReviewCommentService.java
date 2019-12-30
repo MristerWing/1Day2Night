@@ -17,5 +17,5 @@ public interface ReviewCommentService {
 	//삭제
 	public int delete(int comment_num);
 	//업데이트
-	public int update(ReviewCommentDto reviewCommentDto);
+	public int update(int comment_num);
 }

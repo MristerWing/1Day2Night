@@ -9,6 +9,7 @@
 <title>탈퇴</title>
 </head>
 <body>
+<% session.invalidate(); %>
 	<c:if test="${check > 0}">
 		<script type="text/javascript">
 			alert("탈퇴되었습니다.");

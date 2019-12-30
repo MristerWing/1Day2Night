@@ -21,8 +21,8 @@
 		 	$(document).ready(function(){
 		  		showCommentList();
 		  	});
-		 	var sessionUser_num =${sessionScope.user_num};
-		 	alert(sessionUser_num);
+		/*  	var sessionUser_num =${sessionScope.user_num};
+		 	alert(sessionUser_num); */
 		  	function showCommentList(){
 		  		var review_num = ${campReviewDto.review_num};
 		  		var url="${root}/reviewComment/list.do?review_num="+review_num;
@@ -202,7 +202,6 @@
 
 	              console.log(result);
 					alert("수정확인");
-					showReplyList();
 
 				}
 

@@ -72,7 +72,6 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 					<label for="drop" class="toggle">Menu</label> <input
 						type="checkbox" id="drop" />
 					<ul class="menu mt-2">
-
 					<c:if test="${user_num==null}">
 						<c:if test="${user_auth_id==null}">
 							<c:if test="${email == null}">
@@ -99,8 +98,8 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 									<li><a href="${root}/member/kakaoLogout.do">카카오 로그아웃</a></li>
 								</c:if>
 							</c:if>
+							<li><a href="${root}/member/update.do">회원 정보 수정</a></li>
 						</c:if>
-
 						<li class="active"><a href="${root}/search/list.do">캠핑장검색</a></li>
 						<!-- First Tier Drop Down -->
 						<li><label for="drop-2" class="toggle">Drop Down <span

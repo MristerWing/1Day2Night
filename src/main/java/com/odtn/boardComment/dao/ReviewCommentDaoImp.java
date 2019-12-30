@@ -50,7 +50,7 @@ public class ReviewCommentDaoImp implements ReviewCommentDao {
 		return sqlSessionTemplate.delete("boardComment.mapper.ReviewCommentMapper.deleteComment",comment_num);
 	}
 	//댓글 수정
-	public int update(ReviewCommentDto reviewCommentDto) {
-		return sqlSessionTemplate.update("boardComment.mapper.ReviewCommentMapper.updateComment",reviewCommentDto);
+	public int update(int comment_num) {
+		return sqlSessionTemplate.update("boardComment.mapper.ReviewCommentMapper.updateComment",comment_num);
 	}
 }

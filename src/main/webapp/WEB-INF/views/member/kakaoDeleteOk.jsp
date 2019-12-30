@@ -9,6 +9,7 @@
 <title>카카오계정 연동 회원 탈퇴</title>
 </head>
 <body>
+<% session.invalidate(); %>
 	<c:if test="${check > 0}">
 		<script type="text/javascript">
 			alert("카카오 연동 정보가 삭제 되었습니다.");
