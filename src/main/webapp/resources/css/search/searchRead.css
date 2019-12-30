@@ -73,6 +73,11 @@
 .search .content-area tbody {
     border-top: 1px solid #dee2e6;
     border-bottom: 1px solid #dee2e6;
+    font-size: 14px;
+}
+
+.search .content-area tbody th {
+	width: 30%;
 }
 
 .search .content-area {
