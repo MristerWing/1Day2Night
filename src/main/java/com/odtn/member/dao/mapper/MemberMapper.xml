@@ -62,6 +62,10 @@
 		SELECT NVL(COUNT(*), 0) FROM member WHERE email=#{email,javaType=String,jdbcType=VARCHAR}
 	</select>
 	
+	<select id="nicknameDuplCheck" parameterType="String" resultType="int">
+		SELECT NVL(COUNT(*), 0) FROM member WHERE nickname=#{nickname,javaType=String,jdbcType=VARCHAR}
+	</select>
+	
 	<select id="isNewOAuthMember" parameterType="Integer"
 		resultType="com.odtn.member.dto.MemberDto">
 		SELECT * FROM member WHERE user_auth_id=#{user_auth_id,javaType=Integer,jdbcType=NUMERIC}
