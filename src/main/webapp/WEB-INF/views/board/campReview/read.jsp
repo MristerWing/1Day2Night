@@ -21,8 +21,7 @@
 		 	$(document).ready(function(){
 		  		showCommentList();
 		  	});
-		/*  	var sessionUser_num =${sessionScope.user_num};
-		 	alert(sessionUser_num); */
+			
 		  	function showCommentList(){
 		  		var review_num = ${campReviewDto.review_num};
 		  		var url="${root}/reviewComment/list.do?review_num="+review_num;
@@ -67,10 +66,13 @@
 			                     htmls += '<strong class="text-gray-dark">' + data.writerList[indexNum] + '</strong>';
 
 			                     htmls += '<span style="padding-left: 7px; font-size: 9pt">';
-
+								 
+			                     if(data.reviewCommentList[indexNum].user_num == ${sessionScope.user_num!=null?sessionScope.user_num:-1}){
+			                    	 
 			                     htmls += '<a href="javascript:void(0)" onclick="fn_editReply(' +this.comment_num + ',\'' + this.comment_content + '\')" style="padding-right:5px">수정</a>';
 
 			                     htmls += '<a href="javascript:void(0)" onclick="fn_deleteReply(' + this.comment_num + ')" >삭제</a>';
+			                     }
 
 			                     htmls += '</span>';
 
@@ -92,6 +94,54 @@
 		  			}
 		  		});
 		  	}
+		  	 /*댓글 등록 */
+		  	//댓글 저장 버튼 클릭 이벤트
+		
+			 function insert_reply(review_num,user_num){
+		
+				var replyContent = $('#comment_content').val();
+		
+				var paramData = {"comment_content": replyContent
+		
+						, "user_num": user_num,"review_num":review_num
+				};
+						
+					alert(paramData);
+				$.ajax({
+		
+					url: "${root}/reviewComment/insert.do"
+		
+					, data : paramData
+		
+					, type : 'POST'
+		
+					, dataType : 'json'
+		
+					, success: function(result){
+		
+		
+						$('#comment_content').val('');
+		
+						$('#user_num').val('');
+						//$('#.num'+comment_num).prepend(result.html);
+						alert("등록완료");
+						showCommentList();
+						
+						
+					}
+		
+					, error: function(error){
+		
+						console.log("에러 : " + error);
+		
+					}
+		
+				});
+		
+			}
+		
+		
+				  	
 			/*댓글 삭제*/
 		  	function fn_deleteReply(comment_num){
 
@@ -119,7 +169,7 @@
 					}
 
 				});
-
+	
 			}
 		
 			/*댓글 수정*/
@@ -145,7 +195,7 @@
 		htmls += '<strong class="text-gray-dark">' +comment_num+ '</strong>';
 
 		htmls += '<span style="padding-left: 7px; font-size: 9pt">';
-
+		
 		htmls += '<a href="javascript:void(0)" onclick="fn_updateReply(' + comment_num + ')" style="padding-right:5px">저장</a>';
 
 		htmls += '<a href="javascript:void(0)" onClick="showReplyList()">취소<a>';
@@ -179,14 +229,10 @@
 			var replyEditContent = $('#editContent').val();
 				alert(replyEditContent);
 				
-			var paramData = JSON.stringify({"comment_content": replyEditContent
+			var paramData = {"comment_content": replyEditContent
 											, "comment_num": comment_num
-			});
-			
-			alert (paramData);
-			var headers = {"Content-Type" : "application/json"
-
-				, "X-HTTP-Method-Override" : "POST"};
+			};
+		
 
 			$.ajax({
 
@@ -196,13 +242,14 @@
 
 				, type : 'POST'
 
-				, dataType : 'text'
+				, dataType : 'json'
 
 				, success: function(result){
 
 	              console.log(result);
-					alert("수정확인");
-
+				
+					$("#comment_num"+comment_num).remove();
+					showCommentList()
 				}
 
 				, error: function(error){
@@ -257,14 +304,43 @@
 					</span>			
 				</li>
 				<li>
-					<c:if test="${sessionScope.user_num ==campReviewDto
-					.user_num}">
+					<c:if test="${sessionScope.user_num ==campReviewDto.user_num}">
 						<input class="btn" type="button" value="수정" onclick="location.href='${root}/board/campReview/update.do?review_num=${campReviewDto.review_num}&user_num=${campReviewDto.user_num}&pageNumber=${pageNumber}'" />	
 						<input class="btn" type="button"  value="삭제" onclick="location.href='${root}/board/campReview/delete.do?review_num=${campReviewDto.review_num}'"/>	
 					</c:if>					
 						<input class="btn" type="button"  value="목록" onclick="location.href='${root}/board/campReview/list.do?pageNumber=${pageNumber}'"/>	
 				</li>
 				
+			<!--댓글쓰는란-->
+			
+			<c:if test="${sessionScope.user_num != null}">
+				<li>
+				<div class="my-3 p-3 bg-white rounded shadow-sm" style="padding-top: 10px">
+	
+					    <input type="hidden" id="review_num" name="review_num" value="${campReviewDto.review_num}" /> 
+					    <input type="hidden" id="user_num" name="user_num" value="${sessionScope.user_num}"/>       
+	
+					<div class="row">
+	
+						<div class="col-sm-10">
+	
+							<textarea  name="comment_content" id="comment_content" class="form-control" rows="3" placeholder="댓글을 입력해 주세요"></textarea>
+	
+						</div>
+	
+						<div class="col-sm-2">
+							<input name="${sessionScope.user_num}" class="form-control" id="user_num" type="hidden"></input>
+							<button  class="btn btn-sm btn-primary" id="btnReplySave" style="width: 100%; margin-top: 10px" onclick="insert_reply('${campReviewDto.review_num}','${sessionScope.user_num}')"> 저 장 </button>
+	
+						</div>
+	
+					</div>
+	
+	
+				</div>
+	
+				</li>
+			</c:if>
 			<!--++++++++++++++댓글리스트++++++++++++++++-->
 			    <li>
 					<div class="my-3 p-3 bg-white rounded shadow-sm" style="padding-top: 10px">
@@ -275,38 +351,6 @@
 					</div> 
 				</li>
 	
-			<!--댓글쓰는란-->
-			<c:if test="${sessionScope.user_num != null}">
-				<li>
-					<div class="container">
-					
-				    <form id="commentForm" name="commentForm" method="post" action="${root}/reviewComment/insert.do">
-				    <br><br>
-				        <div>
-				            <div>
-				                <span><strong>Comments</strong></span> <span id="cCnt"></span>
-				            </div>
-				            <div>
-				                <table class="table">                    
-				                    <tr>
-				                        <td>
-				                            <textarea style="width: 1100px" rows="3" cols="30" id="comment_content" name="comment_content" placeholder="댓글을 입력하세요"></textarea>
-				                            <br>
-				                            <div align="right">
-				                               <input type="submit" value="등록"/>
-				                            </div>
-				                        </td>
-				                    </tr>
-				                </table>
-				            </div>
-				        </div>
-				        <input type="hidden" id="pageNumber" name="pageNumber" value="${pageNumber}" /> 
-				        <input type="hidden" id="review_num" name="review_num" value="${campReviewDto.review_num}" /> 
-				        <input type="hidden" id="user_num" name="user_num" value="${sessionScope.user_num}">       
-				    </form>
-					</div>
-				</li>
-			</c:if>
 			</ul>
 
 	</div>   

@@ -24,33 +24,18 @@ public class ReviewCommentServiceImp implements ReviewCommentService {
 
 	// 댓글작성
 	@Override
-	public void insert(ModelAndView mav) {
-		Map<String, Object> map = mav.getModelMap();
-
-		ReviewCommentDto reviewCommentDto = (ReviewCommentDto) map
-				.get("reviewCommentDto");
+	public Map<String, Object> insert(ReviewCommentDto reviewCommentDto) {
+		Map<String, Object> map = new HashMap<String, Object>();
+	    System.out.println("+++++++여기");
 		reviewCommentDto.setWrite_date(new Date());
-		HttpServletRequest request = (HttpServletRequest) map.get("request");
-		int pageNumber = Integer.parseInt(request.getParameter("pageNumber"));
-		LogAspect.logger.info(LogAspect.logMsg + "pageNumber : " + pageNumber);
-		int review_num = Integer.parseInt(request.getParameter("review_num"));
-		LogAspect.logger.info(LogAspect.logMsg + "원글 번호: " + review_num);
-		int user_num = Integer.parseInt(request.getParameter("user_num"));
-		LogAspect.logger.info(LogAspect.logMsg + "원글 작성 user_num: " + user_num);
-		LogAspect.logger.info(LogAspect.logMsg + "원글 작성 user_num: " + user_num);
-		reviewCommentDto.setUser_num(user_num);
-		reviewCommentDto.setReview_num(review_num);
 
-		LogAspect.logger
-				.info(LogAspect.logMsg + "입력내용" + reviewCommentDto.toString());
-		// 자료저장확인용 check
+		
+		LogAspect.logger.info(LogAspect.logMsg + "댓글입력+++++" + reviewCommentDto.toString());
 		int check = reviewCommentDao.insert(reviewCommentDto);
-		LogAspect.logger.info(LogAspect.logMsg + "check값: " + check);
-
-		mav.addObject("review_num", review_num);
-		mav.addObject("pageNumber", pageNumber);
-		mav.addObject("check", check);
-		mav.setViewName("comment/reviewComment/insertOk.tiles");
+		map.put("check", check);
+		map.put("reviewCommentDto", reviewCommentDto);
+		 
+		return map;
 	}
 
 	// 리스트
@@ -99,7 +84,8 @@ public class ReviewCommentServiceImp implements ReviewCommentService {
 	}
 	//수정확인
 	@Override
-	public int update(int comment_num) {
-		return reviewCommentDao.update(comment_num);
+	public int update(ReviewCommentDto reviewCommentDto) {
+		
+		return reviewCommentDao.update(reviewCommentDto);
 	}
 }

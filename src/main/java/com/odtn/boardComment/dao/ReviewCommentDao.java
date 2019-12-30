@@ -20,5 +20,5 @@ public interface ReviewCommentDao {
 	//댓글 삭제
 	public int delete(int comment_num);
 	//댓글 수정
-	public int update(int comment_num);
+	public int update(ReviewCommentDto reviewCommentDto);
 }

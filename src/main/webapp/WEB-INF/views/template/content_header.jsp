@@ -27,6 +27,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
         }
 
     </script>
+
     <script src="${root}/resources/javascript/modules/jquery-3.4.1.js"></script>
     <link rel="stylesheet" href="${root}/resources/css/styles/bootstrap.css">
     <script src="${root}/resources/javascript/modules/bootstrap.js"></script>

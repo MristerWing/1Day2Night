@@ -46,7 +46,7 @@
 		DELETE FROM REVIEW_COMMENT WHERE COMMENT_NUM=#{comment_num}
 	</delete>
 	<!--댓글 수정확인-->
-	<update id="updateComment"  parameterType="int">
+	<update id="updateComment"  parameterType="com.odtn.boardComment.dto.ReviewCommentDto">
 			UPDATE REVIEW_COMMENT SET COMMENT_CONTENT=#{comment_content}
  			WHERE COMMENT_NUM =#{comment_num}
 	</update>
