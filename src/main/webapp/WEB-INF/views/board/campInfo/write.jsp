@@ -12,132 +12,35 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 <html lang="utf-8">
 
 <head>
-    <title>ODTN</title>
-    <!-- Meta tag Keywords -->
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta charset="UTF-8" />
-    <meta name="keywords" content="Camping Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template, Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design" />
-    <script >
-        addEventListener("load", function() {
-            setTimeout(hideURLbar, 0);
-        }, false);
-
-        function hideURLbar() {
-            window.scrollTo(0, 1);
-        }
-
-    </script>
-    <script src="${root}/resources/javascript/modules/jquery-3.4.1.js"></script>
-   <script type="text/javascript">
-    	function content_alert(){
-    		alert
-    	}
-    </script>  
-   
+ 
     <!--summerNote-->
     <link href="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.css" rel="stylesheet" />
 	<script src="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.js"></script> 
 	
 	<link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote.css" rel="stylesheet" />
 	<script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote.js"></script>
-    
-    <!-- //Meta tag Keywords -->
-    <!-- Custom-Files -->
-    <link rel="stylesheet" href="${root}/resources/css/styles/bootstrap.css">
-    <!-- Bootstrap-Core-CSS -->
-    <link rel="stylesheet" href="${root}/resources/css/styles/style.css" type="text/css" media="all" />
-   
-    <!-- Style-CSS -->
-    <!-- font-awesome-icons -->
-   <%--  <link href="${root}/css/styles/font-awesome.css" rel="stylesheet"> --%>
-    <!-- //font-awesome-icons -->
-    <!-- /Fonts -->
-    <link href="//fonts.googleapis.com/css?family=Poppins:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900" rel="stylesheet">
-    <link href="//fonts.googleapis.com/css?family=Dosis:200,300,400,500,600,700,800" rel="stylesheet">
+ 	
+ 	<!--파일용량 체크 script-->
+ 	<script type="text/javascript">
+	 	function fileSizeCheck(){
+	 	    if(document.getElementById("file").value!=""){
+	 	    var fileSize = document.getElementById("file").files[0].size;
+	 	    var maxSize = 2 * 1024 * 1024;//2MB
+	 	 
+	 	    if(fileSize > maxSize){
+	 	       alert("첨부파일 사이즈는 2MB 이내로 등록 가능합니다. ");
+	 	       return;
+	 	    }
+	 	}
 
-    <!-- //Fonts -->
+
+ 	출처: https://nahosung.tistory.com/42 [nahos]
+ 	</script>
 
 </head>
 
 <body>
-    <!-- mian-content -->
-    <div class="main-content inner" id="home">
-        <!-- header -->
-               <header class="header">
-            <div class="container">
-                <!-- nav -->
-                <nav class="py-3">
-                    <div id="logo">
-                        <%-- 	<img class="logoImg" src="${root}/resources/css/images/ODTN.png" width="50"> --%>
-                  		<h1> 
-                  		<a class="navbar-brand" href="${root}/index.jsp">CAMPINGINFO</a>
-                       </h1>
-                    </div>
-
-                    <label for="drop" class="toggle">Menu</label>
-                    <input type="checkbox" id="drop" />
-                    <ul class="menu mt-2">
-                        <li class="active"><a href="index.html">캠핑장검색</a></li>
-                        	<!-- First Tier Drop Down -->
-                           <li>
-                            <label for="drop-2" class="toggle">Drop Down <span class="fa fa-angle-down" aria-hidden="true"></span> </label>
-                            <a href="#">캠핑톡 <span class="fa fa-angle-down" aria-hidden="true"></span></a>
-                              <input type="checkbox" id="drop-2" />
-                            <ul>
-                                <li><a href="${root}/board/campInfo/list.do">캠핑소식</a>
-                                </li>
-                                <li><a href="gallery.html">캠핑후기</a>
-                                </li>
-                                <li><a href="features.html">이벤트</a>
-                                </li>
-                                <li><a href="features.html">캠핑노하우</a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li>
-                            <!-- First Tier Drop Down -->
-                            <label for="drop-2" class="toggle">Drop Down <span class="fa fa-angle-down" aria-hidden="true"></span> </label>
-                            <a href="#">캠핑플러스 <span class="fa fa-angle-down" aria-hidden="true"></span></a>
-                            <input type="checkbox" id="drop-2" />
-                            <ul>
-                                <li><a href="features.html">캠핑시작하기</a>
-                                </li>
-                                <li><a href="gallery.html">캠핑장비이야기</a>
-                                </li>
-                                <li><a href="features.html">안전한캠핑즐기기</a>
-                                </li>
-                                <li><a href="features.html">안전수칙동영상</a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li>
-                         <!-- First Tier Drop Down -->
-                            <label for="drop-2" class="toggle">Drop Down <span class="fa fa-angle-down" aria-hidden="true"></span> </label>
-                            <a href="#">고객센터 <span class="fa fa-angle-down" aria-hidden="true"></span></a>
-                            <input type="checkbox" id="drop-2" />
-                            <ul>
-                                <li><a href="features.html">공지사항</a>
-                                </li>
-                                <li><a href="gallery.html">캠핑상담</a>
-                                </li>
-                                <li><a href="features.html">캠핑장정보수정요청</a>
-                                </li>
-                                <li><a href="features.html">미등록야영장신고</a>
-                                </li>
-                                <li><a href="features.html">캠핑장공지사항</a>
-                                </li>
-                            </ul>
-                        </li>
-                      
-                    </ul>
-
-
-                </nav>
-                <!-- //nav -->
-            </div>
-        </header>
-        <!-- //header -->
-    </div>
+ 
     <!-- //main-content -->
   <!--/ab -->
     <section class="about py-lg-5 py-md-5 py-5">
@@ -171,7 +74,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 							<a href="#ProgBtn" onclick="return addFileInput('M','fileTd'); return false;">
 								<img src="/img/2018/board/btn_delfile.png" alt="파일삭제">
 							</a> -->
-							<input multiple="multiple" type="file" id="file" name="file" onchange="uploadImg_Change(this.value,'userfile1')" title="첨부파일1"/>
+							<input multiple="multiple" type="file" id="file" name="file" onchange="fileSizeCheck()" title="첨부파일1"/>
 							<br>
 						
 							</li> 
