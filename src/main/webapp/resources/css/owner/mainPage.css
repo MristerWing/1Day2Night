@@ -1,0 +1,65 @@
+.owner > .main-page .top-banner {
+    background: url(../../images/owner/mainpage-top-banner.jpg) no-repeat;
+    background-size: cover;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    -ms-background-size: cover;
+    min-height: 200px;
+    position: relative;
+    padding-top: 84px;
+    padding-right: 10px;
+    color: whitesmoke;
+    text-shadow: 1px 1px 2px black;
+    text-align: right;
+    font-size: 32px;
+    margin: 10px auto;
+}
+
+.owner > .main-page > .content-area {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.owner > .main-page .content-left,
+.owner > .main-page .content-right {
+    float: left;
+    flex: 1 1 0;
+    min-height: 400px;
+    min-width: 535px;
+}
+
+.owner > .main-page .sub-title {
+    margin-left: 10px;
+}
+
+.owner > .main-page .sub-content {
+    border-top: 0;
+    margin-top: 10px;
+}
+
+.owner > .main-page .sub-content .button-area {
+    float: right;
+}
+
+.owner > .main-page .content-left {
+    margin-right: 30px;
+}
+
+.owner > .main-page .content-left #myChart {
+    height: 200px;
+}
+
+/*.owner > .main-page .content-right {
+} */
+
+.owner > .main-page .sub-title {
+    font-size: 24px;
+}
+
+.owner > .main-page .content-bottom {
+    padding: 5px;
+    margin-top: 20px;
+}

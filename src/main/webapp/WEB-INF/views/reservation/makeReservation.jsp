@@ -135,7 +135,7 @@
 	                        <!-- 주소 및 지도-->
 	                        <div>
 	                            <h2 style="text-align: center;">${camp.camp_name}</h2>
-	                            <span>주소 : ${camp.address}</span>&nbsp;&nbsp;&nbsp;&nbsp;
+	                            <span style="font-size:14px;">${camp.address}</span>&nbsp;&nbsp;&nbsp;&nbsp;
 	                        </div>
 	
 	                        <!-- 이미지 슬라이드-->
