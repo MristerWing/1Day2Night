@@ -39,8 +39,11 @@ public class CampInfoServiceImp implements CampInfoService {
 		HttpServletRequest request = (HttpServletRequest) map.get("request");
 		int user_num = Integer.parseInt(request.getParameter("user_num"));
 		LogAspect.logger.info(LogAspect.logMsg + "관리자 user_num" + user_num);
-		String writer = campInfoDao.getNickName(user_num);
-		LogAspect.logger.info(LogAspect.logMsg + "관리자닉네임" + writer);
+		String writer = campInfoDao.getUser_name(user_num);
+		LogAspect.logger.info(LogAspect.logMsg + "설정된 user_name: " + writer);
+		if (writer == null) {
+			writer = campInfoDao.getEmail(user_num);
+		}
 
 		mav.addObject("user_num", user_num);
 		mav.addObject("writer", writer);

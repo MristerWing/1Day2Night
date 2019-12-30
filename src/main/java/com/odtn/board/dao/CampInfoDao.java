@@ -9,7 +9,9 @@ import com.odtn.board.dto.CampInfoFileDto;
 
 public interface CampInfoDao {
 	//공지글작성 관리자 이름 불러오기
-	public String getNickName(int user_num);
+	public String getUser_name(int user_num);
+	//이름없으면 이메일 가져오기
+	public String getEmail(int user_num);
 	//공지글 작성
 	public int writeOK(CampInfoDto campInfoDto,List<CampInfoFileDto> array);
 	//전체글 개수 가져오기

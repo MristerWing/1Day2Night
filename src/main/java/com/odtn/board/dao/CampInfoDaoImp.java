@@ -16,12 +16,18 @@ public class CampInfoDaoImp implements CampInfoDao {
 	@Autowired
 	private SqlSessionTemplate sqlSessionTemplate;
 	//공지글작성 관리자 이름 불러오기
+	//관리자이름이있는지
 	@Override
-	public String getNickName(int user_num) {
-	
-		return sqlSessionTemplate.selectOne("board.mapper.CampInfoMapper.getNickName",user_num);
+	public String getUser_name(int user_num) {
+		
+		return sqlSessionTemplate.selectOne("board.mapper.CampInfoMapper.getUser_name",user_num);
 	}
-	
+	//이름없으면 이메일주소가져오기
+	@Override
+	public String getEmail(int user_num) {
+		
+		return sqlSessionTemplate.selectOne("board.mapper.CampInfoMapper.getEmail",user_num);
+	}
 	@Override
 	public int writeOK(CampInfoDto campInfoDto, List<CampInfoFileDto> array) {
 		int check = 0;
