@@ -86,12 +86,6 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 							<c:if test="${user_auth_id == null}">
 								<c:if test="${register_type == null}">
 									<li><a href="${root}/member/logout.do">로그아웃</a></li>
-									<c:if test="${email == 'chanhok95@naver.com'}">
-										&nbsp;&nbsp;<a href="${root}/admin/list.do">관리자 페이지</a>
-									</c:if>	
-									<c:if test="${email=='eunsol8287@gmail.com'}">
-										&nbsp;&nbsp;<a href="${root}/admin/list.do">관리자 페이지</a>
-									</c:if>
 								</c:if>
 							</c:if>
 							<c:if test="${user_auth_id != null}">

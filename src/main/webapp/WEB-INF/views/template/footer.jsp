@@ -45,7 +45,7 @@
                     </div>
                     <div class="col-lg-4 col-md-12 mt-lg-0 mt-4 col-sm-12 footer-grid_section_1its" data-aos="fade-left">
                         <div class="footer-title-w3pvt">
-                            <h3>관리자로그인</h3>
+                            <h3><a href="${root}/admin/adminCheck.do" style="font-size: 1em;">관리자 페이지</a></h3>
                         </div>
                         <div class="footer-text">
                             <p>By subscribing to our mailing list you will always get latest news and updates from us.</p>
