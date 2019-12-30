@@ -338,13 +338,13 @@ public class MemberServiceImp implements MemberService {
 		HttpSession session = (HttpSession) map.get("session");
 		Map<String, Object> hMap = new HashMap<String, Object>();
 
-		LogAspect.logger.info(LogAspect.logMsg + "MSI.mUP.req.getPpw: " + request.getParameter("password"));
+		LogAspect.logger.info(LogAspect.logMsg + "MSI.mUP.req.getPpw: " + request.getParameter("password_mod"));
 		LogAspect.logger.info(LogAspect.logMsg + "MSI.mUP.ses.getUnum: " + session.getAttribute("user_num"));
 		LogAspect.logger.info(LogAspect.logMsg + "MSI.mUP.ses.getemal: " + session.getAttribute("email"));
 		LogAspect.logger.info(LogAspect.logMsg + "MSI.mUP.ses.getEAK: " + session.getAttribute("email_auth_key"));
 
 		String salt = memberDao.getSaltByEmail((String) session.getAttribute("email"));
-		String password = request.getParameter("password");
+		String password = request.getParameter("password_mod");
 		LogAspect.logger.info(LogAspect.logMsg + password);
 		password = SHA256Util.getEncrypt(password, salt);
 		LogAspect.logger.info(LogAspect.logMsg + "업데이트부분+MSI.mUP.salt: " + salt);
@@ -359,7 +359,7 @@ public class MemberServiceImp implements MemberService {
 		MemberDto memberDto = memberDao.getMemberDtoP(hMap);
 		if (memberDto != null) {
 			LogAspect.logger.info(LogAspect.logMsg + "MSI.mUP.dto:" + memberDto.toString());
-			memberDto.setPassword(request.getParameter("password"));
+			memberDto.setPassword(request.getParameter("password_mod"));
 			mav.addObject("memberDto", memberDto);
 			mav.setViewName("member/update");
 		} else {
@@ -471,7 +471,7 @@ public class MemberServiceImp implements MemberService {
 		LogAspect.logger.info(LogAspect.logMsg + "MSI.mDO.sesUnum: " + session.getAttribute("user_num"));
 		LogAspect.logger.info(LogAspect.logMsg + "MSI.mDO.sesemail: " + session.getAttribute("email"));
 		LogAspect.logger.info(LogAspect.logMsg + "MSI.mDO.sesEAKey: " + session.getAttribute("email_auth_key"));
-		LogAspect.logger.info(LogAspect.logMsg + "MSI.mDO.reqPassword: " + request.getParameter("password"));
+		LogAspect.logger.info(LogAspect.logMsg + "MSI.mDO.reqPassword: " + request.getParameter("password_out"));
 		Map<String, Object> hMap = new HashMap<String, Object>();
 		hMap.put("user_num", session.getAttribute("user_num"));
 		hMap.put("email", session.getAttribute("email"));
@@ -481,7 +481,7 @@ public class MemberServiceImp implements MemberService {
 
 		String salt = memberDao.getSaltByEmail((String) session.getAttribute("email"));
 
-		String password = request.getParameter("password");
+		String password = request.getParameter("password_out");
 
 		password = SHA256Util.getEncrypt(password, salt);
 

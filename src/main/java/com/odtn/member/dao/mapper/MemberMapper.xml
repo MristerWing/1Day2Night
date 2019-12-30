@@ -47,13 +47,13 @@
 	</insert>
 	
 	<select id="getSaltByEmail" parameterType="String" resultType="String">
-		
-		<if test='value != null'>
-			<![CDATA[
-			SELECT salt FROM member WHERE email = #{value}
-			]]>
-		</if>
+		SELECT salt FROM member WHERE email = #{email,javaType=String,jdbcType=VARCHAR}
 	</select>
+<!-- <if test='value != null'> -->
+<!-- 			<![CDATA[ -->
+<!-- 			SELECT salt FROM member WHERE email = #{value} -->
+<!-- 			]]> -->
+<!-- 		</if> -->
 	
 	<select id="isNewMember" parameterType="String" resultType="com.odtn.member.dto.MemberDto">
 		SELECT * FROM member WHERE email = #{email,javaType=String,jdbcType=VARCHAR}
@@ -74,7 +74,7 @@
 	<select id = "kakaoMemberLoad" parameterType="com.odtn.member.dto.MemberDto"
 	resultType="com.odtn.member.dto.MemberDto">
 		SELECT * FROM member 
-			WHERE user_num=#{user_num,javaType=int,jdbcType=NUMERIC}
+			WHERE user_num=#{user_num,javaType=Integer,jdbcType=NUMERIC}
 			AND user_auth_id=#{user_auth_id,javaType=Integer,jdbcType=NUMERIC}
 			AND register_type='KAKAO'
 	</select>

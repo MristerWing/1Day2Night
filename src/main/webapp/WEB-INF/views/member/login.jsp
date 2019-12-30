@@ -118,9 +118,16 @@
   <c:if test="${email_auth_status != null}">
   	<script type="text/javascript">
   		alert("이메일 인증을 하셔야 로그인 하실 수 있습니다.");
+  		location.href="${root}/index.jsp";
   	</script>
   	<% session.invalidate(); %>
   </c:if>
   
+  <c:if test="${register_type == 'KAKAO'}">
+  	<script type="text/javascript">
+  		alert("이미 카카오 연동 로그인이 되어 있습니다.");
+  		location.href="${root}/index.jsp";
+  	</script>
+  </c:if>
 </body>
 </html>
