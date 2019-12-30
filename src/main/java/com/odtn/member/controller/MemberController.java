@@ -65,7 +65,7 @@ public class MemberController {
 		return mav;
 	}
 
-	@RequestMapping(value = "member/emailDupCheck.json", method = RequestMethod.POST)
+	@RequestMapping(value = "member/emailDupCheck.do", method = RequestMethod.POST)
 	public @ResponseBody int emailDupCheck(@RequestParam("email") String email,
 			ModelAndView mav) {
 		int result = 0;
