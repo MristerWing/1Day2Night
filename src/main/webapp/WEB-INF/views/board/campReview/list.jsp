@@ -31,7 +31,7 @@
 						</div>
 					</c:if>
 					<!--작성글이있다면-->
-					
+						<span>${sessionScope.user_num}</span>
 					<div class="container">         
 						  <table class="table table-striped">
 						    <thead>

@@ -38,7 +38,6 @@
 						<input type="submit" id="campinfo_search" value="확인"  onclick="e"/>
 						</div> 
 					</div> 
-						
 					<div id="qna_list_content">
 					<c:if test="${count==0||campQnAList.size()==0}">
 						<div>
@@ -46,6 +45,7 @@
 						</div>
 					</c:if>
 					<!--작성글이있다면-->
+				
 								<div class="container">         
 						  <table class="table table-striped">
 						    <thead>
