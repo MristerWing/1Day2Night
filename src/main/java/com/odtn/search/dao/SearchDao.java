@@ -17,4 +17,6 @@ public interface SearchDao {
 	public int updateReadCount(int camp_id);
 
 	public List<SearchPaymentDto> getPayment(int camp_id);
+
+	public List<String> getSearchComplete(String searchName);
 }

@@ -100,4 +100,24 @@ public class SearchServiceImp implements SearchService {
 		mav.addObject("readPage", readPage);
 
 	}
+	
+	/**
+	 * @author ParkSungSoo
+	 * @date 2019/12/29
+	 * @apiNote 실시간 자동검색 완성
+	 */
+	@Override
+	public List<Map<String, Object>> searchAutoComplete(String searchName) {
+		
+		List<String> searchList = searchDao.getSearchComplete(searchName);
+		
+		List<Map<String, Object>> result = new ArrayList<Map<String, Object>>();
+				
+		for (String str : searchList) {
+			Map<String, Object> searchCompleteMap = new HashMap<String, Object>();
+			searchCompleteMap.put("data", str);
+			result.add(searchCompleteMap);
+		}
+		return result;
+	}
 }

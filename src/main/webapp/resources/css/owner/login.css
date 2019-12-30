@@ -1,0 +1,31 @@
+.owner .content-area {
+	height: 800px;
+	padding-top: 10%;
+}
+
+.owner .login-area {
+	width: 800px;
+	height: 500px;
+}
+
+.owner .login-area > * {
+	display: block;
+}
+
+.owner .main-text {
+	margin: 15% auto 5% auto;
+	font-size: 32px;
+	text-align: center;
+}
+
+.owner #owner_id {
+	margin: 10px auto;
+	font-size: 32px;
+}
+
+.owner .link {
+	position: relative;
+	padding-right: 10px;
+	top: 145px;
+	text-align: right;
+}
