@@ -8,4 +8,15 @@
 		select * from owner where owner_key = #{owner_key} and user_num = #{user_num}
 	</select>
 	
+
+	<select id="countOwnerKey" parameterType="long" resultType="String">
+		select nvl(count(*), 0) from owner where owner_key = #{owner_key}
+	</select>
+	
+	<select id="getOwnerData" parameterType="long" resultType="com.odtn.owner.dto.OwnerMainPageDto">
+		select m.user_name, c.address, c.hp, c.camp_link 
+		from owner o, member m , camp_data c 
+		where o.user_num = m.user_num and o.camp_id = c.camp_id
+		and o.owner_key = #{owner_key}
+	</select>	
 </mapper>

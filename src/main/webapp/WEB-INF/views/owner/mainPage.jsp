@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <c:set var="root" value="${pageContext.request.contextPath}" />
 <!DOCTYPE html>
 <html lang="ko">
@@ -21,7 +22,7 @@
         <div class="owner container">
             <div class="main-page">
                 <div class="top-banner">
-                    <span class=".read-background">이용자 님 환영합니다.</span>
+                    <span class=".read-background">${ownerMainPageDto.user_name} 님 환영합니다.</span>
                 </div>
                 <div class="content-area border rounded">
                     <div class="content-top">
@@ -115,42 +116,31 @@
                             <span class="sub-title">내 캠핑정보 요약</span>
                             <div class="sub-content">
                                 <table class="table">
-                                    <tbody>
-                                        <!--스크립트 루프 처리 예정-->
-                                        <tr>
-                                            <th>주소</th>
-                                            <td>2</td>
-                                        </tr>
-                                        <tr>
-                                            <th>문의처</th>
-                                            <td>4</td>
-                                        </tr>
-                                        <tr>
-                                            <th>캠핑장 환경</th>
-                                            <td>6</td>
-                                        </tr>
-                                        <tr>
-                                            <th>캠핑장 유형</th>
-                                            <td>8</td>
-                                        </tr>
-                                        <tr>
-                                            <th>운영기간</th>
-                                            <td>10</td>
-                                        </tr>
-                                        <tr>
-                                            <th>운영일</th>
-                                            <td>12</td>
-                                        </tr>
-                                        <tr>
-                                            <th>홈페이지</th>
-                                            <td></td>
-                                        </tr>
-                                        <tr>
-                                            <th>예약방법</th>
-                                            <td></td>
-                                        </tr>
-                                    </tbody>
+                                    <tbody></tbody>
                                 </table>
+                                <script type="text/javascript">
+                                var titles = {
+        								address: "주소", 
+        								hp: "문의처", 
+        								homepage: "홈페이지"
+        							};
+        							
+        							var camp = {
+        									address: "${ownerMainPageDto.address}",
+        									hp: "${ownerMainPageDto.hp}",
+        									homepage: "<a href='" + "${ownerMainPageDto.camp_link}" + "'>바로가기</a>"
+        							};
+        							
+        							
+        							for(let prop in camp) {
+        								if(!camp.hasOwnProperty(prop)) continue;
+        								if(camp[prop] != "") {
+        									$("body > div > div.owner.container > div > div.content-area.border.rounded > div > div.content-right > div > table > tbody").append(
+        										"<tr><th>" + titles[prop] + "</th><td>" + camp[prop] + "</td></tr>"
+        									);
+        								};
+        							};
+                                </script>
                                 <div class="button-area">
                                     <button class="btn btn-primary">
                                         리뷰보기

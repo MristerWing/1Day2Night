@@ -1,25 +1,25 @@
 package com.odtn.owner.dto;
 
 public class OwnerDto {
-	private int owner_key;
+	private Long owner_key;
 	private int camp_id;
 	private int user_num;
 
 	public OwnerDto() {
 	}
 
-	public OwnerDto(int owner_key, int camp_id, int user_num) {
+	public OwnerDto(Long owner_key, int camp_id, int user_num) {
 		super();
 		this.owner_key = owner_key;
 		this.camp_id = camp_id;
 		this.user_num = user_num;
 	}
 
-	public int getOwner_key() {
+	public Long getOwner_key() {
 		return owner_key;
 	}
 
-	public void setOwner_key(int owner_key) {
+	public void setOwner_key(Long owner_key) {
 		this.owner_key = owner_key;
 	}
 
