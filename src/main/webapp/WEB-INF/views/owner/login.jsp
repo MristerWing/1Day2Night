@@ -14,7 +14,7 @@
 		<div class="container content-area">
 			<div class="login-area border rounded mx-auto">
 				<label class="main-text mx-auto">사업자 로그인</label> <input type="text"
-					id="owner_id" class="mx-auto" />
+					id="owner_key" class="mx-auto" />
 				<button class="mx-auto btn btn-primary" onclick="login('${root}')">로그인</button>
 				<a href="#" class="mx-auto link">사업자 등록이 필요하신가요? 등록하기</a>
 			</div>

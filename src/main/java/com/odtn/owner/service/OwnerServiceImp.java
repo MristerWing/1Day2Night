@@ -1,11 +1,13 @@
 package com.odtn.owner.service;
 
+import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.ModelAndView;
 
+@Component
 public class OwnerServiceImp implements OwnerService {
 	@Override
-	public void ownerLoginOk(ModelAndView modelAndView) {
-		// TODO Auto-generated method stub
+	public ModelAndView ownerLoginOk(int owner_key, int user_num) {
 
+		return null;
 	}
 }
