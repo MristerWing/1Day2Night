@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <c:set var="root" value="${pageContext.request.contextPath}"/>
 <html lang="en">
@@ -20,11 +21,12 @@
   <link rel="stylesheet" href="../../../resources/css/member/style.css">
   <!-- endinject -->
   <link rel="shortcut icon" href="../../../resources/css/member/images/favicon.png" />
+  <script src="${root}/resources/javascript/modules/jquery-3.4.1.js"></script>
   
   <script type="text/javascript">
   	function modifyForm(obj){
   		//interest를 받기 위해 만듬
-  		alert("modFormOk");
+  		//alert("modFormOk");
   		var str="";
   		var cnt=0;
   		for(var i=0;i<obj.interest.length;i++){
@@ -33,18 +35,293 @@
   				cnt++;
   			}
   		}
-  		alert("interestStr: "+str);
+  		//alert("interestStr: "+str);
   		obj.interesth.value=str;
   		
-  		var gen="";
-  		for(var i=0;i<obj.gender.length;i++){
-  			if(obj.gender[i].checked==true) {
-  				gen += obj.gender[i].value;
-  			}
-  		}
-  		alert("genderStr: "+gen);
-  		obj.genderh.value=gen;
+//   		var gen="";
+//   		for(var i=0;i<obj.gender.length;i++){
+//   			if(obj.gender[i].checked==true) {
+//   				gen += obj.gender[i].value;
+//   			}
+//   		}
+//   		alert("genderStr: "+gen);
+//   		obj.genderh.value=gen;
   	}
+  	
+  	
+  	
+  	
+  	
+  	
+  	
+  	var emailCheck = 0;
+  	var passwordEqual = 0;
+  	var passwordBoolean = false;
+  	var userNameCheck = false;
+  	var phoneNumCheck = false;
+
+  		function emailDupCheck(){
+  			var email = $("#email").val();
+  			console.log(email);
+  			
+  			$.ajax({
+  				data:{email:email},
+  				url:'${root}/member/emailDupCheck.json',
+  				type: 'post',
+  				dataType: 'json',
+  				success: function(data){
+  					//alert(JSON.stringify(data));
+  					if(email==""){
+  						$("#submit").prop("disabled", true);
+  						$("#email_check").text("이메일을 입력해주세요");
+  						emailCheck = 0;
+  					} else if($.trim(data) == -1){
+  						$("#email_check").css("color", "red");
+  						$("#email_check").text("이메일 형식에 맞지 않습니다. (xxx~@yyyy~.zzz)");
+  						$("#submit").prop("disabled", true);
+  						emailCheck = 0;
+  					} else if($.trim(data) == 0){
+  						$("#email").css("background-color", "#B0F6AC");
+  						$("#email_check").css("color", "green");
+  						$("#email_check").text("사용 가능한 이메일입니다.");
+  						emailCheck = 1;
+  						if(emailCheck==1 && passwordEqual>1 && passwordBoolean == true
+  								&& userNameCheck == true && phoneNumCheck == true){
+  							$("#submit").prop("disabled", false);
+//  	 						$("#submit").css("background-color", "#4CAF50");
+  						}
+  					} else if($.trim(data) == 1){
+  						$("#submit").prop("disabled", true);
+//  	 					$("#submit").css("background-color", "#AAAAAA");
+  						$("#email").css("background-color", "#FFCECE");
+  						$("#email_check").text("이미 사용중인 이메일입니다.");
+  						$("#email_check").css("color", "red");
+  						emailCheck=0;
+  					}
+  				}, error:function(){
+  					alert("emailDupCheck() error");
+  				}
+  			});
+  		}
+
+  		$(function(){
+  			$("#password-equals-true").hide();
+  			$("#password-equals-false").hide();
+  			$("input").keyup(function(){
+  				var password = $("#password").val();
+  				var passwordCheck =$("#passwordCheck").val();
+  				if(password != ""){
+  					if(passwordCheck == "") {
+  						$("#password-equals-true").hide();
+  						$("#password-equals-false").hide();
+  					} else if(password == passwordCheck){
+  						$("#password-equals-true").show();
+  						$("#password-equals-false").hide();
+//  	 					$("#submit").removeAttr("disabled");
+  						passwordEqual = passwordEqual+1;
+  						if(emailCheck == 1 && passwordEqual > 1 && passwordBoolean==true){
+  							if(userNameCheck==true && phoneNumCheck==true){
+  								$("#submit").removeAttr("disabled");	
+  							}
+  						}
+  					} else if(password != passwordCheck) {
+  						$("#password-equals-true").hide();
+  						$("#password-equals-false").show();
+  						$("#submit").attr("disabled", "disabled");
+  					}
+  				}
+//  	 			if(password != "" || passwordCheck != ""){
+  					
+//  	 				if(password == passwordCheck){
+//  	 					$("#password-equals-true").show();
+//  	 					$("#password-equals-false").hide();
+//  	 					$("#submit").removeAttr("disabled");
+//  	 				} else {
+//  	 					$("#password-equals-true").hide();
+//  	 					$("#password-equals-false").show();
+//  	 					$("#submit").attr("disabled", "disabled");
+//  	 				}
+//  	 			}
+  			});
+  		});
+  		
+  		function passwordCheckm(){
+  			var password=$("#password").val();
+  			var email = $("#email").val();
+  			console.log(email);
+  			console.log(password);
+//  	 		$("#password-type-false").hide();
+  			$.ajax({
+  				type:'POST',
+  				url: '${root}/member/passwordCheck.json',
+  				data: { password: password, email:email},
+  				dataType: 'json',
+  				success:function(data){
+  					if(data == 0){
+//  	 					$("#password_type_false").text("비밀번호는 공백없이 11자 이상 20자 이하로 특수문자 1개, 숫자 1개, 대문자가 1개가 포함되어야 합니다.");
+  						passwordCheckTxt.innerHTML ="비밀번호는 공백없이 11자 이상 20자 이하로 특수문자 1개, 숫자 1개, 대문자가 1개가 포함되어야 합니다.";
+  						passwordCheckTxt.style="color:red";
+  						if(passwordCheckTxt4 != ""){
+  							passwordCheckTxt4.innerHTML="";
+  							$("#submit").prop("disabled", true);
+  							passwordBoolean = false;
+  						}
+  					} else if(data == -1){
+  						passwordCheckTxt2.innerHTML="비밀번호에 이메일이 포함되면 쉽게 개인 정보가 유출될 수 있습니다.";
+  						passwordCheckTxt2.style="color:violet";
+  						if(password == "") {
+  							passwordCheckTxt2.innerHTML="";
+  							$("#submit").prop("disabled", true);
+  							passwordBoolean = false;
+  						}
+  						if(passwordCheckTxt4 != ""){
+  							passwordCheckTxt4.innerHTML="";
+  							$("#submit").prop("disabled", true);
+  							passwordBoolean = false;
+  						}
+  						
+  					} else if(data == -2){
+  						passwordCheckTxt3.innerHTML ="비밀번호에 공백이 포함될 수 없습니다.";
+  						passwordCheckTxt3.style="color:red";
+  						if(password==""){
+  							passwordCheckTxt3.innerHTML ="";
+  						}
+  						if(passwordCheckTxt4 != ""){
+  							passwordCheckTxt4.innerHTML = "";
+  							$("#submit").prop("disabled", true);
+  							passwordBoolean = false;
+  						}
+  					} else if(data == 1){
+  						passwordCheckTxt4.innerHTML ="사용가능한 비밀번호입니다.";
+  						passwordCheckTxt4.style= "color:green";
+  						passwordCheckTxt3.innerHTML="";
+  						passwordCheckTxt2.innerHTML="";
+  						passwordCheckTxt.innerHTML="";
+  						passwordBoolean=true;
+  						passwordEqual = passwordEqual+1;
+  						if(emailCheck==1 && passwordCheck>1 && passwordBoolean == true){ 
+  							if(userNameCheck ==true && phoneNumCheck==true){
+  								$("#submit").prop("disabled", false);
+  								$("#submit").css("background-color", "#4CAF50");
+  							}
+  						}
+  					}
+  				},
+  				error:function(request, status){
+  					alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+  				}
+  			});
+  		}
+  		
+  		
+  		$(function() {
+  			$("#user_name").on('keyup', function(event){
+  				user_name = $("#user_name").val();
+  				console.log(user_name);
+  				if(user_name == ""){
+  					$("#user_name_check").css("color", "red");
+  					$("#user_name_check").text("이름을 입력해 주세요");
+  					userNameCheck=false;
+  					$("#submit").prop("disabled", true);
+  				} 
+  				if(user_name.length == 1){
+  					$("#user_name_check").css("color", "red");
+  					$("#user_name_check").text("이름을 2자 이상 써주십시오");
+  					userNameCheck=false;
+  					$("#submit").prop("disabled", true);
+  				} else if(user_name.length>1){
+  					$("#user_name_check").css("color", "green");
+  					$("#user_name_check").text("진짜 이름이길 바랍니다...");
+  					userNameCheck=true;
+  				}
+  			});
+  		
+  		
+  		
+  			$("#phone_num").on('keyup', function(event){
+  				//숫자만 입력되게하기
+//  	 			var reg_num = /^[0-9]}*$/;
+//  	 			var reg_num = /^(01[016789]{1}|02|0[3-9]{1}[0-9]{1})([0-9]{3,4})([0-9]{4})$/;
+  				var reg_num = /^[0-9]{10,13}$/;
+
+  				var phone_num = $("#phone_num").val();
+  				
+  				if(phone_num == ""){
+  					$("#phone_check").text("");
+  					phoneNumCheck=false;
+  					$("#submit").prop("disabled", true);
+  				}
+  				if(reg_num.test(phone_num)==false){
+  					console.log("숫자만 입력하세요");
+  					$("#phone_num").val(phone_num.replace(/[^0-9]/g,""));
+//  	 				$("#phone_check").css("color", "red");
+//  	 				$("#phone_check").text("숫자만 입력해 주세요");
+  					phoneNumCheck=false;
+  					$("#submit").prop("disabled", true);
+  				} 
+  				if(phone_num.length<10){
+  					$("#phone_check").css("color", "red");
+  					$("#phone_check").text("번호 길이를 다시 확인해 주세요.");
+  					phoneNumCheck=false;
+  					$("#submit").prop("disabled", true);
+  				}
+  				if(phone_num.length >= 10 && phone_num.length <= 11){
+  					$("#phone_check").css("color", "green");
+  					$("#phone_check").text("사용 가능한 번호입니다.");
+  					phoneNumCheck=true;
+  				} 
+  			});
+  		});
+  		
+  		
+  		
+  		
+  		function nicknameDuplCheck(){
+  			var nickname = $("#nickname").val();
+  			console.log(nickname);
+  			
+  			$.ajax({
+  				data:{nickname:nickname},
+  				url:'${root}/member/nicknameDuplCheck.json',
+  				type: 'post',
+  				dataType: 'json',
+  				success: function(data){
+  					//alert(JSON.stringify(data));
+  					if(nickname==""){
+  						//$("#submit").prop("disabled", true);
+  						$("#nickname_check").text("혹시 닉네임을 입력해주실 수 있나요?");
+  						//nicknameCheck = false;
+  						//$("#submit").prop("disabled", false);
+  					} else if($.trim(data) == -1){
+  						$("#nickname_check").css("color", "red");
+  						$("#nickname_check").text("닉네임은 한글, 영문, 숫자로 20자(한글, 영대문자는 한글자당 2자 차지)까지 쓰실 수 있습니다.");
+  						//$("#submit").prop("disabled", true);
+  						//nicknameCheck = 0;
+  					} else if($.trim(data) == 0){
+//   						$("#nickname").css("background-color", "#B0F6AC");
+  						$("#nickname_check").css("color", "green");
+  						$("#nickname_check").text("사용 가능한 닉네임입니다.");
+//   						nicknameCheck = 1;
+//   						if(emailCheck==1 && passwordEqual>1 && passwordBoolean == true
+//   								&& userNameCheck == true && phoneNumCheck == true){
+//   							$("#submit").prop("disabled", false);
+// //  	 						$("#submit").css("background-color", "#4CAF50");
+//   						}
+  					} else if($.trim(data) >= 1){
+//   						$("#submit").prop("disabled", true);
+//  	 					$("#submit").css("background-color", "#AAAAAA");
+  						$("#nickname").css("background-color", "#FFCECE");
+  						$("#nickname_check").text("이미 사용중인 닉네임입니다.");
+  						$("#nickname_check").css("color", "red");
+  						nicknameCheck=0;
+  					}
+  				}, error:function(){
+  					alert("nicknameDuplCheck() error");
+  				}
+  			});
+  		}
+  		
+
   </script>
   
 </head>
@@ -75,26 +352,28 @@
                     <div class="form-group">
                       <label for="exampleInputName1">이름</label>
                       <input type="hidden" name="user_nameHidden" value="${memberDto.user_name}"/>
-                      <input type="text" class="form-control" id="exampleInputName1" name="user_name" placeholder="Name" value="${memberDto.user_name}"/>
+                      <input type="text" style="ime-mode:active" class="form-control" id="user_name" name="user_name" placeholder="Name" value="${memberDto.user_name}" oninput="userNameCheck()" />
                       
                     </div>
                     <div class="form-group">
                       <label for="exampleInputEmail3">이메일</label>
                       <input type="hidden" name="emailHidden" value="${memberDto.email}"/>
-                      <input type="email" class="form-control" id="exampleInputEmail3" name="email" placeholder="Email" value="${memberDto.email}"/>
+                      <input type="email" style="ime-mode:disabled" class="form-control" id="email" name="email" placeholder="Email" value="${memberDto.email}" oninput="emailDupCheck()" maxlength="320" disabled/>
+                      <input type="hidden" name="emailh"/>
                       
                     </div>
                     <div class="form-group">
                       <label for="exampleInputPassword4">비밀번호</label>
                       <input type="hidden" name="passwordHidden" value="${memberDto.password}"/>
-                      <input type="password" class="form-control" id="exampleInputPassword4" name="password" placeholder="Password" value="${memberDto.password}"/>
-                      
+                      <input type="password" class="form-control" id="password" name="password" placeholder="Password" value="${memberDto.password}" oninput="passwordCheckm(password.value)" maxlength="20"/>
+                      <input type="hidden" name="passwordh"/>
                     </div>
                     <div class="form-group">
                     	<label for="exampleInputNickname5">닉네임</label>
                     	<input type="hidden" name="nicknameHidden" value="${memberDto.nickname}"/>
-                    	<input type="text" class="form-control" id="exampleInputNickname5" name="nickname" placeholder="nickname" value="${memberDto.nickname}"/>
-                    	
+                    	<input type="text" style="IME-MODE:active" class="form-control" id="nickname" name="nickname" placeholder="nickname" value="${memberDto.nickname}" oninput="nicknameDuplCheck()" size="20"/>
+                    	<input type="hidden" name="nicknameh"/>
+                    	<div id="nickname_check"></div>
 <!--                       <label for="exampleSelectGender">Gender</label> -->
 <!--                         <select class="form-control" id="exampleSelectGender"> -->
 <!--                           <option>Male</option> -->
@@ -102,10 +381,10 @@
 <!--                         </select> -->
                     </div>
                     <div class="form-group">
-                    	<label for="exampleInputPhoneNum6">핸드폰번호(숫자만 입력해 주세요)</label>
+                    	<label for="exampleInputPhoneNum6">핸드폰번호( - 없이 숫자만 입력해 주세요)</label>
                     	<input type="hidden" name="phone_numHidden" value="${memberDto.phone_num}"/>
-                    	<input type="text" class="form-control" id="exampleInputPhoneNum5" name="phone_num" placeholder="PhoneNumber" value="${memberDto.phone_num}"/>
-                    	
+                    	<input type="text" class="form-control" id="phone_num" name="phone_num" placeholder="PhoneNumber" value="${memberDto.phone_num}" oninput="phoneDuplCheck()" size="11"/>
+                    	<input type="hidden" name="phoneNumh"/>
                     </div>
                     <br/>
                     <div class="form-group">
@@ -120,11 +399,20 @@
                             	박태환
                             </label>
                             <label class="form-check-label" for="check-03">
-                            	<input type="checkbox" class="form-check-input" id="check-03" name="interest" value="mountain">
+                            	<input type="checkbox" class="form-check-input" id="check-03" name="interest" value="valley">
                             	김병만
                             </label>
                             <input type="hidden" name="interesth"/>
                     	 </div>
+                    	 <c:forTokens var="interest" items="${memberDto.interest}" delims=",">
+                    	 	<script type="text/javascript">
+                    	 		for(var i=0; i<updateForm.interest.length;i++){
+                    	 			if(updateForm.interest[i].value=="${interest}"){
+                    	 				updateForm.interest[i].checked=true;
+                    	 			}
+                    	 		}
+                    	 	</script>
+                    	 </c:forTokens>
                     </div>
                     <div class="form-group">
                       <label>프로필 사진 파일 업로드</label>
@@ -138,13 +426,21 @@
 <!--                         </span> -->
 <!--                       </div> -->
                     </div>
-                    <div class="form-group">
-                      <label>성별</label>
-                      <input type="radio" name = "gender" value="m">
-                      <label>남</label>
-                      <input type="radio" name = "gender" value="f">
-                      <label>여</label>
-                      <input type="hidden" name="radioh"/>
+<!--                     <div class="form-group"> -->
+<!--                       <label>성별</label> -->
+<!--                       <input type="radio" name = "gender" value="m"> -->
+<!--                       <label>남</label> -->
+<!--                       <input type="radio" name = "gender" value="f"> -->
+<!--                       <label>여</label> -->
+<!--                       <input type="hidden" name="genderh"/> -->
+<!--                     </div> -->
+<!--                     <script type="text/javascript"> -->
+<!--                      	for(var i=0;i<updateForm.gender.length;i++){ -->
+<%--                      		if(updateForm.gender[i].value=="${memberDto.gender}"){ --%>
+<!--                      			updateForm.gender[i].checked=true; -->
+<!--                      		} -->
+<!--                      	} -->
+<!--                     </script> -->
                     
                     <button type="submit" class="btn btn-primary mr-2">Submit</button>
 <!--                     <button class="btn btn-light">Cancel</button> -->

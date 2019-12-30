@@ -9,6 +9,7 @@ public interface MemberDao {
 	public String getSaltByEmail(String email);
 	public MemberDto isNewMember(String email);
 	public int emailDupCheck(String email);
+	public int nicknameDuplCheck(String nickname);
 	
 	public int isNewEmailAuthKey(String email_auth_key);
 	public int updateEmail_auth_key(MemberDto memberDto);
