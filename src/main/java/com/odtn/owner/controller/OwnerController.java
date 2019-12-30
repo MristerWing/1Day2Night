@@ -1,4 +1,4 @@
-package com.odtn.board.owner.controller;
+package com.odtn.owner.controller;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
