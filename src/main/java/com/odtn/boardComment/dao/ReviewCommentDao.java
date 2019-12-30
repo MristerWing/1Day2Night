@@ -16,5 +16,9 @@ public interface ReviewCommentDao {
 	//이메일 구하기
 	public String getEmail(int user_num);
 	//카톡프로필이름구하ㅣㄱ
-	public String getNickName(int uwer_num);
+	public String getNickName(int user_num);
+	//댓글 삭제
+	public int delete(int comment_num);
+	//댓글 수정
+	public int update(ReviewCommentDto reviewCommentDto);
 }

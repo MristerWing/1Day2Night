@@ -150,13 +150,13 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 	<section class="about py-lg-5 py-md-5 py-5">
 		<div class="container">
 			<div class="inner-sec-w3pvt py-lg-5 py-3">
-				<h3 class="tittle text-center mb-lg-5 mb-3 px-lg-5">Explore The
-					World With Us.</h3>
+				<h3 class="tittle text-center mb-lg-5 mb-3 px-lg-5">ODTN이 왜 특별한가요?
+					</h3>
 				<div class="feature-grids row mt-3 mb-lg-5 mb-3 mt-lg-5 text-center">
 					<div class="col-lg-4" data-aos="fade-up">
 						<div class="bottom-gd px-3">
 							<span class="fa fa-bus" aria-hidden="true"></span>
-							<h3 class="my-4">Sit Amet Mattis</h3>
+							<h3 class="my-4">캠핑카가 있어도</h3>
 							<p>Integer sit amet mattis quam, sit amet ultricies velit.
 								Praesent ullamcorper dui turpis.</p>
 						</div>
@@ -164,7 +164,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 					<div class="col-lg-4" data-aos="fade-up">
 						<div class="bottom-gd2-active px-3">
 							<span class="fa fa-car" aria-hidden="true"></span>
-							<h3 class="my-4">Ultricies Velit</h3>
+							<h3 class="my-4">캠핑카가 없어도</h3>
 							<p>Integer sit amet mattis quam, sit amet ultricies velit.
 								Praesent ullamcorper dui turpis.</p>
 						</div>
@@ -172,41 +172,14 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 					<div class="col-lg-4" data-aos="fade-up">
 						<div class="bottom-gd px-3">
 							<span class="fa fa-rocket" aria-hidden="true"></span>
-							<h3 class="my-4">Amet Mattis Quam</h3>
+							<h3 class="my-4">2304개의 다양한 캠핑장</h3>
 							<p>Integer sit amet mattis quam, sit amet ultricies velit.
 								Praesent ullamcorper dui turpis.</p>
 						</div>
 					</div>
 
 				</div>
-				<div class="fetured-info pt-lg-5">
 
-					<div class="row fetured-sec mt-lg-5 mt-3">
-						<div class="col-lg-6 p-0">
-							<div class="img-effect">
-								<img src="${root}/resources/images/img1.jpg" alt=""
-									class="img-fluid image1">
-							</div>
-
-						</div>
-						<div class="col-lg-6 serv_bottom feature-grids pl-lg-5">
-							<div class="featured-left text-left">
-								<div class="bottom-gd px-3">
-									<span class="fa fa-plane" aria-hidden="true"></span>
-									<h3 class="my-4">Ultricies Velit</h3>
-									<p>Integer sit amet mattis quam, sit amet ultricies velit.
-										Praesent ullamcorper dui turpis.</p>
-								</div>
-								<div class="bottom-gd fea active p-4" data-aos="fade-left">
-									<span class="fa fa-rocket" aria-hidden="true"></span>
-									<h3 class="my-3 ">Mattis Quam</h3>
-									<p>Integer sit amet mattis quam, sit amet ultricies velit.
-										Praesent ullamcorper dui turpis.</p>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
 			</div>
 		</div>
 		<!-- //services -->
@@ -220,28 +193,28 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 					<div class="counter">
 						<span class="fa fa-briefcase"></span>
 						<h3 class="timer count-title count-number">12</h3>
-						<p class="count-text">Years Of Experience</p>
+						<p class="count-text">등록된 캠핑장</p>
 					</div>
 				</div>
 				<div class="col-md-3 col-sm-6">
 					<div class="counter">
 						<span class="fa fa-user"></span>
 						<h3 class="timer count-title count-number">120</h3>
-						<p class="count-text">Our Agents</p>
+						<p class="count-text">등록된 사업자</p>
 					</div>
 				</div>
 				<div class="col-md-3 col-sm-6">
 					<div class="counter">
 						<span class="fa fa-smile-o"></span>
 						<h3 class="timer count-title count-number">1280</h3>
-						<p class="count-text">Happy Customers</p>
+						<p class="count-text">추천</p>
 					</div>
 				</div>
 				<div class="col-md-3 col-sm-6">
 					<div class="counter">
 						<span class="fa fa-users"></span>
 						<h3 class="timer count-title count-number">10200</h3>
-						<p class="count-text">Clients</p>
+						<p class="count-text">회원</p>
 					</div>
 				</div>
 			</div>
@@ -252,27 +225,27 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 	<section class="banner-bottom py-lg-5 py-4">
 		<div class="container">
 			<div class="inner-sec-w3pvt speak">
-				<h3 class="tittle  text-center my-lg-5 my-3">Our Travel Agents</h3>
+				<h3 class="tittle  text-center my-lg-5 my-3">Camping Information</h3>
 				<div class="row mt-lg-5 mt-4">
 					<div class="col-md-4 team-gd text-center">
 						<div class="team-img mb-4">
-							<img src="images/team.jpg" class="img-fluid" alt="user-image">
+							<img src="https://images.unsplash.com/photo-1517823382935-51bfcb0ec6bc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1650&q=80" class="img-fluid" alt="user-image">
 						</div>
 						<div class="team-info">
 							<h3 class="mt-md-4 mt-3">
-								<span class="sub-tittle-team">Agent</span> Jason Donoghue
+								<span class="sub-tittle-team"></span> 야간캠핑 주의사항
 							</h3>
 							<p>Lorem Ipsum has been the industry's standard since the
 								1500s.</p>
 							<ul class="top-right-info text-center mt-md-4 mt-3">
 
 								<li class="mr-1"><a href="#"> <span
-										class="fa fa-facebook-f"></span>
+										class=""></span>
 								</a></li>
-								<li><a href="#"> <span class="fa fa-twitter"></span>
+								<li><a href="#"> <span class=""></span>
 								</a></li>
 								<li class="mx-1"><a href="#"> <span
-										class="fa fa-google-plus"></span>
+										class=""></span>
 								</a></li>
 
 							</ul>
@@ -281,46 +254,46 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 
 					<div class="col-md-4 team-gd second text-center">
 						<div class="team-img mb-4">
-							<img src="images/team1.jpg" class="img-fluid" alt="user-image">
+							<img src="https://images.unsplash.com/photo-1537225228614-56cc3556d7ed?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1650&q=80" class="img-fluid" alt="user-image">
 						</div>
 						<div class="team-info">
 							<h3 class="mt-md-4 mt-3">
-								<span class="sub-tittle-team">Agent</span> Mariana Noe
+								<span class="sub-tittle-team"></span> 야영 주의사항
 							</h3>
 							<p>Lorem Ipsum has been the industry's standard since the
 								1500s.</p>
 							<ul class="top-right-info text-center mt-md-4 mt-3">
 
 								<li class="mr-1"><a href="#"> <span
-										class="fa fa-facebook-f"></span>
+										class=""></span>
 								</a></li>
-								<li><a href="#"> <span class="fa fa-twitter"></span>
+								<li><a href="#"> <span class=""></span>
 								</a></li>
 
-								<li><a href="#"> <span class="fa fa-dribbble"></span>
+								<li><a href="#"> <span class=""></span>
 								</a></li>
 							</ul>
 						</div>
 					</div>
 					<div class="col-md-4 team-gd text-center">
 						<div class="team-img mb-4">
-							<img src="images/team2.jpg" class="img-fluid" alt="user-image">
+							<img src="https://images.unsplash.com/photo-1466220549276-aef9ce186540?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1650&q=80" class="img-fluid" alt="user-image">
 						</div>
 						<div class="team-info">
 							<h3 class="mt-md-4 mt-3">
-								<span class="sub-tittle-team">Agent</span> Daniel Doe
+								<span class="sub-tittle-team"></span> 취사시 주의사항
 							</h3>
 							<p>Lorem Ipsum has been the industry's standard since the
 								1500s.</p>
 							<ul class="top-right-info text-center mt-md-4 mt-3">
 
 								<li class="mr-1"><a href="#"> <span
-										class="fa fa-facebook-f"></span>
+										class=""></span>
 								</a></li>
-								<li><a href="#"> <span class="fa fa-twitter"></span>
+								<li><a href="#"> <span class=""></span>
 								</a></li>
 								<li class="mx-1"><a href="#"> <span
-										class="fa fa-google-plus"></span>
+										class=""></span>
 								</a></li>
 							</ul>
 						</div>
@@ -334,17 +307,17 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 	<!-- portfolio -->
 	<section class="portfolio-flyer py-5" id="gallery">
 		<div class="container pt-lg-3 pb-md-5">
-			<h3 class="tittle  text-center my-lg-5 my-3">Our Recent Tours</h3>
+			<h3 class="tittle  text-center my-lg-5 my-3">추천 캠핑장</h3>
 
 			<div class="row news-grids pb-lg-5 mt-3 mt-lg-5">
 				<div class="col-lg-4 gal-img">
 					<div class="gal-info">
-						<a href="#gal1"><img src="images/1.jpg" alt="news image"
+						<a href="#gal1"><img src="https://images.unsplash.com/photo-1475483768296-6163e08872a1?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2550&q=80" alt="news image"
 							class="img-fluid"></a>
 						<div class="property-info-list">
 							<div class="detail">
 								<h4 class="title">
-									<a href="about.html">Germany</a>
+									<a href="about.html">호반캠핑장</a>
 								</h4>
 								<div class="location mt-2">
 									<a href="about.html"> <span class="fa fa-map-marker"></span>
@@ -369,12 +342,12 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 				</div>
 				<div class="col-lg-4 gal-img">
 					<div class="gal-info">
-						<a href="#gal2"><img src="images/2.jpg" alt="news image"
+						<a href="#gal2"><img src="https://images.unsplash.com/photo-1492648272180-61e45a8d98a7?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1650&q=80" alt="news image"
 							class="img-fluid"></a>
 						<div class="property-info-list">
 							<div class="detail">
 								<h4 class="title">
-									<a href="about.html">France</a>
+									<a href="about.html">솔밭 야영장</a>
 								</h4>
 								<div class="location mt-2">
 									<a href="about.html"> <span class="fa fa-map-marker"></span>
@@ -399,7 +372,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 				</div>
 				<div class="col-lg-4 gal-img">
 					<div class="gal-info">
-						<a href="#gal3"><img src="images/3.jpg" alt="news image"
+						<a href="#gal3"><img src="https://images.unsplash.com/photo-1478810810369-07072c5ef88b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=700&q=60" alt="news image"
 							class="img-fluid"></a>
 						<div class="property-info-list">
 							<div class="detail">
@@ -429,7 +402,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 				</div>
 				<div class="col-lg-4 gal-img mt-lg-4">
 					<div class="gal-info">
-						<a href="#gal4"><img src="images/4.jpg" alt="news image"
+						<a href="#gal4"><img src="https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1650&q=80" alt="news image"
 							class="img-fluid"></a>
 						<div class="property-info-list">
 							<div class="detail">
@@ -459,7 +432,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 				</div>
 				<div class="col-lg-4 gal-img mt-lg-4">
 					<div class="gal-info">
-						<a href="#gal5"><img src="images/5.jpg" alt="news image"
+						<a href="#gal5"><img src="https://images.unsplash.com/photo-1511993807578-701168605ad3?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=700&q=60" alt="news image"
 							class="img-fluid"></a>
 						<div class="property-info-list">
 							<div class="detail">
@@ -489,7 +462,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 				</div>
 				<div class="col-lg-4 gal-img mt-lg-4">
 					<div class="gal-info">
-						<a href="#gal6"><img src="images/6.jpg" alt="news image"
+						<a href="#gal6"><img src="https://images.unsplash.com/photo-1532564979029-bbf9fcbe7b0b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1650&q=80" alt="news image"
 							class="img-fluid"></a>
 						<div class="property-info-list">
 							<div class="detail">
@@ -572,65 +545,6 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 	</div>
 	<!-- //popup -->
 
-
-	<!--//portfolio-->
-	<!-- /hand-crafted -->
-	<section class="hand-crafted py-5">
-		<div class="container py-lg-5">
-			<div class="row accord-info">
-				<div class="col-lg-6 pl-md-5">
-
-					<h3 class="mb-md-5 tittle">Plan Your Holiday Trip Now
-						Exceptional Adventure</h3>
-
-					<p>Vestibulum ante ipsum primis in faucibus orci luctus et
-						ultrices posuere cubilia Curae; Nulla mollis dapibus nunc, ut
-						rhoncus turpis sodales quis.Integer sit amet mattis quam, sit amet
-						ultricies velit. Praesent ullamcorper dui turpis.</p>
-					<p class="mt-3">Integer sit amet mattis quam, sit amet
-						ultricies velit. Praesent ullamcorper dui turpis.
-					<p>
-				</div>
-				<div class="col-lg-6 banner-image">
-					<div class="img-effect">
-						<img src="images/img3.jpg" alt="" class="img-fluid image1">
-					</div>
-
-				</div>
-
-			</div>
-		</div>
-	</section>
-	<!-- //hand-crafted -->
-
-	<!-- testimonials -->
-	<div class="testimonials py-md-5 py-5">
-		<div class="container py-xl-5 py-lg-3">
-			<h3 class="tittle  text-center mb-lg-5 mb-3">Our Clients Say</h3>
-
-			<div class="testimonials_grid_w3ls mt-lg-0 mt-4">
-				<div class="p-md-5 p-4">
-					<p class="sub-test">
-						<span class="fa fa-quote-left" aria-hidden="true"></span> Nam
-						libero tempore, cum soluta nobis est eligendi optio cumque nihil
-						impedit quo minus id quod possimus, omnis voluptas.Integer sit
-						amet mattis quam, sit amet ultricies velit.
-					</p>
-					<div class="row mt-4">
-						<div class="col-3 testi-img-res">
-							<img src="images/te2.jpg" alt="" class="img-fluid" />
-						</div>
-						<div class="col-9 testi_grid mt-xl-3 mt-lg-2 mt-md-4 mt-2">
-							<h5 class="mb-2">Soluta Nobis</h5>
-							<p>Libero Tempore</p>
-						</div>
-					</div>
-				</div>
-			</div>
-
-		</div>
-	</div>
-	<!-- //testimonials -->
 	<!--footer -->
 	<footer>
 		<div class="footer_1its py-5">

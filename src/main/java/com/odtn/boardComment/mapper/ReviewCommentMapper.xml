@@ -40,4 +40,14 @@
 	<select id="getNickName" resultType="String">
 		SELECT NICKNAME FROM MEMBER WHERE USER_NUM=#{user_num}
 	</select>
+	
+	<!-- 댓글 삭제 -->
+	<delete id="deleteComment" parameterType="int">
+		DELETE FROM REVIEW_COMMENT WHERE COMMENT_NUM=#{comment_num}
+	</delete>
+	<!--댓글 수정확인-->
+	<update id="updateComment"  parameterType="com.odtn.boardComment.dto.ReviewCommentDto">
+			UPDATE REVIEW_COMMENT SET COMMENT_CONTENT=#{comment_content}
+ 			WHERE COMMENT_NUM =#{comment_num}
+	</update>
    </mapper>

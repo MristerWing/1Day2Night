@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -62,7 +63,7 @@ public class ReviewCommentServiceImp implements ReviewCommentService {
 
 		int count = reviewCommentDao.listCount();
 		LogAspect.logger.info(LogAspect.logMsg + "전체 글 개수: " + count);
-
+		
 		// 글목록 리스트로받기
 		List<String> writerList = new ArrayList<String>();
 		List<ReviewCommentDto> reviewCommentList = null;
@@ -85,9 +86,20 @@ public class ReviewCommentServiceImp implements ReviewCommentService {
 				}
 				writerList.add(writer);
 			}
+
 		}
 		map.put("reviewCommentList", reviewCommentList);
 		map.put("writerList", writerList);
 		return map;
+	}
+	//삭제
+	@Override
+	public int delete(int comment_num) {
+		 return reviewCommentDao.delete(comment_num);
+	}
+	//수정확인
+	@Override
+	public int update(ReviewCommentDto reviewCommentDto) {
+		return reviewCommentDao.update(reviewCommentDto);
 	}
 }
