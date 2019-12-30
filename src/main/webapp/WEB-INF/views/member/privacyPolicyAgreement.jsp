@@ -7,9 +7,18 @@
 <head>
 <meta charset="UTF-8">
 <title>개인 정보 수집 및 이용 동의 확인</title>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 </head>
-<body>
+<body data-spy="scroll" data-target=".navbar" data-offset="50">
 
+<nav class="navbar navbar-inverse navbar-fixed-top">
+  <ul class="nav navbar-nav">
+    <li><a href="#section1">Section 1</a></li>
+    <li><a href="#section2">Section 2</a></li>
+  </ul>
+</nav>
+
+<div id="section1">
 	<p class="join_tt">이용약관</p>
 		<section>
 			<h2 class="skip">이용약관</h2>
@@ -136,11 +145,11 @@
 				<p>본 약관에 명시되지 않은 사항에 대해서는 관련법령에 의하고, 법에 명시되지 않은 부분에 대하여는 관습에 의합니다.</p>
 
 			</div>
-		
-
-		
-			<h2 class="skip">이용약관</h2>
 		</section>
+	</div>
+
+<div id="section2" align="center">
+	<h2 class="skip">이용약관</h2>
 
 		<p class="join_tt">개인정보 수집 및 활용이용에 관한 동의</p>
 		<section>
@@ -158,6 +167,7 @@
 			</div>
 
 		</section>
+	</div>
 		
 		
 		

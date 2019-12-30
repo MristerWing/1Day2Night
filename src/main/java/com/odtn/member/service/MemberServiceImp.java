@@ -160,7 +160,7 @@ public class MemberServiceImp implements MemberService {
 		LogAspect.logger.info(LogAspect.logMsg + "pwCheck.check: " + check);
 		// String password_check =
 		// "^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[$@$!%*?&`~'\"+=])[A-Za-z[0-9]$@$!%*?&`~'\"+=]{11,20}$";
-		String password_check = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[$@$!%*?&`~'\"+=])[A-Za-z\\d$@$!%*?&`~'\"+=]{11,20}";
+		String password_check = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[$@$!%*?&`~'\"+=])[A-Za-z\\d$@$!%*?&`~'\"+=]{3,4}";
 
 		Pattern patternSymbol = Pattern.compile(password_check);
 		Matcher matcherSymbol = patternSymbol.matcher(password);
@@ -347,7 +347,7 @@ public class MemberServiceImp implements MemberService {
 					LogAspect.logMsg + "MSI.mLO.dto: " + memberDto.toString());
 			mav.addObject("memberDto", memberDto);
 
-			mav.setViewName("member/loginOk.empty");
+			mav.setViewName("member/loginOk.tiles");
 		} else {
 			LogAspect.logger
 					.info(LogAspect.logMsg + "아이디 혹은 비밀번호가 틀렸습니다 다시 시도해주세요");
@@ -375,13 +375,13 @@ public class MemberServiceImp implements MemberService {
 		HttpServletRequest request = (HttpServletRequest) map.get("request");
 		HttpSession session = (HttpSession) map.get("session");
 		Map<String, Object> hMap = new HashMap<String, Object>();
-		LogAspect.logger.info(LogAspect.logMsg + "MSI.mUP.req.getPpw: " + request.getParameter("password_mod"));
+		LogAspect.logger.info(LogAspect.logMsg + "MSI.mUP.req.getPpw: " + request.getParameter("password"));
 		LogAspect.logger.info(LogAspect.logMsg + "MSI.mUP.ses.getUnum: " + session.getAttribute("user_num"));
 		LogAspect.logger.info(LogAspect.logMsg + "MSI.mUP.ses.getemal: " + session.getAttribute("email"));
 		LogAspect.logger.info(LogAspect.logMsg + "MSI.mUP.ses.getEAK: " + session.getAttribute("email_auth_key"));
 
 		String salt = memberDao.getSaltByEmail((String) session.getAttribute("email"));
-		String password = request.getParameter("password_mod");
+		String password = request.getParameter("password");
 		LogAspect.logger.info(LogAspect.logMsg + password);
 		password = SHA256Util.getEncrypt(password, salt);
 		LogAspect.logger
@@ -397,7 +397,7 @@ public class MemberServiceImp implements MemberService {
 		MemberDto memberDto = memberDao.getMemberDtoP(hMap);
 		if (memberDto != null) {
 			LogAspect.logger.info(LogAspect.logMsg + "MSI.mUP.dto:" + memberDto.toString());
-			memberDto.setPassword(request.getParameter("password_mod"));
+			memberDto.setPassword(request.getParameter("password"));
 			mav.addObject("memberDto", memberDto);
 			mav.setViewName("member/update.tiles");
 		} else {
@@ -451,7 +451,7 @@ public class MemberServiceImp implements MemberService {
 		// LogAspect.logger.info(LogAspect.logMsg+"MSI.mUO.dto:
 		// "+memberDto.toString());
 
-		memberDto.setEmail(request.getParameter("email"));
+		//memberDto.setEmail(request.getParameter("email"));
 		LogAspect.logger.info(LogAspect.logMsg + "MSI.mUO.reqEmail: "
 				+ request.getParameter("email"));
 		LogAspect.logger.info(
@@ -525,7 +525,7 @@ public class MemberServiceImp implements MemberService {
 		LogAspect.logger.info(LogAspect.logMsg + "MSI.mDO.sesUnum: " + session.getAttribute("user_num"));
 		LogAspect.logger.info(LogAspect.logMsg + "MSI.mDO.sesemail: " + session.getAttribute("email"));
 		LogAspect.logger.info(LogAspect.logMsg + "MSI.mDO.sesEAKey: " + session.getAttribute("email_auth_key"));
-		LogAspect.logger.info(LogAspect.logMsg + "MSI.mDO.reqPassword: " + request.getParameter("password_out"));
+		LogAspect.logger.info(LogAspect.logMsg + "MSI.mDO.reqPassword: " + request.getParameter("password"));
 
 		Map<String, Object> hMap = new HashMap<String, Object>();
 		hMap.put("user_num", session.getAttribute("user_num"));
@@ -537,7 +537,7 @@ public class MemberServiceImp implements MemberService {
 		String salt = memberDao
 				.getSaltByEmail((String) session.getAttribute("email"));
 
-		String password = request.getParameter("password_out");
+		String password = request.getParameter("password");
 
 		password = SHA256Util.getEncrypt(password, salt);
 
@@ -545,6 +545,7 @@ public class MemberServiceImp implements MemberService {
 		int check = memberDao.memberDeleteOk(hMap);
 		LogAspect.logger.info(LogAspect.logMsg + "MSI.mDO.check: " + check);
 		mav.addObject("check", check);
+		mav.setViewName("member/deleteOk.tiles");
 	}
 
 	@Override

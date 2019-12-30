@@ -39,14 +39,14 @@
 				
 				<script type="text/javascript">
 					alert("이메일 인증을 먼저 해주십시오");
-					location.href="${root}/Index.jsp";
+					location.href="${root}/index.jsp";
 				</script>
 				<c:remove var="user_num" scope="session"/>
 				<c:remove var="email" scope="session"/>
 				<c:remove var="email_auth_key" scope="session"/>
 				<c:remove var="email_auth_status" scope="session"/>
 				<c:remove var="register_type" scope="session"/>
-				<% session.invalidate(); %>
+<%-- 				<% session.invalidate(); %> --%>
 			</c:if>
 			
 			

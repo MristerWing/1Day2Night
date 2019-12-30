@@ -231,7 +231,7 @@
   					$("#submit").prop("disabled", true);
   				} else if(user_name.length>1){
   					$("#user_name_check").css("color", "green");
-  					$("#user_name_check").text("진짜 이름이길 바랍니다...");
+  					$("#user_name_check").text("써도 되는 이름(?)입니다.");
   					userNameCheck=true;
   				}
   			});
@@ -289,12 +289,12 @@
   					//alert(JSON.stringify(data));
   					if(nickname==""){
   						//$("#submit").prop("disabled", true);
-  						$("#nickname_check").text("혹시 닉네임을 입력해주실 수 있나요?");
+  						$("#nickname_check").text("혹시 닉네임을 입력해주실 수 있나요? 쓰지 않으셔도 괜찮아요");
   						//nicknameCheck = false;
   						//$("#submit").prop("disabled", false);
   					} else if($.trim(data) == -1){
   						$("#nickname_check").css("color", "red");
-  						$("#nickname_check").text("닉네임은 한글, 영문, 숫자로 20자(한글, 영대문자는 한글자당 2자 차지)까지 쓰실 수 있습니다.");
+  						$("#nickname_check").text("닉네임은 20자(한글, 영대문자는 한글자당 2자 차지)까지 쓰실 수 있습니다.");
   						//$("#submit").prop("disabled", true);
   						//nicknameCheck = 0;
   					} else if($.trim(data) == 0){
@@ -343,7 +343,7 @@
             <div class="col-12 grid-margin stretch-card">
               <div class="card">
                 <div class="card-body">
-                  <h4 class="card-title">회원 정보 수정</h4>
+                  <h4 class="card-title">회원 정보 수정/탈퇴</h4>
                   <p class="card-description">
                     회원 정보 수정
                   </p>
@@ -357,9 +357,9 @@
                     </div>
                     <div class="form-group">
                       <label for="exampleInputEmail3">이메일</label>
-                      <input type="hidden" name="emailHidden" value="${memberDto.email}"/>
-                      <input type="email" style="ime-mode:disabled" class="form-control" id="email" name="email" placeholder="Email" value="${memberDto.email}" oninput="emailDupCheck()" maxlength="320" disabled/>
-                      <input type="hidden" name="emailh"/>
+<%--                       <input type="hidden" name="emailHidden" value="${memberDto.email}"/> --%>
+                      <input type="email" style="ime-mode:disabled" class="form-control" id="emaildis" name="emaildis" placeholder="Email" value="${memberDto.email}" oninput="emailDupCheck()" maxlength="320" disabled/>
+<!--                       <input type="hidden" name="email"/> -->
                       
                     </div>
                     <div class="form-group">
@@ -387,33 +387,33 @@
                     	<input type="hidden" name="phoneNumh"/>
                     </div>
                     <br/>
-                    <div class="form-group">
-                    	<div class="form-check form-check-primary">
-                            <h3>흥미 있는 키워드들을 선택해주세요 </h3>
-                            <label class="form-check-label" for="check-01">
-                            	<input type="checkbox" class="form-check-input" id="check-01" name="interest" value="mountain">
-                            	엄홍길
-                            </label>
-                            <label class="form-check-label" for="check-02">
-                            	<input type="checkbox" class="form-check-input" id="check-02" name="interest" value="sea">
-                            	박태환
-                            </label>
-                            <label class="form-check-label" for="check-03">
-                            	<input type="checkbox" class="form-check-input" id="check-03" name="interest" value="valley">
-                            	김병만
-                            </label>
-                            <input type="hidden" name="interesth"/>
-                    	 </div>
-                    	 <c:forTokens var="interest" items="${memberDto.interest}" delims=",">
-                    	 	<script type="text/javascript">
-                    	 		for(var i=0; i<updateForm.interest.length;i++){
-                    	 			if(updateForm.interest[i].value=="${interest}"){
-                    	 				updateForm.interest[i].checked=true;
-                    	 			}
-                    	 		}
-                    	 	</script>
-                    	 </c:forTokens>
-                    </div>
+<!--                     <div class="form-group"> -->
+<!--                     	<div class="form-check form-check-primary"> -->
+<!--                             <h3>흥미 있는 키워드들을 선택해주세요 </h3> -->
+<!--                             <label class="form-check-label" for="check-01"> -->
+<!--                             	<input type="checkbox" class="form-check-input" id="check-01" name="interest" value="mountain"> -->
+<!--                             	엄홍길 -->
+<!--                             </label> -->
+<!--                             <label class="form-check-label" for="check-02"> -->
+<!--                             	<input type="checkbox" class="form-check-input" id="check-02" name="interest" value="sea"> -->
+<!--                             	박태환 -->
+<!--                             </label> -->
+<!--                             <label class="form-check-label" for="check-03"> -->
+<!--                             	<input type="checkbox" class="form-check-input" id="check-03" name="interest" value="valley"> -->
+<!--                             	김병만 -->
+<!--                             </label> -->
+<!--                             <input type="hidden" name="interesth"/> -->
+<!--                     	 </div> -->
+<%--                     	 <c:forTokens var="interest" items="${memberDto.interest}" delims=","> --%>
+<!--                     	 	<script type="text/javascript"> -->
+<!--                      	 		for(var i=0; i<updateForm.interest.length;i++){ -->
+<%--                      	 			if(updateForm.interest[i].value=="${interest}"){ --%>
+<!--                      	 				updateForm.interest[i].checked=true; -->
+<!--                      	 			} -->
+<!--                      	 		} -->
+<!--                     	 	</script> -->
+<%--                     	 </c:forTokens> --%>
+<!--                     </div> -->
                     <div class="form-group">
                       <label>프로필 사진 파일 업로드</label>
                       <input type="file" name = "profile_image" class="file-upload-default" size="255"/>

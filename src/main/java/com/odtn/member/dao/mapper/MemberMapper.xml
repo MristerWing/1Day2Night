@@ -138,8 +138,7 @@
 
 	<update id="memberUpdateOk" parameterType="com.odtn.member.dto.MemberDto">
 		UPDATE member SET
-			email=#{email,javaType=String,jdbcType=VARCHAR}
-		  , password=#{password,javaType=String,jdbcType=VARCHAR}
+		    password=#{password,javaType=String,jdbcType=VARCHAR}
 		  , salt=#{salt,javaType=String,jdbcType=VARCHAR}
 		  , phone_num=#{phone_num,javaType=Integer,jdbcType=NUMERIC}
 		  , user_name=#{user_name,javaType=String,jdbcType=VARCHAR}
