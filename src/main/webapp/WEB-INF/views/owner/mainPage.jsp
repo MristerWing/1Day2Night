@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <c:set var="root" value="${pageContext.request.contextPath}" />
 <!DOCTYPE html>
 <html lang="ko">
@@ -16,12 +17,16 @@
             type="text/javascript"
             src="${root}/resources/javascript/modules/Chart.js"
         ></script>
+        <script
+            type="text/javascript"
+            src="${root}/resources/javascript/owner/mainPage.js"
+        ></script>
     </head>
     <body>
         <div class="owner container">
             <div class="main-page">
                 <div class="top-banner">
-                    <span class=".read-background">이용자 님 환영합니다.</span>
+                    <span class=".read-background">${ownerMainPageDto.user_name} 님 환영합니다.</span>
                 </div>
                 <div class="content-area border rounded">
                     <div class="content-top">
@@ -115,47 +120,38 @@
                             <span class="sub-title">내 캠핑정보 요약</span>
                             <div class="sub-content">
                                 <table class="table">
-                                    <tbody>
-                                        <!--스크립트 루프 처리 예정-->
-                                        <tr>
-                                            <th>주소</th>
-                                            <td>2</td>
-                                        </tr>
-                                        <tr>
-                                            <th>문의처</th>
-                                            <td>4</td>
-                                        </tr>
-                                        <tr>
-                                            <th>캠핑장 환경</th>
-                                            <td>6</td>
-                                        </tr>
-                                        <tr>
-                                            <th>캠핑장 유형</th>
-                                            <td>8</td>
-                                        </tr>
-                                        <tr>
-                                            <th>운영기간</th>
-                                            <td>10</td>
-                                        </tr>
-                                        <tr>
-                                            <th>운영일</th>
-                                            <td>12</td>
-                                        </tr>
-                                        <tr>
-                                            <th>홈페이지</th>
-                                            <td></td>
-                                        </tr>
-                                        <tr>
-                                            <th>예약방법</th>
-                                            <td></td>
-                                        </tr>
-                                    </tbody>
+                                    <tbody></tbody>
                                 </table>
+                                <script type="text/javascript">
+                                var titles = {
+                                		camp_name: "캠프이름:",
+        								address: "주소", 
+        								hp: "문의처", 
+        								homepage: "홈페이지"
+        							};
+        							
+        							var camp = {
+        									camp_name: "${ownerMainPageDto.camp_name}",
+        									address: "${ownerMainPageDto.address}",
+        									hp: "${ownerMainPageDto.hp}",
+        									homepage: "<a href='" + "${ownerMainPageDto.camp_link}" + "'>바로가기</a>"
+        							};
+        							
+        							
+        							for(let prop in camp) {
+        								if(!camp.hasOwnProperty(prop)) continue;
+        								if(camp[prop] != "") {
+        									$("body > div > div.owner.container > div > div.content-area.border.rounded > div > div.content-right > div > table > tbody").append(
+        										"<tr><th>" + titles[prop] + "</th><td>" + camp[prop] + "</td></tr>"
+        									);
+        								};
+        							};
+                                </script>
                                 <div class="button-area">
-                                    <button class="btn btn-primary">
+                                    <button class="btn btn-primary" onclick="javascript: location.href='${root}/board/campReview/list.do'">
                                         리뷰보기
                                     </button>
-                                    <button class="btn btn-secondary">
+                                    <button class="btn btn-secondary" onclick="javascript: location.href='${root}/search/read.do?camp-id=${ownerDto.camp_id}'">
                                         상세보기
                                     </button>
                                     <button class="btn btn-success">
@@ -175,35 +171,42 @@
                         role="tablist"
                         style="margin-top: 20px;"
                     >
-                        <li class="nav-item">
+                    
+                    <c:forEach varStatus="status" var="pay" items="${paymentList}">
+                    	<c:if test="${status.index == 0}">
+                    		<c:set var="payClass" value="nav-link active"></c:set>
+                        </c:if>
+                        <c:if test="${status.index > 0}">
+                    		<c:set var="payClass" value="nav-link"></c:set>
+                        </c:if>
+                    	<li class="nav-item">
                             <a
-                                class="nav-link active"
+                            	class="${payClass}"
                                 data-toggle="tab"
-                                href="#payment1"
-                                >일반캠핑</a
+                                href="#payment${status.index+1}"
+                                >${pay.fee_name}</a
                             >
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" data-toggle="tab" href="#payment2"
-                                >오토캠핑</a
-                            >
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" data-toggle="tab" href="#payment3"
-                                >글램핑</a
-                            >
-                        </li>
+                    </c:forEach>
                     </ul>
 
                     <!-- Tab panes -->
                     <div class="tab-content">
-                        <div id="payment1" class="container tab-pane active">
+                    	<c:forEach varStatus="status" var="pay" items="${paymentList}">
+                    	<c:if test="${status.index == 0}">
+                    		<c:set var="payClass" value="container tab-pane active"></c:set>
+                        </c:if>
+                        <c:if test="${status.index > 0}">
+                    		<c:set var="payClass" value="container tab-pane fade"></c:set>
+                        </c:if>
+                        <div id="payment${status.index+1}" class="${payClass}">
                             <br />
                             <table class="table table-bordered">
                                 <thead>
                                     <tr>
                                         <th>#</th>
                                         <th>예약자명</th>
+                                        <th>예약자번호</th>
                                         <th>인원</th>
                                         <th>예약등록일</th>
                                         <th>예약 시작일</th>
@@ -212,27 +215,42 @@
                                     </tr>
                                 </thead>
                                 <!--해당되는 예약 수 만큼 루프처리-->
-                                <tbody>
-                                    <tr>
-                                        <td>1</td>
-                                        <td>Anna</td>
-                                        <td>Pitt</td>
-                                        <td>35</td>
-                                        <td>New York</td>
-                                        <td>USA</td>
-                                        <td>Female</td>
-                                    </tr>
-                                </tbody>
+                                <tbody></tbody>
                             </table>
                         </div>
-                        <div id="payment2" class="container tab-pane fade">
-                            <br />
-                            <h3>2</h3>
-                        </div>
-                        <div id="payment3" class="container tab-pane fade">
-                            <br />
-                            <h3>3</h3>
-                        </div>
+                        	<script type="text/javascript">
+	                        	$.ajax({
+	                                type: "POST",
+	                                url: "${root}/owner/reservationList.json",
+	                                data: "camp_id=" + ${ownerDto.camp_id} + "&fee_name=" + "${pay.fee_name}",
+	                                dataType: "json",
+	                                success: function (response) {
+	                                	var loop = 0;
+	                                	$(response).each(function() {
+	                                		var index = response[loop];
+	                                		var register_date = dateTrans(index.register_date);
+	                                		var start_date = dateTrans(index.start_date);
+	                                		var end_date = dateTrans(index.end_date);
+	                                		
+	                                    	$("#payment${status.index+1} > table > tbody").append(
+	                                    		"<tr>" +
+					                                "<td>" + index.reservation_id + "</td>" +
+					                                "<td>" + index.user_name + "</td>" +
+					                                "<td>" + index.phone + "</td>" +
+					                                "<td>" + index.reservation_personnel + "</td>" +
+					                                "<td>" + register_date + "</td>" +
+					                                "<td>" + start_date + "</td>" +
+					                                "<td>" + end_date + "</td>" +
+					                                "<td>" + index.amount + "</td>" +
+				                                "</tr>"
+	                                    	);
+	                                    	loop++;
+	                                    });
+	                                	console.log(loop);
+	                                }
+	                            });
+                        	</script>
+                    	</c:forEach>
                     </div>
                 </div>
             </div>

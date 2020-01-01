@@ -37,7 +37,7 @@
                                 <li><a href="index.html">개인정보처리방침</a></li>
                                 <li><a href="about.html">전자우편무단수집거부</a></li>
                                 <li><a href="features.html">캠핑장등록안내</a></li>
-                                <li><a href="gallery.html">미등록야영장불법영업신고</a></li>
+                                <li><a href="${root}/owner/login.do">사업자</a></li>
                                 <li><a href="contact.html">sns로고</a></li>
                             </ul>
                             

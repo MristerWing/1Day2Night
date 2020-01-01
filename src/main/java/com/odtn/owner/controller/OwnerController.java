@@ -1,12 +1,23 @@
 package com.odtn.owner.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+
+import com.odtn.aop.LogAspect;
+import com.odtn.owner.dto.OwnerDto;
+import com.odtn.owner.service.OwnerService;
+import com.odtn.reservation.dto.ReservationDto;
 
 /**
  * @author KimJinsu
@@ -15,6 +26,9 @@ import org.springframework.web.servlet.ModelAndView;
  */
 @Controller
 public class OwnerController {
+
+	@Autowired
+	private OwnerService ownerService;
 
 	/**
 	 * 
@@ -27,8 +41,19 @@ public class OwnerController {
 			HttpServletResponse response) {
 		ModelAndView modelAndView = new ModelAndView();
 
+		HttpSession session = request.getSession();
+
+		int user_num = (session.getAttribute("user_num") != null
+				? (Integer) session.getAttribute("user_num")
+				: 0);
+
 		modelAndView.addObject("request", request);
-		modelAndView.setViewName("owner/login.tiles");
+		if (user_num > 0) {
+			modelAndView.setViewName("owner/login.tiles");
+			LogAspect.logger.info(LogAspect.logMsg + user_num);
+		} else {
+			modelAndView.setViewName("member/login.tiles");
+		}
 		return modelAndView;
 	}
 
@@ -38,13 +63,102 @@ public class OwnerController {
 	 * @param response
 	 * @return {@link ModelAndView}
 	 */
-	@RequestMapping(value = "/owner/mainPage.do", method = RequestMethod.GET)
-	public ModelAndView ownerMainPage(HttpServletRequest request,
+	@RequestMapping(value = "/owner/loginOk.do", method = RequestMethod.POST)
+	public ModelAndView ownerLoginOk(HttpServletRequest request,
 			HttpServletResponse response) {
-		ModelAndView modelAndView = new ModelAndView();
 
-		modelAndView.addObject("request", request);
-		modelAndView.setViewName("owner/mainPage.tiles");
+		HttpSession session = request.getSession();
+
+		String owner_key = request.getParameter("owner_key");
+
+		int user_num = (session.getAttribute("user_num") != null
+				? (Integer) session.getAttribute("user_num")
+				: 0);
+
+		ModelAndView modelAndView = ownerService.ownerLoginOk(owner_key,
+				user_num);
+		modelAndView.setViewName("owner/loginOk.tiles");
+
 		return modelAndView;
 	}
+
+	/**
+	 * 
+	 * @param request
+	 * @param response
+	 * @return {@link ModelAndView}
+	 */
+	@RequestMapping(value = "/owner/register.do", method = RequestMethod.GET)
+	public ModelAndView ownerRegister(HttpServletRequest request,
+			HttpServletResponse response) {
+
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("owner/register.tiles");
+
+		return modelAndView;
+	}
+
+	/**
+	 * 
+	 * @param request
+	 * @param response
+	 * @return {@link ModelAndView}
+	 */
+	@RequestMapping(value = "/owner/checkOwnerKey.do", method = RequestMethod.GET)
+	@ResponseBody
+	public String ownerCheckOwnerKey(HttpServletRequest request,
+			HttpServletResponse response) {
+		return ownerService.checkOwnerKey(
+				Long.parseLong(request.getParameter("owner_key")));
+	}
+
+	/**
+	 * 
+	 * @param request
+	 * @param response
+	 * @return {@link ModelAndView}
+	 */
+	@RequestMapping(value = "/owner/write.do", method = RequestMethod.GET)
+	public ModelAndView ownerWrite(HttpServletRequest request,
+			HttpServletResponse response) {
+
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.addObject("owner_key", request.getParameter("owner-key"));
+		modelAndView.setViewName("owner/write.tiles");
+
+		return modelAndView;
+	}
+
+	/**
+	 * 
+	 * @param request
+	 * @param response
+	 * @return {@link ModelAndView}
+	 */
+	@RequestMapping(value = "/owner/mainPage.do", method = RequestMethod.POST)
+	public ModelAndView ownerMainPage(HttpServletRequest request,
+			OwnerDto ownerDto) {
+
+		LogAspect.logger.info(LogAspect.logMsg + "owner" + ownerDto.toString());
+
+		ModelAndView modelAndView = ownerService.ownerMainpage(ownerDto);
+		modelAndView.setViewName("owner/mainPage.tiles");
+
+		return modelAndView;
+	}
+
+	/**
+	 * 
+	 * @param request
+	 * @param response
+	 * @return List<ReservationDto>
+	 */
+	@RequestMapping(value = "/owner/reservationList.json", method = RequestMethod.POST)
+	@ResponseBody
+	public List<ReservationDto> ownerReservationList(@RequestParam int camp_id,
+			@RequestParam String fee_name) {
+		LogAspect.logger.info(LogAspect.logMsg + camp_id + fee_name);
+		return ownerService.getReservationList(camp_id, fee_name);
+	}
+
 }

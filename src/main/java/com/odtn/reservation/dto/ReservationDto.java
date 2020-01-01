@@ -21,7 +21,7 @@ public class ReservationDto {
 	private String phone;
 
 	public ReservationDto() {
-		
+
 	}
 
 	public ReservationDto(int reservation_id, int user_number, int camp_id, String camp_site_type,
