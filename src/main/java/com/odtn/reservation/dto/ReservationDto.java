@@ -17,13 +17,16 @@ public class ReservationDto {
 	private Date start_date;
 	private Date end_date;
 	private int amount;
+	private String user_name;
+	private String phone;
 
 	public ReservationDto() {
 	}
 
 	public ReservationDto(int reservation_id, int user_number, int camp_id,
 			String camp_site_type, int reservation_personnel,
-			Date register_date, Date start_date, Date end_date, int amount) {
+			Date register_date, Date start_date, Date end_date, int amount,
+			String user_name, String phone) {
 		super();
 		this.reservation_id = reservation_id;
 		this.user_number = user_number;
@@ -34,6 +37,8 @@ public class ReservationDto {
 		this.start_date = start_date;
 		this.end_date = end_date;
 		this.amount = amount;
+		this.user_name = user_name;
+		this.phone = phone;
 	}
 
 	public int getReservation_id() {
@@ -108,6 +113,22 @@ public class ReservationDto {
 		this.amount = amount;
 	}
 
+	public String getUser_name() {
+		return user_name;
+	}
+
+	public void setUser_name(String user_name) {
+		this.user_name = user_name;
+	}
+
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+
 	@Override
 	public String toString() {
 		return "ReservationDto [reservation_id=" + reservation_id
@@ -116,7 +137,7 @@ public class ReservationDto {
 				+ ", reservation_personnel=" + reservation_personnel
 				+ ", register_date=" + register_date + ", start_date="
 				+ start_date + ", end_date=" + end_date + ", amount=" + amount
-				+ "]";
+				+ ", user_name=" + user_name + ", phone=" + phone + "]";
 	}
 
 }
