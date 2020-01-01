@@ -232,9 +232,9 @@
                         <!-- 주문자 정보 -->
                         <div style="border-bottom: 1px solid white;">
                             <h3>주문자 정보</h3>
-                            <p>박성수</p>
-                            <p>akgkfk3@naver.com</p>
-                            <p>010-2222-2222</p>
+                            <p>${memberDto.user_name}</p>
+                            <p>${memberDto.email}</p>
+                            <p>${memberDto.phone_num}</p>
                         </div>
 
                         <!-- 결제금액 -->

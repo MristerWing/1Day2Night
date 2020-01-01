@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.odtn.aop.LogAspect;
+import com.odtn.member.dto.MemberDto;
 import com.odtn.reservation.dto.ReservationDto;
 
 /**
@@ -60,5 +61,10 @@ public class ReservationDaoImp implements ReservationDao {
 	public int reservationDoPay(Map<String, Object> reservationMap) {
 		
 		return sqlSessionTemplate.insert("com.odtn.reservation.dao.mapper.ReservationMapper.insertReservation", reservationMap);
+	}
+
+	@Override
+	public MemberDto getMemberDto(int user_num) {
+		return sqlSessionTemplate.selectOne("com.odtn.reservation.dao.mapper.ReservationMapper.getMemberDto", user_num);
 	}
 }

@@ -38,4 +38,8 @@
 				   #{phone}
 			)
 	</insert>
+	
+	<select id="getMemberDto" parameterType="int" resultType="com.odtn.member.dto.MemberDto">
+		SELECT * FROM MEMBER WHERE USER_NUM = #{value}
+	</select>
 </mapper>
