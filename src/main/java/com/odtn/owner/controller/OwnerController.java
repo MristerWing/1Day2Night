@@ -1,5 +1,7 @@
 package com.odtn.owner.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -8,12 +10,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.odtn.aop.LogAspect;
 import com.odtn.owner.dto.OwnerDto;
 import com.odtn.owner.service.OwnerService;
+import com.odtn.reservation.dto.ReservationDto;
 
 /**
  * @author KimJinsu
@@ -142,4 +146,19 @@ public class OwnerController {
 
 		return modelAndView;
 	}
+
+	/**
+	 * 
+	 * @param request
+	 * @param response
+	 * @return List<ReservationDto>
+	 */
+	@RequestMapping(value = "/owner/reservationList.json", method = RequestMethod.POST)
+	@ResponseBody
+	public List<ReservationDto> ownerReservationList(@RequestParam int camp_id,
+			@RequestParam String fee_name) {
+		LogAspect.logger.info(LogAspect.logMsg + camp_id + fee_name);
+		return ownerService.getReservationList(camp_id, fee_name);
+	}
+
 }

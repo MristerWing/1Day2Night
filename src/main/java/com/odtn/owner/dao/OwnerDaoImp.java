@@ -1,6 +1,7 @@
 package com.odtn.owner.dao;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Component;
 
 import com.odtn.owner.dto.OwnerDto;
 import com.odtn.owner.dto.OwnerMainPageDto;
+import com.odtn.reservation.dto.ReservationDto;
 
 @Component
 public class OwnerDaoImp implements OwnerDao {
@@ -37,5 +39,17 @@ public class OwnerDaoImp implements OwnerDao {
 		return sqlSessionTemplate.selectOne(
 				"com.odtn.owner.dao.mapper.OwnerMapper.getOwnerData",
 				owner_key);
+	}
+
+	@Override
+	public List<ReservationDto> getReservationList(int camp_id,
+			String fee_name) {
+		Map<String, Object> reservationMap = new HashMap<String, Object>();
+		reservationMap.put("camp_id", camp_id);
+		reservationMap.put("fee_name", fee_name);
+
+		return sqlSessionTemplate.selectList(
+				"com.odtn.owner.dao.mapper.OwnerMapper.getReservationList",
+				reservationMap);
 	}
 }

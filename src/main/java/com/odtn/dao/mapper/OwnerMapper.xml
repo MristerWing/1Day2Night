@@ -18,15 +18,15 @@
 
 	<select id="getOwnerData" parameterType="long"
 		resultType="com.odtn.owner.dto.OwnerMainPageDto">
-		select m.user_name, c.address, c.hp, c.camp_link
+		select m.user_name, c.camp_name, c.address, c.hp, c.camp_link
 		from owner o, member m , camp_data c
 		where o.user_num = m.user_num and o.camp_id = c.camp_id
 		and o.owner_key =
 		#{owner_key}
 	</select>
 
-	<select id="getReservationList" parameterType="String"
+	<select id="getReservationList" parameterType="java.util.Map"
 		resultType="com.odtn.reservation.dto.ReservationDto">
-
+		select * from reservation where camp_id = #{camp_id} and camp_site_type = #{fee_name}
 	</select>
 </mapper>
