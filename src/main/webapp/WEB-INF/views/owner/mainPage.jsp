@@ -35,27 +35,19 @@
                             <div class="sub-content">
                                 <!-- Nav tabs -->
                                 <ul class="nav nav-tabs" role="tablist">
+                                    <!-- <li class="nav-item">
+                                        <a
+                                            class="nav-link active"
+                                            data-toggle="tab"
+                                            href="#graph1"
+                                            >태그별 검색 순위</a
+                                        >
+                                    </li> -->
                                     <li class="nav-item">
                                         <a
                                             class="nav-link active"
                                             data-toggle="tab"
-                                            href="#home"
-                                            >이용자별</a
-                                        >
-                                    </li>
-                                    <li class="nav-item">
-                                        <a
-                                            class="nav-link"
-                                            data-toggle="tab"
-                                            href="#menu1"
-                                            >월별</a
-                                        >
-                                    </li>
-                                    <li class="nav-item">
-                                        <a
-                                            class="nav-link"
-                                            data-toggle="tab"
-                                            href="#menu2"
+                                            href="#graph2"
                                             >월별 이용량</a
                                         >
                                     </li>
@@ -64,56 +56,30 @@
                                 <!--데이터를 이용하여 루프시키킨다. 각 id값은 전부 다르게-->
                                 <!-- Tab panes -->
                                 <div class="tab-content">
-                                    <div id="home" class="container tab-pane active">
-                                        <canvas
-                                            id="myChart"
-                                            width="1"
-                                            height="1"
+                                    <%-- <div id="graph1" class="container tab-pane active">
+                                    	<canvas
+                                            id="chart1"
+                                            class="charts"
                                         ></canvas>
-                                        <script type="text/javascript">
-                                            var ctx = $("#myChart");
-                                            var myChart = new Chart(ctx, {
-                                                type: "pie",
-                                                data: {
-                                                    labels: [
-                                                        "Red",
-                                                        "Blue",
-                                                        "Yellow",
-                                                        "Green",
-                                                        "Purple"
-                                                    ],
-                                                    datasets: [
-                                                        {
-                                                            label: "# of Votes",
-                                                            data: [12, 19, 3, 5, 2],
-                                                            backgroundColor: [
-                                                                "rgba(255, 99, 132)",
-                                                                "rgba(54, 162, 235)",
-                                                                "rgba(255, 206, 86)",
-                                                                "rgba(75, 192, 192)",
-                                                                "rgba(153, 102, 255)",
-                                                                "rgba(255, 159, 64)"
-                                                            ]
-                                                        }
-                                                    ]
-                                                },
-                                                options: {
-                                                    scales: {
-                                                        responsive: true
-                                                    }
-                                                }
-                                            });
-                                        </script>
-                                    </div>
-                                    <div id="menu1" class="container tab-pane fade">
-                                        <br />
-                                        <h3>월</h3>
-                                    </div>
-                                    <div id="menu2" class="container tab-pane fade">
-                                        <br />
-                                        <h3>요금</h3>
+                                    </div> --%>
+                                    <div id="graph2" class="container tab-pane active">
+                                        <canvas
+                                            id="chart2"
+                                            class="charts"
+                                        ></canvas>
                                     </div>
                                 </div>
+                                <script type="text/javascript">
+	                                $.ajax({
+		                                type: "POST",
+		                                url: "${root}/owner/reservationChart.json",
+		                                data: "camp_id=" + ${ownerDto.camp_id},
+		                                dataType: "json",
+		                                success: function (response) {
+		                                		drawChart(2, response);
+		                                }
+		                            });
+                            	</script>
                             </div>
                         </div>
                         <div class="content-right">
@@ -154,7 +120,7 @@
                                     <button class="btn btn-secondary" onclick="javascript: location.href='${root}/search/read.do?camp-id=${ownerDto.camp_id}'">
                                         상세보기
                                     </button>
-                                    <button class="btn btn-success">
+                                    <button class="btn btn-success" onclick="javascript: location.href='${root}/owner/update.do?camp_id=${ownerDto.camp_id}&owner_key=${ownerDto.owner_key}'">
                                         수정하기
                                     </button>
                                 </div>
@@ -217,6 +183,7 @@
                                 <!--해당되는 예약 수 만큼 루프처리-->
                                 <tbody></tbody>
                             </table>
+                            <ul class="pagination"></ul>
                         </div>
                         	<script type="text/javascript">
 	                        	$.ajax({
@@ -225,28 +192,22 @@
 	                                data: "camp_id=" + ${ownerDto.camp_id} + "&fee_name=" + "${pay.fee_name}",
 	                                dataType: "json",
 	                                success: function (response) {
-	                                	var loop = 0;
-	                                	$(response).each(function() {
-	                                		var index = response[loop];
-	                                		var register_date = dateTrans(index.register_date);
-	                                		var start_date = dateTrans(index.start_date);
-	                                		var end_date = dateTrans(index.end_date);
-	                                		
-	                                    	$("#payment${status.index+1} > table > tbody").append(
-	                                    		"<tr>" +
-					                                "<td>" + index.reservation_id + "</td>" +
-					                                "<td>" + index.user_name + "</td>" +
-					                                "<td>" + index.phone + "</td>" +
-					                                "<td>" + index.reservation_personnel + "</td>" +
-					                                "<td>" + register_date + "</td>" +
-					                                "<td>" + start_date + "</td>" +
-					                                "<td>" + end_date + "</td>" +
-					                                "<td>" + index.amount + "</td>" +
-				                                "</tr>"
-	                                    	);
-	                                    	loop++;
-	                                    });
-	                                	console.log(loop);
+	                                	var pageSize = Math.round(response.length / 10);
+	                                	
+	                                	for(var i = 1; i <= pageSize; i++) {
+	                                		$("#payment${status.index+1} > .pagination").append(
+	    	                                	"<li class='page-item'>" +
+	    	                                		"<a class='page-link' tabindex='" + i +"'>" + i + "</a>" +
+	    	                                	"</li>"
+	    	                                );
+	                                	}
+	                                	
+	                                	reservationList(0, response, ${status.index+1});
+	                                	
+	                                	$("#payment${status.index+1} > ul > li > a").click(function() {
+	                                		var page = $(this).text() - 1;
+	                                		reservationList(page, response, ${status.index+1});	
+	                                	});
 	                                }
 	                            });
                         	</script>

@@ -52,4 +52,16 @@ public class OwnerDaoImp implements OwnerDao {
 				"com.odtn.owner.dao.mapper.OwnerMapper.getReservationList",
 				reservationMap);
 	}
+
+	@Override
+	public List<Map<String, Object>> getReservationCountMap(int camp_id) {
+		return sqlSessionTemplate.selectList(
+				"com.odtn.owner.dao.mapper.OwnerMapper.getReservationCountMap",
+				camp_id);
+	}
+
+	@Override
+	public int campUpdate(int camp_id) {
+		return 0;
+	}
 }

@@ -29,4 +29,9 @@
 		resultType="com.odtn.reservation.dto.ReservationDto">
 		select * from reservation where camp_id = #{camp_id} and camp_site_type = #{fee_name}
 	</select>
+	
+	<select id="getReservationCountMap" parameterType="int" resultType="java.util.Map">
+		select camp_site_type as title, nvl(count(*), 0) as result from reservation 
+		where camp_id = #{camp_id} GROUP BY camp_site_type
+	</select>
 </mapper>

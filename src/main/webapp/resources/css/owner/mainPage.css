@@ -48,7 +48,8 @@
     margin-right: 30px;
 }
 
-.owner > .main-page .content-left #myChart {
+.owner > .main-page .content-left .charts {
+	width: 200px;
     height: 200px;
 }
 
@@ -62,4 +63,8 @@
 .owner > .main-page .content-bottom {
     padding: 5px;
     margin-top: 20px;
+}
+
+.owner > .main-page .pagination {
+	justify-content: center;
 }

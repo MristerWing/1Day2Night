@@ -1,6 +1,7 @@
 package com.odtn.owner.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -159,6 +160,37 @@ public class OwnerController {
 			@RequestParam String fee_name) {
 		LogAspect.logger.info(LogAspect.logMsg + camp_id + fee_name);
 		return ownerService.getReservationList(camp_id, fee_name);
+	}
+
+	/**
+	 * 
+	 * @param request
+	 * @param response
+	 * @return List<Map<String, Object>>
+	 */
+	@RequestMapping(value = "/owner/reservationChart.json", method = RequestMethod.POST)
+	@ResponseBody
+	public List<Map<String, Object>> ownerReservationChart(
+			@RequestParam int camp_id) {
+		return ownerService.getReservationChart(camp_id);
+	}
+
+	/**
+	 * 
+	 * @param request
+	 * @param response
+	 * @return {@link ModelAndView}
+	 */
+	@RequestMapping(value = "/owner/update.do", method = RequestMethod.GET)
+	public ModelAndView ownerUpdate(@RequestParam int camp_id,
+			@RequestParam Long owner_key) {
+		LogAspect.logger.info(LogAspect.logMsg + camp_id + ", " + owner_key);
+
+		ModelAndView modelAndView = ownerService.ownerUpdate(camp_id);
+		modelAndView.addObject("owner_key", owner_key);
+		modelAndView.setViewName("owner/update.tiles");
+
+		return modelAndView;
 	}
 
 }

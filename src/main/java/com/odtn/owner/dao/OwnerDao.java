@@ -1,6 +1,7 @@
 package com.odtn.owner.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import com.odtn.owner.dto.OwnerDto;
 import com.odtn.owner.dto.OwnerMainPageDto;
@@ -15,4 +16,8 @@ public interface OwnerDao {
 
 	public List<ReservationDto> getReservationList(int camp_id,
 			String fee_name);
+
+	public List<Map<String, Object>> getReservationCountMap(int camp_id);
+
+	public int campUpdate(int camp_id);
 }

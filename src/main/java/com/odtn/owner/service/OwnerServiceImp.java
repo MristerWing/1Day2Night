@@ -1,6 +1,7 @@
 package com.odtn.owner.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -11,6 +12,7 @@ import com.odtn.owner.dto.OwnerDto;
 import com.odtn.owner.dto.OwnerMainPageDto;
 import com.odtn.reservation.dto.ReservationDto;
 import com.odtn.search.dao.SearchDao;
+import com.odtn.search.dto.SearchDto;
 import com.odtn.search.dto.SearchPaymentDto;
 
 /**
@@ -55,6 +57,11 @@ public class OwnerServiceImp implements OwnerService {
 	}
 
 	@Override
+	public List<Map<String, Object>> getReservationChart(int camp_id) {
+		return ownerDao.getReservationCountMap(camp_id);
+	}
+
+	@Override
 	public List<ReservationDto> getReservationList(int camp_id,
 			String fee_name) {
 		return ownerDao.getReservationList(camp_id, fee_name);
@@ -63,5 +70,15 @@ public class OwnerServiceImp implements OwnerService {
 	@Override
 	public String checkOwnerKey(long owner_key) {
 		return ownerDao.checkOwnerKey(owner_key);
+	}
+
+	@Override
+	public ModelAndView ownerUpdate(int camp_id) {
+		ModelAndView modelAndView = new ModelAndView();
+
+		SearchDto camp = searchDao.getCamp(camp_id);
+		modelAndView.addObject("camp", camp);
+
+		return modelAndView;
 	}
 }

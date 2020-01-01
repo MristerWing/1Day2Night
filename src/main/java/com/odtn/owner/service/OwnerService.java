@@ -1,6 +1,7 @@
 package com.odtn.owner.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.web.servlet.ModelAndView;
 
@@ -16,4 +17,8 @@ public interface OwnerService {
 
 	public List<ReservationDto> getReservationList(int camp_id,
 			String fee_name);
+
+	public List<Map<String, Object>> getReservationChart(int camp_id);
+
+	public ModelAndView ownerUpdate(int camp_id);
 }
