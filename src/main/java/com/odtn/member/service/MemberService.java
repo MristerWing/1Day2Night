@@ -15,8 +15,7 @@ public interface MemberService {
 	public void emailSender(ModelAndView mav);
 	public MemberDto updateEmail_auth_status(ModelAndView mav);
 	
-	public int emailDupCheck(String email);
-	public int passwordCheck(String email, String password);
+	public MemberDto emailDupCheck(String email);
 	public void memberLoginOk(ModelAndView mav);
 	public void memberDeleteOk(ModelAndView mav);
 	public void kakaoDeleteOk(ModelAndView mav);
@@ -30,5 +29,5 @@ public interface MemberService {
 	public void memberUpdateOk(ModelAndView mav, HttpSession session);
 	public void memberKakaoUpdate(ModelAndView mav, HttpSession session);
 	public void kakaoMemberUpdateOk(ModelAndView mav, HttpSession session);
-	public int nicknameDuplCheck(String nickname);
+	
 }

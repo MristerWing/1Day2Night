@@ -78,18 +78,63 @@
         			}
         			
         		});
+        		
+        		// 결제하기 버튼 클릭시 이벤트
+        		$("#Content > div > div.order_div > div:nth-child(3) > button").click(function() {
+        			
+        			var reservationName = $("#Content > div > div.re_div > div:nth-child(1) > p:nth-child(6) > input[type=text]").val();
+        			
+        			var reservationPhone = $("#Content > div > div.re_div > div:nth-child(1) > p:nth-child(7) > select > option:checked").val() +
+        			$("#Content > div > div.re_div > div:nth-child(1) > p:nth-child(7) > input[type=text]:nth-child(4)").val() +
+        			$("#Content > div > div.re_div > div:nth-child(1) > p:nth-child(7) > input[type=text]:nth-child(6)").val();
+        			
+        			var reservationData = "user_number=${user_num}&camp_id=${camp.camp_id}&camp_site_type=${camp_fee}&reservation_personnel=${people}" +
+        								  "&start_date=${startDate}&end_date=${endDate}&user_name=" + reservationName + "&phone=" + reservationPhone +
+        								  "&amount=${cost}";
+        			
+					$.ajax({
+						
+						url:"${root}/reservation/Finalpay.do",
+						type:"post",
+						data:reservationData,
+						dataType:"text",
+						success:function(data) {
+							
+							var success = JSON.parse(data).check;
+							
+							if(success == "성공") {
+								alert("결제되었습니다.")
+								
+								var bank = $("#Content > div > div.re_div > div:nth-child(2) > div:nth-child(3) > select option:selected").val();
+								var peopleName = $("#Content > div > div.re_div > div:nth-child(2) > div:nth-child(3) > input[type=text]").val();
+								
+							 	location.href="${root}/reservation/payInfo.do?user_name=" + reservationName + "&phone=" + reservationPhone +
+												"&bank=" + bank; 
+							 	
+							} else {
+								alert("결제되지 않았습니다.")
+								location.href="${root}/search/read.do?camp-id=${camp.camp_id}";
+							}
+						},
+						error:function(xhr, status, error) {
+							alert(xhr + "," + status + "," + error);
+						}	
+					});  
+        			
+        		});
+        		
         	});
         </script>
     </head>
     <body>
         <div class="container background rounded">
-
+			
             <!-- 전체 레이아웃 div -->
             <div id="Content">
                 
                 <!-- 주문 / 결제 Text -->
                 <h3>주문 / 결제</h3>
-
+				
                 <!-- 상품정보 -->
                 <table class="table table-hover" style="text-align: center; background-color: white; border: 1px solid white;">
                     
@@ -154,9 +199,6 @@
                                         <div class="form-check-inline">
                                             <label class="form-check-label" for="radio1">
                                             	<input type="radio" class="form-check-input" id="radio1" name="optradio" value="option1" checked/>무통장입금
-                                            </label>&nbsp;&nbsp;
-                                            <label class="form-check-label" for="radio2">
-                                            	<input type="radio" class="form-check-input" id="radio1" name="optradio" value="option1"/>카카오페이
                                             </label>
                                         </div>
                                     </div>
@@ -179,7 +221,7 @@
                                     <option>경남은행</option>
                                 </select>
                                 <br/><br/>
-                                <span>예금주명</span>
+                                <span>입금자명</span>
                                 <input type="text" style="width:70px; height:25px;" maxlength="4"/>
                             </div>
                         </div>
@@ -203,9 +245,7 @@
 
                         <!-- 결제하기 버튼 -->
                         <div style="margin-top: 30px; border-top: 1px solid white; padding-top: 10px;">
-                        	<form method="post" action="/kakaoPay">
-                            	<input type="submit"/>
-                        	</form>
+                        	<button type="button" class="btn btn-success" style="width:200px; height:100px; font-size: 40px;">결제하기</button>
                         </div>
                     </div>
                 </div>

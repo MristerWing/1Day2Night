@@ -17,6 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.odtn.aop.LogAspect;
 import com.odtn.reservation.dao.ReservationDao;
+import com.odtn.reservation.dto.ReservationDto;
 import com.odtn.search.dao.SearchDao;
 import com.odtn.search.dto.SearchDto;
 import com.odtn.search.dto.SearchPaymentDto;
@@ -152,5 +153,15 @@ public class ReservationServiceImp implements ReservationService {
 		modelAndView.addObject("people", request.getParameter("people"));
 		modelAndView.addObject("startDate", request.getParameter("startDate"));
 		modelAndView.addObject("endDate", request.getParameter("endDate"));
+	}
+
+	@Override
+	public String reservationDoPay(Map<String, Object> reservationMap) {
+		
+		int check = reservationDao.reservationDoPay(reservationMap);
+		
+		if(check > 0) return "성공"; 
+		else return "실패";
+		
 	}
 }

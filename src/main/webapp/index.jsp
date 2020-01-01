@@ -96,10 +96,9 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 							<c:if test="${user_auth_id != null}">
 								<c:if test="${register_type != null}">
 									<li><a href="${root}/member/kakaoLogout.do">카카오 로그아웃</a></li>
-									<li><a href="${root}/member/kakaoDelete.do">카카오 연동 해제</a>
 								</c:if>
 							</c:if>
-							<li><a href="${root}/member/update.do">정보 수정/탈퇴</a></li>
+							<li><a href="${root}/member/update.do">회원 정보 수정</a></li>
 						</c:if>
 						<li class="active"><a href="${root}/search/list.do">캠핑장검색</a></li>
 						<!-- First Tier Drop Down -->

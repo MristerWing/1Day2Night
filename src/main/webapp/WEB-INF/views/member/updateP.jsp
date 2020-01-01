@@ -9,15 +9,10 @@
 <title>정보 수정 전 비밀번호 확인</title>
 </head>
 <body>
-<h3>회원 정보를 수정하시거나 탈퇴하시려면 비밀번호를 재입력 해주십시오.</h3>
+<h3>회원 정보를 수정하시려면 비밀번호를 재입력 해주십시오.</h3>
 	<form action="${root}/member/updatePo.do" method="post">
 		비밀번호&nbsp;<input type="password" name="password"/>
-		&nbsp;<input type="submit" value="수정"/><br/><br/>
-	</form>
-	
-	<form action="${root}/member/deleteOk.do" method="post">
-	비밀번호&nbsp;<input type="password" name="password"/>
-	&nbsp;<input type="button" value="탈퇴" />
+		&nbsp;<input type="submit" value="확인"/>
 	</form>
 	<c:if test="${memberDto == null}">
 		<c:if test="${password_fail == 't' }">
