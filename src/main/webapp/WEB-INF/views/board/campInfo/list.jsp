@@ -207,7 +207,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 						  </table>
 					</div>	
 				 </c:if> 
-				  <c:if test="${sessionScope.email=='chanhok95@naver.com'}">
+				   <c:if test="${sessionScope.email=='chanhok95@naver.com'}">
 					<div class="list_buttom">
 						<input type="button" value="글쓰기" onclick="location.href='${root}/board/campInfo/write.do?user_num=${user_num}'">
 					</div>	
