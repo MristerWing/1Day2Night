@@ -16,6 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.odtn.aop.LogAspect;
 import com.odtn.board.dao.CampQnADao;
 import com.odtn.board.dto.CampQnADto;
+
 import com.odtn.member.dto.MemberDto;
 
 @Component
@@ -159,6 +160,67 @@ public class CampQnAServiceImp implements CampQnAService {
 
 		mav.setViewName("board/campQnA/list.tiles");
 	}
+	//작성자로 검색해서 해당 글 찾기
+	@Override
+	public void searchList(ModelAndView mav) {
+		Map<String, Object> map = mav.getModel();
+		HttpServletRequest request = (HttpServletRequest) map.get("request");
+		System.out.println("serviceImp입니다.");
+		
+		String pageNumber = request.getParameter("pageNumber");
+
+		if (pageNumber == null || pageNumber == "")
+			pageNumber = "1";
+
+		int currentPage = Integer.parseInt(pageNumber);
+		LogAspect.logger.info(LogAspect.logMsg + "현재페이지: " + currentPage);
+
+		String keyword=request.getParameter("keyword");
+		LogAspect.logger.info(LogAspect.logMsg+"검색한작성자 이름: "+keyword);
+		
+		int user_num=campQnADao.getUser_num(keyword);
+		System.out.println("찾고싶은 user_num"+user_num);
+		// 전체 글 개수
+		int searchCount = campQnADao.getSearchCount(user_num);
+		LogAspect.logger.info(LogAspect.logMsg + "검색문의 글 개수" + searchCount);
+		if (searchCount==0) {
+			mav.setViewName("board/campQnA/searchList.tiles");
+		}
+		// 페이지당 글 개수
+		int boardSize = 10;
+		int startRow = (currentPage - 1) * boardSize + 1;
+		int endRow = currentPage * boardSize;
+		LogAspect.logger.info(LogAspect.logMsg + "시작번호: " + startRow + ","+ "끝번호: " + endRow+ "찾는번호:" +user_num);
+		
+		List<String> writerList = new ArrayList<String>();
+		List<CampQnADto> searchList = null; // 글이 하나라도 있으면 
+		if (searchCount > 0) {
+			searchList = campQnADao.getSearchList(startRow,endRow,user_num);
+		LogAspect.logger.info(LogAspect.logMsg + "작성글 사이즈" + searchList.size());
+		for (int i = 0; i < searchList.size(); i++) {
+			int user_number = searchList.get(i).getUser_num();
+			String writer = campQnADao.getUser_name(user_number);
+			LogAspect.logger.info(LogAspect.logMsg + "설정된 user_name: " + writer);
+			if (writer == null) {
+				writer = campQnADao.getEmail(user_number);
+			}
+			if (writer == null) {
+				writer = campQnADao.getNickName(user_number);
+			}
+
+			writerList.add(writer);
+			System.out.println("이름들" + writer);
+		}
+		request.setAttribute("currentPage", currentPage);
+		request.setAttribute("searchCount", searchCount);
+		request.setAttribute("boardSize", boardSize);
+		request.setAttribute("searchList", searchList);
+		request.setAttribute("writerList", writerList);
+		request.setAttribute("user_num", user_num);
+		mav.setViewName("board/campQnA/searchList.tiles");
+	}
+		
+	}
 
 	// 글 읽기
 	@Override
@@ -288,9 +350,9 @@ public class CampQnAServiceImp implements CampQnAService {
 	   public void writeAnswer(ModelAndView mav, MemberDto memberDto) {
 	      Map<String,Object> map=mav.getModelMap();
 	      HttpServletRequest request=(HttpServletRequest)map.get("request");
-	      
+	      	System.out.println("답글 컨트롤러");
 	      int qna_num = Integer.parseInt(request.getParameter("qna_num"));
-	      LogAspect.logger.info(LogAspect.logMsg + "수정할글 번호:  " + qna_num);
+	      LogAspect.logger.info(LogAspect.logMsg + "답글 번호:  " + qna_num);
 	      // 페이지번호
 	      int pageNumber = Integer.parseInt(request.getParameter("pageNumber"));
 	      LogAspect.logger.info(LogAspect.logMsg + "수정할 글의 페이지번호:  " + pageNumber);
@@ -300,6 +362,11 @@ public class CampQnAServiceImp implements CampQnAService {
 
 	      int user_num=Integer.parseInt(request.getParameter("user_num"));
 	      LogAspect.logger.info(LogAspect.logMsg + "수정글 작성 자: " + user_num);
+	      
+	      String title=campQnADto.getTitle();
+	      title="[답글]"+"  "+title;
+	      LogAspect.logger.info(LogAspect.logMsg+"답글제목 : "+title);
+	      
 	      String writer = campQnADao.getUser_name(user_num);
 			LogAspect.logger.info(LogAspect.logMsg + "설정된 user_name: " + writer);
 			if (writer == null) {
@@ -309,6 +376,7 @@ public class CampQnAServiceImp implements CampQnAService {
 				writer=campQnADao.getNickName(user_num);
 			}
 			System.out.println(writer);
+		  request.setAttribute("title", title);
 	      String password=campQnADto.getPassword();
 	      LogAspect.logger.info(LogAspect.logMsg + "수정글password: " + password);
 	      
@@ -323,10 +391,11 @@ public class CampQnAServiceImp implements CampQnAService {
 	      mav.addObject("sequence_level", sequence_level);
 	      mav.addObject("qna_num", qna_num);
 	      mav.addObject("writer", writer);
+	      mav.addObject("title",title);
 	      mav.addObject("campQnADto", campQnADto);
 	      mav.addObject("pageNumber", pageNumber);
 	      mav.addObject("password", password);
-	      mav.setViewName("board/campQnA/writeAnswer");
+	      mav.setViewName("board/campQnA/writeAnswer.tiles");
 	   }
 	//답글작성확인
 	@Override
@@ -343,7 +412,7 @@ public class CampQnAServiceImp implements CampQnAService {
 		LogAspect.logger.info(LogAspect.logMsg+"입력확인 check: "+check);
 		
 		mav.addObject("check",check);
-		mav.setViewName("board/campQnA/writeAnswerOk");	
+		mav.setViewName("board/campQnA/writeAnswerOk.tiles");	
 	}
 	
 }

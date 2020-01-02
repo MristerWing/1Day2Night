@@ -49,12 +49,12 @@
 				    <div class="form-group">
 				      <label for="pwd">작성자 (*)</label>
 				      <input name="user_num" type="hidden" value="${memberDto.user_num}">
-				      <input type="text" class="form-control" value="${user_name}" name="user_name" disabled="disabled">
+				      <input type="text" class="form-control" value="${writer}" name="writer" disabled="disabled">
 				    </div>
 				      <div class="form-group" >
 					      <label for="sel1">캠핑장선택 (*)</label>
 				      	<div class="select_location">
-					      <select class="form-control" id="c_do" name="sellist1" style="height: 3.5rem; width: 50%;float: left">
+					      <select class="form-control" id="c_do" name="c_do"  title="도/특별시" style="height: 3.5rem; width: 50%;float: left">
 					        <option>시,도</option>
 					        	<option value="서울">서울시</option>
 								<option value="부산">부산시</option>

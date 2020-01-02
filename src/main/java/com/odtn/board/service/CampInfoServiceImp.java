@@ -186,7 +186,9 @@ public class CampInfoServiceImp implements CampInfoService {
 		// 전체 글 개수
 		int searchCount = campInfoDao.getSearchCount(keyword);
 		LogAspect.logger.info(LogAspect.logMsg + "전체 글 개수" + searchCount);
-
+		if (searchCount==0) {
+			mav.setViewName("board/campInfo/searchList.tiles");
+		}
 		// 페이지당 글 개수
 		int boardSize = 10;
 		int startRow = (currentPage - 1) * boardSize + 1;
@@ -195,12 +197,12 @@ public class CampInfoServiceImp implements CampInfoService {
 				+ "끝번호: " + endRow);
 		
 		List<String> writerList = new ArrayList<String>();
-		List<CampInfoDto> campInfoList = null; // 글이 하나라도 있으면 
+		List<CampInfoDto> searchList = null; // 글이 하나라도 있으면 
 		if (searchCount > 0) {
-		campInfoList = campInfoDao.getCampInfoList(startRow, endRow);
-		LogAspect.logger.info(LogAspect.logMsg + "작성글 사이즈" + campInfoList.size());
-		for (int i = 0; i < campInfoList.size(); i++) {
-			int user_num = campInfoList.get(i).getUser_num();
+			searchList = campInfoDao.getSearchList(startRow, endRow,keyword);
+		LogAspect.logger.info(LogAspect.logMsg + "작성글 사이즈" + searchList.size());
+		for (int i = 0; i < searchList.size(); i++) {
+			int user_num = searchList.get(i).getUser_num();
 			String writer = campInfoDao.getUser_name(user_num);
 			LogAspect.logger.info(LogAspect.logMsg + "설정된 user_name: " + writer);
 			if (writer == null) {
@@ -216,10 +218,10 @@ public class CampInfoServiceImp implements CampInfoService {
 		request.setAttribute("currentPage", currentPage);
 		request.setAttribute("searchCount", searchCount);
 		request.setAttribute("boardSize", boardSize);
-		request.setAttribute("campInfoList", campInfoList);
+		request.setAttribute("searchList", searchList);
 		request.setAttribute("writerList", writerList);
 		request.setAttribute("keyword", keyword);
-		mav.setViewName("board/campInfo/list.tiles");
+		mav.setViewName("board/campInfo/searchList.tiles");
 	}
 	}
 

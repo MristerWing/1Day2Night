@@ -20,7 +20,7 @@
                 <h3 class="tittle text-center mb-lg-5 mb-3 px-lg-5">NEW 캠핑소식</h3>
 	             <div class="info_list">
 					<div class="info_list_top">
-					<form name="searchInfo" method="get" action="${root}/board/campInfo/searchList.do">
+					<form name="searchInfo" method="get" action="${root}/board/campQnA/searchList.do">
 						 <div class="input-group mb-3" style="width: 90">
 	   						<!--  <div class="input-group-prepend">
 	     						 <button class="btn btn-outline-primary" type="button">제목</button>  
@@ -31,46 +31,61 @@
 	  				 </form>
 					</div> 
 						
-					<div id="info_list_content">
-					<c:if test="${count==0||campInfoList.size()==0}">
+					<div id="info_list_content" align="center">
+				
+					<c:if test="${searchCount==null}">
 						<div>
-							<span>게시판에 저장된 글이 없습니다.</span>
+							<h4>해당 글이 없습니다. 검색어를 확인해주세요.</h4>
+						</div>
+						<div align="right">
+							<button type="button" class="btn btn-primary" onclick="location.href='${root}/board/campQnA/list.do?pageNumber=${pageNumber}'" >전체목록</button>
 						</div>
 					</c:if>
 					<!--작성글이있다면-->
-				 <c:if test="${count>0}">
+				 <c:if test="${searchCount>0}">
 				 			
 					<div class="container">         
 						  <table class="table table-striped">
 						    <thead>
 						      <tr>
-						        <th>번호</th>
+						 		<th>번호</th>
 						        <th>제목</th>
+						        <th>문의 유형</th>
 						        <th>작성자</th>
 						        <th>등록일</th>
 						        <th>조회수</th>
 						      </tr>
 						    </thead>
 						    <tbody>
-						    <c:if test="${count>0}">
-						       	<c:forEach var="campInfoDto" varStatus="list" items="${campInfoList}">
-						       	 <tr>
-								    <td>${campInfoDto.info_num}</td>
-									<td><a href="${root}/board/campInfo/read.do?info_num=${campInfoDto.info_num}&pageNumber=${currentPage}">${campInfoDto.title}</a></td>
-									<td>${writerList[list.index]}</td>
-									<td><fmt:formatDate value="${campInfoDto.write_date}" pattern="yyyy-MM-dd"/></td>
-									<td>${campInfoDto.read_count}</td>
-								 </tr>
+						    <c:if test="${searchCount>0}">
+						    	<c:forEach var="campQnADto" varStatus="list" items="${searchList}">
+						       	 		 <tr>
+										        <td>${campQnADto.qna_num}</td>
+										        <c:if test="${sessionScope.email=='eunsol8287@gmail.com'}">
+										        	<td><a href="${root}/board/campQnA/read.do?qna_num=${campQnADto.qna_num}&pageNumber=${currentPage}">${campQnADto.title}</a></td>
+										        </c:if>
+										        <c:if test="${sessionScope.email != 'eunsol8287@gmail.com' && sessionScope.user_num > 0}">
+										        	<td><button type="button" class="btn btn-link"  data-toggle="modal" data-target="#check_pwd">${campQnADto.title}</button></td>
+										        </c:if>
+										       	<td>${campQnADto.title}</td>
+										       	<td>${campQnADto.qna_type}</td>
+										        <td>${writerList[list.index]}</td>
+										        <td><fmt:formatDate value="${campQnADto.write_date}" pattern="yyyy-MM-dd"/></td>
+										        <td>${campQnADto.read_count}</td>
+										
+						     			 </tr>
 						       	 	</c:forEach>
 						     </c:if>
 						    </tbody>
 						  </table>
 					</div>	
+					<div align="right">
+					    <button type="button" class="btn btn-primary" onclick="location.href='${root}/board/campQnA/list.do?pageNumber=${pageNumber}'" >전체목록</button>
+				    </div>
 				 </c:if> 
-
-				  <c:if test="${sessionScope.email=='chanhok95@naver.com'}">
+				  <c:if test="${sessionScope.email=='eunsol8287@gmail.com'}">
 					<div class="list_buttom" align="right">
-						<button type="button" class="btn btn-primary" onclick="location.href='${root}/board/campInfo/write.do?user_num=${user_num}'">공지 작성</button>
+						<button type="button" class="btn btn-primary" onclick="location.href='${root}/board/campQnA/write.do?user_num=${user_num}'">공지 작성</button>
 					</div>
 				  </c:if>
 					<div align="center">
@@ -87,18 +102,18 @@
 					</c:if>
 					
 					<c:if test="${startPage>pageBlock}">
-						<a href="${root}/board/campInfo/list.do?pageNumber=1">[처음]</a>
+						<a href="${root}/board/campQnA/list.do?pageNumber=1">[처음]</a>
 					</c:if>
 					<c:if test="${startPage>pageBlock}">
-						<a href="${root}/board/campInfo/list.do?pageNumber=${startPage-pageBlock}">[이전]</a>
+						<a href="${root}/board/campQnA/list.do?pageNumber=${startPage-pageBlock}">[이전]</a>
 					</c:if>
 					
 					<c:forEach var="i" begin="${startPage}" end="${endPage}">
-						<a href="${root}/board/campInfo/list.do?pageNumber=${i}">[${i}]</a>
+						<a href="${root}/board/campQnA/list.do?pageNumber=${i}">[${i}]</a>
 					</c:forEach>
 					
 					<c:if test="${endPage<pageCount}">
-						<a href="${root}/board/campInfo/list.do?pageNumber=${startPage+pageBlock}">[다음]</a>
+						<a href="${root}/board/campQnA/list.do?pageNumber=${startPage+pageBlock}">[다음]</a>
 					</c:if>
 				</c:if>
 					</div>
