@@ -48,13 +48,13 @@
 		operation_period = #{operation_period},
 		operation_day = #{operation_day},
 		camp_link = #{camp_link},
-			<if test="main_image != ''">
+			<if test="sub_image1 != ''">
 			sub_image1 = #{sub_image1},
 		</if>
-			<if test="main_image != ''">
+			<if test="sub_image2 != ''">
 			sub_image2 = #{sub_image2},
 		</if>
-			<if test="main_image != ''">
+			<if test="sub_image3 != ''">
 			sub_image3 = #{sub_image3},
 		</if>
 			content = #{content},

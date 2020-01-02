@@ -25,5 +25,7 @@ public interface OwnerService {
 	public ModelAndView ownerUpdate(int camp_id);
 
 	public ModelAndView ownerUpdateOk(SearchDto updateCamp,
-			MultipartFile mainImage, List<MultipartFile> subImage);
+			MultipartFile mainImage, List<MultipartFile> subImage, String root);
+
+	public ModelAndView ownerUpdatePayment(int camp_id);
 }

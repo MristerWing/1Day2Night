@@ -231,11 +231,10 @@ public class OwnerController {
 		MultipartFile mainImage = request.getFile("mainImage");
 		List<MultipartFile> subImage = request.getFiles("subImage");
 
-		ModelAndView modelAndView = ownerService.ownerUpdateOk(updateCamp,
-				mainImage, subImage);
+		LogAspect.logger.info(LogAspect.logMsg + "req=" + mainImage.getSize());
 
-		LogAspect.logger
-				.info(LogAspect.logMsg + "req=" + request.getFile("mainImage"));
+		ModelAndView modelAndView = ownerService.ownerUpdateOk(updateCamp,
+				mainImage, subImage, request.getContextPath());
 
 		modelAndView.setViewName("owner/updateOk.tiles");
 
@@ -251,5 +250,20 @@ public class OwnerController {
 	 * .info(LogAspect.logMsg + "req=" + request.getFile("mainImage")); return
 	 * null; }
 	 */
+
+	/**
+	 * 
+	 * @param request
+	 * @param response
+	 * @return {@link ModelAndView}
+	 */
+	@RequestMapping(value = "/owner/updatePayment.do", method = RequestMethod.GET)
+	public ModelAndView ownerUpdatePayment(@RequestParam int camp_id) {
+
+		ModelAndView modelAndView = ownerService.ownerUpdatePayment(camp_id);
+		modelAndView.setViewName("owner/updatePayment.tiles");
+
+		return modelAndView;
+	}
 
 }
