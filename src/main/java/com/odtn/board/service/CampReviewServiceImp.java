@@ -1,8 +1,10 @@
 package com.odtn.board.service;
 
 import java.io.File;
+import java.net.http.HttpRequest;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -47,7 +49,8 @@ public class CampReviewServiceImp implements CampReviewService {
 		mav.addObject("user_num", request.getParameter("user_num"));
 		mav.setViewName("board/campReview/write.tiles");
 	}
-
+	//리뷰작성시 
+	
 	// 작성확인
 	@Override
 	public void writeOk(ModelAndView mav, MemberDto memberDto) {

@@ -28,6 +28,7 @@
  	    }
  	}
  }
+ 	
  	</script>
 </head>
 
@@ -79,7 +80,24 @@
 						         <option value="11111">111111</option>
 						
 						      </select>
-					     
+						     <script type="text/javascript">
+						        $("#c_do").mouseleave(function(){
+							     var city=$("#c_do option:selected").val();
+							     var paramdata=city;
+							     alert(paramData);
+							     var url="${root}/board/campReview/searchList.do?ci_do='${city}'"
+							        $.ajax({
+							        	url:url,
+							        	data:paramData,
+							        	type:'GET',
+							        	dataType:'TEXT',
+							        	success:function(data){
+							        		console.log("성공");
+							        	}
+							        })	
+							        
+						        });
+						   	</script>			     
 						   </div>
       				</div>
       				 <div class="form-group">
