@@ -79,8 +79,19 @@ var passwordEqual = 0;
 				} else if(password == passwordCheck){
 					$("#password-equals-true").show();
 					$("#password-equals-false").hide();
+<<<<<<< HEAD
 					$("#submit").removeAttr("disabled");
 					passwordEqual = 1;
+=======
+// 					$("#submit").removeAttr("disabled");
+					passwordEqual = passwordEqual+1;
+// 					if(emailCheck == 1 && passwordEqual > 1 && passwordBoolean==true){
+// 						if(userNameCheck==true && phoneNumCheck==true){
+// 							$("#submit").removeAttr("disabled");	
+// 						}
+// 					}
+					$("#submit").removeAttr("disabled");
+>>>>>>> 2a4f170d3303bcae26b6ed0785dc6b20efdd47f2
 				} else if(password != passwordCheck) {
 					$("#password-equals-true").hide();
 					$("#password-equals-false").show();
@@ -102,6 +113,7 @@ var passwordEqual = 0;
 		});
 	});
 	
+<<<<<<< HEAD
 	function passwordCheckm(){
 		var password=$("#password").val();
 		var email = $("#email").val();
@@ -136,6 +148,139 @@ var passwordEqual = 0;
 		});
 	}
 	
+=======
+// 	function passwordCheckm(){
+// 		var password=$("#password").val();
+// 		var email = $("#email").val();
+// 		console.log(email);
+// 		console.log(password);
+// // 		$("#password-type-false").hide();
+// 		$.ajax({
+// 			type:'POST',
+// 			url: '${root}/member/passwordCheck.json',
+// 			data: { password: password, email:email},
+// 			dataType: 'json',
+// 			success:function(data){
+// 				if(data == 0){
+// // 					$("#password_type_false").text("비밀번호는 공백없이 11자 이상 20자 이하로 특수문자 1개, 숫자 1개, 대문자가 1개가 포함되어야 합니다.");
+// 					passwordCheckTxt.innerHTML ="비밀번호는 공백없이 11자 이상 20자 이하로 특수문자 1개, 숫자 1개, 대문자가 1개가 포함되어야 합니다.";
+// 					passwordCheckTxt.style="color:red";
+// 					if(passwordCheckTxt4 != ""){
+// 						passwordCheckTxt4.innerHTML="";
+// 						$("#submit").prop("disabled", true);
+// 						passwordBoolean = false;
+// 					}
+// 				} else if(data == -1){
+// 					passwordCheckTxt2.innerHTML="비밀번호에 이메일이 포함되면 쉽게 개인 정보가 유출될 수 있습니다.";
+// 					passwordCheckTxt2.style="color:violet";
+// 					if(password == "") {
+// 						passwordCheckTxt2.innerHTML="";
+// 						$("#submit").prop("disabled", true);
+// 						passwordBoolean = false;
+// 					}
+// 					if(passwordCheckTxt4 != ""){
+// 						passwordCheckTxt4.innerHTML="";
+// 						$("#submit").prop("disabled", true);
+// 						passwordBoolean = false;
+// 					}
+					
+// 				} else if(data == -2){
+// 					passwordCheckTxt3.innerHTML ="비밀번호에 공백이 포함될 수 없습니다.";
+// 					passwordCheckTxt3.style="color:red";
+// 					if(password==""){
+// 						passwordCheckTxt3.innerHTML ="";
+// 					}
+// 					if(passwordCheckTxt4 != ""){
+// 						passwordCheckTxt4.innerHTML = "";
+// 						$("#submit").prop("disabled", true);
+// 						passwordBoolean = false;
+// 					}
+// 				} else if(data == 1){
+// 					passwordCheckTxt4.innerHTML ="사용가능한 비밀번호입니다.";
+// 					passwordCheckTxt4.style= "color:green";
+// 					passwordCheckTxt3.innerHTML="";
+// 					passwordCheckTxt2.innerHTML="";
+// 					passwordCheckTxt.innerHTML="";
+// 					passwordBoolean=true;
+// 					passwordEqual = passwordEqual+1;
+// 					if(emailCheck==1 && passwordCheck>1 && passwordBoolean == true){ 
+// 						if(userNameCheck ==true && phoneNumCheck==true){
+// 							$("#submit").prop("disabled", false);
+// 							$("#submit").css("background-color", "#4CAF50");
+// 						}
+// 					}
+// 				}
+// 			},
+// 			error:function(request, status){
+// 				alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+// 			}
+// 		});
+// 	}
+	
+	
+	$(function() {
+		$("#user_name").on('keyup', function(event){
+			user_name = $("#user_name").val();
+			console.log(user_name);
+			if(user_name == ""){
+				$("#user_name_check").css("color", "red");
+				$("#user_name_check").text("이름을 입력해 주세요");
+				userNameCheck=false;
+				$("#submit").prop("disabled", true);
+			} 
+			if(user_name.length == 1){
+				$("#user_name_check").css("color", "red");
+				$("#user_name_check").text("이름을 2자 이상 써주십시오");
+				userNameCheck=false;
+				$("#submit").prop("disabled", true);
+			} else if(user_name.length>1){
+				$("#user_name_check").css("color", "green");
+				$("#user_name_check").text("사용 가능한 이름(?)입니다.");
+				userNameCheck=true;
+			}
+		});
+	
+	
+	
+		$("#phone_num").on('keyup', function(event){
+			//숫자만 입력되게하기
+// 			var reg_num = /^[0-9]}*$/;
+// 			var reg_num = /^(01[016789]{1}|02|0[3-9]{1}[0-9]{1})([0-9]{3,4})([0-9]{4})$/;
+			var reg_num = /^[0-9]{10,13}$/;
+
+			var phone_num = $("#phone_num").val();
+			
+			if(phone_num == ""){
+				$("#phone_check").text("");
+				phoneNumCheck=false;
+				$("#submit").prop("disabled", true);
+			}
+			if(reg_num.test(phone_num)==false){
+				console.log("숫자만 입력하세요");
+				$("#phone_num").val(phone_num.replace(/[^0-9]/g,""));
+// 				$("#phone_check").css("color", "red");
+// 				$("#phone_check").text("숫자만 입력해 주세요");
+				phoneNumCheck=false;
+				$("#submit").prop("disabled", true);
+			} 
+			if(phone_num.length>0 && phone_num.length<10){
+				$("#phone_check").css("color", "red");
+				$("#phone_check").text("번호 길이를 다시 확인해 주세요.");
+				phoneNumCheck=false;
+				$("#submit").prop("disabled", true);
+			}
+			if(phone_num.length >= 10 && phone_num.length <= 11){
+				$("#phone_check").css("color", "green");
+				$("#phone_check").text("사용 가능한 번호입니다.");
+				phoneNumCheck=true;
+			} 
+		});
+	});
+
+		
+		
+	
+>>>>>>> 2a4f170d3303bcae26b6ed0785dc6b20efdd47f2
 // 	$("#email").blur(function(){
 // 		var email = $("#email").val();
 		
