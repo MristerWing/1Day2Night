@@ -19,8 +19,8 @@ public interface CampReviewService {
 	public void writeOk(ModelAndView mav,MemberDto memberDto);
 	//목록
 	public void list(ModelAndView mav,HttpSession session,MemberDto memberDto);
+	
 	//검색목록
-
 	public void searchList(ModelAndView mav);
 
 	// 읽기

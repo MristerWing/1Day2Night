@@ -23,6 +23,7 @@ import com.odtn.board.dto.CampInfoDto;
 import com.odtn.board.dto.CampReviewDto;
 import com.odtn.board.dto.CampReviewFileDto;
 import com.odtn.member.dto.MemberDto;
+import com.odtn.reservation.dto.ReservationDto;
 
 @Component
 public class CampReviewServiceImp implements CampReviewService {
@@ -37,8 +38,23 @@ public class CampReviewServiceImp implements CampReviewService {
 		HttpServletRequest request = (HttpServletRequest) map.get("request");
 		int user_num = (Integer) session.getAttribute("user_num");
 		LogAspect.logger.info(LogAspect.logMsg + "로그인된user_num: " + user_num);
+		
+		int bookingCnt =campReviewDao.getBookingCnt(user_num);
+		System.out.println("예약내역 개수"+bookingCnt);
+		
+		
+		//캠핑장 뿌려주기 
+		List<ReservationDto> campList =null;
+		List<String> campNameList=new ArrayList<String>();
+		if (bookingCnt>0) {
+			//campList=campReviewDao.getcampList(user_num);
+			
+		}
+		
+		
 		String writer = campReviewDao.getUser_name(user_num);
 		LogAspect.logger.info(LogAspect.logMsg + "설정된 user_name: " + writer);
+		
 		if (writer == null) {
 			writer = campReviewDao.getEmail(user_num);
 		}

@@ -15,6 +15,11 @@ import com.odtn.board.dto.CampReviewFileDto;
 public class CampReviewDaoImp implements CampReviewDao {
 	@Autowired
 	private SqlSessionTemplate sqlSessionTemplate;
+	//리뷰작성때 예약내역 개수확인
+	@Override
+	public int getBookingCnt(int user_num) {
+		return sqlSessionTemplate.selectOne("board.mapper.CampReviewMapper.getBookingCnt",user_num);
+	}
 	//작성확인
 	@Override
 	public int writeOk(CampReviewDto campReviewDto, List<CampReviewFileDto> array) {

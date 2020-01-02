@@ -6,6 +6,9 @@ import com.odtn.board.dto.CampReviewDto;
 import com.odtn.board.dto.CampReviewFileDto;
 
 public interface CampReviewDao {
+	//리뷰작성시 예약내역 개수 확인 
+	public int getBookingCnt(int user_num);
+	//리뷰 작성확인
 	public int writeOk(CampReviewDto campReviewDto,List<CampReviewFileDto> array);
 	//게시글 총 개수
 	public int getCount();

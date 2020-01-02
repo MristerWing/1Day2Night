@@ -3,6 +3,10 @@
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
  <mapper namespace="board.mapper.CampReviewMapper">
+ 	<!--예약내역 개수 확인 -->
+ 	<select id="getBookingCnt" resultType="int">
+ 		SELECT COUNT(*) FROM RESERVATION WHERE USER_NUMBER=#{user_num}
+ 	</select>
  	<!--멤버테이블에서 사용자이름 가져오기-->
  	<select id="getUser_name" resultType="String">
  		SELECT USER_NAME FROM MEMBER WHERE USER_NUM=#{user_num}
