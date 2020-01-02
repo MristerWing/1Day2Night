@@ -53,6 +53,7 @@
 
 
 
+
 						<div style="margin-top: 20px" align="center">
 							<c:if test="${sessionScope.user_num ==campInfoDto.user_num}">
 								<button type="button" class="btn btn-sm btn-primary"

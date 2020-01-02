@@ -226,7 +226,7 @@ public class MemberController {
 	@RequestMapping(value = "member/deleteOk.do", method = RequestMethod.POST)
 	public ModelAndView memberDeleteOk(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 		ModelAndView mav = new ModelAndView();
-		LogAspect.logger.info(LogAspect.logMsg + "MC.mDO.req.pw: " + request.getParameter("password"));
+		LogAspect.logger.info(LogAspect.logMsg+"MC.mDO.req.pw: "+request.getParameter("password_out"));
 		mav.addObject("request", request);
 		memberService.memberDeleteOk(mav);
 		session.removeAttribute("user_num");

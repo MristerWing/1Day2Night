@@ -22,4 +22,24 @@
 			)
 		}
 	</select>
+	
+	<insert id="insertReservation" parameterType="java.util.Map">
+		INSERT INTO RESERVATION 
+			VALUES(RESERVATION_NUM_SEQ.NEXTVAL,
+				   #{user_number},
+				   #{camp_id},
+				   #{camp_site_type},
+				   #{reservation_personnel},
+				   sysdate,
+				   #{start_date},
+				   #{end_date},
+				   #{amount},
+				   #{user_name},
+				   #{phone}
+			)
+	</insert>
+	
+	<select id="getMemberDto" parameterType="int" resultType="com.odtn.member.dto.MemberDto">
+		SELECT * FROM MEMBER WHERE USER_NUM = #{value}
+	</select>
 </mapper>

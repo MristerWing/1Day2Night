@@ -72,7 +72,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                     <div id="logo">
                         <%-- 	<img class="logoImg" src="${root}/resources/css/images/ODTN.png" width="50"> --%>
                   		<h1> 
-                  		<a class="navbar-brand" href="index.html">CAMPINGINFO</a>
+                  		<a class="navbar-brand" href="${root}/index.jsp">CAMPINGINFO</a>
                        </h1>
                     </div>
 
@@ -163,7 +163,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 				</li>
 				<li>
 					<label >작성자(*)</label>
-					<input name="writer" type="text" value="${campInfoDto.writer}" disabled="disabled"/>
+					<span>${writer}</span>
 				</li>
 
 			 	<li>
@@ -182,12 +182,13 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 				</li>
 	
 				<li>
-					<p>
-					<!--로그인한사람만 보여줄 수정,삭제-->
-						<input class="btn" type="submit" value="수정" onclick="location.href='${root}/board/campInfo/update.do?info_num=${campInfoDto.info_num}&pageNumber=${pageNumber}'" />	
+					
+					<c:if test="${sessionScope.user_num ==campInfoDto.user_num}">
+						<input class="btn" type="submit" value="수정" onclick="location.href='${root}/board/campInfo/update.do?info_num=${campInfoDto.info_num}&user_num=${campInfoDto.user_num}&pageNumber=${pageNumber}'" />	
 						<input class="btn" type="button"  value="삭제" onclick="location.href='${root}/board/campInfo/delete.do?info_num=${campInfoDto.info_num}'"/>	
+					</c:if>
 						<input class="btn" type="button"  value="목록" onclick="location.href='${root}/board/campInfo/list.do?pageNumber=${pageNumber}'"/>	
-					</p>
+					
 				
 				</li>
 		</ul>

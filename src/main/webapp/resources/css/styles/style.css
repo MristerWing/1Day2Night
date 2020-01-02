@@ -1311,7 +1311,7 @@ input.checkbox:checked:after {
 
 .copyright {
     border-top: 1px solid #808080;
-    margin-left: 15px;
+    margin-left: 0px;
 }
 
 .copyright p {

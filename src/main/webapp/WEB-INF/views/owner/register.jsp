@@ -7,13 +7,12 @@
     <head>
         <link
             rel="stylesheet"
-            href="../resources/css/owner/register.css"
+            href="${root}/resources/css/owner/register.css"
             type="text/css"
             media="all"
         />
     </head>
     <body>
-        <div class="main-content top"></div>
         <div class="owner">
             <div class="register">
                 <div class="container content-area">
@@ -21,10 +20,11 @@
                         <label class="main-text mx-auto">사업자 등록</label>
                         <input
                             type="text"
-                            id="owner_id"
+                            id="owner_key_i"
                             class="mx-auto"
                             placeholder="사업자번호 입력"
                         />
+                        <input type="hidden" id="owner_key" />
                         <button
                             type="button"
                             class="mx-auto btn btn-primary"
@@ -45,6 +45,11 @@
                 </div>
             </div>
         </div>
+        <script type="text/javascript">
+            $("#okButton").click(function() {
+            	location.href = "${root}/owner/write.do?owner-key="+$("#owner_key").val();
+            });
+        </script>
         <!-- Modal -->
         <div
             class="modal fade"
@@ -83,37 +88,60 @@
                             class="mx-auto btn btn-primary"
                             disabled="disabled"
                             id="checkProButton"
+                            class="close"
+                            data-dismiss="modal"
+                            aria-label="Close"
                         >
-                            확인중
                         </button>
+                        <script type="text/javascript">
+	                        $("#checkProButton")
+	                        .text("확인중");
+                        </script>
                     </div>
                     <script type="text/javascript">
                         $("#checkModal").on("show.bs.modal", function() {
                             var persent = 0;
-                            var progressTime = setTimeout(function() {
-                                $(
-                                    "#checkModal > div > div > div.modal-body > div > div"
-                                ).css("width", persent + "%");
-                                persent += 33.3;
-                                var check = setTimeout(function() {
-                                    $(
-                                        "#checkModal > div > div > div.modal-body > div > div"
-                                    ).css("width", "100%");
-
-                                    if ($("#owner_id").val() == 1) {
-                                        $("#checkProButton")
-                                            .text("확인완료")
-                                            .removeAttr("disabled");
-                                        $("#checkButton").attr("disabled");
-                                        $("#okButton").removeAttr("disabled");
+                            
+                            $.ajax({
+                                type: "GET",
+                                url: "${root}/owner/checkOwnerKey.do?owner_key="+parseInt($('#owner_key_i').val()),
+                                dataType: "text",
+                                success: function (response) {
+                                	var result = parseInt(response);
+                                    if(result >= 1) {
+                                    	$("#checkProButton")
+            	                        .text("이미 등록하신 번호입니다.");
                                     } else {
-                                        $("#checkProButton")
-                                            .text("확인")
-                                            .removeAttr("disabled");
-                                        $("#okButton").attr("disabled", "disabled");
+                                    	var progressTime = setTimeout(function() {
+                                            $(
+                                                "#checkModal > div > div > div.modal-body > div > div"
+                                            ).css("width", persent + "%");
+                                            persent += 33.3;
+                                            var check = setTimeout(function() {
+                                                $(
+                                                    "#checkModal > div > div > div.modal-body > div > div"
+                                                ).css("width", "100%");
+
+                                                if ($("#owner_key_i").val().length >= 11) {
+                                                    $("#checkProButton")
+                                                        .text("확인완료")
+                                                        .removeAttr("disabled");
+                                                    $("#checkButton").attr("disabled");
+                                                    $("#okButton").removeAttr("disabled");
+                                                    $("#owner_key").val($("#owner_key_i").val());
+                                                    $("#owner_key_i").attr("disabled", "disabled");
+                                                    $("#modalButton").attr("disabled", "disabled");
+                                                } else {
+                                                    $("#checkProButton")
+                                                        .text("재확인 바랍니다.")
+                                                        .removeAttr("disabled");
+                                                    $("#okButton").attr("disabled", "disabled");
+                                                }
+                                            }, 3000);
+                                        }, 1000);
                                     }
-                                }, 3000);
-                            }, 1000);
+                                }
+                            });
                         });
                         $("#checkModal").on("hidden.bs.modal", function() {
                             $(

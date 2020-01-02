@@ -80,4 +80,39 @@ public class SearchDaoImp implements SearchDao {
 	public List<String> getSearchComplete(String searchName) {
 		return sqlSessionTemplate.selectList("com.odtn.search.dao.mapper.SearchMapper.getSearchComplete", searchName);
 	}
+	
+	/**
+	 * @author ParkSungSoo
+	 * @date 2019/12/30
+	 * @apiNote 캠핑장 추천유무 확인
+	 */
+	@Override
+	public int getCampRecommand(Map<String, String> data) {
+		return sqlSessionTemplate.selectOne("com.odtn.search.dao.mapper.SearchMapper.getCampRecommand", data);
+	}
+	
+	/**
+	 * @author ParkSungSoo
+	 * @date 2019/12/30
+	 * @apiNote 캠핑장 추천 입력
+	 */
+	@Override
+	public int insertCampRecommand(Map<String, String> data) {
+		return sqlSessionTemplate.insert("com.odtn.search.dao.mapper.SearchMapper.insertCampRecommand", data);
+	}
+	
+	/**
+	 * @author ParkSungSoo
+	 * @date 2019/12/31
+	 * @apiNote 캠핑장 찜유무 확인
+	 */
+	@Override
+	public int getCampChoice(Map<String, String> data) {
+		return sqlSessionTemplate.selectOne("com.odtn.search.dao.mapper.SearchMapper.getCampChoice",data);
+	}
+
+	@Override
+	public int insertCampChoice(Map<String, String> data) {
+		return sqlSessionTemplate.insert("com.odtn.search.dao.mapper.SearchMapper.insertCampChoice", data);
+	}
 }

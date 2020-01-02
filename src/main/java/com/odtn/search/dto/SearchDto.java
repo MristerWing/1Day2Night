@@ -36,7 +36,7 @@ public class SearchDto {
 	private double wido;
 	private double gyeonddo;
 
-	SearchDto() {
+	public SearchDto() {
 
 	}
 

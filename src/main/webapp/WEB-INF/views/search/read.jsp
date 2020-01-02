@@ -3,6 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <c:set var="root" value="${pageContext.request.contextPath}" />
 <!DOCTYPE html>
+<html>
 <head>
 <script type="text/javascript"
 	src="${root}/resources/javascript/search/searchRead.js"></script>
@@ -80,12 +81,81 @@
 					</button>
 					<script>
 							$(function() {
+								var idCheck = "${user_num}";
+								
+								// 추천하기
+								$("body > div > div.search > div.container.main_content > div.content-area > div > button.btn.btn-primary").click(function() {
+									if(idCheck == "") {
+										alert("로그인을 해주시길 바랍니다.");
+									} else {
+										$.ajax({
+																
+											url:"${root}/search/recommand.do",
+											type:"post",
+											data:"id=" + idCheck + "&camp-id=" + ${searchMap.searchList[0].camp_id},
+											dataType: "text",
+											success:function(data) {
+												
+												var success = JSON.parse(data).reCheck;
+												console.log(success);
+												
+												if(success == "성공") {
+													alert("해당 캠핑장을 추천하였습니다.");
+												} else if (success == "존재") {
+													alert("이미 추천한 캠핑장입니다.");
+												} else {
+													alert("추천 실패하였습니다.");
+												}
+											},
+											error:function(xhr, status, error) {
+												alert(xhr + "," + status + "," + error);
+											}	
+										}); 
+									}
+								});
+								
+								// 찜하기
+								$("body > div > div.search > div.container.main_content > div.content-area > div > button.btn.btn-danger").click(function() {
+									if(idCheck == "") {
+										alert("로그인을 해주시길 바랍니다.");
+										
+									} else {
+										$.ajax({
+											
+											url:"${root}/search/choice.do",
+											type:"post",
+											data:"id=" + idCheck + "&camp-id=" + ${searchMap.searchList[0].camp_id},
+											dataType: "text",
+											success:function(data) {
+												
+												var success = JSON.parse(data).reCheck;
+												console.log(success);
+												
+												if(success == "성공") {
+													alert("찜하였습니다.");
+												} else if (success == "존재") {
+													alert("해당 캠핑장을 찜 목록에 추가하였습니다.");
+												} else {
+													alert("찜 실패하였습니다.");
+												}
+											},
+											error:function(xhr, status, error) {
+												alert(xhr + "," + status + "," + error);
+											}	
+										}); 
+									}
+								});
+								
+								// 예약하기
 								$("body > div > div.search > div.container.main_content > div.content-area > div > button.btn.btn-dark").click(function() {
-									
-									location.href="${root}/reservation/select.do?camp-id=${searchMap.searchList[0].camp_id}";
+									if(idCheck == "") {
+										alert("로그인을 해주시길 바랍니다.");
+									} else {
+										location.href="${root}/reservation/select.do?camp-id=${searchMap.searchList[0].camp_id}";
+									}
 								});
 							});
-						</script>
+					</script>
 				</div>
 			</div>
 			<div class="row">

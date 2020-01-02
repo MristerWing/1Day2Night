@@ -121,6 +121,7 @@ public class SearchController {
 	 * @date 2019/12/29
 	 * @param request
 	 * @param response
+	 * @description 해당 캠핑장 추천
 	 * @return
 	 */
 	@RequestMapping(value = "/search/autoComplete.json", method = RequestMethod.POST)
@@ -128,5 +129,39 @@ public class SearchController {
 	public List<Map<String, Object>> autoComplete(HttpServletRequest request, HttpServletResponse response) {
 		
 		return searchService.searchAutoComplete(request.getParameter("searchName"));
+	}
+	
+	/**
+	 * @author ParkSungSoo
+	 * @date 2019/12/30
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	@RequestMapping(value = "/search/recommand.do", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, String> campRecommand(HttpServletRequest request, HttpServletResponse response) {
+		
+		Map<String, String> data = new HashMap<String,String>();
+		data.put("reCheck", searchService.campRecommand(request.getParameter("camp-id"), request.getParameter("id")));
+		
+		return data;
+	}
+	
+	/**
+	 * @author ParkSungSoo
+	 * @date 2019/12/31
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	@RequestMapping(value = "/search/choice.do", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, String> campChoice(HttpServletRequest request, HttpServletResponse response) {
+		
+		Map<String, String> data = new HashMap<String,String>();
+		data.put("reCheck", searchService.campChoice(request.getParameter("camp-id"), request.getParameter("id")));
+		
+		return data;
 	}
 }

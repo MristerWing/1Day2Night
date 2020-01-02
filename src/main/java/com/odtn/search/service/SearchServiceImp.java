@@ -120,4 +120,46 @@ public class SearchServiceImp implements SearchService {
 		}
 		return result;
 	}
+	
+	/**
+	 * @author ParkSungSoo
+	 * @date 2019/12/30
+	 * @apiNote 캠핑장 추천
+	 */
+	@Override
+	public String campRecommand(String campId, String id) {
+		
+		Map<String, String> data = new HashMap<String, String>();
+		data.put("campId", campId);
+		data.put("id", id);
+		int recommandCheck = searchDao.getCampRecommand(data);
+		
+		// 추천 유무 check 
+		if(recommandCheck == 0) {
+			int insertCheck = searchDao.insertCampRecommand(data);
+			
+			if(insertCheck > 0) return "성공";
+			else return "실패";
+		}
+		return "존재";
+	}
+
+	@Override
+	public String campChoice(String campId, String id) {
+		
+		Map<String, String> data = new HashMap<String, String>();
+		data.put("campId", campId);
+		data.put("id", id);
+		
+		int choiceCheck = searchDao.getCampChoice(data);
+		
+		// 찜하기 유무 check
+		if(choiceCheck == 0) {
+			int insertCheck = searchDao.insertCampChoice(data);
+			
+			if(insertCheck > 0) return "성공";
+			else return "실패";
+		} 
+		return "존재";
+	}
 }

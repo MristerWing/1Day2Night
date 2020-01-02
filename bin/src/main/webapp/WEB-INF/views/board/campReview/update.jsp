@@ -149,7 +149,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                 <h3 class="tittle text-center mb-lg-5 mb-3 px-lg-5">캠핑장 리뷰</h3>
              <div class="info_content" >
 				
-				<label>캠핑소식 작성</label>
+				<label>캠핑장 리뷰 수정</label>
 			<!--썸머노트 form태그-->
             <form class="campInfo_form" action="${root}/board/campReview/updateOk.do" method="POST" 
             	onsubmit="returnForm(this)" enctype="multipart/form-data">
@@ -165,8 +165,8 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 				</li>
 				<li>
 					<label >작성자(*)</label>
-					<input name="writer" type="hidden" value="${campReviewDto.user_number}"/>
-					<input name="writerview" type="text" value="${campReviewDto.user_number}" disabled="disabled"/>
+					<input name="user_num" type="hidden" value="${campReviewDto.user_num}"/>
+					<input name="writer" type="text" value="${writer}" disabled="disabled"/>
 				</li>
 
 				<li>
