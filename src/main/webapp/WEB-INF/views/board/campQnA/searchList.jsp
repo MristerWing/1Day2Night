@@ -48,8 +48,9 @@
 						  <table class="table table-striped">
 						    <thead>
 						      <tr>
-						        <th>번호</th>
+						 		<th>번호</th>
 						        <th>제목</th>
+						        <th>문의 유형</th>
 						        <th>작성자</th>
 						        <th>등록일</th>
 						        <th>조회수</th>
@@ -57,14 +58,22 @@
 						    </thead>
 						    <tbody>
 						    <c:if test="${searchCount>0}">
-						       	<c:forEach var="campQnADto" varStatus="list" items="${searchList}">
-						       	 <tr>
-								    <td>${campQnADto.qna_num}</td>
-									<td><a href="${root}/board/campQnA/read.do?info_num=${campQnADto.qna_num}&pageNumber=${currentPage}">${campQnADto.title}</a></td>
-									<td>${writerList[list.index]}</td>
-									<td><fmt:formatDate value="${campQnADto.write_date}" pattern="yyyy-MM-dd"/></td>
-									<td>${campQnADto.read_count}</td>
-								 </tr>
+						    	<c:forEach var="campQnADto" varStatus="list" items="${searchList}">
+						       	 		 <tr>
+										        <td>${campQnADto.qna_num}</td>
+										        <c:if test="${sessionScope.email=='eunsol8287@gmail.com'}">
+										        	<td><a href="${root}/board/campQnA/read.do?qna_num=${campQnADto.qna_num}&pageNumber=${currentPage}">${campQnADto.title}</a></td>
+										        </c:if>
+										        <c:if test="${sessionScope.email != 'eunsol8287@gmail.com' && sessionScope.user_num > 0}">
+										        	<td><button type="button" class="btn btn-link"  data-toggle="modal" data-target="#check_pwd">${campQnADto.title}</button></td>
+										        </c:if>
+										       	<td>${campQnADto.title}</td>
+										       	<td>${campQnADto.qna_type}</td>
+										        <td>${writerList[list.index]}</td>
+										        <td><fmt:formatDate value="${campQnADto.write_date}" pattern="yyyy-MM-dd"/></td>
+										        <td>${campQnADto.read_count}</td>
+										
+						     			 </tr>
 						       	 	</c:forEach>
 						     </c:if>
 						    </tbody>

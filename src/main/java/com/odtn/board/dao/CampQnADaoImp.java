@@ -66,7 +66,7 @@ public class CampQnADaoImp implements CampQnADao {
 		map.put("startRow", startRow);
 		map.put("endRow", endRow);
 		map.put("user_num", user_num);
-		return null;
+		return sqlSessionTemplate.selectList("board.mapper.CampQnAMapper.getSearchList",map);
 	}
 	//작성자로 검색해서 user_num
 	@Override

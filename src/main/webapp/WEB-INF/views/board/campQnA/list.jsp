@@ -99,6 +99,7 @@
 										        <c:if test="${sessionScope.email != 'eunsol8287@gmail.com' && sessionScope.user_num > 0}">
 										        	<td><button type="button" class="btn btn-link"  data-toggle="modal" data-target="#check_pwd">${campQnADto.title}</button></td>
 										        </c:if>
+										        <td>${campQnADto.title}</td>
 										       	<td>${campQnADto.qna_type}</td>
 										        <td>${writerList[list.index]}</td>
 										        <td><fmt:formatDate value="${campQnADto.write_date}" pattern="yyyy-MM-dd"/></td>

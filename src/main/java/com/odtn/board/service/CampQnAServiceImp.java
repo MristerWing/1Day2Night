@@ -16,7 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.odtn.aop.LogAspect;
 import com.odtn.board.dao.CampQnADao;
 import com.odtn.board.dto.CampQnADto;
-import com.odtn.board.dto.CampReviewDto;
+
 import com.odtn.member.dto.MemberDto;
 
 @Component
@@ -190,13 +190,12 @@ public class CampQnAServiceImp implements CampQnAService {
 		int boardSize = 10;
 		int startRow = (currentPage - 1) * boardSize + 1;
 		int endRow = currentPage * boardSize;
-		LogAspect.logger.info(LogAspect.logMsg + "시작번호: " + startRow + ","
-				+ "끝번호: " + endRow);
+		LogAspect.logger.info(LogAspect.logMsg + "시작번호: " + startRow + ","+ "끝번호: " + endRow+ "찾는번호:" +user_num);
 		
 		List<String> writerList = new ArrayList<String>();
 		List<CampQnADto> searchList = null; // 글이 하나라도 있으면 
 		if (searchCount > 0) {
-			searchList = campQnADao.getSearchList(startRow, endRow, user_num);
+			searchList = campQnADao.getSearchList(startRow,endRow,user_num);
 		LogAspect.logger.info(LogAspect.logMsg + "작성글 사이즈" + searchList.size());
 		for (int i = 0; i < searchList.size(); i++) {
 			int user_number = searchList.get(i).getUser_num();
