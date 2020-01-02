@@ -46,7 +46,6 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                 <!-- nav -->
                 <nav class="py-3">
                     <div id="logo">
-                        <%-- 	<img class="logoImg" src="${root}/resources/css/images/ODTN.png" width="50"> --%>
                   		<h1> 
                   		<a class="navbar-brand" href="index.html"></a>
                        </h1>

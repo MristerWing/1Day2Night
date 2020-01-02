@@ -1,4 +1,3 @@
-
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -353,56 +352,6 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 			</div>
 		</div>
 	</section>
-	<!-- //portfolio -->
-	<!-- popup-->
-	<div id="gal1" class="pop-overlay animate">
-		<div class="popup">
-			<img src="images/1.jpg" alt="Popup Image" class="img-fluid" /> <a
-				class="close" href="#gallery">&times;</a>
-		</div>
-	</div>
-	<!-- //popup -->
-
-	<!-- popup-->
-	<div id="gal2" class="pop-overlay animate">
-		<div class="popup">
-			<img src="images/2.jpg" alt="Popup Image" class="img-fluid" /> <a
-				class="close" href="#gallery">&times;</a>
-		</div>
-	</div>
-	<!-- //popup -->
-	<!-- popup-->
-	<div id="gal3" class="pop-overlay animate">
-		<div class="popup">
-			<img src="images/3.jpg" alt="Popup Image" class="img-fluid" /> <a
-				class="close" href="#gallery">&times;</a>
-		</div>
-	</div>
-	<!-- //popup3 -->
-	<!-- popup-->
-	<div id="gal4" class="pop-overlay animate">
-		<div class="popup">
-			<img src="images/4.jpg" alt="Popup Image" class="img-fluid" /> <a
-				class="close" href="#gallery">&times;</a>
-		</div>
-	</div>
-	<!-- //popup -->
-	<!-- popup-->
-	<div id="gal5" class="pop-overlay animate">
-		<div class="popup">
-			<img src="images/5.jpg" alt="Popup Image" class="img-fluid" /> <a
-				class="close" href="#gallery">&times;</a>
-		</div>
-	</div>
-	<!-- //popup -->
-	<!-- popup-->
-	<div id="gal6" class="pop-overlay animate">
-		<div class="popup">
-			<img src="images/6.jpg" alt="Popup Image" class="img-fluid" /> <a
-				class="close" href="#gallery">&times;</a>
-		</div>
-	</div>
-	<!-- //popup -->
 
 	<!--footer -->
 	<footer>
