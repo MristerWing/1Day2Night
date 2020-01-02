@@ -18,6 +18,32 @@
   <link rel="stylesheet" href="${root}/resources/css/member/style.css">
   <!-- endinject -->
   <link rel="shortcut icon" href="${root}/resources/css/member/images/favicon.png" />
+  <script src="${root}/resources/javascript/modules/jquery-3.4.1.js"></script>
+  <script type="text/javascript">
+  	$(function(){
+  		
+  		$("#email").focusout(function() {
+  			
+  			var emailCheck = $("#email").val();
+  			
+  			var regExp = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+  			
+  			if(emailCheck.match(regExp) != null) {
+  				
+  			} else {
+  				$("body > div > div.container > div:nth-child(2) > form > ul > li:nth-child(1) > div.alert.alert-danger.alert-dismissible.fade.show").show();
+  			}
+  			
+  		});
+  		
+  		// 카카오 로그인
+  		$("body > div > div.container > div:nth-child(2) > form > ul > li:nth-child(4) > button").click(function() {
+  			
+  			location.href="https://kauth.kakao.com/oauth/authorize?client_id=06ef11d13082c0f6655eada1dec1670a&redirect_uri=http://localhost:8181/camping/member/kakaoLogin.do&response_type=code";
+  			
+  		});
+  	})
+  </script>
 </head>
 
 <body>
@@ -25,89 +51,66 @@
 	<div class="container">
 		
 		<!-- Header -->
-		<div>
-		
+		<div style="text-align:center; margin-top:15px;">
+			<h3>로그인</h3>
+			<span>고캠핑의 다양한 서비스와 혜택을 누리세요.</span>
 		</div>
 		
 		<!-- Login Form -->
-		<div>
-		
+		<div align="center" style="margin: 15px 0px 15px;">
+			<form action="${root}/member/loginOk.do" method="post" style="width:500px; border: 1px solid #dedede;">
+				<ul style="list-style:none; margin-top:15px;">
+					<!-- ID -->
+					<li>
+	                 	<div class="input-group" style="width:354px; height:50px; vertical-align: middle;">
+		                    <div class="input-group-prepend bg-transparent">
+			                    <span class="input-group-text bg-transparent border-right-0">
+			                  	  <i class="ti-user text-primary"></i>
+			                    </span>
+		                    </div>
+		                    <input type="text" class="form-control form-control-lg border-left-0" name="email" id="email" placeholder="email"/>
+							<i class="fa fa-check" aria-hidden="true" style="margin-top: 23px;"></i>
+	                  	</div>
+	                  	<div class="alert alert-danger alert-dismissible fade show" style="width:354px; margin-top:15px; display:none;">
+							<button type="button" class="close" data-dismiss="alert">&times;</button>
+							<strong>이메일 형식이 틀렸습니다.</strong>
+						</div>
+					</li>
+					
+					<!-- PWD -->
+					<li style="margin-top:15px;">
+	                	<div class="input-group" style="width:354px; height:50px;">
+		                    <div class="input-group-prepend bg-transparent">
+			                    <span class="input-group-text bg-transparent border-right-0">
+			                    	<i class="ti-lock text-primary"></i>
+			                    </span>
+		                    </div>
+		                    <input type="password" name="password" class="form-control form-control-lg border-left-0" id="password" placeholder="Password">                        
+	                  	</div>
+					</li>
+					<!-- Login -->
+					<li style="margin-top:15px;">
+						<input style="width:354px;height:50px;" class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn" type="submit" id="submit" value="로그인"/>
+					</li>
+					
+					<!-- KaKao Login -->
+					<li style="margin-top:15px;">
+						<button type="button" class="btn btn-warning" style="width:354px; height:50px;">
+							<i class="fa fa-comment" aria-hidden="true"></i> 카카오로 로그인
+						</button>
+					</li>
+					
+					<!-- Register -->
+					<li style="margin-top:15px;">
+						가입하지 않으셨나요? <a href="${root}/member/beforeRegister.do" class="text-primary">가입하기</a>
+					</li>
+				</ul>
+			</form>
 		</div>
 		
-	</div>
-
-  <div class="container-scroller">
-    <div class="container-fluid page-body-wrapper full-page-wrapper">
-      <div class="content-wrapper d-flex align-items-stretch auth auth-img-bg">
-        <div class="row flex-grow">
-          <div class="col-lg-6 d-flex align-items-center justify-content-center">
-            <div class="auth-form-transparent text-left p-3">
-              <div class="brand-logo">
-                <img src="${root}/resources/images/ODTN_LOGO.png" alt="logo">
-              </div>
-              <h4></h4>
-              <form class="pt-3" action="${root}/member/loginOk.do" method="POST">
-                <div class="form-group">
-                  <label for="email">E-mail</label>
-                  <div class="input-group">
-                    <div class="input-group-prepend bg-transparent">
-                      <span class="input-group-text bg-transparent border-right-0">
-                        <i class="ti-user text-primary"></i>
-                      </span>
-                    </div>
-                    <input type="text" class="form-control form-control-lg border-left-0" name="email" id="email" placeholder="email">
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label for="password">Password</label>
-                  <div class="input-group">
-                    <div class="input-group-prepend bg-transparent">
-                      <span class="input-group-text bg-transparent border-right-0">
-                        <i class="ti-lock text-primary"></i>
-                      </span>
-                    </div>
-                    <input type="password" name="password" class="form-control form-control-lg border-left-0" id="password" placeholder="Password">                        
-                  </div>
-                </div>
-                <div class="my-2 d-flex justify-content-between align-items-center">
-                  <a href="#" class="auth-link text-black">비밀번호 찾기</a>
-                </div>
-                <div class="my-3">
-					<input style="width:222px;height:49px;" class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn" type="submit" value="로그인"/>
-                </div>
-                <div class="mb-2 d-flex">
-                	<a href="https://kauth.kakao.com/oauth/authorize?client_id=06ef11d13082c0f6655eada1dec1670a&redirect_uri=http://localhost:8181/camping/member/kakaoLogin.do&response_type=code">
-					<img src="${root}/resources/images/kr_02_medium_press.png" alt="카카오 로그인"/>
-					</a>&nbsp;&nbsp;
-                 	</button>
-                </div>
-                <div class="text-center mt-4 font-weight-light">
-                  가입하지 않으셨나요? <a href="${root}/member/beforeRegister.do" class="text-primary">가입하기</a>
-                </div>
-              </form>
-            </div>
-          </div>
-          <div class="col-lg-6 login-half-bg d-flex flex-row">
-<!--             <p class="text-white font-weight-medium text-center flex-grow align-self-end">Copyright &copy; 2020  All rights reserved.</p> -->
-          </div>
-        </div>
-      </div>
-      <!-- content-wrapper ends -->
-    </div>
-    <!-- page-body-wrapper ends -->
-  </div>
-  <!-- container-scroller -->
-  <!-- plugins:js -->
-  <script src="${root}/resources/css/member/vendors/base/vendor.bundle.base.js"></script>
-  <!-- endinject -->
-  <!-- inject:js -->
-  <script src="${root}/resources/javascript/member/js/off-canvas.js"></script>
-  <script src="${root}/resources/javascript/member/js/hoverable-collapse.js"></script>
-  <script src="${root}/resources/javascript/member/js/template.js"></script>
-  <script src="${root}/resources/javascript/member/js/todolist.js"></script>
-  <!-- endinject -->
+	</div> 
   
-  <c:if test="${memberDto == null}">
+	<c:if test="${memberDto == null}">
 		<c:if test="${login_fail == 't'}">
 			<script type="text/javascript">
 				alert("아이디 혹은 비밀번호를 확인해 주십시오.");
@@ -115,20 +118,20 @@
 			</script>
 		</c:if>
 	</c:if>
+	  
+	<c:if test="${email_auth_status != null}">
+		<script type="text/javascript">
+			alert("이메일 인증을 하셔야 로그인 하실 수 있습니다.");
+			location.href="${root}/index.jsp";
+		</script>
+		<% session.invalidate(); %>
+	</c:if>
   
-  <c:if test="${email_auth_status != null}">
-  	<script type="text/javascript">
-  		alert("이메일 인증을 하셔야 로그인 하실 수 있습니다.");
-  		location.href="${root}/index.jsp";
-  	</script>
-  	<% session.invalidate(); %>
-  </c:if>
-  
-  <c:if test="${register_type == 'KAKAO'}">
-  	<script type="text/javascript">
-  		alert("이미 카카오 연동 로그인이 되어 있습니다.");
-  		location.href="${root}/index.jsp";
-  	</script>
-  </c:if>
+  	<c:if test="${register_type == 'KAKAO'}">
+	  	<script type="text/javascript">
+		  	alert("이미 카카오 연동 로그인이 되어 있습니다.");
+		  	location.href="${root}/index.jsp";
+	  	</script>
+  	</c:if>
 </body>
 </html>
