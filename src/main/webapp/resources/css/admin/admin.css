@@ -1,0 +1,18 @@
+@charset "UTF-8";
+input[type=text]{
+    background-color: whitesmoke;
+    text-align: center;
+    }
+    
+    td, th {
+    padding: 0;
+    text-align: center;
+    background-color: aliceblue;
+	}
+	
+	tr:nth-child(1n) > td:nth-child(1){
+		background-color: #2f323e;
+		color: white;
+		margin-block-start: auto;
+		}
+	
