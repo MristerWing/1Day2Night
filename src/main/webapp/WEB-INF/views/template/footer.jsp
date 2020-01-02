@@ -11,7 +11,6 @@
  
 </head>
 <link rel="stylesheet" href="${root}/resources/css/styles/footer.css">
-<script type="text/javascript" src="${root}/resources/javascript/modules/jquery-3.4.1.js"></script>
 
 <body>
     <!-- copyright -->
@@ -48,7 +47,7 @@
 				<span>ODTN</span>
 			</div>
 			<ul class="f_menu" style="float: left;">
-				<li class="privacy"><a href=#" onclick="return false">개인정보처리방침</a></li>
+				<li class="privacy"><a href="#" onclick="return false">개인정보처리방침</a></li>
 				<li><a href="#" onclick="return false">전자우편무단수집거부</a></li>
 				<li><a href="${root}/owner/login.do">캠핑장 등록안내</a></li>
 				<li><a href="${root}/admin/adminCheck.do" id="btn" onmouseover="makeBold()" onmouseout="makeOut()">관리자 페이지</a></li>
@@ -65,11 +64,11 @@
 		<div class="layout">
 			<!--하단주소-->
 			<div class="f_addr">
-				<address class="addr">
+				<div class="addr">
 					<div>서울특별시 구로구 구로동 디지털로34길 43 한국관광공사</div>
 					<div>TEL : 02-0000-0000</div>
 					<div>EMAIL : <a href="mailto:webmaster@gocamping.or.kr" class="f_mail">KITRI@Camping.or.kr</a></div>
-				</address>
+				</div>
 				<p class="copyright">
 					Copyrights(c) 2020 <span>KOREA TOURISM ORGANIZATION</span> ALL RIGHTS RESERVED.
 				</p>

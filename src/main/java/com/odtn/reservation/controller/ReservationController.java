@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.odtn.aop.LogAspect;
-import com.odtn.reservation.dao.ReservationDao;
 import com.odtn.reservation.service.ReservationService;
 
 /**
@@ -83,56 +82,62 @@ public class ReservationController {
 
 		return modelAndView;
 	}
-	
+
 	/**
 	 * 
 	 * @param request
 	 * @param response
-	 * @description
-	 * - JackSon 라이브러리의 단일 파라미터 (String)의 매핑 구조가 아직 정확히 알아보지 않았기에 결론적으로 String 값으로 ResponseBody 어노테이션으로 보낼 때 JavaScript에서 JSON.parse를 이용해도 인식하지 못함.
-	 * - 따라서, @jsonProperty 어노테이션을 이용해야 하는데 이것 또한, 클래스에서 멤버변수로 설정한 뒤 멤버변수 위에 적어주고 getter 메서드도 만들어줘야 하기에 기존에 만든 ReservationMap을 이용하기로 하였음.
+	 * @description - JackSon 라이브러리의 단일 파라미터 (String)의 매핑 구조가 아직 정확히 알아보지 않았기에
+	 *              결론적으로 String 값으로 ResponseBody 어노테이션으로 보낼 때 JavaScript에서
+	 *              JSON.parse를 이용해도 인식하지 못함. - 따라서, @jsonProperty 어노테이션을 이용해야
+	 *              하는데 이것 또한, 클래스에서 멤버변수로 설정한 뒤 멤버변수 위에 적어주고 getter 메서드도 만들어줘야
+	 *              하기에 기존에 만든 ReservationMap을 이용하기로 하였음.
 	 */
 	@RequestMapping(value = "/reservation/Finalpay.do", method = RequestMethod.POST)
 	@ResponseBody
 	public Map<String, Object> reservationDoPay(HttpServletRequest request,
 			HttpServletResponse response) {
-		
+
 		@SuppressWarnings("unchecked")
 		Map<String, String[]> dataMap = request.getParameterMap();
 		Map<String, Object> reservationMap = new HashMap<String, Object>();
-		
+
 		Iterator<String> keyIter = dataMap.keySet().iterator();
-		
-		while(keyIter.hasNext()) {
+
+		while (keyIter.hasNext()) {
 			String key = keyIter.next();
-			
-			if(key.equals("start_date") || key.equals("end_date")) {
+
+			if (key.equals("start_date") || key.equals("end_date")) {
 				try {
-					reservationMap.put(key, new SimpleDateFormat("yyyy-MM-dd").parse(dataMap.get(key)[0]));
+					reservationMap.put(key, new SimpleDateFormat("yyyy-MM-dd")
+							.parse(dataMap.get(key)[0]));
 				} catch (ParseException e) {
 					e.printStackTrace();
 				}
-				
+
 			} else {
 				reservationMap.put(key, dataMap.get(key)[0]);
 			}
 			LogAspect.logger.info(LogAspect.logMsg + reservationMap.get(key));
 		}
-		
-		reservationMap.put("check", reservationService.reservationDoPay(reservationMap));
-		
+
+		reservationMap.put("check",
+				reservationService.reservationDoPay(reservationMap));
+
 		return reservationMap;
 	}
-	
+
 	@RequestMapping(value = "/reservation/payInfo.do", method = RequestMethod.GET)
-	public ModelAndView reservationPayInfo(HttpServletRequest request, HttpServletResponse response) {
+	public ModelAndView reservationPayInfo(HttpServletRequest request,
+			HttpServletResponse response) {
 		ModelAndView modelAndView = new ModelAndView();
-		
-		modelAndView.addObject("user_name",request.getParameter("user_name"));
-		modelAndView.addObject("phone",request.getParameter("phone"));
-		modelAndView.addObject("owner_name", reservationService.getOwnerName(request.getParameter("camp_id")));
+
+		modelAndView.addObject("user_name", request.getParameter("user_name"));
+		modelAndView.addObject("phone", request.getParameter("phone"));
+		modelAndView.addObject("owner_name", reservationService
+				.getOwnerName(request.getParameter("camp_id")));
 		modelAndView.setViewName("reservation/finishedPay.tiles");
-		
+
 		return modelAndView;
 	}
 }
