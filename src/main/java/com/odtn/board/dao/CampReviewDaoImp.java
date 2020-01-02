@@ -40,6 +40,22 @@ public class CampReviewDaoImp implements CampReviewDao {
 	public int getCount() {
 		return sqlSessionTemplate.selectOne("board.mapper.CampReviewMapper.getCount");
 	}
+	//검색글 개수 구하기
+	@Override
+	public int getSearchCount(String keyword) {
+
+		return sqlSessionTemplate.selectOne("board.mapper.CampReviewMapper.getSearchCount",keyword);
+
+	}
+	//게시글 검색 리스트
+	@Override
+	public List<CampReviewDto> getSearchList(int startRow, int endRow, String keyword) {
+		HashMap<String, Object> map=new HashMap<String, Object>();
+		map.put("startRow", startRow);
+		map.put("endRow", endRow);
+		map.put("keyword", keyword);
+		return sqlSessionTemplate.selectList("board.mapper.CampReviewMapper.getSearchList",map);
+	}
 	//게시글목록 리스트
 	@Override
 	public List<CampReviewDto> getCampReviewList(int startRow, int endRow) {
@@ -67,15 +83,21 @@ public class CampReviewDaoImp implements CampReviewDao {
 	public String getFilePath(int review_num) {
 		return sqlSessionTemplate.selectOne("board.mapper.CampReviewMapper.getFilePath",review_num);
 	}
+	//멤버테이블에서 작성자 이름 찾기
+	@Override
+	public String getUser_name(int user_num) {
+		
+		return sqlSessionTemplate.selectOne("board.mapper.CampReviewMapper.getUser_name",user_num);
+	}
 	//멤버테이블에서 작성자이메일찾기
     @Override
     public String getEmail(int user_num) {
-    	return sqlSessionTemplate.selectOne("board.mapper.CampReviewMapper.getUser_name",user_num);
+    	return sqlSessionTemplate.selectOne("board.mapper.CampReviewMapper.getEmail",user_num);
     }
     //이메일없으면 카톡 프로필이름찾기
     @Override
-    public String getProfilName(int user_num) {
-    	return sqlSessionTemplate.selectOne("board.mapper.CampReviewMapper.getProfilName",user_num);
+    public String getNickName(int user_num) {
+    	return sqlSessionTemplate.selectOne("board.mapper.CampReviewMapper.getNickName",user_num);
     }
     //글읽기
     @Override

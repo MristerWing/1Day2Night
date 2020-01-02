@@ -10,7 +10,7 @@ License: Creative Commons Attribution 3.0 Unported
 License URL: http://creativecommons.org/licenses/by/3.0/
 -->
 <html lang="utf-8">
-
+ 
 <head>
     <script src="${root}/resources/javascript/modules/jquery-3.4.1.js"></script>
    <script type="text/javascript">
@@ -30,41 +30,39 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 
 <body>
   <!--/ab -->
- <section class="about py-lg-5 py-md-5 py-5">
-
+  <section class="about py-lg-5 py-md-5 py-5">
         <div class="container">
             <div class="inner-sec-w3pvt py-lg-5 py-3">
-                <h3 class="tittle text-center mb-lg-5 mb-3 px-lg-5">문의사항</h3>
-             <div class="info_content" >
+                <h3 class="tittle text-center mb-lg-5 mb-3 px-lg-5">문의사항 답변</h3>
+             <div class="QnA_content" >
 				
-				<label>문의사항 답글</label>
 			<!--썸머노트 form태그-->
-            <form class="campInfo_form" action="${root}/board/campQnA/writeAnswerOk.do" method="POST" 
-            	onsubmit="returnForm(this)" enctype="multipart/form-data">
-            <!--사용자한테 안보이는값-->
-            	<input type="hidden" name="qna_num" value="${qna_num}"/>
+            <form class="campReview_form" action="${root}/board/campQnA/writeAnswerOk.do" method="POST" 
+            	enctype="multipart/form-data" onsubmit="returnForm(this)">
+ 	
+ 			<!--안보이게 넘어가는 값-->
+				<input type="hidden" name="qna_num" value="${qna_num}"/>
 				<input type="hidden" name="group_num" value="${group_num}"/>
 				<input type="hidden" name="sequence_num" value="${sequence_num}"/>
 				<input type="hidden" name="sequence_level" value="${sequence_level}"/>
 				<input type="hidden" name="sequence_level" value="${sequence_level}"/>
  			 	<input type="hidden" name="pageNumber" value="${pageNumber}"/>
  			 	<input type="hidden" name="password" value="${password}"/>
-			<ul class="">
-				<li>
-				</li>
-				<li>
-					<label >제목(*)</label>
-					<input name="title"  type="text" maxlength="100" value="${campQnADto.title}" onfocus="this.value=''">
-				</li>
-				<li>
-					<label >작성자(*)</label>
-					<input name="user_num" type="hidden" value="${user_num}"/>
-					<input name="writer" type="text" value="${writer}" disabled="disabled"/>
-				</li>
+ 			 	<input type="hidden" name="qna_type" value="${campQnADto.qna_type}">
 				
-				<li>
-					<label>내용</label>
-					<textarea name="content" rows="3" id="content"></textarea>
+			  <div class="form-group">
+				  <label>제목(*)</label>
+				  <input type="text" class="form-control" id="title" name="title" value="${title}" onfocus="this.value=''">
+			  </div>
+			  <div class="form-group">
+				  <label for="pwd">작성자(*)</label>
+				  <input name="user_num" type="hidden" value="${memberDto.user_num}">
+				  <input type="text" class="form-control" value="${writer}" name="user_name" disabled="disabled">
+			 </div>
+		
+				     <div class="form-group">
+      				  <label>답변을 입력해주세요</label>
+      				  	<textarea name="content" rows="3" id="content"></textarea>
 						<!--썸머노트 한글설정-->
 						<script type="text/javascript" src="${root}/resources/javascript/summernote/summernote-ko-KR.js">
 						</script>
@@ -80,28 +78,22 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 					     		lang:'ko-KR'
 					       
 					        });
-					       
 					        $('#content').summernote('code','${campQnADto.content}')			        
 					        var code=$('#content').summernote('code')
 					        $(".content").html(code);  
 					    });
 					    </script>	
-				<li>
-					<p>
-						<input class="btn" type="submit" value="작성"/>	
-						<input class="btn" type="button"  value="목록" onclick="location.href='${root}/board/campQnA/list.do?pageNumber=${pageNumber}'"/>	
-					</p>
-				
-				</li>
-		</ul>
-		</form>            
-	</div>   
-            </div>
+				     
+				    </div>
+					<div align="right">
+				    <button type="submit" class="btn btn-primary">작성</button>
+				    <button type="button" class="btn btn-primary" onclick="location.href='${root}/board/campQnA/list.do?pageNumber=${pageNumber}'" >목록</button>
+				 	</div>
+				  </form>
+			</div>   
+           </div>
         </div>
-    
-        <!-- //services -->
     </section>
-
 </body>
 
 </html>

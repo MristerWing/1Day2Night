@@ -31,14 +31,18 @@
 	  				 </form>
 					</div> 
 						
-					<div id="info_list_content">
-					<c:if test="${count==0||campInfoList.size()==0}">
+					<div id="info_list_content" align="center">
+				
+					<c:if test="${searchCount==null}">
 						<div>
-							<span>게시판에 저장된 글이 없습니다.</span>
+							<h4>해당 글이 없습니다. 검색어를 확인해주세요.</h4>
+						</div>
+						<div align="right">
+							<button type="button" class="btn btn-primary" onclick="location.href='${root}/board/campInfo/list.do?pageNumber=${pageNumber}'" >전체목록</button>
 						</div>
 					</c:if>
 					<!--작성글이있다면-->
-				 <c:if test="${count>0}">
+				 <c:if test="${searchCount>0}">
 				 			
 					<div class="container">         
 						  <table class="table table-striped">
@@ -52,8 +56,8 @@
 						      </tr>
 						    </thead>
 						    <tbody>
-						    <c:if test="${count>0}">
-						       	<c:forEach var="campInfoDto" varStatus="list" items="${campInfoList}">
+						    <c:if test="${searchCount>0}">
+						       	<c:forEach var="campInfoDto" varStatus="list" items="${searchList}">
 						       	 <tr>
 								    <td>${campInfoDto.info_num}</td>
 									<td><a href="${root}/board/campInfo/read.do?info_num=${campInfoDto.info_num}&pageNumber=${currentPage}">${campInfoDto.title}</a></td>
@@ -66,6 +70,9 @@
 						    </tbody>
 						  </table>
 					</div>	
+					<div align="right">
+					    <button type="button" class="btn btn-primary" onclick="location.href='${root}/board/campInfo/list.do?pageNumber=${pageNumber}'" >전체목록</button>
+				    </div>
 				 </c:if> 
 				  <c:if test="${sessionScope.email=='eunsol8287@gmail.com'}">
 					<div class="list_buttom" align="right">

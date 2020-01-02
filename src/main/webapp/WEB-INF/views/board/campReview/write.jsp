@@ -49,7 +49,7 @@
 				    <div class="form-group">
 				      <label for="pwd">작성자 (*)</label>
 				      <input name="user_num" type="hidden" value="${memberDto.user_num}">
-				      <input type="text" class="form-control" value="${user_name}" name="user_name" disabled="disabled">
+				      <input type="text" class="form-control" value="${writer}" name="writer" disabled="disabled">
 				    </div>
 				      <div class="form-group" >
 					      <label for="sel1">캠핑장선택 (*)</label>
