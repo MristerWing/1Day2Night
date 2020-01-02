@@ -34,4 +34,8 @@
 		select camp_site_type as title, nvl(count(*), 0) as result from reservation 
 		where camp_id = #{camp_id} GROUP BY camp_site_type
 	</select>
+	
+	<select id="getOwnerName" parameterType="String" resultType="String">
+		SELECT USER_NAME FROM MEMBER, OWNER WHERE MEMBER.USER_NUM = OWNER.USER_NUM AND OWNER.CAMP_ID = #{value}
+	</select>
 </mapper>

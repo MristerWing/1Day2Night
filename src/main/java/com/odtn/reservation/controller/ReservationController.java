@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.odtn.aop.LogAspect;
+import com.odtn.reservation.dao.ReservationDao;
 import com.odtn.reservation.service.ReservationService;
 
 /**
@@ -129,8 +130,7 @@ public class ReservationController {
 		
 		modelAndView.addObject("user_name",request.getParameter("user_name"));
 		modelAndView.addObject("phone",request.getParameter("phone"));
-		modelAndView.addObject("bank",request.getParameter("bank"));
-		
+		modelAndView.addObject("owner_name", reservationService.getOwnerName(request.getParameter("camp_id")));
 		modelAndView.setViewName("reservation/finishedPay.tiles");
 		
 		return modelAndView;

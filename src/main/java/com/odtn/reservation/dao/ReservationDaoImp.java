@@ -67,4 +67,9 @@ public class ReservationDaoImp implements ReservationDao {
 	public MemberDto getMemberDto(int user_num) {
 		return sqlSessionTemplate.selectOne("com.odtn.reservation.dao.mapper.ReservationMapper.getMemberDto", user_num);
 	}
+
+	@Override
+	public String getOwnerName(String camp_id) {
+		return sqlSessionTemplate.selectOne("com.odtn.owner.dao.mapper.OwnerMapper.getOwnerName",camp_id);
+	}
 }

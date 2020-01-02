@@ -172,4 +172,9 @@ public class ReservationServiceImp implements ReservationService {
 		else return "실패";
 		
 	}
+
+	@Override
+	public String getOwnerName(String camp_id) {
+		return reservationDao.getOwnerName(camp_id);
+	}
 }

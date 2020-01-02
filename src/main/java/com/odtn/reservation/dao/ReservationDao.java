@@ -18,4 +18,6 @@ public interface ReservationDao {
 	public int reservationDoPay(Map<String, Object> reservationMap);
 
 	public MemberDto getMemberDto(int user_num);
+
+	public String getOwnerName(String camp_id);
 }
