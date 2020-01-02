@@ -30,13 +30,70 @@
 			}
 		</style>
 		<script>
+			function phoneFomatter(num,type){
+
+    		    var formatNum = '';
+
+    		    if(num.length==11){
+
+    		        if(type==0){
+
+    		            formatNum = num.replace(/(\d{3})(\d{4})(\d{4})/, '$1-****-$3');
+
+    		        }else{
+
+    		            formatNum = num.replace(/(\d{3})(\d{4})(\d{4})/, '$1-$2-$3');
+
+    		        }
+
+    		    }else if(num.length==8){
+
+    		        formatNum = num.replace(/(\d{4})(\d{4})/, '$1-$2');
+
+    		    }else{
+
+    		        if(num.indexOf('02')==0){
+
+    		            if(type==0){
+
+    		                formatNum = num.replace(/(\d{2})(\d{4})(\d{4})/, '$1-****-$3');
+
+    		            }else{
+
+    		                formatNum = num.replace(/(\d{2})(\d{4})(\d{4})/, '$1-$2-$3');
+
+    		            }
+
+    		        }else{
+
+    		            if(type==0){
+
+    		                formatNum = num.replace(/(\d{3})(\d{3})(\d{4})/, '$1-***-$3');
+
+    		            }else{
+
+    		                formatNum = num.replace(/(\d{3})(\d{3})(\d{4})/, '$1-$2-$3');
+
+    		            }
+    		        }
+    		    }
+    		    return formatNum;
+    		}
+			
 			$(function() {
 				
 				$("body > div > div.container.background > button").click(function() {
 					
 					location.href="${root}/search/list.do";
 				});
+				
+				var PhoneNumber = $("#order > div.or_info > div > p:nth-child(2)").text();
+				
+				PhoneNumber = phoneFomatter(PhoneNumber);
+				
+				$("#order > div.or_info > div > p:nth-child(2)").text(PhoneNumber);
 			});
+			
 		</script>
 	</head>
 	<body>
@@ -68,8 +125,8 @@
 		        <h3>결제정보</h3>
 		        <div>
 		          <p>무통장입금</p>
-		          <p>입금은행 : ${bank}(933502-00-412333)</p>
-		          <p>예금주 : 1Day2Night</p>
+		          <p>입금은행 : 국민은행(933502-00-415658)</p>
+		          <p>예금주 : ${owner_name}</p>
 		          <p>입금기한 : 2020.01.16</p>
 		        </div>
 		      </div>

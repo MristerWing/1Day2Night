@@ -182,4 +182,6 @@
 	<insert id="insertCampChoice" parameterType="java.util.Map">
 		INSERT INTO CHOICE (CHOICE_ID, USER_NUM, CAMP_ID) VALUES (CHOICE_NUM_SEQ.NEXTVAL ,#{id}, #{campId})
 	</insert>
+	
+	
 </mapper>

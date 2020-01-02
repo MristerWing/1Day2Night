@@ -21,4 +21,6 @@ public interface ReservationService {
 	public void reservationPay(ModelAndView modelAndView);
 
 	public String reservationDoPay(Map<String, Object> reservationMap);
+	
+	public String getOwnerName(String camp_id);
 }

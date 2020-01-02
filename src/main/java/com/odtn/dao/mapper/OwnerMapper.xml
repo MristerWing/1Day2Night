@@ -1,23 +1,20 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.odtn.owner.dao.mapper.OwnerMapper">
-	<select id="login" parameterType="java.util.Map"
-		resultType="com.odtn.owner.dto.OwnerDto">
+	<select id="login" parameterType="java.util.Map" resultType="com.odtn.owner.dto.OwnerDto">
 		select * from owner where owner_key = #{owner_key} and
 		user_num = #{user_num}
 	</select>
 
 
-	<select id="countOwnerKey" parameterType="long"
-		resultType="String">
+	<select id="countOwnerKey" parameterType="long" resultType="String">
 		select nvl(count(*), 0) from owner where owner_key =
 		#{owner_key}
 	</select>
 
-	<select id="getOwnerData" parameterType="long"
-		resultType="com.odtn.owner.dto.OwnerMainPageDto">
+	<select id="getOwnerData" parameterType="long" resultType="com.odtn.owner.dto.OwnerMainPageDto">
 		select m.user_name, c.camp_name, c.address, c.hp, c.camp_link
 		from owner o, member m , camp_data c
 		where o.user_num = m.user_num and o.camp_id = c.camp_id
@@ -25,43 +22,42 @@
 		#{owner_key}
 	</select>
 
-	<select id="getReservationList" parameterType="java.util.Map"
-		resultType="com.odtn.reservation.dto.ReservationDto">
+	<select id="getReservationList" parameterType="java.util.Map" resultType="com.odtn.reservation.dto.ReservationDto">
 		select * from reservation where camp_id = #{camp_id} and camp_site_type = #{fee_name}
 	</select>
-	
+
 	<select id="getReservationCountMap" parameterType="int" resultType="java.util.Map">
 		select camp_site_type as title, nvl(count(*), 0) as result from reservation 
 		where camp_id = #{camp_id} GROUP BY camp_site_type
 	</select>
-	
+
 	<update id="updateCampData" parameterType="com.odtn.search.dto.SearchDto">
 		update camp_data
 		<set>
-		camp_name = #{camp_name},
+			camp_name = #{camp_name},
 		title = #{title},
 		camp_type = #{camp_type},
 		tag = #{tag},
-		<if test="main_image != ''">
+			<if test="main_image != ''">
 			main_image = #{main_image},
 		</if>
-		address = #{address},
+			address = #{address},
 		hp = #{hp},
 		location_type = #{location_type},
 		operation_type = #{operation_type},
 		operation_period = #{operation_period},
 		operation_day = #{operation_day},
 		camp_link = #{camp_link},
-		<if test="main_image != ''">
+			<if test="main_image != ''">
 			sub_image1 = #{sub_image1},
 		</if>
-		<if test="main_image != ''">
+			<if test="main_image != ''">
 			sub_image2 = #{sub_image2},
 		</if>
-		<if test="main_image != ''">
+			<if test="main_image != ''">
 			sub_image3 = #{sub_image3},
 		</if>
-		content = #{content},
+			content = #{content},
 		content_modified_date = #{content_modified_date},
 		main_facilities = #{main_facilities},
 		etc_facilities = #{etc_facilities},
@@ -71,7 +67,10 @@
 		karaban_facilities = #{karaban_facilities},
 		animal_access = #{animal_access},
 		torch = #{torch}
-		</set> 
+		</set>
 		where camp_id = #{camp_id}
 	</update>
+	<select id="getOwnerName" parameterType="String" resultType="String">
+		SELECT USER_NAME FROM MEMBER, OWNER WHERE MEMBER.USER_NUM = OWNER.USER_NUM AND OWNER.CAMP_ID = #{value}
+	</select>
 </mapper>

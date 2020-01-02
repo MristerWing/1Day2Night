@@ -50,6 +50,25 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 	href="//fonts.googleapis.com/css?family=Dosis:200,300,400,500,600,700,800"
 	rel="stylesheet">
 <!-- //Fonts -->
+<style>
+	#gallery > div > div > div img {
+		height: 200px;
+		width: 400px;
+	}
+	
+	#gallery > div > div > div:nth-child(4), #gallery > div > div > div:nth-child(5), #gallery > div > div > div:nth-child(6) {
+		margin-top: 10px;
+	}
+	
+	#gallery > div > div > div > div > div > div.detail > h4 {
+		font-size: 18px;
+	}
+	
+	#gallery > div > div > div > div > div > div.detail > div > a {
+		font-size : 12px;
+	}
+	
+</style>
 
 </head>
 
@@ -172,14 +191,12 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 					<div class="col-lg-4" data-aos="fade-up">
 						<div class="bottom-gd px-3">
 							<span class="fa fa-rocket" aria-hidden="true"></span>
-							<h3 class="my-4">2304개의 다양한 캠핑장</h3>
+							<h3 class="my-4">${campingDto.campingCount}개의 다양한 캠핑장</h3>
 							<p>Integer sit amet mattis quam, sit amet ultricies velit.
 								Praesent ullamcorper dui turpis.</p>
 						</div>
 					</div>
-
 				</div>
-
 			</div>
 		</div>
 		<!-- //services -->
@@ -192,28 +209,28 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 				<div class="col-md-3 col-sm-6">
 					<div class="counter">
 						<span class="fa fa-briefcase"></span>
-						<h3 class="timer count-title count-number">12</h3>
+						<h3 class="timer count-title count-number">${campingDto.campingCount}</h3>
 						<p class="count-text">등록된 캠핑장</p>
 					</div>
 				</div>
 				<div class="col-md-3 col-sm-6">
 					<div class="counter">
 						<span class="fa fa-user"></span>
-						<h3 class="timer count-title count-number">120</h3>
+						<h3 class="timer count-title count-number">${campingDto.ownerCount}</h3>
 						<p class="count-text">등록된 사업자</p>
 					</div>
 				</div>
 				<div class="col-md-3 col-sm-6">
 					<div class="counter">
 						<span class="fa fa-smile-o"></span>
-						<h3 class="timer count-title count-number">1280</h3>
+						<h3 class="timer count-title count-number">${campingDto.recommandCount}</h3>
 						<p class="count-text">추천</p>
 					</div>
 				</div>
 				<div class="col-md-3 col-sm-6">
 					<div class="counter">
 						<span class="fa fa-users"></span>
-						<h3 class="timer count-title count-number">10200</h3>
+						<h3 class="timer count-title count-number">${campingDto.memberCount}</h3>
 						<p class="count-text">회원</p>
 					</div>
 				</div>
@@ -310,188 +327,33 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 			<h3 class="tittle  text-center my-lg-5 my-3">추천 캠핑장</h3>
 
 			<div class="row news-grids pb-lg-5 mt-3 mt-lg-5">
-				<div class="col-lg-4 gal-img">
-					<div class="gal-info">
-						<a href="#gal1"><img src="https://images.unsplash.com/photo-1475483768296-6163e08872a1?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2550&q=80" alt="news image"
-							class="img-fluid"></a>
-						<div class="property-info-list">
-							<div class="detail">
-								<h4 class="title">
-									<a href="about.html">호반캠핑장</a>
-								</h4>
-								<div class="location mt-2">
-									<a href="about.html"> <span class="fa fa-map-marker"></span>
-										Netherlands / Belgium
-									</a>
+				<c:if test="${campingList.size() > 0}">
+					<c:forEach var="searchDto" varStatus="status" items="${campingList}">
+						<div class="col-lg-4 gal-img">
+							<div class="gal-info">
+								<a href="${root}/search/read.do?camp-id=${searchDto.camp_id}"><img src="${searchDto.main_image}" alt="news image"
+									class="img-fluid"></a>
+								<div class="property-info-list">
+									<div class="detail">
+										<h4 class="title">
+											<a href="${root}/search/read.do?camp-id=${searchDto.camp_id}">${searchDto.camp_name}</a>
+										</h4>
+										<div class="location mt-2">
+											<a href="${root}/search/read.do?camp-id=${searchDto.camp_id}"> <span class="fa fa-map-marker"></span>
+												${searchDto.address}
+											</a>
+										</div>
+										<ul class="facilities-list clearfix">
+											<li><i class="fa fa-thumbs-o-up" aria-hidden="true"></i> (추천)   ${searchDto.recommand_count}</li>
+											<li><i class="fa fa-pencil" aria-hidden="true"></i> (리뷰)   ${searchDto.review_count}</li>
+										</ul>
+									</div>
 								</div>
-								<ul class="facilities-list clearfix">
-									<li><span class="fa fa-clock-o"></span> 3 days</li>
-									<li><span class="fa fa-clock-o"></span> 2 nights</li>
-								</ul>
-							</div>
-							<div class="footer-properties">
-								<a class="admin" href="#"> <span class="fa fa-user"></span>
-									Lorem Ipsum
-								</a> <span class="year text-right"> <span
-									class="fa fa-calendar"></span> 2 months ago
-								</span>
-
 							</div>
 						</div>
-					</div>
-				</div>
-				<div class="col-lg-4 gal-img">
-					<div class="gal-info">
-						<a href="#gal2"><img src="https://images.unsplash.com/photo-1492648272180-61e45a8d98a7?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1650&q=80" alt="news image"
-							class="img-fluid"></a>
-						<div class="property-info-list">
-							<div class="detail">
-								<h4 class="title">
-									<a href="about.html">솔밭 야영장</a>
-								</h4>
-								<div class="location mt-2">
-									<a href="about.html"> <span class="fa fa-map-marker"></span>
-										France / Paris
-									</a>
-								</div>
-								<ul class="facilities-list clearfix">
-									<li><span class="fa fa-clock-o"></span> 3 days</li>
-									<li><span class="fa fa-clock-o"></span> 2 nights</li>
-								</ul>
-							</div>
-							<div class="footer-properties">
-								<a class="admin" href="#"> <span class="fa fa-user"></span>
-									Lorem Ipsum
-								</a> <span class="year text-right"> <span
-									class="fa fa-calendar"></span> 2 months ago
-								</span>
-
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="col-lg-4 gal-img">
-					<div class="gal-info">
-						<a href="#gal3"><img src="https://images.unsplash.com/photo-1478810810369-07072c5ef88b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=700&q=60" alt="news image"
-							class="img-fluid"></a>
-						<div class="property-info-list">
-							<div class="detail">
-								<h4 class="title">
-									<a href="about.html">Australia</a>
-								</h4>
-								<div class="location mt-2">
-									<a href="about.html"> <span class="fa fa-map-marker"></span>
-										Melbourne / Sydney
-									</a>
-								</div>
-								<ul class="facilities-list clearfix">
-									<li><span class="fa fa-clock-o"></span> 3 days</li>
-									<li><span class="fa fa-clock-o"></span> 2 nights</li>
-								</ul>
-							</div>
-							<div class="footer-properties">
-								<a class="admin" href="#"> <span class="fa fa-user"></span>
-									Lorem Ipsum
-								</a> <span class="year text-right"> <span
-									class="fa fa-calendar"></span> 2 months ago
-								</span>
-
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="col-lg-4 gal-img mt-lg-4">
-					<div class="gal-info">
-						<a href="#gal4"><img src="https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1650&q=80" alt="news image"
-							class="img-fluid"></a>
-						<div class="property-info-list">
-							<div class="detail">
-								<h4 class="title">
-									<a href="about.html">France</a>
-								</h4>
-								<div class="location mt-2">
-									<a href="about.html"> <span class="fa fa-map-marker"></span>
-										France / Paris
-									</a>
-								</div>
-								<ul class="facilities-list clearfix">
-									<li><span class="fa fa-clock-o"></span> 3 days</li>
-									<li><span class="fa fa-clock-o"></span> 2 nights</li>
-								</ul>
-							</div>
-							<div class="footer-properties">
-								<a class="admin" href="#"> <span class="fa fa-user"></span>
-									Lorem Ipsum
-								</a> <span class="year text-right"> <span
-									class="fa fa-calendar"></span> 2 months ago
-								</span>
-
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="col-lg-4 gal-img mt-lg-4">
-					<div class="gal-info">
-						<a href="#gal5"><img src="https://images.unsplash.com/photo-1511993807578-701168605ad3?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=700&q=60" alt="news image"
-							class="img-fluid"></a>
-						<div class="property-info-list">
-							<div class="detail">
-								<h4 class="title">
-									<a href="about.html">Australia</a>
-								</h4>
-								<div class="location mt-2">
-									<a href="about.html"> <span class="fa fa-map-marker"></span>
-										Melbourne / Sydney
-									</a>
-								</div>
-								<ul class="facilities-list clearfix">
-									<li><span class="fa fa-clock-o"></span> 3 days</li>
-									<li><span class="fa fa-clock-o"></span> 2 nights</li>
-								</ul>
-							</div>
-							<div class="footer-properties">
-								<a class="admin" href="#"> <span class="fa fa-user"></span>
-									Lorem Ipsum
-								</a> <span class="year text-right"> <span
-									class="fa fa-calendar"></span> 2 months ago
-								</span>
-
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="col-lg-4 gal-img mt-lg-4">
-					<div class="gal-info">
-						<a href="#gal6"><img src="https://images.unsplash.com/photo-1532564979029-bbf9fcbe7b0b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1650&q=80" alt="news image"
-							class="img-fluid"></a>
-						<div class="property-info-list">
-							<div class="detail">
-								<h4 class="title">
-									<a href="about.html">Germany</a>
-								</h4>
-								<div class="location mt-2">
-									<a href="about.html"> <span class="fa fa-map-marker"></span>
-										Netherlands / Belgium
-									</a>
-								</div>
-								<ul class="facilities-list clearfix">
-									<li><span class="fa fa-clock-o"></span> 3 days</li>
-									<li><span class="fa fa-clock-o"></span> 2 nights</li>
-								</ul>
-							</div>
-							<div class="footer-properties">
-								<a class="admin" href="#"> <span class="fa fa-user"></span>
-									Lorem Ipsum
-								</a> <span class="year text-right"> <span
-									class="fa fa-calendar"></span> 2 months ago
-								</span>
-
-							</div>
-						</div>
-					</div>
-				</div>
+					</c:forEach>
+				</c:if>
 			</div>
-
 		</div>
 	</section>
 	<!-- //portfolio -->
