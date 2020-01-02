@@ -10,12 +10,15 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.odtn.aop.LogAspect;
+import com.odtn.member.dao.MemberDao;
+import com.odtn.member.dto.MemberDto;
 import com.odtn.reservation.dao.ReservationDao;
 import com.odtn.reservation.dto.ReservationDto;
 import com.odtn.search.dao.SearchDao;
@@ -146,7 +149,12 @@ public class ReservationServiceImp implements ReservationService {
 				}
 			}
 		}
-
+		
+		HttpSession session = request.getSession();
+		
+		MemberDto memberDto = reservationDao.getMemberDto((Integer)session.getAttribute("user_num"));
+		
+		modelAndView.addObject(memberDto);
 		modelAndView.addObject("camp", camp);
 		modelAndView.addObject("cost", cost);
 		modelAndView.addObject("camp_fee", request.getParameter("camp_fee"));

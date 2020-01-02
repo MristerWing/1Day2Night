@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.odtn.member.dto.MemberDto;
 import com.odtn.reservation.dto.ReservationDto;
 
 public interface ReservationDao {
@@ -15,4 +16,6 @@ public interface ReservationDao {
 			String campingName, Date startDate, Date endDate, int peopleOfNum);
 
 	public int reservationDoPay(Map<String, Object> reservationMap);
+
+	public MemberDto getMemberDto(int user_num);
 }
