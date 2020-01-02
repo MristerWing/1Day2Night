@@ -55,6 +55,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                     <label for="drop" class="toggle">Menu</label>
                     <input type="checkbox" id="drop" />
                     <ul class="menu mt-2">
+                        <li class="active"><a href="${root}/index.jsp">HOME</a></li>
                         <li class="active"><a href="${root}/search/list.do">캠핑장검색</a></li>
                         	<!-- First Tier Drop Down -->
                            <li>

@@ -13,6 +13,8 @@ public interface CampInfoService {
 	public void writeOk(ModelAndView mav,MemberDto memberDto);
 	//목록보기
 	public void list(ModelAndView mav,HttpSession session,MemberDto memberDto);
+	//검색해서 목록보기
+	public void serchList(ModelAndView mav);
 	//읽기
 	public void read(ModelAndView mav,MemberDto memberDto);
 	//파일다운로드

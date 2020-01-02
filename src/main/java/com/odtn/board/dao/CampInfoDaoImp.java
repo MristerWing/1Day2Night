@@ -28,6 +28,10 @@ public class CampInfoDaoImp implements CampInfoDao {
 		
 		return sqlSessionTemplate.selectOne("board.mapper.CampInfoMapper.getEmail",user_num);
 	}
+	//이메일없으면 카톡 프로필이름 가져오기
+	public String getNickName(int user_num) {
+		return sqlSessionTemplate.selectOne("board.mapper.CampInfoMapper.getNickName",user_num);
+	}
 	@Override
 	public int writeOK(CampInfoDto campInfoDto, List<CampInfoFileDto> array) {
 		int check = 0;
@@ -49,7 +53,12 @@ public class CampInfoDaoImp implements CampInfoDao {
 	public int getCount() {
 		return sqlSessionTemplate.selectOne("board.mapper.CampInfoMapper.campInfoCount");
 	}
-
+	//해당검색내용 숫자
+	@Override
+	public int getSearchCount(String keyword) {
+		
+		return sqlSessionTemplate.selectOne("board.mapper.CampInfoMapper.getSearchCount");
+	}
 	// campinfo에서 리스트뿌려주기
 	@Override
 	public List<CampInfoDto> getCampInfoList(int startRow, int endRow) {

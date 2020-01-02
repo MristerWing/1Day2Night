@@ -12,10 +12,14 @@ public interface CampInfoDao {
 	public String getUser_name(int user_num);
 	//이름없으면 이메일 가져오기
 	public String getEmail(int user_num);
+	//이메일없으면 카톡 프로필이름 가져오기
+	public String getNickName(int user_num);
 	//공지글 작성
 	public int writeOK(CampInfoDto campInfoDto,List<CampInfoFileDto> array);
 	//전체글 개수 가져오기
 	public int getCount();
+	//검색한 글 가져오기 
+	public int getSearchCount(String keyword);
 	//작성 글 사이즈
 	public List<CampInfoDto>getCampInfoList(int startRow,int endRow);
 	//파일이없는 글 읽어오기

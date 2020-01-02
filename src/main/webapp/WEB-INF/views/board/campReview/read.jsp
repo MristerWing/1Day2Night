@@ -8,7 +8,7 @@
 <html lang="utf-8">
 
 <head>
-    
+    <link rel="stylesheet" type="text/css" href="${root}/resources/css/board/boardRead.css">
    	<script type="text/javascript">
 		   addEventListener("load", function() {
 		       setTimeout(hideURLbar, 0);
@@ -274,7 +274,6 @@
     <section class="about py-lg-5 py-md-5 py-5">
         <div class="container">
             <div class="inner-sec-w3pvt py-lg-5 py-3">
-                <h3 class="tittle text-center mb-lg-5 mb-3 px-lg-5">NEW 캠핑소식</h3>
              <div class="info_content" >
 				<!--본문 -->
 				<!--댓글작성 form-->
@@ -282,83 +281,109 @@
 			<input type="hidden" name="review_num" value="${campReviewDto.review_num}">
 			<!--세션스콥받아오는 작업해주고 고치기-->
 <%-- 			<input type="hidden" name="user_num" value="${sessionScope.sessionID}">--%>			
-				<label>캠핑소식 작성</label>
-				<ul class="">
-				<li>
-					<label>글번호</label>
-					<label>${campReviewDto.review_num}</label>
-				</li>
-				<li>
-					<label >제목(*)</label>
-					<span>${campReviewDto.title}</span>
-				</li>
-				<li>
-					<label >작성자(*)</label>
-					<span>${writer}</span>
-				</li>
-  
-				<li>
-					<label>내용</label>
-					<span>
-						<c:out value="${campReviewDto.content}" escapeXml="false"></c:out>
-					</span>			
-				</li>
-				<li>
-					<c:if test="${sessionScope.user_num ==campReviewDto.user_num}">
-						<input class="btn" type="button" value="수정" onclick="location.href='${root}/board/campReview/update.do?review_num=${campReviewDto.review_num}&user_num=${campReviewDto.user_num}&pageNumber=${pageNumber}'" />	
-						<input class="btn" type="button"  value="삭제" onclick="location.href='${root}/board/campReview/delete.do?review_num=${campReviewDto.review_num}'"/>	
-					</c:if>					
-						<input class="btn" type="button"  value="목록" onclick="location.href='${root}/board/campReview/list.do?pageNumber=${pageNumber}'"/>	
-				</li>
-				
-			<!--댓글쓰는란-->
-			
-			<c:if test="${sessionScope.user_num != null}">
-				<li>
-				<div class="my-3 p-3 bg-white rounded shadow-sm" style="padding-top: 10px">
-	
-					    <input type="hidden" id="review_num" name="review_num" value="${campReviewDto.review_num}" /> 
-					    <input type="hidden" id="user_num" name="user_num" value="${sessionScope.user_num}"/>       
-	
-					<div class="row">
-	
-						<div class="col-sm-10">
-	
-							<textarea  name="comment_content" id="comment_content" class="form-control" rows="3" placeholder="댓글을 입력해 주세요"></textarea>
-	
-						</div>
-	
-						<div class="col-sm-2">
-							<input name="${sessionScope.user_num}" class="form-control" id="user_num" type="hidden"></input>
-							<button  class="btn btn-sm btn-primary" id="btnReplySave" style="width: 100%; margin-top: 10px" onclick="insert_reply('${campReviewDto.review_num}','${sessionScope.user_num}')"> 저 장 </button>
-	
-						</div>
-	
-					</div>
-	
-	
-				</div>
-	
-				</li>
-			</c:if>
-			<!--++++++++++++++댓글리스트++++++++++++++++-->
-			    <li>
-					<div class="my-3 p-3 bg-white rounded shadow-sm" style="padding-top: 10px">
-		
-						<h6 class="border-bottom pb-2 mb-0">댓글목록</h6>
-		
-						<div id="commentList"></div>
-					</div> 
-				</li>
-	
-			</ul>
+<section class="about py-lg-5 py-md-5 py-5">
+		<div class="container">
+			<div class="inner-sec-w3pvt py-lg-5 py-3">
+				<h4 class="tittle text-center mb-lg-5 mb-3 px-lg-5">[${campReviewDto.camp_id}]${campReviewDto.title}</h4>
+				<article>
 
-	</div>   
-            </div>
-        </div>
-        <!-- //services -->
-    </section>
-<!--footer -->
+									<div class="container" role="main">
+
+										<div class="contents_form">
+
+											<div class="writer">
+												<span> 작성자:</span>&nbsp;<span>${writer}</span> &nbsp;&nbsp;
+												<fmt:formatDate value="${campReviewDto.write_date}"
+													pattern="yyyy-MM-dd" />
+											</div>
+
+											<div class="summernote_content">
+												<span> <c:out value="${campReviewDto.content}"
+														escapeXml="false"></c:out>
+												</span>
+											</div>
+										</div>
+
+
+
+										<div class="button_form"  style="margin-top: 20px" align="center">
+											<c:if
+												test="${sessionScope.user_num ==campReviewDto.user_num}">
+												<button type="button" class="btn btn-sm btn-primary"
+													id="btnUpdate"
+													onclick="location.href='${root}/board/campReview/update.do?review_num=${campReviewDto.review_num}&user_num=${campReviewDto.user_num}&pageNumber=${pageNumber}'">수정</button>
+
+												<button type="button" class="btn btn-sm btn-primary"
+													id="btnDelete"
+													onclick="location.href='${root}/board/campReview/delete.do?review_num=${campReviewDto.review_num}'">삭제</button>
+											</c:if>
+											<button type="button" class="btn btn-sm btn-primary"
+												id="btnList"
+												onclick="location.href='${root}/board/campReview/list.do?pageNumber=${pageNumber}'">목록</button>
+
+										</div>
+
+										<div class="comment">
+											<!--댓글 작성 란-->
+
+											<c:if test="${sessionScope.user_num != null}">
+
+												<div class="my-3 p-3 bg-white rounded shadow-sm"
+													style="padding-top: 10px">
+
+													<input type="hidden" id="review_num" name="review_num"
+														value="${campReviewDto.review_num}" /> <input
+														type="hidden" id="user_num" name="user_num"
+														value="${sessionScope.user_num}" />
+
+													<div class="row">
+
+														<div class="col-sm-10">
+
+															<textarea name="comment_content" id="comment_content"
+																class="form-control" rows="3" placeholder="댓글을 입력해 주세요"></textarea>
+
+														</div>
+
+														<div class="col-sm-2">
+															<input name="${sessionScope.user_num}"
+																class="form-control" id="user_num" type="hidden"></input>
+															<button class="btn btn-sm btn-primary" id="btnReplySave"
+																style="width: 100%; margin-top: 10px"
+																onclick="insert_reply('${campReviewDto.review_num}','${sessionScope.user_num}')">
+																저 장</button>
+
+														</div>
+
+													</div>
+
+
+												</div>
+
+											</c:if>
+											<!--++++++++++++++댓글리스트++++++++++++++++-->
+											
+												<div class="my-3 p-3 bg-white rounded shadow-sm"
+													style="padding-top: 10px">
+
+													<h6 class="border-bottom pb-2 mb-0">댓글목록</h6>
+
+													<div id="commentList"></div>
+												</div>
+										
+
+										</div>
+
+									</div>
+
+
+
+								</article>
+
+			</div>
+		</div>
+	</section>
+
 
 </body>
 

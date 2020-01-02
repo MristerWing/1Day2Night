@@ -16,12 +16,15 @@
                 <h3 class="tittle text-center mb-lg-5 mb-3 px-lg-5">캠핑장 리뷰</h3>
 	             <div class="info_list">
 					<div class="info_list_top">
-					<label>캠핑소식</label>
-						<div>
-						<input type="text" value="제목" disabled="disabled"/>
-						<input type="text" id="campinfo_search" value="검색어를 입력하세요" onfocus="this.value=''"/>
-						<input type="submit" id="campinfo_search" value="확인"  onclick="e"/>
-						</div> 
+							<form name="searchInfo" method="get" action="${root}/board/campInfo/serchList.do">
+						 <div class="input-group mb-3" style="width: 90">
+	   						<!--  <div class="input-group-prepend">
+	     						 <button class="btn btn-outline-primary" type="button">제목</button>  
+	    					</div> -->
+	    						<input type="text" class="form-control" placeholder="제목으로 검색" name="keyword" id="keyword">
+	    						<input class="btn btn-outline-primary" type="submit" value="검색">  
+	  						</div>
+	  				 </form>
 					</div> 
 						
 					<div id="info_list_content">
@@ -31,7 +34,6 @@
 						</div>
 					</c:if>
 					<!--작성글이있다면-->
-						<span>${sessionScope.user_num}</span>
 					<div class="container">         
 						  <table class="table table-striped">
 						    <thead>
@@ -44,7 +46,7 @@
 						        <th>조회수</th>
 						      </tr>
 						    </thead>
-						    <tbody>
+						    <tbody style="vertical-align:center">
 						       	 <c:if test="${count>0}">
 						       	 	<c:forEach var="campReviewDto" varStatus="list" items="${campReviewList}">
 						       	 		 <tr>
