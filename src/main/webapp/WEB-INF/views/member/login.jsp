@@ -28,9 +28,9 @@
           <div class="col-lg-6 d-flex align-items-center justify-content-center">
             <div class="auth-form-transparent text-left p-3">
               <div class="brand-logo">
-                <img src="${root}/resources/css/member/images/logo.svg" alt="logo">
+                <img src="${root}/resources/css/member/images/logo.jpg" alt="logo">
               </div>
-              <h4>Welcome back!</h4>
+              <h4></h4>
               <h6 class="font-weight-light">Happy to see you again!</h6>
               <form class="pt-3" action="${root}/member/loginOk.do" method="POST">
                 <div class="form-group">
@@ -81,13 +81,13 @@
 <!--                   </button> -->
                 </div>
                 <div class="text-center mt-4 font-weight-light">
-                  가입하지 않으셨나요? <a href="${root}/member/register.do" class="text-primary">가입하기</a>
+                  가입하지 않으셨나요? <a href="${root}/member/beforeRegister.do" class="text-primary">가입하기</a>
                 </div>
               </form>
             </div>
           </div>
           <div class="col-lg-6 login-half-bg d-flex flex-row">
-            <p class="text-white font-weight-medium text-center flex-grow align-self-end">Copyright &copy; 2018  All rights reserved.</p>
+<!--             <p class="text-white font-weight-medium text-center flex-grow align-self-end">Copyright &copy; 2020  All rights reserved.</p> -->
           </div>
         </div>
       </div>
