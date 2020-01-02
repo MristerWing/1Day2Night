@@ -44,4 +44,17 @@ public class ReviewCommentDaoImp implements ReviewCommentDao {
 	public String getNickName(int user_num) {
 		return sqlSessionTemplate.selectOne("boardComment.mapper.ReviewCommentMapper.getNickName",user_num);
 	}
+	//댓글 삭제
+	@Override
+	public int delete(int comment_num) {
+		return sqlSessionTemplate.delete("boardComment.mapper.ReviewCommentMapper.deleteComment",comment_num);
+	}
+	//댓글 수정
+	@Override
+	public int update(ReviewCommentDto reviewCommentDto) {
+		System.out.println("수정값"+reviewCommentDto.toString());
+		
+		return sqlSessionTemplate.update("boardComment.mapper.ReviewCommentMapper.updateComment",reviewCommentDto);
+	}
+
 }

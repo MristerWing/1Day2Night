@@ -153,8 +153,10 @@
                                     <div id="home" class="container tab-pane active"><br>
                                         <div class="form-check-inline">
                                             <label class="form-check-label" for="radio1">
-                                            <input type="radio" class="form-check-input" id="radio1" name="optradio" value="option1" checked
-                                            ">무통장입금
+                                            	<input type="radio" class="form-check-input" id="radio1" name="optradio" value="option1" checked/>무통장입금
+                                            </label>&nbsp;&nbsp;
+                                            <label class="form-check-label" for="radio2">
+                                            	<input type="radio" class="form-check-input" id="radio1" name="optradio" value="option1"/>카카오페이
                                             </label>
                                         </div>
                                     </div>
@@ -178,7 +180,7 @@
                                 </select>
                                 <br/><br/>
                                 <span>예금주명</span>
-                                <input type="text" style="width:70px; height:25px;"/>
+                                <input type="text" style="width:70px; height:25px;" maxlength="4"/>
                             </div>
                         </div>
                     </div>
@@ -201,7 +203,9 @@
 
                         <!-- 결제하기 버튼 -->
                         <div style="margin-top: 30px; border-top: 1px solid white; padding-top: 10px;">
-                            <button type="button" class="btn btn-success" style="width:200px; height:100px; font-size: 40px;">결제하기</button>
+                        	<form method="post" action="/kakaoPay">
+                            	<input type="submit"/>
+                        	</form>
                         </div>
                     </div>
                 </div>

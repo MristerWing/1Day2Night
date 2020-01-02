@@ -32,7 +32,7 @@ public class CampReviewServiceImp implements CampReviewService {
 			MemberDto memberDto) {
 		Map<String, Object> map = mav.getModelMap();
 		HttpServletRequest request = (HttpServletRequest) map.get("request");
-		int user_num = Integer.parseInt(request.getParameter("user_num"));
+		int user_num = (Integer) session.getAttribute("user_num");
 		LogAspect.logger.info(LogAspect.logMsg + "로그인된user_num: " + user_num);
 		String user_name = campReviewDao.getEmail(user_num);
 		LogAspect.logger.info(LogAspect.logMsg + "설정된 user_name: " + user_name);

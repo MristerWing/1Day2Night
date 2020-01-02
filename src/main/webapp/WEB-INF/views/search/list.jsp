@@ -17,10 +17,14 @@
 <!-- 검색 게시물 Content CSS  -->
 <link href="${root}/resources/css/search/searchBoard.css"
 	rel="stylesheet" />
+	
+<!-- 실시간 자동검색 완성 css / js -->
+<link href="${root}/resources/css/styles/jquery-ui.css" rel="stylesheet"/>	
+<script src="${root}/resources/javascript/modules/jquery-ui.js"></script>
 <!-- 검색값 초기화 JS -->
 <script>
 				$(function() {
-					
+					// 수정하기전 작업이야!!!!!!!!!!!ㅇㅇ
 					<!-- 기본검색 초기화 -->
 					$('#c_do option[value="${searchMap.city}"]').attr("selected",true);
 					$('#searchLctCl option[value="${searchMap.thema}"]').attr("selected",true);
@@ -33,7 +37,6 @@
 						
 						if(tagArr.indexOf(tag) > -1) {
 							 $(this).css("background-color", "slateblue");
-							 
                         }
 					
 					});
@@ -43,7 +46,7 @@
 					$("#campSearchForm3 > div > ul > li:nth-child(1) > div > div > div > ul > li > input").each(function() {
 						if(cityArr.indexOf($(this).val()) > -1) {
 							$(this).prop("checked", true);
-					}
+						}
 						
 					
 					});
@@ -92,36 +95,51 @@
 					<!-- 필터검색 초기화 -->
 					$('#search_Content > div:nth-child(1) > div > select option[value="${searchMap.filter}"]').attr("selected",true);
 					
-					/* $("searchKrwd2").autocomplete({
+					<!-- 실시간 자동검색 -->
+					$("#searchKrwd2").autocomplete({
 						
-						source : function(request, response) {
-
+						source: function(request, response) {
+							
 							$.ajax({
-								type: "post",
-								url:"",
-								dataType: "json",
-								data: { value : request.term},
+								
+								type:"post",
+								url:"${root}/search/autoComplete.json",
+								// request.term = $("searchKrwd2").val() [참고용]
+								data:{ searchName: request.term },
+								dataType:"json",
 								success: function(data) {
-									response {
+									response(
 										$.map(data, function(item) {
 											return {
 												label : item.data,
-												value : item.data
+												value: item.data
 											}
 										})
-									}
+									);
+								},
+								error:function(xhr, status, error) {
+									alert(xhr + "," + status + "," + error);
 								}
 							});
 						},
-						// 최소 몇자 이상 입력시 통신 시작
-						minLength: 2,
+						minLength:2,
+						delay:500,
 						
-						// 만약 검색리스트에서 선택하였을 때, 선택한 데이터에 의한 이벤트 발생처리부분
-						select:function(event, ui) {}
-					}); */
+						focus: function(eventCheck, ui) {
+							eventCheck.preventDefault();
+							console.log(ui.item.label);
+							
+							$("#searchKrwd2").keydown(function(key) {
+								
+								if(key.which == 13) {
+									$("#searchKrwd2").val(ui.item.label);
+									event();
+								}
+							});
+						}
+					});
 				});
-            </script>
-</head>
+</script>
 </head>
 <body>
 	<div class="search">
@@ -246,7 +264,7 @@
 																if(key.which == 13) {
 																	event();
 																}
-															});
+															});  
                                                         </script>
 												</li>
 											</ul>
@@ -705,17 +723,18 @@
 		            	$(".search_Filter > select").change(function() {
 		            		var filter = 
 		            		$(".search_Filter > select option:selected").val();
+		            		
 		            		var url = "${url}"+"filter=";
 		            		location.href= url+filter;
-		            	})
-		            </script>
+		            	}) 
+	            </script>
 				<c:if test="${isMap == 'MAP'}">
 					<button
-						onclick="javascript:location.href='${url}'.replace('isMap=MAP','')">리스트
+						onclick="javascript:location.href='${url}'.replace('isMap=MAP','') + '&filter=${searchMap.filter}' + '&pageNumber=${searchMap.currentPage}'">리스트
 						보기</button>
 				</c:if>
 				<c:if test="${isMap == null}">
-					<button onclick="javascript:location.href='${url}' + 'isMap=MAP'">지도로
+					<button onclick="javascript:location.href='${url}' + 'isMap=MAP' + '&filter=${searchMap.filter}' + '&pageNumber=${searchMap.currentPage}'">지도로
 						보기</button>
 				</c:if>
 			</div>
@@ -833,26 +852,26 @@
 					<ul class="pagination">
 						<c:if test="${startPage > pageBlock}">
 							<li class="page-item"><a class="page-link"
-								href="${url}pageNumber=1"><i class="fa fa-angle-double-left"
+								href="${url}pageNumber=1&filter=${searchMap.filter}"><i class="fa fa-angle-double-left"
 									aria-hidden="true"></i></a></li>
 							<li class="page-item"><a class="page-link"
-								href="${url}pageNumber=${startPage - pageBlock}">PREV</a></li>
+								href="${url}pageNumber=${startPage - pageBlock}&filter=${searchMap.filter}">PREV</a></li>
 						</c:if>
 						<c:forEach var="i" begin="${startPage}" end="${endPage}">
 							<c:if test="${i != searchMap.currentPage}">
 								<li class="page-item"><a class="page-link"
-									href="${url}pageNumber=${i}">${i}</a></li>
+									href="${url}pageNumber=${i}&filter=${searchMap.filter}">${i}</a></li>
 							</c:if>
 							<c:if test="${i == searchMap.currentPage}">
 								<li class="page-item active"><a class="page-link"
-									href="${url}pageNumber=${i}">${i}</a></li>
+									href="${url}pageNumber=${i}&filter=${searchMap.filter}">${i}</a></li>
 							</c:if>
 						</c:forEach>
 						<c:if test="${endPage < pageCount}">
 							<li class="page-item"><a class="page-link"
-								href="${url}pageNumber=${startPage + pageBlock}">NEXT</a></li>
+								href="${url}pageNumber=${startPage + pageBlock}&filter=${searchMap.filter}">NEXT</a></li>
 							<li class="page-item"><a class="page-link"
-								href="${url}pageNumber=${pageCount}"><i
+								href="${url}pageNumber=${pageCount}&filter=${searchMap.filter}"><i
 									class="fa fa-angle-double-right" aria-hidden="true"></i></a></li>
 						</c:if>
 					</ul>

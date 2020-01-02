@@ -10,6 +10,14 @@ import org.springframework.stereotype.Component;
 import com.odtn.search.dto.SearchDto;
 import com.odtn.search.dto.SearchPaymentDto;
 
+/**
+ * @author S.s
+ *
+ */
+/**
+ * @author S.s
+ *
+ */
 @Component
 public class SearchDaoImp implements SearchDao {
 
@@ -61,5 +69,15 @@ public class SearchDaoImp implements SearchDao {
 	public List<SearchPaymentDto> getPayment(int camp_id) {
 		return sqlSessionTemplate.selectList(
 				"com.odtn.search.dao.mapper.SearchMapper.getPayment", camp_id);
+	}
+	
+	/**
+	 * @author ParkSungSoo
+	 * @date 2019/12/29
+	 * @apiNote 캠핑장 실시간 자동검색 완성
+	 */
+	@Override
+	public List<String> getSearchComplete(String searchName) {
+		return sqlSessionTemplate.selectList("com.odtn.search.dao.mapper.SearchMapper.getSearchComplete", searchName);
 	}
 }

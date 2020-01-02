@@ -33,9 +33,13 @@ public class CampQnAServiceImp implements CampQnAService {
 		LogAspect.logger.info(LogAspect.logMsg + "user_num"
 				+ request.getSession().getAttribute("user_num"));
 		int user_num = (Integer) request.getSession().getAttribute("user_num");
-		String writer = campQnADao.getNickName(user_num);
+		String writer = campQnADao.getUser_name(user_num);
+		LogAspect.logger.info(LogAspect.logMsg + "설정된 user_name: " + writer);
 		if (writer == null) {
-			writer = campQnADao.getProfileName(user_num);
+			writer = campQnADao.getEmail(user_num);
+		}
+		if (writer==null) {
+			writer=campQnADao.getNickName(user_num);
 		}
 		System.out.println(writer);
 
@@ -133,10 +137,15 @@ public class CampQnAServiceImp implements CampQnAService {
 				System.out.println("리스트 인덱스: " + i + campQnAList.get(i));
 				int user_num = campQnAList.get(i).getUser_num();
 				System.out.println("리스트안의 usernum" + user_num);
-				String writer = campQnADao.getNickName(user_num);
+				String writer = campQnADao.getUser_name(user_num);
+				LogAspect.logger.info(LogAspect.logMsg + "설정된 user_name: " + writer);
 				if (writer == null) {
-					writer = campQnADao.getProfileName(user_num);
+					writer = campQnADao.getEmail(user_num);
 				}
+				if (writer==null) {
+					writer=campQnADao.getNickName(user_num);
+				}
+				System.out.println(writer);
 				writerList.add(writer);
 				System.out.println("리스트안의 작성자 " + writer);
 			}
@@ -167,11 +176,15 @@ public class CampQnAServiceImp implements CampQnAService {
 
 		int user_num = campQnADto.getUser_num();
 		LogAspect.logger.info(LogAspect.logMsg + "글번호: " + user_num);
-		String writer = campQnADao.getNickName(user_num);
+		String writer = campQnADao.getUser_name(user_num);
 		LogAspect.logger.info(LogAspect.logMsg + "설정된 user_name: " + writer);
 		if (writer == null) {
-			writer = campQnADao.getProfileName(user_num);
+			writer = campQnADao.getEmail(user_num);
 		}
+		if (writer==null) {
+			writer=campQnADao.getNickName(user_num);
+		}
+		System.out.println(writer);
 		LogAspect.logger
 				.info(LogAspect.logMsg + "불러온 글: " + campQnADto.toString());
 
@@ -180,7 +193,24 @@ public class CampQnAServiceImp implements CampQnAService {
 		mav.addObject("pageNumber", pageNumber);
 		mav.setViewName("board/campQnA/read.tiles");
 	}
-
+	//비밀번호 입력하고 해당 작성글 보기
+	@Override
+	public void pwdCheck(ModelAndView mav) {
+		Map<String,Object> map=mav.getModelMap();
+		HttpServletRequest request=(HttpServletRequest)map.get("request");
+		
+		String password=request.getParameter("password");
+		LogAspect.logger.info(LogAspect.logMsg + "모달 password: " + password);
+		int user_num=Integer.parseInt(request.getParameter("user_num"));
+		LogAspect.logger.info(LogAspect.logMsg + "모달 user_num: " + user_num);
+	
+		CampQnADto campQnADto =campQnADao.pwdCheck(password,user_num);
+		LogAspect.logger.info(LogAspect.logMsg + "모달 campQnADto: " + campQnADto.toString());
+		mav.addObject("campQnADto",campQnADto);
+		mav.setViewName("board/campQnA/pwdCheck.tiles");
+		
+		
+	}
 	// 글삭제
 	@Override
 	public void delete(ModelAndView mav) {
@@ -217,12 +247,15 @@ public class CampQnAServiceImp implements CampQnAService {
 
 		int user_num = Integer.parseInt(request.getParameter("user_num"));
 		LogAspect.logger.info(LogAspect.logMsg + "수정글 작성 자: " + user_num);
-
-		String writer = campQnADao.getNickName(user_num);
+		String writer = campQnADao.getUser_name(user_num);
+		LogAspect.logger.info(LogAspect.logMsg + "설정된 user_name: " + writer);
 		if (writer == null) {
-			writer = campQnADao.getProfileName(user_num);
+			writer = campQnADao.getEmail(user_num);
 		}
-
+		if (writer==null) {
+			writer=campQnADao.getNickName(user_num);
+		}
+		System.out.println(writer);
 		mav.addObject("writer", writer);
 		mav.addObject("campQnADto", campQnADto);
 		mav.addObject("pageNumber", pageNumber);
@@ -267,11 +300,15 @@ public class CampQnAServiceImp implements CampQnAService {
 
 	      int user_num=Integer.parseInt(request.getParameter("user_num"));
 	      LogAspect.logger.info(LogAspect.logMsg + "수정글 작성 자: " + user_num);
-	      String writer=campQnADao.getNickName(user_num);
-	      if(writer==null) {
-	         writer=campQnADao.getProfileName(user_num);
-	      }
-	      
+	      String writer = campQnADao.getUser_name(user_num);
+			LogAspect.logger.info(LogAspect.logMsg + "설정된 user_name: " + writer);
+			if (writer == null) {
+				writer = campQnADao.getEmail(user_num);
+			}
+			if (writer==null) {
+				writer=campQnADao.getNickName(user_num);
+			}
+			System.out.println(writer);
 	      String password=campQnADto.getPassword();
 	      LogAspect.logger.info(LogAspect.logMsg + "수정글password: " + password);
 	      
