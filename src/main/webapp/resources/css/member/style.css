@@ -10309,7 +10309,8 @@ pre code {
   color: #495057;
   background-color: #ffffff;
   background-clip: padding-box;
-  border: 1px solid #ced4da;
+/*   border: 1px solid #ced4da; */
+  border: 1px solid #dedede;
   border-radius: 2px;
   transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
@@ -21376,7 +21377,8 @@ dl li {
 .rtl .sidebar-fixed .nav::-webkit-scrollbar-thumb,
 .rtl .table-responsive::-webkit-scrollbar-thumb,
 .rtl ul.chats::-webkit-scrollbar-thumb {
-  background-color: darkgrey;
+/*   background-color: darkgrey; */
+  background-color: white;
   outline: 1px solid slategrey;
 }
 

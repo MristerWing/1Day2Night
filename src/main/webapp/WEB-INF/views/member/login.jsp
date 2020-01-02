@@ -18,6 +18,10 @@
   <link rel="stylesheet" href="${root}/resources/css/member/style.css">
   <!-- endinject -->
   <link rel="shortcut icon" href="${root}/resources/css/member/images/favicon.png" />
+  <script src="${root}/resources/javascript/modules/jquery-3.4.1.js"></script>
+  <script type="text/javascript">
+  	
+  </script>
 </head>
 
 <body>
