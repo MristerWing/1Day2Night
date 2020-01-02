@@ -9,8 +9,8 @@
 <title>이메일 인증 확인됨</title>
 </head>
 <body>
-	<h3>user_num: ${sessionScope.user_num}</h3>
-	<h3>email_auth_key: ${sessionScope.email_auth_key}</h3>
+<%-- 	<h3>user_num: ${sessionScope.user_num}</h3> --%>
+<%-- 	<h3>email_auth_key: ${sessionScope.email_auth_key}</h3> --%>
 	<c:if test="${check > 0}">
 		<h3>email: ${email}님,</h3>
 		<h3>이메일 인증이 확인 되었습니다. 가입을 축하합니다.</h3>

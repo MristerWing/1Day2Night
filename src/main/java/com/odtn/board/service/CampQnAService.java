@@ -26,4 +26,6 @@ public interface CampQnAService {
 	public void writeAnswer(ModelAndView mav,MemberDto memberDto);
 	//답글 작성 확인
 	public void writeAnswerOk(ModelAndView mav);
+	//비밀번호 입력 후 
+	public void pwdCheck(ModelAndView mav);
 }

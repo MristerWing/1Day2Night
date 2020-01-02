@@ -32,7 +32,14 @@ License URL: http://creativecommons.org/licenses/by/3.0/
    <script type="text/javascript">
     
     </script>  
-    
+    <!--++++++++++++++++++++++리스트 부트스트랩+++++++++++++++++++++++++++++++++++++-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+	  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+	  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+
+   
+   
     <!--summerNote-->
     <link href="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.css" rel="stylesheet">
 <!-- 	<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script>  -->
@@ -45,15 +52,12 @@ License URL: http://creativecommons.org/licenses/by/3.0/
     <!-- //Meta tag Keywords -->
     <!-- Custom-Files -->
     <link rel="stylesheet" href="${root}/resources/css/styles/bootstrap.css">
-    <!--리스트전용 css-->
-    <link rel="stylesheet" href="${root}/resources/css/board/list.css">
     <!-- Bootstrap-Core-CSS -->
     <link rel="stylesheet" href="${root}/resources/css/styles/style.css" type="text/css" media="all" />
    
     <!-- Style-CSS -->
     <!-- font-awesome-icons -->
-   <%--  <link href="${root}/css/styles/font-awesome.css" rel="stylesheet"> --%>
-    <!-- //font-awesome-icons -->
+    <link href="${root}/css/styles/font-awesome.css" rel="stylesheet">
     <!-- /Fonts -->
     <link href="//fonts.googleapis.com/css?family=Poppins:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900" rel="stylesheet">
     <link href="//fonts.googleapis.com/css?family=Dosis:200,300,400,500,600,700,800" rel="stylesheet">
@@ -73,7 +77,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                     <div id="logo">
                         <%-- 	<img class="logoImg" src="${root}/resources/css/images/ODTN.png" width="50"> --%>
                   		<h1> 
-                  		<a class="navbar-brand" href="index.html">CampReview</a>
+                  		<a class="navbar-brand" href="index.html"></a>
                        </h1>
                     </div>
 
@@ -87,49 +91,18 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                             <a href="#">캠핑톡 <span class="fa fa-angle-down" aria-hidden="true"></span></a>
                               <input type="checkbox" id="drop-2" />
                             <ul>
-                                <li><a href="${root}/board/campInfo/write.do">캠핑소식</a>
+                                <li><a href="${root}/board/campInfo/write.do">캠핑공지</a>
                                 </li>
                                 <li><a href="${root}/board/campReview/list.do">캠핑후기</a>
-                                </li>
-                                <li><a href="features.html">이벤트</a>
-                                </li>
-                                <li><a href="features.html">캠핑노하우</a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li>
-                            <!-- First Tier Drop Down -->
-                            <label for="drop-2" class="toggle">Drop Down <span class="fa fa-angle-down" aria-hidden="true"></span> </label>
-                            <a href="#">캠핑플러스 <span class="fa fa-angle-down" aria-hidden="true"></span></a>
-                            <input type="checkbox" id="drop-2" />
-                            <ul>
-                                <li><a href="features.html">캠핑시작하기</a>
-                                </li>
-                                <li><a href="gallery.html">캠핑장비이야기</a>
-                                </li>
-                                <li><a href="features.html">안전한캠핑즐기기</a>
-                                </li>
-                                <li><a href="features.html">안전수칙동영상</a>
                                 </li>
                             </ul>
                         </li>
                         <li>
                          <!-- First Tier Drop Down -->
                             <label for="drop-2" class="toggle">Drop Down <span class="fa fa-angle-down" aria-hidden="true"></span> </label>
-                            <a href="#">고객센터 <span class="fa fa-angle-down" aria-hidden="true"></span></a>
+                            <a href="${root}/board/campQnA/list.do">캠핑 문의 <span class="fa fa-angle-down" aria-hidden="true"></span></a>
                             <input type="checkbox" id="drop-2" />
-                            <ul>
-                                <li><a href="features.html">공지사항</a>
-                                </li>
-                                <li><a href="gallery.html">캠핑상담</a>
-                                </li>
-                                <li><a href="features.html">캠핑장정보수정요청</a>
-                                </li>
-                                <li><a href="features.html">미등록야영장신고</a>
-                                </li>
-                                <li><a href="features.html">캠핑장공지사항</a>
-                                </li>
-                            </ul>
+
                         </li>
                       
                     </ul>
@@ -164,34 +137,40 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 						</div>
 					</c:if>
 					<!--작성글이있다면-->
-					<div id="image_table">
-							<div class="row">
-								<span class="col1">대표이미지</span>
-								<span class="col2">번호</span>
-								<span class="col3">제목</span>
-								<span class="col4">작성자</span>
-								<span class="col5">등록일</span>
-								<span class="col6">조회수</span>
-							</div>
-						
-						</div>
-				 <c:if test="${count>0}">
-					<c:forEach var="campReviewDto" items="${campReviewList}">
-					<div class="image_content">
-							<span class="col1"></span>
-							<span class="col2">${campReviewDto.review_num}</span>
-							<span class="col3"><a href="${root}/board/campReview/read.do?review_num=${campReviewDto.review_num}&pageNumber=${currentPage}">${campReviewDto.title}</a></span>
-							<span class="col4">${campReviewDto.user_number}</span>
-							<span class="col5">
-							<fmt:formatDate value="${campReviewDto.write_date}" pattern="yyyy-MM-dd"/>
-							</span>
-							<span class="col6">${campReviewDto.read_count}</span>
-						</div>	
-					</c:forEach>
-				 </c:if> 
-					<div class="list_buttom">
-						<input type="button" value="글쓰기" onclick="location.href='${root}/board/campReview/write.do'">
+					
+					<div class="container">         
+						  <table class="table table-striped">
+						    <thead>
+						      <tr>
+						        <th>대표이미지</th>
+						        <th>번호</th>
+						        <th>제목</th>
+						        <th>작성자</th>
+						        <th>등록일</th>
+						        <th>조회수</th>
+						      </tr>
+						    </thead>
+						    <tbody>
+						       	 <c:if test="${count>0}">
+						       	 	<c:forEach var="campReviewDto" varStatus="list" items="${campReviewList}">
+						       	 		 <tr>
+										        <td><img src="${pathList[list.index]}" width="120px"height="100px"></td>									 
+										        <td>${campReviewDto.review_num}</td>
+										        <td><a href="${root}/board/campReview/read.do?review_num=${campReviewDto.review_num}&pageNumber=${currentPage}">${campReviewDto.title}</a></td>
+										        <td>${writerList[list.index]}</td>
+										        <td><fmt:formatDate value="${campReviewDto.write_date}" pattern="yyyy-MM-dd"/></td>
+										        <td>${campReviewDto.read_count}</td>
+						     			 </tr>
+						       	 	</c:forEach>
+						       	 </c:if>
+						    </tbody>
+						  </table>
+						</div>											
+				 <c:if test="${sessionScope.user_num != null}">
+					<div class="list_buttom" align="right">
+						<button type="button" class="btn btn-primary" onclick="location.href='${root}/board/campReview/write.do?user_num=${user_num}'">리뷰 작성</button>
 					</div>	
+				</c:if>
 					<div align="center">
 				 <c:if test="${count>0}">
 					<fmt:parseNumber var="pageCount" integerOnly="true" value="${count/boardSize+(count%boardSize==0 ? 0:1)}"/>						

@@ -105,4 +105,14 @@ public class CampQnAController {
 			campQnAService.writeAnswerOk(mav);
 			return mav;			
 		}
+	//목록에서 비밀번호 입력하고 글 얻어오기 
+		@RequestMapping(value ="board/campQnA/pwdCheck.do",method = RequestMethod.GET)
+		public ModelAndView pwdCheck(HttpServletRequest request, HttpServletResponse response,CampQnADto campQnADto) {
+	
+			ModelAndView mav=new ModelAndView();
+			mav.addObject("request",request);
+			mav.addObject("campQnADto",campQnADto);
+			campQnAService.pwdCheck(mav);
+			return mav;
+		}
 }

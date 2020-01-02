@@ -4,9 +4,20 @@
 
 <mapper namespace="board.mapper.CampInfoMapper">
 	<!--공지글 관리자 이름가져오기-->
-	<select id="getNickName" parameterType="int" resultType="String" >
+	<select id="getUser_name" parameterType="int" resultType="String" >
+		SELECT USER_NAME FROM MEMBER WHERE USER_NUM=#{user_num}
+	</select>
+	
+	<!-- 이메일주소가져오기 -->
+	<select id="getEmail" parameterType="int" resultType="String" >
+		SELECT EMAIL FROM MEMBER WHERE USER_NUM=#{user_num}
+	</select>
+	
+	<!-- 카톡 프로필 이름 가져오기 -->
+	<select id="getNickName" parameterType="int" resultType="String">
 		SELECT NICKNAME FROM MEMBER WHERE USER_NUM=#{user_num}
 	</select>
+	
 	<!--최대값가져오기-->
 	<select id="campInfoMaxNum" resultType="int">
 		SELECT nvl(max(info_num),0)FROM CAMPINFO
@@ -46,7 +57,10 @@
 	<select id="campInfoCount" parameterType="com.odtn.board.dto.CampInfoDto" resultType="int">
 		SELECT COUNT(*) FROM CAMPINFO
 	</select>
-	
+	<!--검색 글 개수-->
+	<select id="getSearchCount" parameterType="java.util.Map" resultType="int">
+		SELECT COUNT(*) FROM CAMPINFO WHERE TITLE LIKE CONCAT '%'||#{keyword}||'%'
+	</select>
 	<!-- 일반글 리스트-->
 	<select id="getCampInfoList" parameterType="java.util.Map" resultType="com.odtn.board.dto.CampInfoDto">
 		  <![CDATA[
