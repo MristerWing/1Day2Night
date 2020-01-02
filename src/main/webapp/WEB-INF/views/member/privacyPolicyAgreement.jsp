@@ -18,7 +18,7 @@
 		</div>
 
 		<div data-spy="scroll" data-target="#list-example" data-offset="0"
-			class="scrollspy-example" style="height: 500px; overflow: scroll;">
+			class="scrollspy-example" style="border: 1px solid #dedede;height: 500px; overflow: scroll;">
 			<h5 id="list-item-1">이용 약관</h5>
 			<div class="join_tt" id="list-item-1">
 				<h4>제 1 장 총 칙</h4>

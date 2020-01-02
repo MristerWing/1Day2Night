@@ -21,6 +21,21 @@
 </head>
 
 <body>
+
+	<div class="container">
+		
+		<!-- Header -->
+		<div>
+		
+		</div>
+		
+		<!-- Login Form -->
+		<div>
+		
+		</div>
+		
+	</div>
+
   <div class="container-scroller">
     <div class="container-fluid page-body-wrapper full-page-wrapper">
       <div class="content-wrapper d-flex align-items-stretch auth auth-img-bg">
@@ -28,10 +43,9 @@
           <div class="col-lg-6 d-flex align-items-center justify-content-center">
             <div class="auth-form-transparent text-left p-3">
               <div class="brand-logo">
-                <img src="${root}/resources/css/member/images/logo.jpg" alt="logo">
+                <img src="${root}/resources/images/ODTN_LOGO.png" alt="logo">
               </div>
               <h4></h4>
-              <h6 class="font-weight-light">Happy to see you again!</h6>
               <form class="pt-3" action="${root}/member/loginOk.do" method="POST">
                 <div class="form-group">
                   <label for="email">E-mail</label>
@@ -56,29 +70,16 @@
                   </div>
                 </div>
                 <div class="my-2 d-flex justify-content-between align-items-center">
-                  <div class="form-check">
-                    <label class="form-check-label text-muted">
-                      <input type="checkbox" class="form-check-input">
-                      Keep me signed in
-                    </label>
-                  </div>
-                  <a href="#" class="auth-link text-black">Forgot password?</a>
+                  <a href="#" class="auth-link text-black">비밀번호 찾기</a>
                 </div>
                 <div class="my-3">
-<%--                   <a class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn" href="${root}/member/loginOk.do">LOGIN</a> --%>
-					<input class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn" type="submit" value="로그인"/>
+					<input style="width:222px;height:49px;" class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn" type="submit" value="로그인"/>
                 </div>
                 <div class="mb-2 d-flex">
                 	<a href="https://kauth.kakao.com/oauth/authorize?client_id=06ef11d13082c0f6655eada1dec1670a&redirect_uri=http://localhost:8181/camping/member/kakaoLogin.do&response_type=code">
 					<img src="${root}/resources/images/kr_02_medium_press.png" alt="카카오 로그인"/>
 					</a>&nbsp;&nbsp;
                  	</button>
-<!--                   <button type="button" class="btn btn-facebook auth-form-btn flex-grow mr-1"> -->
-<!--                     <i class="ti-facebook mr-2"></i>Facebook -->
-<!--                   </button> -->
-<!--                   <button type="button" class="btn btn-google auth-form-btn flex-grow ml-1"> -->
-<!--                     <i class="ti-google mr-2"></i>Google -->
-<!--                   </button> -->
                 </div>
                 <div class="text-center mt-4 font-weight-light">
                   가입하지 않으셨나요? <a href="${root}/member/beforeRegister.do" class="text-primary">가입하기</a>
