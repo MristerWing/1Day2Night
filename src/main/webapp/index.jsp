@@ -64,10 +64,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 				<!-- nav -->
 				<nav class="py-3">
 					<div id="logo">
-				<%--<img class="logoImg" src="${root}/resources/images/ODTN.png" width="50"> --%>
-						<h1>
-							<a class="navbar-brand" href="#">ODTN LOGO</a>
-						</h1>
+				<img class="logoImg" src="${root}/resources/images/ODTN.png" width="50">
 					</div>
 
 <!-- 회원가입, 로그인 뜨지 않는 경우 ${sessionScope.email} 처럼 변수마다 앞에 sessionScope. 붙여봐야 할 거에요 -->

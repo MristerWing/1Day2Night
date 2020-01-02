@@ -30,8 +30,7 @@ public class AdminServiceImp implements AdminService {
 		// TODO Auto-generated method stub
 		Map<String,Object>map = mav.getModelMap();
 		AdminDto adminDto = new AdminDto();
-		
-		int user_num = (Integer) map.get("user_num");
+		int user_num = map.get("user_num") != null? (Integer)map.get("user_num"):-1;
 		
 		LogAspect.logger.info(LogAspect.logMsg+ user_num);
 		adminDto.setUser_num(user_num);
