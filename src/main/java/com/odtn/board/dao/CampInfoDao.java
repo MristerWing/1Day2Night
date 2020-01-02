@@ -22,6 +22,8 @@ public interface CampInfoDao {
 	public int getSearchCount(String keyword);
 	//작성 글 사이즈
 	public List<CampInfoDto>getCampInfoList(int startRow,int endRow);
+	//검색 글 사이즈
+	public List<CampInfoDto>getSearchList(int startRow,int endRow,String keword);
 	//파일이없는 글 읽어오기
 	public CampInfoDto read(int info_num);
 	//파일개수 세기

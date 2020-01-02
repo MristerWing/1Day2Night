@@ -59,6 +59,27 @@ public class CampQnADaoImp implements CampQnADao {
 		map.put("endRow", endRow);
 		return sqlSessionTemplate.selectList("board.mapper.CampQnAMapper.getCampQnAList",map);
 	}
+	//검색한 결과 리스트
+	@Override
+	public List<CampQnADto> getSearchList(int startRow, int endRow, int user_num) {
+		HashMap<String, Integer> map=new HashMap<String, Integer>();
+		map.put("startRow", startRow);
+		map.put("endRow", endRow);
+		map.put("user_num", user_num);
+		return sqlSessionTemplate.selectList("board.mapper.CampQnAMapper.getSearchList",map);
+	}
+	//작성자로 검색해서 user_num
+	@Override
+	public int getUser_num(String keyword) {
+
+		return sqlSessionTemplate.selectOne("board.mapper.CampQnAMapper.getUser_num",keyword);
+	}
+	//검색한 작성자의 글 개수
+	@Override
+	public int getSearchCount(int user_num) {
+		
+		return sqlSessionTemplate.selectOne("board.mapper.CampQnAMapper.getSearchCount",user_num);
+	}
 	//리스트에서 글 읽기
 	@Override
 	public CampQnADto read(int qna_num) {

@@ -34,10 +34,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 </head>
 
 <body>
-    <section class="about py-lg-5 py-md-5 py-5">
-        <div class="container">
-            <div class="inner-sec-w3pvt py-lg-5 py-3">
-             <div class="qna_content" >
+ 
 				<!--본문 -->
 				<!--댓글작성 form-->
 				<section class="about py-lg-5 py-md-5 py-5">

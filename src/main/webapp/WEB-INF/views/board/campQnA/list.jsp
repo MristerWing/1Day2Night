@@ -60,12 +60,10 @@
                 <h3 class="tittle text-center mb-lg-5 mb-3 px-lg-5">문의사항</h3>
 	             <div class="info_list">
 					<div class="info_list_top">
-						<form name="searchInfo" method="get" action="${root}/board/campInfo/serchList.do">
+						<form name="searchInfo" method="get" action="${root}/board/campQnA/searchList.do">
 						 <div class="input-group mb-3" style="width: 90">
-	   						<!--  <div class="input-group-prepend">
-	     						 <button class="btn btn-outline-primary" type="button">제목</button>  
-	    					</div> -->
-	    						<input type="text" class="form-control" placeholder="제목으로 검색" name="keyword" id="keyword">
+	
+	    						<input type="text" class="form-control" placeholder="작성자 이름으로 검색" name="keyword" id="keyword">
 	    						<input class="btn btn-outline-primary" type="submit" value="검색">  
 	  						</div>
 	  				 </form>
@@ -101,6 +99,7 @@
 										        <c:if test="${sessionScope.email != 'eunsol8287@gmail.com' && sessionScope.user_num > 0}">
 										        	<td><button type="button" class="btn btn-link"  data-toggle="modal" data-target="#check_pwd">${campQnADto.title}</button></td>
 										        </c:if>
+										        <td>${campQnADto.title}</td>
 										       	<td>${campQnADto.qna_type}</td>
 										        <td>${writerList[list.index]}</td>
 										        <td><fmt:formatDate value="${campQnADto.write_date}" pattern="yyyy-MM-dd"/></td>
@@ -149,6 +148,7 @@
 	            </div>
 	          </div>  
         </div>
+       </div>
        </div>
          
         <!-- //services -->

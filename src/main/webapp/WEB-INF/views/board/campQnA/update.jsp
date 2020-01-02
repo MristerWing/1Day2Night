@@ -39,41 +39,51 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 	<script src="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.js"></script> 
 	<!-- include summernote css/js -->
 	<link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote.css" rel="stylesheet">
-
+	<script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote.js"></script>
 </head>
 
 <body>
   <!--/ab -->
- <section class="about py-lg-5 py-md-5 py-5">
-
+	<section class="about py-lg-5 py-md-5 py-5">
         <div class="container">
             <div class="inner-sec-w3pvt py-lg-5 py-3">
                 <h3 class="tittle text-center mb-lg-5 mb-3 px-lg-5">문의사항</h3>
-             <div class="info_content" >
+             <div class="QnA_content" >
 				
 				<label>문의사항 수정</label>
 			<!--썸머노트 form태그-->
-            <form class="campInfo_form" action="${root}/board/campQnA/updateOk.do" method="POST" 
-            	onsubmit="returnForm(this)" enctype="multipart/form-data">
-            <!--사용자한테 안보이는값-->
- 			 	<input type="hidden" name="pageNumber" value="${pageNumber}"/>
-			<ul class="">
-				<li>
-					<input name="qna_num" type="hidden" value="${campQnADto.qna_num}">
-				</li>
-				<li>
-					<label >제목(*)</label>
-					<input name="title"  type="text" maxlength="100" value="${campQnADto.title}" onfocus="this.value=''">
-				</li>
-				<li>
-					<label >작성자(*)</label>
-					<input name="user_num" type="hidden" value="${campQnADto.user_num}"/>
-					<input name="writer" type="text" value="${writer}" disabled="disabled"/>
-				</li>
+            <form class="campReview_form" action="${root}/board/campQnA/updateOk.do" method="POST" 
+            	enctype="multipart/form-data" onsubmit="returnForm(this)">
+ 	
+ 			<!--안보이게 넘어가는 값-->
+				<input name=pageNumber type="hidden" value="${pageNumber}"/>
+				<input name="qna_num" type="hidden" value="${campQnADto.qna_num}">
 				
-				<li>
-					<label>내용</label>
-					<textarea name="content" rows="3" id="content"></textarea>
+			  <div class="form-group">
+				  <label>제목(*)</label>
+				  <input type="text" class="form-control" id="title" name="title" value="${campQnADto.title}" onfocus="this.value=''">
+			  </div>
+			  <div class="form-group">
+				  <label for="pwd">작성자(*)</label>
+				  <input name="user_num" type="hidden" value="${memberDto.user_num}">
+				  <input type="text" class="form-control" value="${writer}" name="user_name" disabled="disabled">
+			 </div>
+			  <div class="form-group">
+				  <label for="pwd">비밀번호 입력(*)</label>
+				  <input type="password" class="form-control" value="${writer}" name="password" onfocus="this.value=''">
+			 </div>
+				      <div class="form-group">
+					      <label for="sel1">문의유형(*)</label>
+					      <select class="form-control" id="qna_type" name="qna_type" style="height: 3.5rem;">
+					      	 <option>문의유형을 선택 해 주세요(*)</option>
+					      	 <option value="캠핑장">캠핑장 관련문의</option>
+						 	 <option value="이벤트">이벤트 관련문의</option>
+						     <option value="기타">기타문의</option>
+					      </select>
+      				</div>
+				     <div class="form-group">
+      				  <label>내용을 입력해주세요</label>
+      				  	<textarea name="content" rows="3" id="content"></textarea>
 						<!--썸머노트 한글설정-->
 						<script type="text/javascript" src="${root}/resources/javascript/summernote/summernote-ko-KR.js">
 						</script>
@@ -89,28 +99,24 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 					     		lang:'ko-KR'
 					       
 					        });
-					       
 					        $('#content').summernote('code','${campQnADto.content}')			        
 					        var code=$('#content').summernote('code')
 					        $(".content").html(code);  
 					    });
 					    </script>	
-				<li>
-					<p>
-						<input class="btn" type="submit" value="작성"/>	
-						<input class="btn" type="button"  value="목록" onclick="location.href='${root}/board/campQnA/list.do?pageNumber=${pageNumber}'"/>	
-					</p>
-				
-				</li>
-		</ul>
-		</form>            
-	</div>   
-            </div>
+				     
+				    </div>
+					<div align="right">
+				    <button type="submit" class="btn btn-primary">작성</button>
+				    <button type="button" class="btn btn-primary" onclick="location.href='${root}/board/campQnA/list.do?pageNumber=${pageNumber}'" >목록</button>
+				 	</div>
+				  </form>
+			</div>   
+           </div>
         </div>
-    
-        <!-- //services -->
     </section>
-
+        <!-- //services -->
+	
 </body>
 
 </html>

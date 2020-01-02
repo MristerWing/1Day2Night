@@ -271,21 +271,18 @@
     
     <!-- //main-content -->
   <!--/ab -->
-    <section class="about py-lg-5 py-md-5 py-5">
-        <div class="container">
-            <div class="inner-sec-w3pvt py-lg-5 py-3">
-             <div class="info_content" >
+
 				<!--본문 -->
 				<!--댓글작성 form-->
 	
-			<input type="hidden" name="review_num" value="${campReviewDto.review_num}">
 			<!--세션스콥받아오는 작업해주고 고치기-->
 <%-- 			<input type="hidden" name="user_num" value="${sessionScope.sessionID}">--%>			
-<section class="about py-lg-5 py-md-5 py-5">
+	<section class="about py-lg-5 py-md-5 py-5">
 		<div class="container">
 			<div class="inner-sec-w3pvt py-lg-5 py-3">
-				<h4 class="tittle text-center mb-lg-5 mb-3 px-lg-5">[${campReviewDto.camp_id}]${campReviewDto.title}</h4>
-				<article>
+			<input type="hidden" name="review_num" value="${campReviewDto.review_num}">
+				<h4 class="tittle text-center mb-lg-5 mb-3 px-lg-5">${campReviewDto.title}</h4>
+			
 
 									<div class="container" role="main">
 
@@ -375,13 +372,11 @@
 										</div>
 
 									</div>
+				</div>
+				</div>
+			
 
-
-
-								</article>
-
-			</div>
-		</div>
+	
 	</section>
 
 

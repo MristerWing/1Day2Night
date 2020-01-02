@@ -166,4 +166,22 @@
 	<select id="getSearchComplete" parameterType="String" resultType="String">
 		<![CDATA[SELECT CAMP_NAME FROM CAMP_DATA WHERE regexp_like(CAMP_NAME,#{value}) AND ROWNUM <= 10]]>
 	</select>
+	
+	<select id="getCampRecommand" parameterType="java.util.Map" resultType="Integer">
+		SELECT COUNT(*) FROM CAMP_RECOMMAND WHERE CAMP_ID = #{campId} AND USER_NUM = #{id}
+	</select>
+	
+	<insert id="insertCampRecommand" parameterType="java.util.Map">
+		INSERT INTO CAMP_RECOMMAND (USER_NUM, CAMP_ID) VALUES (#{id}, #{campId})
+	</insert>
+	
+	<select id="getCampChoice" parameterType="java.util.Map" resultType="Integer">
+		SELECT COUNT(*) FROM CHOICE WHERE CAMP_ID = #{campId} AND USER_NUM = #{id}
+	</select>
+	
+	<insert id="insertCampChoice" parameterType="java.util.Map">
+		INSERT INTO CHOICE (CHOICE_ID, USER_NUM, CAMP_ID) VALUES (CHOICE_NUM_SEQ.NEXTVAL ,#{id}, #{campId})
+	</insert>
+	
+	
 </mapper>

@@ -56,8 +56,8 @@ public class CampInfoDaoImp implements CampInfoDao {
 	//해당검색내용 숫자
 	@Override
 	public int getSearchCount(String keyword) {
-		
-		return sqlSessionTemplate.selectOne("board.mapper.CampInfoMapper.getSearchCount");
+		//keyword="%"+keyword+"%";
+		return sqlSessionTemplate.selectOne("board.mapper.CampInfoMapper.getSearchCount",keyword);
 	}
 	// campinfo에서 리스트뿌려주기
 	@Override
@@ -67,7 +67,16 @@ public class CampInfoDaoImp implements CampInfoDao {
 		map.put("endRow", endRow);
 		return sqlSessionTemplate.selectList("board.mapper.CampInfoMapper.getCampInfoList", map);
 	}
-
+	//검색 글 리스트 뿌르기
+	@Override
+	public List<CampInfoDto> getSearchList(int startRow, int endRow,String keyword) {
+		HashMap<String, Object> map=new HashMap<String, Object>();
+		
+		map.put("keyword", keyword);
+		map.put("startRow", startRow);
+		map.put("endRow", endRow);
+		return sqlSessionTemplate.selectList("board.mapper.CampInfoMapper.getSearchList", map);
+	}
 	// 게시글 읽기
 	@Override
 	public CampInfoDto read(int info_num) {
