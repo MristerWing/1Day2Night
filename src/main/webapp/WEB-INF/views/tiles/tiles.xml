@@ -36,6 +36,10 @@
 		template="/WEB-INF/views/template/empty.jsp">
 		<put-attribute name="content" value=""></put-attribute>
 	</definition>
+	<definition name="*.empty" extends="empty">
+		<put-attribute name="content"
+			value="{1}.jsp"></put-attribute>
+	</definition>
 	<definition name="*/*.empty" extends="empty">
 		<put-attribute name="content"
 			value="/WEB-INF/views/{1}/{2}.jsp"></put-attribute>
