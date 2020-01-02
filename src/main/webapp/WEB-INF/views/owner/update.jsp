@@ -19,8 +19,9 @@ src="${root}/resources/javascript/owner/update.js">
 				<h3 class="tittle text-center mb-lg-5 mb-3 px-lg-5">사업자 정보수정</h3>
 				<div class="register_content">
 					<h5>등록된 사업자 번호: ${owner_key}</h5>
-					<form class="register_form" id="inputForm" action="#" method="GET"
-						enctype="multipart/form-data" onsubmit="returnForm()">
+					<form class="register_form" action="${root}/owner/ownerUpdate.do" id="inputForm" method="POST"
+						enctype="multipart/form-data">
+						<input type="hidden" name="camp_id" value="${camp_id}">
 						<div class="form-group">
 							<label for="pwd">캠핑장명(*)</label> <input type="text"
 								class="form-control" value="${camp.camp_name}" name="camp_name">
@@ -44,19 +45,19 @@ src="${root}/resources/javascript/owner/update.js">
 						<div class="form-group">
 							<h5>이미지를 선택하지 않을경우 기존 이미지가 유지됩니다.</h5>
 							<label>메인 이미지를 선택해주세요(*)</label> <input type="file"
-								class="form-control-file border" name="main-image">
+								class="form-control-file border" name="mainImage">
 						</div>
 						<div class="form-group">
 							<label>서브 이미지를 선택해주세요(최대3개)</label> <input type="file"
-								class="form-control-file border" multiple="multiple" name="sub-image">
+								class="form-control-file border" multiple="multiple" name="subImage">
 						</div>
 						<div class="form-group">
 							<label for="pwd">캠핑장 주소(*)</label> <input type="text"
 								class="form-control" value="${camp.address}" name="address">
 						</div>
 						<div class="form-group">
-							<label for="pwd">전화번호</label> <input type="text"
-								class="form-control" value="${camp.hp}" name="HP">
+							<label>전화번호</label> <input type="text"
+								class="form-control" value="${camp.hp}" name="hp">
 						</div>
 						<div class="form-group">
 							<label>홈페이지 주소</label> <input type="text" class="form-control"
@@ -85,35 +86,35 @@ src="${root}/resources/javascript/owner/update.js">
 						</script>
 						<div class="form-group">
 							<label>캠핑장유형</label>
-							<div id="camp-type"></div>
+							<div id="campType"></div>
 						</div>
 						<script type="text/javascript">
 							var campType = ["일반야영장", "자동차야영장", "카라반", "글램핑"];
-							makeCheckBoxs(campType, '${camp.camp_type}', 'camp-type');
+							makeCheckBoxs(campType, '${camp.camp_type}', 'campType');
 						</script>
 						<div class="form-group">
 							<label>운영기간</label>
-							<div id="op-period"></div>
+							<div id="opPeriod"></div>
 						</div>
 						<script type="text/javascript">
 							var opPeriod = ["봄", "여름", "가을", "겨울"];
-							makeCheckBoxs(opPeriod, '${camp.operation_period}', 'op-period');
+							makeCheckBoxs(opPeriod, '${camp.operation_period}', 'opPeriod');
 						</script>
 						<div class="form-group">
 							<label>영업 날짜</label>
-							<div id="op-day"></div>
+							<div id="opDay"></div>
 						</div>
 						<script type="text/javascript">
 							var opDays = ["평일", "주말"];
-							makeCheckBoxs(opDays, '${camp.operation_day}', 'op-day');
+							makeCheckBoxs(opDays, '${camp.operation_day}', 'opDay');
 						</script>
 						<div class="form-group">
 							<label>시설정보</label>
-							<div id="main-facilities"></div>
+							<div id="mainFacilities"></div>
 						</div>
 						<script type="text/javascript">
 							var main_facilities = ["전기", "무선인터넷", "장작판매", "온수", "트렘폴린", "물놀이장", "놀이터", "산책로", "운동장", "운동시설", "마트.편의점"];
-							makeCheckBoxs(main_facilities, '${camp.main_facilities}', 'main-facilities');
+							makeCheckBoxs(main_facilities, '${camp.main_facilities}', 'mainFacilities');
 						</script>
 						
 						<div class="form-group">
@@ -180,24 +181,25 @@ src="${root}/resources/javascript/owner/update.js">
 						</div>
 						<label for="pwd">사이트 수</label><br>
 						<div class="form-group" style="width: 100%; overflow: hidden;">
-							<input type="text" class="form-control" value="가로" name="siteWidth" style="margin-right: 10px;  float: left; width: 60px;">
+							<input type="text" class="form-control" placeholder="가로" name="siteWidth" style="margin-right: 10px;  float: left; width: 60px;">
 							<span style="float: left;">X</span>
-							<input type="text" class="form-control" value="세로" name="siteHeight" style="margin: 0 10px;  float: left; width: 60px;">
+							<input type="text" class="form-control" placeholder="세로" name="siteHeight" style="margin: 0 10px;  float: left; width: 60px;">
 							<span style="float: left;">·</span>
-							<input type="text" class="form-control" value="갯수" name="siteNumbers" style="margin-left: 10px;  float: left; width: 60px;">
+							<input type="text" class="form-control" placeholder="갯수" name="siteNumbers" style="margin-left: 10px;  float: left; width: 60px;">
 						</div>
 						<script type="text/javascript">
-							var sites = '${camp.site_size}'.split(" ").filter(x => x != 'X'&&x != '.');
+							var sites = '${camp.site_size}'.split(" ").filter(x => x != 'X'&&x != '·');
+							console.log(sites);
 							$("input[name=siteWidth]").val(parseInt(sites[0]));
 							$("input[name=siteHeight]").val(parseInt(sites[1]));
 							$("input[name=siteNumbers]").val(parseInt(sites[2]));
 						</script>
 						<div class="form-group">
 							<label for="comment">소개글을 작성해주세요</label>
-							<textarea class="form-control" rows="10" id="comment" name="text">${camp.content}</textarea>
+							<textarea class="form-control" rows="10" id="comment" name="content">${camp.content}</textarea>
 						</div>
 
-						<button type="button" onclick="returnForm()" class="btn btn-primary">작성</button>
+						<button type="button" onclick="returnForm('${root}')" class="btn btn-primary">작성</button>
 					</form>
 				</div>
 			</div>

@@ -1,5 +1,6 @@
 package com.odtn.owner.controller;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -13,12 +14,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.odtn.aop.LogAspect;
 import com.odtn.owner.dto.OwnerDto;
 import com.odtn.owner.service.OwnerService;
 import com.odtn.reservation.dto.ReservationDto;
+import com.odtn.search.dto.SearchDto;
 
 /**
  * @author KimJinsu
@@ -187,10 +191,65 @@ public class OwnerController {
 		LogAspect.logger.info(LogAspect.logMsg + camp_id + ", " + owner_key);
 
 		ModelAndView modelAndView = ownerService.ownerUpdate(camp_id);
+		modelAndView.addObject("camp_id", camp_id);
 		modelAndView.addObject("owner_key", owner_key);
 		modelAndView.setViewName("owner/update.tiles");
 
 		return modelAndView;
 	}
+
+	/**
+	 * 
+	 * @param request
+	 * @param response
+	 * @return List<Map<String, Object>>
+	 */
+	@RequestMapping(value = "/owner/ownerUpdate.do", method = RequestMethod.POST)
+	public ModelAndView ownerUpdateFile(MultipartHttpServletRequest request) {
+
+		SearchDto updateCamp = new SearchDto(
+				Integer.parseInt(request.getParameter("camp_id")),
+				request.getParameter("camp_name"),
+				request.getParameter("title"),
+				request.getParameter("camp_type"), request.getParameter("tag"),
+				"", request.getParameter("address"), request.getParameter("hp"),
+				request.getParameter("location_type"),
+				request.getParameter("operation_type"),
+				request.getParameter("operation_period"),
+				request.getParameter("operation_day"),
+				request.getParameter("camp_link"), "", "", "",
+				request.getParameter("content"), new Date(),
+				request.getParameter("main_facilities"),
+				request.getParameter("etc_facilities"),
+				request.getParameter("bottom_type"),
+				request.getParameter("site_size"),
+				request.getParameter("gramping_facilities"),
+				request.getParameter("karaban_facilities"),
+				request.getParameter("animal_access"),
+				request.getParameter("torch"), 0, new Date(), 0, 0, 0.0, 0.0);
+
+		MultipartFile mainImage = request.getFile("mainImage");
+		List<MultipartFile> subImage = request.getFiles("subImage");
+
+		ModelAndView modelAndView = ownerService.ownerUpdateOk(updateCamp,
+				mainImage, subImage);
+
+		LogAspect.logger
+				.info(LogAspect.logMsg + "req=" + request.getFile("mainImage"));
+
+		modelAndView.setViewName("owner/updateOk.tiles");
+
+		return modelAndView;
+	}
+
+	/*
+	 * @RequestMapping(value = "/owner/ownerUpdateFile.json", method =
+	 * RequestMethod.POST)
+	 * 
+	 * @ResponseBody public List<Map<String, String>> ownerUpdateFile(
+	 * MultipartHttpServletRequest request) { LogAspect.logger
+	 * .info(LogAspect.logMsg + "req=" + request.getFile("mainImage")); return
+	 * null; }
+	 */
 
 }

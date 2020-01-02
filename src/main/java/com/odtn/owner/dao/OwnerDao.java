@@ -6,6 +6,7 @@ import java.util.Map;
 import com.odtn.owner.dto.OwnerDto;
 import com.odtn.owner.dto.OwnerMainPageDto;
 import com.odtn.reservation.dto.ReservationDto;
+import com.odtn.search.dto.SearchDto;
 
 public interface OwnerDao {
 	public OwnerDto login(String owner_key, int user_num);
@@ -19,5 +20,5 @@ public interface OwnerDao {
 
 	public List<Map<String, Object>> getReservationCountMap(int camp_id);
 
-	public int campUpdate(int camp_id);
+	public int campUpdate(SearchDto updateCamp);
 }

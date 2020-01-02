@@ -16,7 +16,7 @@ function reservationList(page, response, id) {
 	$('#payment' + id + ' > table > tbody *').remove();
 
 	$(response).each(function() {
-		var index = response[loop + 1];
+		var index = response[loop>10?loop+=1:loop];
 		var register_date = dateTrans(index.register_date);
 		var start_date = dateTrans(index.start_date);
 		var end_date = dateTrans(index.end_date);

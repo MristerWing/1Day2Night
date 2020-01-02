@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 import com.odtn.owner.dto.OwnerDto;
 import com.odtn.owner.dto.OwnerMainPageDto;
 import com.odtn.reservation.dto.ReservationDto;
+import com.odtn.search.dto.SearchDto;
 
 @Component
 public class OwnerDaoImp implements OwnerDao {
@@ -61,7 +62,9 @@ public class OwnerDaoImp implements OwnerDao {
 	}
 
 	@Override
-	public int campUpdate(int camp_id) {
-		return 0;
+	public int campUpdate(SearchDto updateCamp) {
+		return sqlSessionTemplate.update(
+				"com.odtn.owner.dao.mapper.OwnerMapper.updateCampData",
+				updateCamp);
 	}
 }

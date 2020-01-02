@@ -34,4 +34,44 @@
 		select camp_site_type as title, nvl(count(*), 0) as result from reservation 
 		where camp_id = #{camp_id} GROUP BY camp_site_type
 	</select>
+	
+	<update id="updateCampData" parameterType="com.odtn.search.dto.SearchDto">
+		update camp_data
+		<set>
+		camp_name = #{camp_name},
+		title = #{title},
+		camp_type = #{camp_type},
+		tag = #{tag},
+		<if test="main_image != ''">
+			main_image = #{main_image},
+		</if>
+		address = #{address},
+		hp = #{hp},
+		location_type = #{location_type},
+		operation_type = #{operation_type},
+		operation_period = #{operation_period},
+		operation_day = #{operation_day},
+		camp_link = #{camp_link},
+		<if test="main_image != ''">
+			sub_image1 = #{sub_image1},
+		</if>
+		<if test="main_image != ''">
+			sub_image2 = #{sub_image2},
+		</if>
+		<if test="main_image != ''">
+			sub_image3 = #{sub_image3},
+		</if>
+		content = #{content},
+		content_modified_date = #{content_modified_date},
+		main_facilities = #{main_facilities},
+		etc_facilities = #{etc_facilities},
+		bottom_type = #{bottom_type},
+		site_size = #{site_size},
+		gramping_facilities = #{gramping_facilities},
+		karaban_facilities = #{karaban_facilities},
+		animal_access = #{animal_access},
+		torch = #{torch}
+		</set> 
+		where camp_id = #{camp_id}
+	</update>
 </mapper>
