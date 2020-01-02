@@ -24,6 +24,9 @@
 
 var emailCheck = 0;
 var passwordEqual = 0;
+var passwordBoolean = false;
+var userNameCheck = false;
+var phoneNumCheck = false;
 
 	function emailDupCheck(){
 		var email = $("#email").val();
@@ -31,7 +34,7 @@ var passwordEqual = 0;
 		
 		$.ajax({
 			data:{email:email},
-			url:'${root}/member/emailDupCheck.do',
+			url:'${root}/member/emailDupCheck.json',
 			type: 'post',
 			dataType: 'json',
 			success: function(data){
@@ -43,25 +46,28 @@ var passwordEqual = 0;
 				} else if($.trim(data) == -1){
 					$("#email_check").css("color", "red");
 					$("#email_check").text("이메일 형식에 맞지 않습니다. (xxx~@yyyy~.zzz)");
+					$("#submit").prop("disabled", true);
+					emailCheck = 0;
 				} else if($.trim(data) == 0){
 					$("#email").css("background-color", "#B0F6AC");
 					$("#email_check").css("color", "green");
 					$("#email_check").text("사용 가능한 이메일입니다.");
 					emailCheck = 1;
-					if(emailCheck==1 && passwordEqual == 1){
+					if(emailCheck==1 && passwordEqual>1 && passwordBoolean == true
+							&& userNameCheck == true && phoneNumCheck == true){
 						$("#submit").prop("disabled", false);
-						$("#submit").css("background-color", "#4CAF50");
+// 						$("#submit").css("background-color", "#4CAF50");
 					}
 				} else if($.trim(data) == 1){
 					$("#submit").prop("disabled", true);
-					$("#submit").css("background-color", "#AAAAAA");
+// 					$("#submit").css("background-color", "#AAAAAA");
 					$("#email").css("background-color", "#FFCECE");
 					$("#email_check").text("이미 사용중인 이메일입니다.");
 					$("#email_check").css("color", "red");
 					emailCheck=0;
 				}
 			}, error:function(){
-				alert("error");
+				alert("emailDupCheck() error");
 			}
 		});
 	}
@@ -79,10 +85,6 @@ var passwordEqual = 0;
 				} else if(password == passwordCheck){
 					$("#password-equals-true").show();
 					$("#password-equals-false").hide();
-<<<<<<< HEAD
-					$("#submit").removeAttr("disabled");
-					passwordEqual = 1;
-=======
 // 					$("#submit").removeAttr("disabled");
 					passwordEqual = passwordEqual+1;
 // 					if(emailCheck == 1 && passwordEqual > 1 && passwordBoolean==true){
@@ -91,7 +93,6 @@ var passwordEqual = 0;
 // 						}
 // 					}
 					$("#submit").removeAttr("disabled");
->>>>>>> 2a4f170d3303bcae26b6ed0785dc6b20efdd47f2
 				} else if(password != passwordCheck) {
 					$("#password-equals-true").hide();
 					$("#password-equals-false").show();
@@ -113,42 +114,6 @@ var passwordEqual = 0;
 		});
 	});
 	
-<<<<<<< HEAD
-	function passwordCheckm(){
-		var password=$("#password").val();
-		var email = $("#email").val();
-		console.log(email);
-		console.log(password);
-// 		$("#password-type-false").hide();
-		$.ajax({
-			type:'POST',
-			url: '${root}/member/passwordCheck.do',
-			data: { password: password, email:email},
-			dataType: 'json',
-			success:function(data){
-				if(data == 0){
-					$("#password-type-false").text("비밀번호는 공백없이 11자 이상 20자 이하로 특수문자 1개, 숫자 1개, 대문자가 1개가 포함되어야 합니다.");
-				} else if(data == -1){
-					$("#password-contains-email").text("비밀번호에 이메일이 포함되면 쉽게 개인 정보가 유출될 수 있습니다.");
-					if($("#password").val()=="") {
-						$("#password-contains-email").text("");
-					}
-					
-				} else if(data == -2){
-					$("#password-contains-email").text("비밀번호에 공백이 포함될 수 없습니다.");
-					$("#password-contains-email").css("color", "pink");
-				} else if(data == 1){
-					$("#password-contains-email").text("사용가능한 비밀번호입니다.");
-					$("#password-contains-email").css("color", "green");
-				}
-			},
-			error:function(request, status){
-				alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
-			}
-		});
-	}
-	
-=======
 // 	function passwordCheckm(){
 // 		var password=$("#password").val();
 // 		var email = $("#email").val();
@@ -280,7 +245,6 @@ var passwordEqual = 0;
 		
 		
 	
->>>>>>> 2a4f170d3303bcae26b6ed0785dc6b20efdd47f2
 // 	$("#email").blur(function(){
 // 		var email = $("#email").val();
 		
@@ -333,7 +297,7 @@ var passwordEqual = 0;
                         <i class="ti-email text-primary"></i>
                       </span>
                     </div>
-                    <input type="text" class="form-control form-control-lg border-left-0" placeholder="Email" name="email" id="email" oninput="emailDupCheck()" maxlength="320">
+                    <input type="text" style="ime-mode:disabled" class="form-control form-control-lg border-left-0" placeholder="Email" name="email" id="email" oninput="emailDupCheck()" maxlength="320">
 <!--                     <div style="color:red" class = "alert email-duplicate-true" id="email-duplicate-true">중복된 이메일 입니다.</div> -->
 <!--                     <div style="color:blue" class= "alert email-type-true" id="email-type-true">이메일 형식에 맞습니다.</div> -->
 <!--                     <div style="color:yellow" class="alert email-type-false" id="email-type-false">이메일 형식에 맞지 않습니다.</div> -->
@@ -349,13 +313,48 @@ var passwordEqual = 0;
                         <i class="ti-lock text-primary"></i>
                       </span>
                     </div>
-                    <input type="password" class="form-control form-control-lg border-left-0" id="password" name="password" placeholder="password" oninput="passwordCheckm()" maxlength="20"/><br/>
+                    <input type="password" class="form-control form-control-lg border-left-0" id="password" name="password" placeholder="password" oninput="passwordCheckm(password.value)" maxlength="20"/><br/>
                     <input type="password" class="form-control form-control-lg border-left-0" id="passwordCheck" name="passwordCheck" placeholder="passwordCheck" maxlength="20"/><br/>
                     <div style="color:green" class="alert password-equals-true" id="password-equals-true">비밀번호가 일치합니다.</div>
                     <div style="color:red" class="alert password-equals-false" id="password-equals-false">비밀번호가 일치하지 않습니다.</div>
                     <div style="color:violet" class="alert password-contains=email" id="password-contains-email"></div>
                     <div style="color:green" class="alert password-type-true" id="password-type-true"></div>
                     <div class="alert password-type-false" id="password-type-false"></div>
+                    <div id="passwordCheckTxt" style="color: #FF6600; margin: 0;"></div>
+                    <div id="passwordCheckTxt2" style="color: #FF6600; margin: 0;"></div>
+                    <div id="passwordCheckTxt3" style="color: #FF6600; margin: 0;"></div>
+                    <div id="passwordCheckTxt4" style="color: #FF6600; margin: 0;"></div>
+
+                    
+                <div class="form-group">
+                  <label>이름</label>
+                  <div class="input-group">
+                    <div class="input-group-prepend bg-transparent">
+                      <span class="input-group-text bg-transparent border-right-0">
+<!--                         <i class="ti-email text-primary"></i> -->
+                      </span>
+                    </div>
+                    <input type="text" style="IME-MODE:active" class="form-control form-control-lg border-left-0" placeholder="이름" name="user_name" id="user_name" maxlength="10" required="required">
+					<div id="user_name_man">이름은 한글 10자까지 입력 가능합니다. 본명을 써 주십시오. 예약 시 불이익이 있을 수 있습니다.</div>
+					<div id="user_name_check"></div>
+                  </div>
+                </div>
+                
+                <div class="form-group">
+                  <label>핸드폰번호</label>
+                  <div class="input-group">
+                    <div class="input-group-prepend bg-transparent">
+                      <span class="input-group-text bg-transparent border-right-0">
+<!--                         <i class="ti-email text-primary"></i> -->
+                      </span>
+                    </div>
+                    <input type="text" class="form-control form-control-lg border-left-0" placeholder="폰번호" name="phone_num" id="phone_num" maxlength="11" required="required">
+					<div id="phone_check"></div>
+					<div id="phone_check1"> - 없이 숫자만 정확하게 입력해 주십시오. 예약 시 연락을 취할 번호입니다.</div>
+                  </div>
+                </div>
+                    
+                    
                     <input type="submit" id="submit" class="form-control form-control-lg border-left-0" value="가입하기" disabled/>           
                   </div>
                 </div>

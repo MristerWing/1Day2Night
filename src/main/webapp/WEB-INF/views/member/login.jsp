@@ -69,7 +69,7 @@
 			                    </span>
 		                    </div>
 		                    <input type="text" class="form-control form-control-lg border-left-0" name="email" id="email" placeholder="email"/>
-							<i class="fa fa-check" aria-hidden="true" style="margin-top: 23px;"></i>
+							<i class="fa fa-check" aria-hidden="true" style="margin-top: 23px; margin-left:10px; color:green; position:relative;"></i>
 	                  	</div>
 	                  	<div class="alert alert-danger alert-dismissible fade show" style="width:354px; margin-top:15px; display:none;">
 							<button type="button" class="close" data-dismiss="alert">&times;</button>

@@ -10,6 +10,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -61,74 +62,29 @@ public class MemberController {
 		return mav;
 	}
 
-	@RequestMapping(value = "member/emailDupCheck.do", method = RequestMethod.POST)
+	@RequestMapping(value = "member/emailDupCheck.json", method = RequestMethod.POST)
 	public @ResponseBody int emailDupCheck(@RequestParam("email") String email, ModelAndView mav) {
-		int result = 0;
-		MemberDto memDto = memberService.emailDupCheck(email);
-
-		String regex = "^[_a-zA-Z0-9-\\.]{1,64}+@[\\.a-zA-Z0-9]+\\.[a-zA-Z]+$";
-		Boolean b = email.matches(regex);
-
-		if (memDto == null) {
-			if (b == false) {
-				LogAspect.logger.info(LogAspect.logMsg + "MC.emailDupCheck.이메일 형식에 맞지 않습니다.");
-				result = -1;
-			}
-			if (b) {
-				result = 0;
-				LogAspect.logger.info(LogAspect.logMsg + "MC.emailDupCheck.이메일 사용가능");
-				LogAspect.logger.info(LogAspect.logMsg + "MC.emailDupCheck.result= " + result);
-			}
-
-		} else if (memDto.getEmail().equals(email)) {
-			LogAspect.logger.info(LogAspect.logMsg + "MC.emailDupCheck.이미 사용중인 이메일입니다.");
-			result = 1;
-		} else if (memDto.getRegister_type() != null && memDto.getRegister_type().contentEquals("KAKAO")) {
-			LogAspect.logger.info(LogAspect.logMsg + "MC.emailDupCheck.같은 메일을 사용하는 카카오 계정으로 가입하셨습니다.");
-			result = 2;
-		}
+		int result = memberService.emailDupCheck(email);
+		// MemberDto memDto=memberService.emailDupCheck(email);
 		return result;
 	}
 
-	@RequestMapping(value = "member/passwordCheck.do", method = RequestMethod.POST)
+	@RequestMapping(value = "member/passwordCheck.json", method = RequestMethod.POST)
 	public @ResponseBody int passwordCheck(@RequestParam String email, @RequestParam String password) {
 		LogAspect.logger.info(LogAspect.logMsg + "MC.passwordCheck method");
-		// LogAspect.logger.info(LogAspect.logMsg+"pwCheck.email:
-		// "+hMap.get("email"));
+		// LogAspect.logger.info(LogAspect.logMsg+"pwCheck.email: "+hMap.get("email"));
 		// LogAspect.logger.info(LogAspect.logMsg+"pwCheck.password:
 		// "+hMap.get("password"));
 		LogAspect.logger.info(LogAspect.logMsg + "pwCheck.email: " + email);
 		LogAspect.logger.info(LogAspect.logMsg + "pwCheck.password: " + password);
 
-		int check = 0;
-		LogAspect.logger.info(LogAspect.logMsg + "pwCheck.check: " + check);
-		String password_check = "^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[$@$!%*?&`~'\"+=])[A-Za-z[0-9]$@$!%*?&`~'\"+=]{11,20}$";
+		int check = memberService.passwordCheck(email, password);
+		return check;
+	}
 
-		Pattern patternSymbol = Pattern.compile(password_check);
-		Matcher matcherSymbol = patternSymbol.matcher(password);
-
-		if (matcherSymbol.matches()) {
-			check = 1;
-			LogAspect.logger.info(LogAspect.logMsg + "MC.passCheck.사용가능한 비밀번호입니다.");
-			LogAspect.logger.info(LogAspect.logMsg + "MC.passCheck.사가비.check= " + check);
-
-		}
-		if (matcherSymbol.find()) {
-			check = 1;
-			LogAspect.logger.info(LogAspect.logMsg + "MC.passCheck.사용가능한 패스워드입니다.");
-			LogAspect.logger.info(LogAspect.logMsg + "MC.passCheck.사가패.check= " + check);
-		}
-		if (password.contains(email)) {
-			check = -1;
-			LogAspect.logger.info(LogAspect.logMsg + "MC.passCheck.비번에 이메일을 넣으시면 귀하의 소중한 개인정보가 유출되기 쉬워집니다.");
-			if (!password.contains(email))
-				LogAspect.logger.info(LogAspect.logMsg + "MC.passCheck.잘정해");
-		}
-		if (password.contains(" ")) {
-			check = -3;
-			LogAspect.logger.info(LogAspect.logMsg + "MC.passCheck.비밀번호에 공백이 포함될 수 없습니다.");
-		}
-
+	@RequestMapping(value = "member/nicknameDuplCheck.json", method = RequestMethod.POST)
+	public @ResponseBody int nicknameDuplCheck(@RequestParam String nickname) {
+		int check = memberService.nicknameDuplCheck(nickname);
 		return check;
 	}
 
@@ -270,7 +226,7 @@ public class MemberController {
 	@RequestMapping(value = "member/deleteOk.do", method = RequestMethod.POST)
 	public ModelAndView memberDeleteOk(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 		ModelAndView mav = new ModelAndView();
-		LogAspect.logger.info(LogAspect.logMsg + "MC.mDO.req.pw: " + request.getParameter("password_out"));
+		LogAspect.logger.info(LogAspect.logMsg+"MC.mDO.req.pw: "+request.getParameter("password_out"));
 		mav.addObject("request", request);
 		memberService.memberDeleteOk(mav);
 		session.removeAttribute("user_num");

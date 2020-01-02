@@ -13,13 +13,13 @@
 <%-- <c:if test="${sessionScope.user_num == null}"> --%>
 		<script type="text/javascript">
 			alert("로그아웃 되었습니다.");
-			location.href="${root}/";
+			location.href="${root}/index.jsp";
 		</script>
 <%-- 	</c:if> --%>
 <%-- 	<c:if test="${sessionScope.user_num != null}"> --%>
 		<script type="text/javascript">
 			alert("로그인 실패");
-			location.href="${root}/";
+			location.href="${root}/index.jsp";
 		</script>
 <%-- 	</c:if> --%>
 </body>

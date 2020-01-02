@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <c:set var="root" value="${pageContext.request.contextPath}"/>
 <html lang="en">
@@ -20,11 +21,12 @@
   <link rel="stylesheet" href="../../../resources/css/member/style.css">
   <!-- endinject -->
   <link rel="shortcut icon" href="../../../resources/css/member/images/favicon.png" />
+  <script src="${root}/resources/javascript/modules/jquery-3.4.1.js"></script>
   
   <script type="text/javascript">
   	function modifyForm(obj){
   		//interest를 받기 위해 만듬
-  		alert("modFormOk");
+  		//alert("modFormOk");
   		var str="";
   		var cnt=0;
   		for(var i=0;i<obj.interest.length;i++){
@@ -33,16 +35,9 @@
   				cnt++;
   			}
   		}
-  		alert("interestStr: "+str);
+  		//alert("interestStr: "+str);
   		obj.interesth.value=str;
   		
-<<<<<<< HEAD
-  		var gen="";
-  		for(var i=0;i<obj.gender.length;i++){
-  			if(obj.gender[i].checked==true) {
-  				gen += obj.gender[i].value;
-  			}
-=======
 //   		var gen="";
 //   		for(var i=0;i<obj.gender.length;i++){
 //   			if(obj.gender[i].checked==true) {
@@ -324,11 +319,9 @@
   					alert("nicknameDuplCheck() error");
   				}
   			});
->>>>>>> 2a4f170d3303bcae26b6ed0785dc6b20efdd47f2
   		}
-  		alert("genderStr: "+gen);
-  		obj.genderh.value=gen;
-  	}
+  		
+
   </script>
   
 </head>
@@ -359,32 +352,28 @@
                     <div class="form-group">
                       <label for="exampleInputName1">이름</label>
                       <input type="hidden" name="user_nameHidden" value="${memberDto.user_name}"/>
-                      <input type="text" class="form-control" id="exampleInputName1" name="user_name" placeholder="Name" value="${memberDto.user_name}"/>
+                      <input type="text" style="ime-mode:active" class="form-control" id="user_name" name="user_name" placeholder="Name" value="${memberDto.user_name}" oninput="userNameCheck()" />
                       
                     </div>
                     <div class="form-group">
                       <label for="exampleInputEmail3">이메일</label>
-<<<<<<< HEAD
-                      <input type="hidden" name="emailHidden" value="${memberDto.email}"/>
-                      <input type="email" class="form-control" id="exampleInputEmail3" name="email" placeholder="Email" value="${memberDto.email}"/>
-=======
 <%--                       <input type="hidden" name="emailHidden" value="${memberDto.email}"/> --%>
                       <input type="email" style="ime-mode:disabled" class="form-control" id="emaildis" name="emaildis" placeholder="Email" value="${memberDto.email}" oninput="emailDupCheck()" maxlength="320" disabled/>
 <!--                       <input type="hidden" name="email"/> -->
->>>>>>> 2a4f170d3303bcae26b6ed0785dc6b20efdd47f2
                       
                     </div>
                     <div class="form-group">
                       <label for="exampleInputPassword4">비밀번호</label>
                       <input type="hidden" name="passwordHidden" value="${memberDto.password}"/>
-                      <input type="password" class="form-control" id="exampleInputPassword4" name="password" placeholder="Password" value="${memberDto.password}"/>
-                      
+                      <input type="password" class="form-control" id="password" name="password" placeholder="Password" value="${memberDto.password}" oninput="passwordCheckm(password.value)" maxlength="20"/>
+                      <input type="hidden" name="passwordh"/>
                     </div>
                     <div class="form-group">
                     	<label for="exampleInputNickname5">닉네임</label>
                     	<input type="hidden" name="nicknameHidden" value="${memberDto.nickname}"/>
-                    	<input type="text" class="form-control" id="exampleInputNickname5" name="nickname" placeholder="nickname" value="${memberDto.nickname}"/>
-                    	
+                    	<input type="text" style="IME-MODE:active" class="form-control" id="nickname" name="nickname" placeholder="nickname" value="${memberDto.nickname}" oninput="nicknameDuplCheck()" size="20"/>
+                    	<input type="hidden" name="nicknameh"/>
+                    	<div id="nickname_check"></div>
 <!--                       <label for="exampleSelectGender">Gender</label> -->
 <!--                         <select class="form-control" id="exampleSelectGender"> -->
 <!--                           <option>Male</option> -->
@@ -392,32 +381,12 @@
 <!--                         </select> -->
                     </div>
                     <div class="form-group">
-                    	<label for="exampleInputPhoneNum6">핸드폰번호(숫자만 입력해 주세요)</label>
+                    	<label for="exampleInputPhoneNum6">핸드폰번호( - 없이 숫자만 입력해 주세요)</label>
                     	<input type="hidden" name="phone_numHidden" value="${memberDto.phone_num}"/>
-                    	<input type="text" class="form-control" id="exampleInputPhoneNum5" name="phone_num" placeholder="PhoneNumber" value="${memberDto.phone_num}"/>
-                    	
+                    	<input type="text" class="form-control" id="phone_num" name="phone_num" placeholder="PhoneNumber" value="${memberDto.phone_num}" oninput="phoneDuplCheck()" size="11"/>
+                    	<input type="hidden" name="phoneNumh"/>
                     </div>
                     <br/>
-<<<<<<< HEAD
-                    <div class="form-group">
-                    	<div class="form-check form-check-primary">
-                            <h3>흥미 있는 키워드들을 선택해주세요 </h3>
-                            <label class="form-check-label" for="check-01">
-                            	<input type="checkbox" class="form-check-input" id="check-01" name="interest" value="mountain">
-                            	엄홍길
-                            </label>
-                            <label class="form-check-label" for="check-02">
-                            	<input type="checkbox" class="form-check-input" id="check-02" name="interest" value="sea">
-                            	박태환
-                            </label>
-                            <label class="form-check-label" for="check-03">
-                            	<input type="checkbox" class="form-check-input" id="check-03" name="interest" value="mountain">
-                            	김병만
-                            </label>
-                            <input type="hidden" name="interesth"/>
-                    	 </div>
-                    </div>
-=======
 <!--                     <div class="form-group"> -->
 <!--                     	<div class="form-check form-check-primary"> -->
 <!--                             <h3>흥미 있는 키워드들을 선택해주세요 </h3> -->
@@ -445,7 +414,6 @@
 <!--                     	 	</script> -->
 <%--                     	 </c:forTokens> --%>
 <!--                     </div> -->
->>>>>>> 2a4f170d3303bcae26b6ed0785dc6b20efdd47f2
                     <div class="form-group">
                       <label>프로필 사진 파일 업로드</label>
                       <input type="file" name = "profile_image" class="file-upload-default" size="255"/>
@@ -458,13 +426,21 @@
 <!--                         </span> -->
 <!--                       </div> -->
                     </div>
-                    <div class="form-group">
-                      <label>성별</label>
-                      <input type="radio" name = "gender" value="m">
-                      <label>남</label>
-                      <input type="radio" name = "gender" value="f">
-                      <label>여</label>
-                      <input type="hidden" name="radioh"/>
+<!--                     <div class="form-group"> -->
+<!--                       <label>성별</label> -->
+<!--                       <input type="radio" name = "gender" value="m"> -->
+<!--                       <label>남</label> -->
+<!--                       <input type="radio" name = "gender" value="f"> -->
+<!--                       <label>여</label> -->
+<!--                       <input type="hidden" name="genderh"/> -->
+<!--                     </div> -->
+<!--                     <script type="text/javascript"> -->
+<!--                      	for(var i=0;i<updateForm.gender.length;i++){ -->
+<%--                      		if(updateForm.gender[i].value=="${memberDto.gender}"){ --%>
+<!--                      			updateForm.gender[i].checked=true; -->
+<!--                      		} -->
+<!--                      	} -->
+<!--                     </script> -->
                     
                     <button type="submit" class="btn btn-primary mr-2">Submit</button>
 <!--                     <button class="btn btn-light">Cancel</button> -->

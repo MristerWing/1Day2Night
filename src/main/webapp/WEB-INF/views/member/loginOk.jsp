@@ -32,18 +32,14 @@
 			<c:if test = "${sessionScope.email_auth_status == null}">
 				<script type="text/javascript">
 					alert("로그인 되었습니다.");
-					location.href="${root}/";
+					location.href="${root}/index.jsp";
 				</script>
 			</c:if>
 			<c:if test = "${sessionScope.email_auth_status != null}">
 				
 				<script type="text/javascript">
 					alert("이메일 인증을 먼저 해주십시오");
-<<<<<<< HEAD
-					location.href="${root}/";
-=======
 					location.href="${root}/index.jsp";
->>>>>>> 2a4f170d3303bcae26b6ed0785dc6b20efdd47f2
 				</script>
 				<c:remove var="user_num" scope="session"/>
 				<c:remove var="email" scope="session"/>

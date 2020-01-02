@@ -12,6 +12,8 @@ import java.net.URL;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
@@ -117,10 +119,6 @@ public class MemberServiceImp implements MemberService {
 	}
 
 	@Override
-<<<<<<< HEAD
-	public MemberDto emailDupCheck(String email) {
-		return memberDao.isNewMember(email);
-=======
 	public int emailDupCheck(String email) {
 		int result = 0;
 		MemberDto memDto = memberDao.isNewMember(email);
@@ -204,7 +202,6 @@ public class MemberServiceImp implements MemberService {
 		int check = memberDao.nicknameDuplCheck(nickname);
 
 		return check;
->>>>>>> 2a4f170d3303bcae26b6ed0785dc6b20efdd47f2
 	}
 
 	//
@@ -232,6 +229,7 @@ public class MemberServiceImp implements MemberService {
 	public void emailSender(ModelAndView mav) {
 		Map<String, Object> map = mav.getModelMap();
 		MemberDto memberDto = (MemberDto) map.get("memberDto");
+		HttpServletRequest request = (HttpServletRequest) map.get("request");
 		// 이메일 인증 키 생성
 		String email_auth_key = new TempKey().getKey(50, false);
 		while (memberDao.isNewEmailAuthKey(email_auth_key) > 0) {
@@ -243,6 +241,8 @@ public class MemberServiceImp implements MemberService {
 				+ memberDto.toString());
 		// 자동으로 보내지는 mail 내용 작성
 		try {
+			// String mailLink = request.getContextPath();
+
 			LogAspect.logger.info(LogAspect.logMsg + "MSI.mWO.mail.dto:"
 					+ memberDto.toString());
 			MailUtils sendMail = new MailUtils(mailSender);
@@ -299,6 +299,16 @@ public class MemberServiceImp implements MemberService {
 	public void memberLoginOk(ModelAndView mav) {
 		Map<String, Object> map = mav.getModelMap();
 		HttpServletRequest request = (HttpServletRequest) map.get("request");
+
+		// String mailLink = request.getContextPath();
+		// LogAspect.logger.info(LogAspect.logMsg + "MSI.mLO.getConPath:
+		// "+mailLink);
+		// LogAspect.logger.info(LogAspect.logMsg + "MSI.mLO.getReqURI:
+		// "+request.getRequestURI());
+		// LogAspect.logger.info(LogAspect.logMsg + "MSI.mLO.mL.getRpath:
+		// "+request.getRealPath(mailLink));
+		LogAspect.logger.info(LogAspect.logMsg + "MSI.mLO.getSPath: "
+				+ request.getServletPath());
 
 		String email = request.getParameter("email");
 		String password = request.getParameter("password");
