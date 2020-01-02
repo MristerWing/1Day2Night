@@ -61,7 +61,6 @@ p {
 }
 
 ul {
-    margin: 0;
     padding: 0;
 }
 
@@ -251,6 +250,7 @@ nav ul ul {
     padding: 10px;
     z-index: 999;
     border: 1px solid #ddd;
+    margin-left: -75px;
 }
 
 /* Display Dropdowns on Hover */

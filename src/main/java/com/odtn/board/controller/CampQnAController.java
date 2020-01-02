@@ -51,6 +51,16 @@ public class CampQnAController {
 				campQnAService.list(mav,session,memberDto);
 				return mav;
 		}
+	//해당 글 검색 (작성자로 검색)
+		@RequestMapping(value = "board/campQnA/searchList.do", method = RequestMethod.GET)
+		public ModelAndView searchList(HttpServletRequest request,HttpServletResponse response) {
+			ModelAndView mav=new ModelAndView();
+			System.out.println("컨트롤러");
+			mav.addObject("request",request);
+			campQnAService.searchList(mav);
+			return mav;
+		}
+		
 	// 해당 글 읽기
 		@RequestMapping(value = "board/campQnA/read.do",method = RequestMethod.GET  )
 		public ModelAndView read(HttpServletRequest request, HttpServletResponse response,MemberDto memberDto) {
@@ -91,6 +101,7 @@ public class CampQnAController {
 		@RequestMapping(value = "board/campQnA/writeAnswer.do", method = RequestMethod.GET)
 		public ModelAndView writeAnswer(HttpServletRequest request,HttpServletResponse response,MemberDto memberDto) {
 			ModelAndView mav=new ModelAndView();
+			System.out.println("답글컨트롤러");
 			mav.addObject("request",request);
 			campQnAService.writeAnswer(mav,memberDto);
 			return mav;
@@ -104,5 +115,15 @@ public class CampQnAController {
 			mav.addObject("campQnADto",campQnADto);
 			campQnAService.writeAnswerOk(mav);
 			return mav;			
+		}
+	//목록에서 비밀번호 입력하고 글 얻어오기 
+		@RequestMapping(value ="board/campQnA/pwdCheck.do",method = RequestMethod.GET)
+		public ModelAndView pwdCheck(HttpServletRequest request, HttpServletResponse response,CampQnADto campQnADto) {
+	
+			ModelAndView mav=new ModelAndView();
+			mav.addObject("request",request);
+			mav.addObject("campQnADto",campQnADto);
+			campQnAService.pwdCheck(mav);
+			return mav;
 		}
 }

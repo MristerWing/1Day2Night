@@ -9,6 +9,10 @@ public interface CampReviewDao {
 	public int writeOk(CampReviewDto campReviewDto,List<CampReviewFileDto> array);
 	//게시글 총 개수
 	public int getCount();
+	//글목록 검색한 개수 구하기
+	public int getSearchCount(String keyword);
+	//글목록 검색 리스트 구하기
+	public List<CampReviewDto> getSearchList(int startRow, int endRow, String keyword);
 	//글목록 리스트 구하기
 	public List<CampReviewDto> getCampReviewList (int startRow, int endRow);
 	//파일목록 리스트 구하기
@@ -17,10 +21,12 @@ public interface CampReviewDao {
 	public int imgCount(int review_num);
 	//리스트에 뿌릴 사진 경로 구하기
 	public String getFilePath(int review_num);
+	//멤버테이블에서 작성자 이름찾기
+	public String getUser_name(int user_num);
 	//member table에서 이메일찾기
 	public String getEmail(int user_num);
 	//멤버 테이블에서 카카오톡프로필 이름찾기
-	public String getProfilName(int user_num);
+	public String getNickName(int user_num);
 	//글읽기
 	public CampReviewDto read(int review_num);
 	//글삭제

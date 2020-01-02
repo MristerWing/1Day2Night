@@ -49,6 +49,15 @@ public class CampReviewController {
 			campReviewService.list(mav,session,memberDto);
 			return mav;
 	}
+	//목록내에서 제목으로 검색하기
+	@RequestMapping(value = "board/campReview/searchList.do", method = RequestMethod.GET)
+	public ModelAndView searchList(HttpServletRequest request,HttpServletResponse response) {
+		ModelAndView mav=new ModelAndView();
+		System.out.println("컨트롤러");
+		mav.addObject("request",request);
+		campReviewService.searchList(mav);
+		return mav;
+	}
 	//글 읽기
 	@RequestMapping(value = "board/campReview/read.do",method = RequestMethod.GET  )
 	public ModelAndView read(HttpServletRequest request, HttpServletResponse response,MemberDto memberDto) {

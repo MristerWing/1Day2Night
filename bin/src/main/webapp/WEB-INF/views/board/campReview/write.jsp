@@ -3,12 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <c:set var="root" value="${pageContext.request.contextPath}"/>  
-<!--
-Author: W3layouts
-Author URL: http://w3layouts.com
-License: Creative Commons Attribution 3.0 Unported
-License URL: http://creativecommons.org/licenses/by/3.0/
--->
+
 <html lang="utf-8">
 
 <head>
@@ -45,6 +40,11 @@ License URL: http://creativecommons.org/licenses/by/3.0/
     	}
     </script>  
     
+    <!--++++++++++++++++++++++++++++++부트스트랩+++++++++++++++++++++++++++++++++++++++++++++=-->
+     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+	  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+	  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
     <!--summerNote-->
     <link href="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.css" rel="stylesheet">
 <!-- 	<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script>  -->
@@ -61,9 +61,11 @@ License URL: http://creativecommons.org/licenses/by/3.0/
     <link rel="stylesheet" href="${root}/resources/css/styles/style.css" type="text/css" media="all" />
    
     <!-- Style-CSS -->
-    <!-- font-awesome-icons -->
-   <%--  <link href="${root}/css/styles/font-awesome.css" rel="stylesheet"> --%>
-    <!-- //font-awesome-icons -->
+   	<style type="text/css">
+   	 .review_content{
+   	 	background-color: #bfbbbb6b;
+   	 }
+   	</style>
     <!-- /Fonts -->
     <link href="//fonts.googleapis.com/css?family=Poppins:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900" rel="stylesheet">
     <link href="//fonts.googleapis.com/css?family=Dosis:200,300,400,500,600,700,800" rel="stylesheet">
@@ -83,7 +85,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                     <div id="logo">
                         <%-- 	<img class="logoImg" src="${root}/resources/css/images/ODTN.png" width="50"> --%>
                   		<h1> 
-                  		<a class="navbar-brand" href="index.html">CAMPINGINFO</a>
+                  		<a class="navbar-brand" href="${root}/index.jsp">CAMPINGINFO</a>
                        </h1>
                     </div>
 
@@ -156,53 +158,42 @@ License URL: http://creativecommons.org/licenses/by/3.0/
     <section class="about py-lg-5 py-md-5 py-5">
         <div class="container">
             <div class="inner-sec-w3pvt py-lg-5 py-3">
-                <h3 class="tittle text-center mb-lg-5 mb-3 px-lg-5">캠핑장 리뷰</h3>
-             <div class="info_content" >
-				
-				<label>캠핑소식 작성</label>
-			<!--썸머노트 form태그-->
-            <form class="campReview_form" action="${root}/board/campReview/writeOk.do" method="POST" 
-            	enctype="multipart/form-data" onsubmit="returnForm(this)">
- 	
-			<ul class="">
-				<li>
-					<label >제목(*)</label>
-					<input name="title"  type="text" maxlength="100"/>
-				</li>
-				<li>
-					<label >작성자(*)</label>
-					<input name="user_number" type="text"/>
-				</li>
+                <h3 class="tittle text-center mb-lg-5 mb-3 px-lg-5">캠핑장 리뷰 작성</h3>
+             <div class="review_content" >
 
-				<li>
-					<label >캠핑장 선택</label>
-					<select>
-						  <option value="">시,도</option>
-					</select>
-					<select>
-						  <option value="">시,구,군</option>
-					</select>
-					<select name="camp_id" id="camp_id">
-						  <option value="">캠핑장이름을 선택하세요</option>
-						  <option value="11111">111111</option>
-					</select>
-				</li>
-				<li>
-					<span>대표이미지를 넣어주세요
-							
-							<!-- 	<a href="" onclick="return addFileInput('P','fileTd'); return false;">
-								<img src="/img/2018/board/btn_addfile.png" alt="파일추가">
-							</a>
-							<a href="#ProgBtn" onclick="return addFileInput('M','fileTd'); return false;">
-								<img src="/img/2018/board/btn_delfile.png" alt="파일삭제">
-							</a> -->
-							<input type="file" id="file" name="file" onchange="uploadImg_Change(this.value,'userfile1')" title="첨부파일1"/>
-							</span>
-							<br>
-					
-				<li>
-					<label>내용</label>
-					<textarea name="content" rows="3" id="content"></textarea>
+				  <form class="campReview_form" action="${root}/board/campReview/writeOk.do" method="POST" 
+            	enctype="multipart/form-data" onsubmit="returnForm(this)">
+				    <div class="form-group">
+				      <label>제목(*)</label>
+				      <input type="text" class="form-control" id="title" name="title">
+				    </div>
+				    <div class="form-group">
+				      <label for="pwd">작성자(*)</label>
+				      <input name="user_num" type="hidden" value="${memberDto.user_num}">
+				      <input type="text" class="form-control" value="${user_name}" name="user_name" disabled="disabled">
+				    </div>
+				      <div class="form-group">
+					      <label for="sel1">캠핑장선택</label>
+					      <select class="form-control" id="sel1" name="sellist1">
+					        <option>시,도</option>
+					      </select>
+					      <br>
+					      <select class="form-control" id="sel1" name="sellist1">
+					        <option>시,구,군</option>
+					      </select>
+					      <br>
+					      <select class="form-control" id="camp_id" name="camp_id">
+					        <option>캠핑장 이름을 선택해 주세요</option>
+					        <option value="11111">111111</option>
+					      </select>
+      				</div>
+      				 <div class="form-group">
+      				  <label>대표이미지를 선택해주세요</label>
+				      <input type="file" class="form-control-file border" name="file">
+				    </div>
+				     <div class="form-group">
+      				  <label>내용을 입력해주세요</label>
+      				  	<textarea name="content" rows="3" id="content"></textarea>
 						<!--썸머노트 한글설정-->
 						<script type="text/javascript" src="${root}/resources/javascript/summernote/summernote-ko-KR.js">
 						</script>
@@ -222,15 +213,15 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 					        $(".content").html(code);
 					    });
 					    </script>	
-				<li>
-					<p>
-						<input class="btn" type="submit" value="작성"/>	
-						<input class="btn" type="button"  value="목록" onclick="location.href='${root}/board/campInfo/list.do?pageNumber=${pageNumber}'"/>	
-					</p>
-				
-				</li>
-		</ul>
-		</form>            
+				     
+				    </div>
+			
+				    <button type="submit" class="btn btn-primary">작성</button>
+				    <button type="button" class="btn btn-primary" onclick="location.href='${root}/board/campReview/list.do?pageNumber=${pageNumber}'" >목록</button>
+				 
+				  </form>
+			<!--썸머노트 form태그-->
+       
 	</div>   
             </div>
         </div>
@@ -325,3 +316,4 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 </body>
 
 </html>
+html>

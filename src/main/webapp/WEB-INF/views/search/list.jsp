@@ -128,14 +128,14 @@
 						focus: function(eventCheck, ui) {
 							eventCheck.preventDefault();
 							console.log(ui.item.label);
-							
+														
 							$("#searchKrwd2").keydown(function(key) {
 								
 								if(key.which == 13) {
 									$("#searchKrwd2").val(ui.item.label);
 									event();
 								}
-							});
+							}); 
 						}
 					});
 				});

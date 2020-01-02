@@ -5,10 +5,14 @@
  <mapper namespace="board.mapper.CampReviewMapper">
  	<!--멤버테이블에서 사용자이름 가져오기-->
  	<select id="getUser_name" resultType="String">
+ 		SELECT USER_NAME FROM MEMBER WHERE USER_NUM=#{user_num}
+ 	</select>
+ 	<!--멤버테이블에서 사용자 이메일 가져오기-->
+ 	<select id="getEmail" resultType="String">
  		SELECT EMAIL FROM MEMBER WHERE USER_NUM=#{user_num}
  	</select>
  	<!--멤버테이블에서 카톡프로필이름 가져오기-->
- 	<select id="getProfilName" resultType="String">
+ 	<select id="getNickName" resultType="String">
  		SELECT NICKNAME FROM MEMBER WHERE USER_NUM=#{user_num}
  	</select>
  
@@ -55,7 +59,11 @@
  	<select id="getCount" parameterType="com.odtn.board.dto.CampReviewDto"  resultType="int">
  		SELECT COUNT(*) FROM CAMP_REVIEW
  	</select>
- 	
+
+	<!--검색글 개수 구하기--> 
+	<select id="getSearchCount" parameterType="String" resultType="int">
+		SELECT COUNT(*) FROM CAMP_REVIEW WHERE REGEXP_LIKE (TITLE,#{value})
+	</select>	
  	<!--글리스트에 대표이미지가있는지 세어보기-->
  	<select id="imgCount" parameterType="com.odtn.board.dto.CampReviewFileDto" resultType="int">
  		SELECT COUNT(FILE_NAME) FROM CAMP_REVIEW_FILE where review_num
@@ -74,6 +82,15 @@
 	         B WHERE RNUM >=#{startRow} AND RNUM <= #{endRow}
         ]]>
  	</select>
+ 	<!--검색 글 리스트 정렬-->
+ 	<select id="getSearchList" parameterType="java.util.Map" resultType="com.odtn.board.dto.CampReviewDto">
+ 		<![CDATA[
+	        SELECT * FROM
+	         (SELECT ROWNUM AS RNUM, A.* FROM
+	         (SELECT REVIEW_NUM, TITLE, USER_NUM, WRITE_DATE,READ_COUNT FROM CAMP_REVIEW ORDER BY REVIEW_NUM DESC)A)
+	         B WHERE RNUM >=#{startRow} AND RNUM <= #{endRow} AND REGEXP_LIKE(TITLE,#{keyword})
+        ]]>
+ 	 </select>
  	<!--파일리스트-->
  	<select id="getCampReviewFileList" parameterType="java.util.Map" resultType="com.odtn.board.dto.CampReviewFileDto">
  			   <![CDATA[

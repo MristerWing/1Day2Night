@@ -19,4 +19,12 @@ public interface SearchDao {
 	public List<SearchPaymentDto> getPayment(int camp_id);
 
 	public List<String> getSearchComplete(String searchName);
+
+	public int getCampRecommand(Map<String, String> data);
+
+	public int insertCampRecommand(Map<String, String> data);
+
+	public int getCampChoice(Map<String, String> data);
+
+	public int insertCampChoice(Map<String, String> data);
 }

@@ -1,0 +1,187 @@
+@charset "UTF-8";
+/* footer */
+.f_info_w {
+    position: relative;
+    width: 100%;
+    float: left;
+    background: #1e272e;
+    border-bottom: 1px solid #4a4a4c;
+    min-height: 90px;
+    z-index: 10;
+}
+
+.layout, .layout2 {
+    display: block;
+    position: relative;
+    width: 1200px;
+    margin: 0 auto;
+}
+
+.f_info_w .f_logo {
+    position: absolute;
+    top: 27px;
+    left: 0;
+    width: 209px;
+    height: 42px;
+    background: url(/1day2night/src/main/webapp/resources/images/ODTN_LOGO.png) no-repeat 0 -368px;
+}
+
+.f_menu {
+    padding: 35px 0 12px 247px;
+}
+
+.f_menu li:first-child {
+    background: none;
+}
+
+.f_menu li.privacy a {
+    color: #ff9b2f !important;
+}
+
+.f_menu li a {
+    display: inline-block;
+    margin: 0 18px 0 18px;
+    font-size: 13px;
+    color: #fff;
+    text-decoration: none;
+}
+
+.f_menu li {
+    display: inline-block;
+    background: url(https://www.gocamping.or.kr/img/2018/layout/line_h13.gif) no-repeat left 8px;
+}
+
+.btn_top {
+    /* position: absolute; */
+    margin-left:auto;
+    width: 60px;
+    height: 60px;
+    top: 57px;
+    right: -80px;
+    cursor: pointer;
+    background: url(https://www.gocamping.or.kr/img/2018/main/btn_top.png) no-repeat 0 0;
+    font-size: 0;
+    line-height: 0;
+}
+
+body > footer > div > div > div.f_logo > span{
+	color: white;
+    font-size: xx-large;
+    margin-left: 60px;
+	
+}
+
+body > div > footer > div > div > div.f_logo > span{
+		color: white;
+    font-size: xx-large;
+    margin-left: 60px;
+	
+}
+
+/* copyright */
+.layout {
+    display: block;
+    position: relative;
+    width: 97%;
+    margin: 0 auto;
+    letter-spacing: -1px;
+}
+
+button {
+    margin: 0px;
+    padding: 0px;
+    border: 0px;
+    background: transparent;
+    letter-spacing: -1px;
+    cursor: pointer;
+    font-family: "Malgun Gothic", "맑은 고딕", Dotum, "돋움", Helvetica, AppleGothic, Sans-serif, "Tahoma", "MS PGothic";
+}
+
+.f_addr {
+    font-size: 13px;
+    line-height: 22px;
+    color: #c0c0c0;
+    padding: 0 450px 0 0;
+}
+
+.f_addr div {
+    float: left;
+    margin-right: 22px;
+    display: inline-block;
+}
+
+.f_addr .f_mail {
+    font-size: 13px;
+    line-height: 22px;
+    color: #c0c0c0 !important;
+    text-decoration: none;
+    letter-spacing: 0;
+}
+
+address {
+    font-style: normal;
+}
+
+.copyright {
+    clear: both;
+    letter-spacing: 0px;
+}
+
+.f_link_w {
+    position: relative;
+    width: 100%;
+    float: left;
+    background: rgba(30, 39, 46, 0.98);
+    padding: 5px 0;
+}
+
+
+.f_link button {
+    font-size: 13px;
+    color: #d0d0d0;
+    display: block;
+    width: 170px;
+    line-height: 38px;
+    height: 38px;
+    text-align: left;
+    padding: 0 20px;
+    background: url(https://www.gocamping.or.kr/img/2018/main/icon_moreWs1.png) no-repeat 90% center;
+}
+
+.dropdown-content {
+    display: block;
+    bottom: 38px;
+    z-index: 10;
+    position: absolute;
+    background-color: #f9f9f9;
+    width: 100%;
+    border: 1px solid #999;
+    box-sizing: border-box;
+}
+.dropdown-content a {
+    color: black;
+    padding: 5px 16px;
+    text-decoration: none;
+    display: block;
+    border-top: 1px solid #dedede;
+}
+
+.f_link .dropdown {
+    float: left;
+    background: #393a3b;
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.f_link {
+    float: left;
+    position: absolute;
+    right: 0;
+    top: 0;
+    background: #393a3b;
+}
+
+

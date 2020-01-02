@@ -7,6 +7,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -51,6 +52,15 @@ public class CampInfoController {
 		ModelAndView mav=new ModelAndView();
 		mav.addObject("request",request);
 		campInfoService.list(mav,session,memberDto);
+		return mav;
+	}
+	//검색해서 목록찾기
+	@RequestMapping(value = "board/campInfo/searchList.do", method = RequestMethod.GET)
+	public ModelAndView serchList(HttpServletRequest request,HttpServletResponse response) {
+		ModelAndView mav=new ModelAndView();
+	
+		mav.addObject("request",request);
+		campInfoService.serchList(mav);
 		return mav;
 	}
 	//글 읽기

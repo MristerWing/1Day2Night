@@ -4,14 +4,17 @@
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="board.mapper.CampQnAMapper">
-
-	<!--작성자 찾기 -->
-	<select id="getNickName" resultType="String">
+	<!--작성자 이름 가져오기-->
+	<select id="getUser_name" resultType="String">
+		SELECT USER_NAME FROM MEMBER WHERE USER_NUM=#{user_num}
+	</select>
+	<!--작성자 이메일주소 가져오기-->
+	<select id="getEmail" resultType="String">
 		SELECT EMAIL FROM MEMBER WHERE USER_NUM=#{user_num}
 	</select>
 	
 	<!-- 작성자찾기: 프로필이름찾기 -->
-	<select id="getProfileName" resultType="String">
+	<select id="getNickname" resultType="String">
 		SELECT NICKNAME FROM MEMBER WHERE USER_NUM=#{user_num}
 	</select>
 	
@@ -60,8 +63,28 @@
 	      B WHERE RNUM >=#{startRow} AND RNUM <= #{endRow}
 		  ]]>
 	 </select>
+	 <!--검색한 글 리스트로 가져오기-->
+	 <select id="getSearchList" parameterType="java.util.Map" resultType="com.odtn.board.dto.CampQnADto">
+	 	 	 <![CDATA[
+		  SELECT * FROM
+	      (SELECT ROWNUM AS RNUM, A.* FROM
+	      (SELECT * FROM QNA ORDER BY GROUP_NUM DESC,SEQUENCE_NUM ASC )A)
+	      B WHERE RNUM >=#{startRow} AND RNUM <= #{endRow} AND USER_NUM=#{user_num}
+		  ]]>
+	 </select>
+	 <!--작성자 이름 검색해서 user_num 반환-->
+	 <select id="getUser_num" resultType="int">
+	 	SELECT USER_NUM FROM MEMBER WHERE REGEXP_LIKE (USER_NAME,#{value})
+	 </select>
 	 
-	 
+	 <!--해당작성자의 글-->
+	 <select id="getSearchCount" resultType="int">
+	 	SELECT COUNT(*) FROM QNA WHERE USER_NUM =#{user_num}
+	 </select>
+	 <!--모달 비밀번호 치고 들어오기-->
+	 <select id="pwdCheck" parameterType="java.util.Map" resultType="com.odtn.board.dto.CampQnADto">
+	 	SELECT * FROM QNA WHERE PASSWORD=#{password} AND USER_NUM=#{user_num}
+	 </select>
 	 <!--누를때 조회수 증가-->
 	 <update id="readCount">
 	 	UPDATE QNA SET READ_COUNT=READ_COUNT+1

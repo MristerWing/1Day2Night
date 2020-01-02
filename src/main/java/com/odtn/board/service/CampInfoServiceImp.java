@@ -39,8 +39,14 @@ public class CampInfoServiceImp implements CampInfoService {
 		HttpServletRequest request = (HttpServletRequest) map.get("request");
 		int user_num = Integer.parseInt(request.getParameter("user_num"));
 		LogAspect.logger.info(LogAspect.logMsg + "관리자 user_num" + user_num);
-		String writer = campInfoDao.getNickName(user_num);
-		LogAspect.logger.info(LogAspect.logMsg + "관리자닉네임" + writer);
+		String writer = campInfoDao.getUser_name(user_num);
+		LogAspect.logger.info(LogAspect.logMsg + "설정된 user_name: " + writer);
+		if (writer == null) {
+			writer = campInfoDao.getEmail(user_num);
+		}
+		if (writer==null) {
+			writer=campInfoDao.getNickName(user_num);
+		}
 
 		mav.addObject("user_num", user_num);
 		mav.addObject("writer", writer);
@@ -104,8 +110,7 @@ public class CampInfoServiceImp implements CampInfoService {
 
 	// 글목록
 	@Override
-	public void list(ModelAndView mav, HttpSession session,
-			MemberDto memberDto) {
+	public void list(ModelAndView mav, HttpSession session, MemberDto memberDto) {
 		Map<String, Object> map = mav.getModel();
 		HttpServletRequest request = (HttpServletRequest) map.get("request");
 
@@ -138,8 +143,15 @@ public class CampInfoServiceImp implements CampInfoService {
 					.info(LogAspect.logMsg + "작성글 사이즈" + campInfoList.size());
 			for (int i = 0; i < campInfoList.size(); i++) {
 				int user_num = campInfoList.get(i).getUser_num();
-				String writer = campInfoDao.getNickName(user_num);
-				LogAspect.logger.info(LogAspect.logMsg + "공지글쓴사람 이름들" + writer);
+				String writer = campInfoDao.getUser_name(user_num);
+				LogAspect.logger.info(LogAspect.logMsg + "설정된 user_name: " + writer);
+				if (writer == null) {
+					writer = campInfoDao.getEmail(user_num);
+				}
+				if (writer==null) {
+					writer=campInfoDao.getNickName(user_num);
+				}
+
 				writerList.add(writer);
 				System.out.println("이름들" + writer);
 			}
@@ -150,6 +162,67 @@ public class CampInfoServiceImp implements CampInfoService {
 		request.setAttribute("campInfoList", campInfoList);
 		request.setAttribute("writerList", writerList);
 		mav.setViewName("board/campInfo/list.tiles");
+	}
+
+	//검핵해서 리스트로 읽기
+	@Override
+	public void serchList(ModelAndView mav) {
+		// TODO Auto-generated method stub
+		Map<String, Object> map = mav.getModel();
+		HttpServletRequest request = (HttpServletRequest) map.get("request");
+		System.out.println("serviceImp입니다.");
+		
+		String pageNumber = request.getParameter("pageNumber");
+
+		if (pageNumber == null || pageNumber == "")
+			pageNumber = "1";
+
+		int currentPage = Integer.parseInt(pageNumber);
+		LogAspect.logger.info(LogAspect.logMsg + "현재페이지: " + currentPage);
+
+		String keyword=request.getParameter("keyword");
+		LogAspect.logger.info(LogAspect.logMsg+"검색 키워드"+keyword);
+		
+		// 전체 글 개수
+		int searchCount = campInfoDao.getSearchCount(keyword);
+		LogAspect.logger.info(LogAspect.logMsg + "전체 글 개수" + searchCount);
+		if (searchCount==0) {
+			mav.setViewName("board/campInfo/searchList.tiles");
+		}
+		// 페이지당 글 개수
+		int boardSize = 10;
+		int startRow = (currentPage - 1) * boardSize + 1;
+		int endRow = currentPage * boardSize;
+		LogAspect.logger.info(LogAspect.logMsg + "시작번호: " + startRow + ","
+				+ "끝번호: " + endRow);
+		
+		List<String> writerList = new ArrayList<String>();
+		List<CampInfoDto> searchList = null; // 글이 하나라도 있으면 
+		if (searchCount > 0) {
+			searchList = campInfoDao.getSearchList(startRow, endRow,keyword);
+		LogAspect.logger.info(LogAspect.logMsg + "작성글 사이즈" + searchList.size());
+		for (int i = 0; i < searchList.size(); i++) {
+			int user_num = searchList.get(i).getUser_num();
+			String writer = campInfoDao.getUser_name(user_num);
+			LogAspect.logger.info(LogAspect.logMsg + "설정된 user_name: " + writer);
+			if (writer == null) {
+				writer = campInfoDao.getEmail(user_num);
+			}
+			if (writer == null) {
+				writer = campInfoDao.getNickName(user_num);
+			}
+
+			writerList.add(writer);
+			System.out.println("이름들" + writer);
+		}
+		request.setAttribute("currentPage", currentPage);
+		request.setAttribute("searchCount", searchCount);
+		request.setAttribute("boardSize", boardSize);
+		request.setAttribute("searchList", searchList);
+		request.setAttribute("writerList", writerList);
+		request.setAttribute("keyword", keyword);
+		mav.setViewName("board/campInfo/searchList.tiles");
+	}
 	}
 
 	// 글 읽기
@@ -168,8 +241,14 @@ public class CampInfoServiceImp implements CampInfoService {
 		LogAspect.logger
 				.info(LogAspect.logMsg + "불러온 글: " + campInfoDto.toString());
 		int user_num = campInfoDto.getUser_num();
-		String writer = campInfoDao.getNickName(user_num);
-		LogAspect.logger.info(LogAspect.logMsg + "읽은글 관리자 이름: " + writer);
+		String writer = campInfoDao.getUser_name(user_num);
+		LogAspect.logger.info(LogAspect.logMsg + "설정된 user_name: " + writer);
+		if (writer == null) {
+			writer = campInfoDao.getEmail(user_num);
+		}
+		if (writer==null) {
+			writer=campInfoDao.getNickName(user_num);
+		}
 
 		// 파일이있는지여부확인
 		List<CampInfoFileDto> campInfoFileList = null;
@@ -295,8 +374,15 @@ public class CampInfoServiceImp implements CampInfoService {
 		int user_num = Integer.parseInt(request.getParameter("user_num"));
 		LogAspect.logger.info(LogAspect.logMsg + "수정글의 user_num: " + user_num);
 
-		String writer = campInfoDao.getNickName(user_num);
-		LogAspect.logger.info(LogAspect.logMsg + "수정글의 writer: " + writer);
+		String writer = campInfoDao.getUser_name(user_num);
+		LogAspect.logger.info(LogAspect.logMsg + "설정된 user_name: " + writer);
+		if (writer == null) {
+			writer = campInfoDao.getEmail(user_num);
+		}
+		if (writer==null) {
+			writer=campInfoDao.getNickName(user_num);
+		}
+
 
 		// 파일이있는지여부확인
 		List<CampInfoFileDto> campInfoFileList = null;

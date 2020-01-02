@@ -14,6 +14,8 @@ public interface CampQnAService {
 	public void writeOk(ModelAndView mav);
 	//리스트
 	public void list(ModelAndView mav,HttpSession session,MemberDto memberDto);
+	//작성자이름으로 검색하기
+	public void searchList(ModelAndView mav);
 	//글읽rl
 	public void read(ModelAndView mav,MemberDto memberDto);
 	//글삭제
@@ -26,4 +28,6 @@ public interface CampQnAService {
 	public void writeAnswer(ModelAndView mav,MemberDto memberDto);
 	//답글 작성 확인
 	public void writeAnswerOk(ModelAndView mav);
+	//비밀번호 입력 후 
+	public void pwdCheck(ModelAndView mav);
 }

@@ -13,19 +13,26 @@ import com.odtn.board.dto.CampQnADto;
 
 @Component
 public class CampQnADaoImp implements CampQnADao {
+	
 	@Autowired
 	private SqlSessionTemplate sqlSessionTemplate;
-	//글작성자 가져오기
+	//이름가져오기
 	@Override
-	public String getNickName(int user_num) {
+	public String getUser_name(int user_num) {
+	
+		return sqlSessionTemplate.selectOne("board.mapper.CampQnAMapper.getUser_name",user_num);
+	}
+	//이메일주소가져오기
+	@Override
+	public String getEmail(int user_num) {
 		
-		return sqlSessionTemplate.selectOne("board.mapper.CampQnAMapper.getNickName",user_num);
+		return sqlSessionTemplate.selectOne("board.mapper.CampQnAMapper.getEmail",user_num);
 	}
 	//이메일없으면 카톡프로필이름 가져오기
 	@Override
-	public String getProfileName(int user_num) {
+	public String getNickName(int user_num) {
 	
-		return sqlSessionTemplate.selectOne("board.mapper.CampQnAMapper.getProfileName",user_num);
+		return sqlSessionTemplate.selectOne("board.mapper.CampQnAMapper.getNickName",user_num);
 	}
 
 	//글 작성확인
@@ -52,11 +59,42 @@ public class CampQnADaoImp implements CampQnADao {
 		map.put("endRow", endRow);
 		return sqlSessionTemplate.selectList("board.mapper.CampQnAMapper.getCampQnAList",map);
 	}
+	//검색한 결과 리스트
+	@Override
+	public List<CampQnADto> getSearchList(int startRow, int endRow, int user_num) {
+		HashMap<String, Integer> map=new HashMap<String, Integer>();
+		map.put("startRow", startRow);
+		map.put("endRow", endRow);
+		map.put("user_num", user_num);
+		return sqlSessionTemplate.selectList("board.mapper.CampQnAMapper.getSearchList",map);
+	}
+	//작성자로 검색해서 user_num
+	@Override
+	public int getUser_num(String keyword) {
+
+		return sqlSessionTemplate.selectOne("board.mapper.CampQnAMapper.getUser_num",keyword);
+	}
+	//검색한 작성자의 글 개수
+	@Override
+	public int getSearchCount(int user_num) {
+		
+		return sqlSessionTemplate.selectOne("board.mapper.CampQnAMapper.getSearchCount",user_num);
+	}
 	//리스트에서 글 읽기
 	@Override
 	public CampQnADto read(int qna_num) {
 			int check=sqlSessionTemplate.update("board.mapper.CampQnAMapper.readCount",qna_num);
 			return sqlSessionTemplate.selectOne("board.mapper.CampQnAMapper.readContent",qna_num);
+	}
+	//비밀번호 입력하고 해당글 읽기
+	@Override
+	public CampQnADto pwdCheck(String password, int user_num) {
+		HashMap<String, Object> map=new HashMap<String, Object>();
+		map.put("password", password);
+		map.put("user_num", user_num);
+		CampQnADto qna= sqlSessionTemplate.selectOne("board.mapper.CampQnAMapper.pwdCheck",map);
+		System.out.println(qna.toString());
+		return qna;
 	}
 	//글 삭제
 	@Override
