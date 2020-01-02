@@ -442,8 +442,11 @@
 <!--                      	} -->
 <!--                     </script> -->
                     
-                    <button type="submit" class="btn btn-primary mr-2">Submit</button>
+                    <button type="submit" class="btn btn-primary mr-2">수정</button>
 <!--                     <button class="btn btn-light">Cancel</button> -->
+
+					<button type="button" class="btn btn-danger" id="">탈퇴</button>
+	
                   </form>
                 </div>
               </div>

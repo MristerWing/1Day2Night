@@ -273,10 +273,111 @@ var phoneNumCheck = false;
 // 	});
 	
 </script>
+<style>
+	body > div > div.container > div:nth-child(2) > form > table > tbody > tr > td:nth-child(1) {
+		width:180px;
+		text-align:center;
+	}
+	
+	body > div > div.container > div:nth-child(2) > form > table > tbody > tr > td {
+		border:0px;
+	}
+	
+	body h5 {
+		font-size:14px;
+	}
+</style>
 </head>
 <body>
 
-  <div class="container-scroller">
+	<div class="container" style="margin-top:10px; margin-bottom:10px; width:850px;">
+		
+		<!-- Header -->
+		<div>
+			<h3>회원가입</h3>
+		</div>
+		
+		<!-- 회원가입 내용 부분 -->
+		<div style="margin-top:15px;">
+			<form>
+				<table class="table table-borderless">
+				    <tbody style="border-top:2px solid #474747; border-bottom: 1px solid #474747; background-color: #f9fafb;">
+					    <tr>
+					        <td style="line-height:48px;">이메일(*)</td>
+					        <td>
+					        	<div class="input-group">
+					        	<div class="input-group-prepend bg-transparent" style="background-color: white;">
+		                      	<span class="input-group-text bg-transparent border-right-0">
+			                    <i class="ti-email text-primary"></i>
+			                    </span>
+			                    </div>
+			                    <input type="text" style="ime-mode:disabled" class="form-control form-control-lg border-left-0" placeholder="Email" name="email" id="email" oninput="emailDupCheck()" maxlength="320">
+								<div id="email_check"></div>
+								</div>
+					        </td>
+					    </tr>
+				    	<tr>
+						    <td style="line-height:48px;">이름(*)</td>
+						    <td style="margin-top:20px;">
+						    	<div class="input-group">
+                    			<div class="input-group-prepend bg-transparent">
+                    		    <span class="input-group-text bg-transparent border-right-0" style="width:42px;">
+                          		<i class="fa fa-user" aria-hidden="true" style="color:dodgerblue;"></i>
+                     		    </span>
+                                </div>
+                  			    <input type="text" style="IME-MODE:active" class="form-control form-control-lg border-left-0" placeholder="이름" name="user_name" id="user_name" maxlength="10" required="required">
+                			    </div>
+						    </td>
+				   		</tr>
+				    	<tr>
+						    <td style="line-height:48px;">비밀번호(*)</td>
+						    <td>
+						    	<div class="input-group">
+                   			    <div class="input-group-prepend bg-transparent">
+                   			    <span class="input-group-text bg-transparent border-right-0">
+                    		    <i class="ti-lock text-primary"></i>
+                     			</span>
+                  				</div>
+                  				<input type="password" class="form-control form-control-lg border-left-0" id="password" name="password" placeholder="password" oninput="passwordCheckm(password.value)" maxlength="20"/><br/>
+                  				</div>
+						    </td>
+				   		</tr>
+				    	<tr>
+						    <td style="line-height:48px;">비밀번호 확인(*)</td>
+						    <td>
+						    	<div class="input-group">
+                   			    <div class="input-group-prepend bg-transparent">
+                   			    <span class="input-group-text bg-transparent border-right-0">
+                    		    <i class="ti-lock text-primary"></i>
+                     			</span>
+                  				</div>
+                  				<input type="password" class="form-control form-control-lg border-left-0" id="password" name="password" placeholder="passwordCheck" oninput="passwordCheckm(password.value)" maxlength="20"/><br/>
+                  				</div>
+						    </td>
+				   		</tr>
+				    	<tr>
+						    <td style="line-height:48px;">휴대폰 번호(*)</td>
+						    <td>
+						    	<div class="input-group">
+                 			    <div class="input-group-prepend bg-transparent">
+                    		    <span class="input-group-text bg-transparent border-right-0">
+                                <i class="fa fa-phone" aria-hidden="true" style="color:dodgerblue;"></i>
+                     		    </span>
+                  			    </div>
+                  			    <input type="text" class="form-control form-control-lg border-left-0" placeholder="폰번호" name="phone_num" id="phone_num" maxlength="11" required="required">
+						    	</div>
+						    </td>
+				   		</tr>
+			    	</tbody>
+				</table>
+				<h5><i class="fa fa-exclamation-circle" aria-hidden="true" style="color:deeppink"></i>  이메일 회원가입은 이메일 인증을 하셔야만 회원가입이 완료됩니다.</h5>
+				<h5 style="margin-top:15px;"><i class="fa fa-exclamation-circle" aria-hidden="true" style="color:deeppink"></i>  아래 회원가입 버튼을 누르신 후 입력하신 이메일 주소에서 인증 메일을 확인 하여 주시기 바랍니다.</h5>
+				<button type="submit" class="btn btn-secondary" style="width:170px; height:60px; margin-left:300px; margin-top:15px;">회원가입</button>
+			</form>
+		</div>
+	</div>
+
+  <%--  <div class="container-scroller">
     <div class="container-fluid page-body-wrapper full-page-wrapper">
       <div class="content-wrapper d-flex align-items-stretch auth auth-img-bg">
         <div class="row flex-grow">
@@ -394,7 +495,7 @@ var phoneNumCheck = false;
 			alert("이미 같은 이메일을 사용하는 계정이 있습니다.");
 		</script>
 	</c:if>
-</c:if>
+</c:if>  --%>
 </body>
 
 </html>

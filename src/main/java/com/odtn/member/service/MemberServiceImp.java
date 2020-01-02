@@ -321,7 +321,11 @@ public class MemberServiceImp implements MemberService {
 
 		String salt = memberDao.getSaltByEmail(email);
 		LogAspect.logger.info(LogAspect.logMsg + "MSI.mWO.salt: " + salt);
-
+		
+		if(salt == null) {
+			mav.setViewName("member/login.tiles");
+			return;
+		}
 		password = SHA256Util.getEncrypt(password, salt);
 		LogAspect.logger.info(LogAspect.logMsg + "MSI.mWO.pwsha: " + password);
 		LogAspect.logger.info(LogAspect.logMsg + "MSI.mWO.salt: " + salt);

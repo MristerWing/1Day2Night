@@ -142,6 +142,7 @@ public class MemberController {
 		} else {
 			LogAspect.logger.info(LogAspect.logMsg + "MC.mLO.dto가 비었습니다.로그인에 문제 발생");
 			mav.addObject("login_fail", "t");
+			
 		}
 		return mav;
 	}

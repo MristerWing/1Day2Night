@@ -29,20 +29,52 @@
   			var regExp = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
   			
   			if(emailCheck.match(regExp) != null) {
-  				
+  				$("body > div > div.container > div:nth-child(2) > form > ul > li:nth-child(1) > div > i").show();
+  				$("body > div > div.container > div:nth-child(2) > form > ul > li:nth-child(1) > div.alert.alert-danger.alert-dismissible.fade.show").hide();
   			} else {
   				$("body > div > div.container > div:nth-child(2) > form > ul > li:nth-child(1) > div.alert.alert-danger.alert-dismissible.fade.show").show();
+  				$("body > div > div.container > div:nth-child(2) > form > ul > li:nth-child(1) > div > i").hide();
   			}
   			
   		});
   		
+  		$("#password").focusout(function() {
+  			
+  			var pwdCheck = $("#password").val();
+  			
+  			if(pwdCheck == "") {
+  				$("body > div > div.container > div:nth-child(2) > form > ul > li:nth-child(2) > div.alert.alert-danger.alert-dismissible.fade.show").show();
+  				$("body > div > div.container > div:nth-child(2) > form > ul > li:nth-child(2) > div.input-group > i").hide();
+  			} else {
+  				$("body > div > div.container > div:nth-child(2) > form > ul > li:nth-child(2) > div.alert.alert-danger.alert-dismissible.fade.show").hide();
+  				$("body > div > div.container > div:nth-child(2) > form > ul > li:nth-child(2) > div.input-group > i").show();
+  			}
+  			
+  		});
+
   		// 카카오 로그인
   		$("body > div > div.container > div:nth-child(2) > form > ul > li:nth-child(4) > button").click(function() {
   			
   			location.href="https://kauth.kakao.com/oauth/authorize?client_id=06ef11d13082c0f6655eada1dec1670a&redirect_uri=http://localhost:8181/camping/member/kakaoLogin.do&response_type=code";
   			
   		});
+  		
+	  	$("body > div > div.container > div:nth-child(2) > form").submit(function(event) {
+	  		
+			var emailCheck = $("#email").val();
+  			
+  			var regExp = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+	  		
+  			var pwdCheck = $("#password").val();
+  			
+	  		if (emailCheck.match(regExp) != null && pwdCheck != "") {
+	  			
+	  		} else  {
+	  			event.preventDefault();
+	  		}
+	  	});
   	})
+  	
   </script>
 </head>
 
@@ -69,10 +101,9 @@
 			                    </span>
 		                    </div>
 		                    <input type="text" class="form-control form-control-lg border-left-0" name="email" id="email" placeholder="email"/>
-							<i class="fa fa-check" aria-hidden="true" style="margin-top: 23px;"></i>
+							<i class="fa fa-check" aria-hidden="true" style="margin-top: 23px; margin-left:10px; color:green; display:none;"></i>
 	                  	</div>
 	                  	<div class="alert alert-danger alert-dismissible fade show" style="width:354px; margin-top:15px; display:none;">
-							<button type="button" class="close" data-dismiss="alert">&times;</button>
 							<strong>이메일 형식이 틀렸습니다.</strong>
 						</div>
 					</li>
@@ -86,7 +117,11 @@
 			                    </span>
 		                    </div>
 		                    <input type="password" name="password" class="form-control form-control-lg border-left-0" id="password" placeholder="Password">                        
+	                  		<i class="fa fa-check" aria-hidden="true" style="margin-top: 23px; margin-left:10px; color:green; display:none;"></i>
 	                  	</div>
+	                  	<div class="alert alert-danger alert-dismissible fade show" style="width:354px; margin-top:15px; display:none;">
+							<strong>비밀번호를 입력해주세요.</strong>
+						</div>
 					</li>
 					<!-- Login -->
 					<li style="margin-top:15px;">
@@ -109,23 +144,20 @@
 		</div>
 		
 	</div> 
-  
-	<c:if test="${memberDto == null}">
-		<c:if test="${login_fail == 't'}">
-			<script type="text/javascript">
-				alert("아이디 혹은 비밀번호를 확인해 주십시오.");
-				//location.href="${root}/login.jsp";
-			</script>
-		</c:if>
-	</c:if>
-	  
-	<c:if test="${email_auth_status != null}">
+  	
+  	<c:if test="${login_fail == 't'}">
+  		<script>
+  			alert("아이디 혹은 비밀번호가 틀렸습니다.");
+  		</script>
+  	</c:if>
+  	
+	<%-- <c:if test="${email_auth_status != null}">
 		<script type="text/javascript">
 			alert("이메일 인증을 하셔야 로그인 하실 수 있습니다.");
 			location.href="${root}/index.jsp";
 		</script>
 		<% session.invalidate(); %>
-	</c:if>
+	</c:if> --%>
   
   	<c:if test="${register_type == 'KAKAO'}">
 	  	<script type="text/javascript">
