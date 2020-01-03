@@ -255,6 +255,7 @@
 											<th>평상시 주말</th>
 											<th>성수기 주중</th>
 											<th>성수기 주말</th>
+											<th>하루수용인원</th>
 										</tr>
 									</thead>
 									<tbody>
@@ -263,6 +264,7 @@
 											<td>${paymentDto.normal_season_holidays_fee}</td>
 											<td>${paymentDto.peak_season_weekdays_fee}</td>
 											<td>${paymentDto.peak_season_holidays_fee}</td>
+											<td>${paymentDto.day_accept_member}</td>
 										</tr>
 									</tbody>
 								</table>

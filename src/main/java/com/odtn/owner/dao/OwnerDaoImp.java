@@ -12,6 +12,7 @@ import com.odtn.owner.dto.OwnerDto;
 import com.odtn.owner.dto.OwnerMainPageDto;
 import com.odtn.reservation.dto.ReservationDto;
 import com.odtn.search.dto.SearchDto;
+import com.odtn.search.dto.SearchPaymentDto;
 
 @Component
 public class OwnerDaoImp implements OwnerDao {
@@ -66,5 +67,46 @@ public class OwnerDaoImp implements OwnerDao {
 		return sqlSessionTemplate.update(
 				"com.odtn.owner.dao.mapper.OwnerMapper.updateCampData",
 				updateCamp);
+	}
+
+	@Override
+	public int getMaxCampId() {
+		return sqlSessionTemplate.selectOne(
+				"com.odtn.owner.dao.mapper.OwnerMapper.getMaxCampID");
+	}
+
+	@Override
+	public int campInsert(SearchDto updateCamp) {
+		return sqlSessionTemplate.update(
+				"com.odtn.owner.dao.mapper.OwnerMapper.insertCampData",
+				updateCamp);
+	}
+
+	@Override
+	public int campPaymentUpdate(List<SearchPaymentDto> paymentList) {
+		int reset = sqlSessionTemplate.delete(
+				"com.odtn.owner.dao.mapper.OwnerMapper.paymentReset",
+				paymentList.get(0).getCamp_id());
+
+		if (reset > 0) {
+			reset = sqlSessionTemplate.insert(
+					"com.odtn.owner.dao.mapper.OwnerMapper.paymentInsert",
+					paymentList);
+		}
+
+		return reset;
+	}
+
+	@Override
+	public int campPaymentInsert(List<SearchPaymentDto> paymentList) {
+		return sqlSessionTemplate.insert(
+				"com.odtn.owner.dao.mapper.OwnerMapper.paymentInsert",
+				paymentList);
+	}
+
+	@Override
+	public int ownerInsert(OwnerDto ownerDto) {
+		return sqlSessionTemplate.insert(
+				"com.odtn.owner.dao.mapper.OwnerMapper.ownerInsert", ownerDto);
 	}
 }

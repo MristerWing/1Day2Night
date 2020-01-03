@@ -23,6 +23,7 @@ import com.odtn.owner.dto.OwnerDto;
 import com.odtn.owner.service.OwnerService;
 import com.odtn.reservation.dto.ReservationDto;
 import com.odtn.search.dto.SearchDto;
+import com.odtn.search.dto.SearchPaymentDto;
 
 /**
  * @author KimJinsu
@@ -140,6 +141,52 @@ public class OwnerController {
 	 * @param response
 	 * @return {@link ModelAndView}
 	 */
+	@RequestMapping(value = "/owner/ownerWriteOk.do", method = RequestMethod.POST)
+	public ModelAndView ownerWriteOk(MultipartHttpServletRequest request) {
+
+		SearchDto updateCamp = new SearchDto(0,
+				request.getParameter("camp_name"),
+				request.getParameter("title"),
+				request.getParameter("camp_type"), request.getParameter("tag"),
+				"", request.getParameter("address"), request.getParameter("hp"),
+				request.getParameter("location_type"),
+				request.getParameter("operation_type"),
+				request.getParameter("operation_period"),
+				request.getParameter("operation_day"),
+				request.getParameter("camp_link"), "", "", "",
+				request.getParameter("content"), new Date(),
+				request.getParameter("main_facilities"),
+				request.getParameter("etc_facilities"),
+				request.getParameter("bottom_type"),
+				request.getParameter("site_size"),
+				request.getParameter("gramping_facilities"),
+				request.getParameter("karaban_facilities"),
+				request.getParameter("animal_access"),
+				request.getParameter("torch"), 0, new Date(), 0, 0, 0.0, 0.0);
+
+		MultipartFile mainImage = request.getFile("mainImage");
+		List<MultipartFile> subImage = request.getFiles("subImage");
+
+		ModelAndView modelAndView = ownerService.ownerUpdateOk(updateCamp,
+				mainImage, subImage, request.getContextPath(), false);
+		long owner_key = Long.parseLong(request.getParameter("owner_key"));
+		int user_num = (Integer) request.getSession().getAttribute("user_num");
+
+		OwnerDto ownerDto = new OwnerDto(owner_key, updateCamp.getCamp_id(),
+				user_num);
+		ownerService.ownerInsert(ownerDto, modelAndView);
+
+		modelAndView.setViewName("owner/writeOk.tiles");
+
+		return modelAndView;
+	}
+
+	/**
+	 * 
+	 * @param request
+	 * @param response
+	 * @return {@link ModelAndView}
+	 */
 	@RequestMapping(value = "/owner/mainPage.do", method = RequestMethod.POST)
 	public ModelAndView ownerMainPage(HttpServletRequest request,
 			OwnerDto ownerDto) {
@@ -234,22 +281,12 @@ public class OwnerController {
 		LogAspect.logger.info(LogAspect.logMsg + "req=" + mainImage.getSize());
 
 		ModelAndView modelAndView = ownerService.ownerUpdateOk(updateCamp,
-				mainImage, subImage, request.getContextPath());
+				mainImage, subImage, request.getContextPath(), true);
 
 		modelAndView.setViewName("owner/updateOk.tiles");
 
 		return modelAndView;
 	}
-
-	/*
-	 * @RequestMapping(value = "/owner/ownerUpdateFile.json", method =
-	 * RequestMethod.POST)
-	 * 
-	 * @ResponseBody public List<Map<String, String>> ownerUpdateFile(
-	 * MultipartHttpServletRequest request) { LogAspect.logger
-	 * .info(LogAspect.logMsg + "req=" + request.getFile("mainImage")); return
-	 * null; }
-	 */
 
 	/**
 	 * 
@@ -262,6 +299,62 @@ public class OwnerController {
 
 		ModelAndView modelAndView = ownerService.ownerUpdatePayment(camp_id);
 		modelAndView.setViewName("owner/updatePayment.tiles");
+
+		return modelAndView;
+	}
+
+	/**
+	 * 
+	 * @param request
+	 * @param response
+	 * @return {@link ModelAndView}
+	 */
+	@RequestMapping(value = "/owner/writePayment.do", method = RequestMethod.GET)
+	public ModelAndView ownerWritePayment(@RequestParam int camp_id) {
+
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.addObject("camp_id", camp_id);
+		modelAndView.setViewName("owner/writePayment.tiles");
+
+		return modelAndView;
+	}
+
+	/**
+	 * 
+	 * @param request
+	 * @param response
+	 * @return {@link ModelAndView}
+	 */
+	@RequestMapping(value = "/owner/updatePaymentOk.do", method = RequestMethod.POST)
+	public ModelAndView ownerUpdatePaymentOk(SearchPaymentDto paymentList) {
+
+		LogAspect.logger.info(LogAspect.logMsg + "paymet?="
+				+ paymentList.getSearchPaymentDtoList().get(0)
+						.getNormal_season_holidays_fee());
+
+		ModelAndView modelAndView = ownerService
+				.ownerUpdatePaymentOk(paymentList.getSearchPaymentDtoList());
+		modelAndView.setViewName("owner/updateOk.tiles");
+
+		return modelAndView;
+	}
+
+	/**
+	 * 
+	 * @param request
+	 * @param response
+	 * @return {@link ModelAndView}
+	 */
+	@RequestMapping(value = "/owner/writePaymentOk.do", method = RequestMethod.POST)
+	public ModelAndView ownerWritePaymentOk(SearchPaymentDto paymentList) {
+
+		LogAspect.logger.info(LogAspect.logMsg + "paymet?="
+				+ paymentList.getSearchPaymentDtoList().get(0)
+						.getNormal_season_holidays_fee());
+
+		ModelAndView modelAndView = ownerService
+				.ownerWritePaymentOk(paymentList.getSearchPaymentDtoList());
+		modelAndView.setViewName("owner/writePaymentOk.tiles");
 
 		return modelAndView;
 	}
