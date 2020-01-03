@@ -111,7 +111,7 @@
 										        <c:if test="${sessionScope.email != 'eunsol8287@gmail.com' && sessionScope.user_num>0}">
 										        	<td><button type="button" class="btn btn-link"  data-toggle="modal" data-target="#check_pwd" onclick="getqna_num('${campQnADto.qna_num}')">${campQnADto.title}</button></td>
 										        </c:if>
-										        <c:if test="${sessionScope.user_num==''}">
+										        <c:if test="${sessionScope.user_num==null}">
 										        	<td>${campQnADto.title}</td>
 										        </c:if>
 										       	<td>${campQnADto.qna_type}</td>

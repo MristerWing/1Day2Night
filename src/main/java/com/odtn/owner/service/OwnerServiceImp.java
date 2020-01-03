@@ -145,8 +145,8 @@ public class OwnerServiceImp implements OwnerService {
 		try {
 			upload = CLOUDINARY.uploader().upload(image.getBytes(),
 					ObjectUtils.asMap("public_id", file_name,
-							" transformation ",
-							new Transformation().width(720).crop("scale")));
+							"transformation",
+							new Transformation().width(720).height(480).crop("scale")));
 			LogAspect.logger.info(LogAspect.logMsg + upload);
 
 		} catch (IOException e) {

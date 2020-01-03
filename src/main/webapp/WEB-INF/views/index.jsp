@@ -164,26 +164,26 @@ License URL: http://creativecommons.org/licenses/by/3.0/
             <div class="feature-grids row mt-3 mb-lg-5 mb-3 mt-lg-5 text-center">
                <div class="col-lg-4" data-aos="fade-up">
                   <div class="bottom-gd px-3">
-                     <span class="fa fa-bus" aria-hidden="true"></span>
-                     <h3 class="my-4">캠핑카가 있어도</h3>
-                     <p>Integer sit amet mattis quam, sit amet ultricies velit.
-                        Praesent ullamcorper dui turpis.</p>
+                     <span class="fa fa-tag" aria-hidden="true"></span>
+                     <h3 class="my-4">태그별 검색</h3>
+                   	<p>다양한 태그를 통해 고객님의 </p>
+                     <p>취향에 맞는 캠핑장을 선택하세요.</p>
                   </div>
                </div>
                <div class="col-lg-4" data-aos="fade-up">
                   <div class="bottom-gd2-active px-3">
-                     <span class="fa fa-car" aria-hidden="true"></span>
-                     <h3 class="my-4">캠핑카가 없어도</h3>
-                     <p>Integer sit amet mattis quam, sit amet ultricies velit.
-                        Praesent ullamcorper dui turpis.</p>
+                     <span class="fa fa-credit-card" aria-hidden="true"></span>
+                     <h3 class="my-4">캠핑장 예약</h3>
+                     <P>맘에드는 캠핑장을 찾으셨나요?</P>
+                     <P>ODTN에서 바로 예약하세요.</P>
                   </div>
                </div>
                <div class="col-lg-4" data-aos="fade-up">
                   <div class="bottom-gd px-3">
                      <span class="fa fa-rocket" aria-hidden="true"></span>
                      <h3 class="my-4">${campingDto.campingCount}개의 다양한 캠핑장</h3>
-                     <p>Integer sit amet mattis quam, sit amet ultricies velit.
-                        Praesent ullamcorper dui turpis.</p>
+                     <P>대한민국 방방곳곳의 캠핑장정보와</P>
+                     	<P>캠핑장 리뷰를 공유해 보세요.</P>
                   </div>
                </div>
             </div>
@@ -236,14 +236,14 @@ License URL: http://creativecommons.org/licenses/by/3.0/
             <div class="row mt-lg-5 mt-4">
                <div class="col-md-4 team-gd text-center">
                   <div class="team-img mb-4">
-                     <img src="https://images.unsplash.com/photo-1517823382935-51bfcb0ec6bc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1650&q=80" class="img-fluid" alt="user-image">
+                     <a href="${root}/board/campInfo/read.do?info_num=24&pageNumber=1"><img src="https://images.unsplash.com/photo-1455496231601-e6195da1f841?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=700&q=60" class="img-fluid" alt="user-image"></a>
                   </div>
                   <div class="team-info">
                      <h3 class="mt-md-4 mt-3">
-                        <span class="sub-tittle-team"></span> 야간캠핑 주의사항
+                        <span class="sub-tittle-team"></span> 겨울철캠핑 주의사항
                      </h3>
-                     <p>Lorem Ipsum has been the industry's standard since the
-                        1500s.</p>
+                       <p>캠핑 초보라면 더더욱 필요한 겨울캠핑 주의사항</p> 
+                     	<p><a href="${root}/board/campInfo/read.do?info_num=24&pageNumber=1">[더보기]</a></p>
                      <ul class="top-right-info text-center mt-md-4 mt-3">
 
                         <li class="mr-1"><a href="#"> <span
@@ -261,14 +261,14 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 
                <div class="col-md-4 team-gd second text-center">
                   <div class="team-img mb-4">
-                     <img src="https://images.unsplash.com/photo-1537225228614-56cc3556d7ed?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1650&q=80" class="img-fluid" alt="user-image">
+                     <a href="${root}/board/campInfo/read.do?info_num=29&pageNumber=1"><img src="https://images.unsplash.com/photo-1444228425018-ff8535a55c93?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=700&q=60" class="img-fluid" alt="user-image"></a>
                   </div>
                   <div class="team-info">
                      <h3 class="mt-md-4 mt-3">
-                        <span class="sub-tittle-team"></span> 야영 주의사항
+                        <span class="sub-tittle-team"></span> 식기용품 사용법
                      </h3>
-                     <p>Lorem Ipsum has been the industry's standard since the
-                        1500s.</p>
+                 		 <p>캠핑용 식기용품의 올바른 사용법</p>
+                   	 	 <p><a href="${root}/board/campInfo/read.do?info_num=29&pageNumber=1">[더보기]</a></p>
                      <ul class="top-right-info text-center mt-md-4 mt-3">
 
                         <li class="mr-1"><a href="#"> <span
@@ -284,14 +284,14 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                </div>
                <div class="col-md-4 team-gd text-center">
                   <div class="team-img mb-4">
-                     <img src="https://images.unsplash.com/photo-1466220549276-aef9ce186540?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1650&q=80" class="img-fluid" alt="user-image">
+                     <a href="${root}/board/campInfo/read.do?info_num=25&pageNumber=1"><img src="https://images.unsplash.com/photo-1526491109672-74740652b963?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=700&q=60" class="img-fluid" alt="user-image"></a>
                   </div>
                   <div class="team-info">
                      <h3 class="mt-md-4 mt-3">
-                        <span class="sub-tittle-team"></span> 취사시 주의사항
+                        <span class="sub-tittle-team"></span> 친환경 캠핑스쿨 신청
                      </h3>
-                     <p>Lorem Ipsum has been the industry's standard since the
-                        1500s.</p>
+                     	<p>2020년 친환경 캠핑 스쿨 신청</p>
+                     	<p><a href="${root}/board/campInfo/read.do?info_num=25&pageNumber=1">[더보기]</a></p>
                      <ul class="top-right-info text-center mt-md-4 mt-3">
 
                         <li class="mr-1"><a href="#"> <span
