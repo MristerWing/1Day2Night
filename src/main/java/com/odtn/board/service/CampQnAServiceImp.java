@@ -265,11 +265,17 @@ public class CampQnAServiceImp implements CampQnAService {
 		LogAspect.logger.info(LogAspect.logMsg + "모달 password: " + password);
 		int user_num=Integer.parseInt(request.getParameter("user_num"));
 		LogAspect.logger.info(LogAspect.logMsg + "모달 user_num: " + user_num);
+		int qna_num=Integer.parseInt(request.getParameter("qna_num"));
+		LogAspect.logger.info(LogAspect.logMsg + "모달 qna_num: " + qna_num);
 	
-		CampQnADto campQnADto =campQnADao.pwdCheck(password,user_num);
-		LogAspect.logger.info(LogAspect.logMsg + "모달 campQnADto: " + campQnADto.toString());
-		mav.addObject("campQnADto",campQnADto);
-		mav.setViewName("board/campQnA/pwdCheck.tiles");
+		CampQnADto campQnADto =campQnADao.pwdCheck(password,user_num,qna_num);
+		if (campQnADto==null) {
+			mav.setViewName("board/campQnA/pwdCheck.tiles");
+		}else {
+			LogAspect.logger.info(LogAspect.logMsg + "모달 campQnADto: " + campQnADto.toString());			
+			mav.addObject("qna",campQnADto);
+			mav.setViewName("board/campQnA/pwdCheck.tiles");
+		}
 		
 		
 	}

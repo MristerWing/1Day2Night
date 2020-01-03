@@ -1,3 +1,4 @@
+
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -19,21 +20,32 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 	<link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote.css" rel="stylesheet">
 	<script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote.js"></script>
    <script type="text/javascript">
-     	function content_alert(){
-    		alert
-    	} 
-    	var camp_value(this)=function(select_camp){
-    		var selected_index=select_camp.selectedIndex;
-    		var value=select_camp.options[selected_index].value;
-    		alert(value);
-    	}
-    	<script language="javascript">
-    	function select_camp(){
-    	 i=document.join.mail3.selectedIndex // 선택항목의 인덱스 번호
-    	 var mail=document.join.mail3.options[i].value // 선택항목 value
-    	 document.join.mail2.value=mail
-    	}
     </script>  
+    
+    <script type="text/javascript">
+    function checkForm(){
+  	  if($("#title").val()==""){
+  		  alert("제목은 필수입력 사항입니다.");
+  		  $("#title").focus();
+  		  return false;
+  	  }if ($("#password").val()=="") {
+		  alert("비밀번호는 필수입력 사항입니다.");
+		  $("#password").focus();
+		  return false;
+	}
+  	  if ($("#qna_type").val()=="선택안함") {
+		  alert("문의유형을 선택해 주세요.");
+		  $("#qna_type").focus();
+		  return false;
+	}
+    	if ($("#content").val()=="") {
+		  alert("문의유형은 필수입력 사항입니다.");
+		  $("#content").focus();
+		  return false;
+	}
+    	$("form").submit();
+    }
+    </script>
 
 </head>
 
@@ -48,8 +60,8 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 				
 				<label>문의사항 작성</label>
 			<!--썸머노트 form태그-->
-            <form class="campReview_form" action="${root}/board/campQnA/writeOk.do" method="POST" 
-            	enctype="multipart/form-data" onsubmit="returnForm(this)">
+            <form class="campQnAReview_form" action="${root}/board/campQnA/writeOk.do" method="POST" 
+            	enctype="multipart/form-data">
  	
 				<input type="hidden" name="qna_num" value="${qna_num}"/>
 				<input type="hidden" name="group_num" value="${group_num}"/>
@@ -68,12 +80,12 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 			 </div>
 			  <div class="form-group">
 				  <label for="pwd">비밀번호 입력(*)</label>
-				  <input type="password" class="form-control" value="${writer}" name="password" onfocus="this.value=''">
+				  <input type="password" class="form-control" value="${writer}" id="password" name="password" onfocus="this.value=''">
 			 </div>
 				      <div class="form-group">
 					      <label for="sel1">문의유형(*)</label>
 					      <select class="form-control" id="qna_type" name="qna_type" style="height: 3.5rem;">
-					      	 <option>문의유형을 선택 해 주세요(*)</option>
+					      	 <option value="선택안함">문의유형을 선택 해 주세요(*)</option>
 					      	 <option value="캠핑장">캠핑장 관련문의</option>
 						 	 <option value="이벤트">이벤트 관련문의</option>
 						     <option value="기타">기타문의</option>
@@ -104,7 +116,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 				     
 				    </div>
 					<div align="right">
-				    <button type="submit" class="btn btn-primary">작성</button>
+				    <button type="button" class="btn btn-primary" onclick="checkForm()">작성</button>
 				    <button type="button" class="btn btn-primary" onclick="location.href='${root}/board/campQnA/list.do?pageNumber=${pageNumber}'" >목록</button>
 				 	</div>
 				  </form>

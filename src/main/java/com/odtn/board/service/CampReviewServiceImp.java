@@ -47,10 +47,15 @@ public class CampReviewServiceImp implements CampReviewService {
 		List<ReservationDto> campList =null;
 		List<String> campNameList=new ArrayList<String>();
 		if (bookingCnt>0) {
-			//campList=campReviewDao.getcampList(user_num);
-			
+			campList=campReviewDao.getcampList(user_num);
+			for (int i = 0; i < campList.size(); i++) {
+				int camp_id=campList.get(i).getCamp_id();
+				System.out.println("캠프id: "+camp_id);
+				String camp_name=campReviewDao.getCampName(camp_id);
+				LogAspect.logger.info(LogAspect.logMsg + "캠핑장 명: " + camp_name);
+				campNameList.add(camp_name);
+			}
 		}
-		
 		
 		String writer = campReviewDao.getUser_name(user_num);
 		LogAspect.logger.info(LogAspect.logMsg + "설정된 user_name: " + writer);
@@ -61,6 +66,9 @@ public class CampReviewServiceImp implements CampReviewService {
 		if (writer==null) {
 			writer=campReviewDao.getNickName(user_num);
 		}
+		mav.addObject("bookingCnt", bookingCnt);
+		mav.addObject("campList", campList);
+		mav.addObject("campNameList", campNameList);
 		mav.addObject("writer", writer);
 		mav.addObject("user_num", request.getParameter("user_num"));
 		mav.setViewName("board/campReview/write.tiles");
@@ -85,7 +93,9 @@ public class CampReviewServiceImp implements CampReviewService {
 		
 		int camp_id = Integer.parseInt(request.getParameter("camp_id"));
 		LogAspect.logger.info(LogAspect.logMsg + "캠핑장: " + camp_id);
-		title="["+camp_id+"]"+" "+title;
+		String camp_name=campReviewDao.getCampName(camp_id);
+		LogAspect.logger.info(LogAspect.logMsg + "캠핑장 명: " + camp_name);
+		title="["+camp_name+"]"+" "+title;
 		
 		campReviewDto.setTitle(title);
 		campReviewDto.setUser_num(user_num);

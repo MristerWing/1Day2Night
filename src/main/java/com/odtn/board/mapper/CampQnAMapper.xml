@@ -5,16 +5,16 @@
 
 <mapper namespace="board.mapper.CampQnAMapper">
 	<!--작성자 이름 가져오기-->
-	<select id="getUser_name" resultType="String">
+	<select id="getUser_name" parameterType="int" resultType="String">
 		SELECT USER_NAME FROM MEMBER WHERE USER_NUM=#{user_num}
 	</select>
 	<!--작성자 이메일주소 가져오기-->
-	<select id="getEmail" resultType="String">
+	<select id="getEmail" parameterType="int" resultType="String">
 		SELECT EMAIL FROM MEMBER WHERE USER_NUM=#{user_num}
 	</select>
 	
 	<!-- 작성자찾기: 프로필이름찾기 -->
-	<select id="getNickname" resultType="String">
+	<select id="getNickname" parameterType="int" resultType="String">
 		SELECT NICKNAME FROM MEMBER WHERE USER_NUM=#{user_num}
 	</select>
 	
@@ -83,7 +83,7 @@
 	 </select>
 	 <!--모달 비밀번호 치고 들어오기-->
 	 <select id="pwdCheck" parameterType="java.util.Map" resultType="com.odtn.board.dto.CampQnADto">
-	 	SELECT * FROM QNA WHERE PASSWORD=#{password} AND USER_NUM=#{user_num}
+	 	SELECT * FROM QNA WHERE PASSWORD=#{password} AND USER_NUM=#{user_num} AND QNA_NUM=#{qna_num}
 	 </select>
 	 <!--누를때 조회수 증가-->
 	 <update id="readCount">

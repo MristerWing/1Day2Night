@@ -29,9 +29,9 @@ public class ReviewCommentController {
 	//글 작성확인
 		@ResponseBody
 		@RequestMapping(value= "reviewComment/insert.do", method=RequestMethod.POST)
-		public Map insert(ReviewCommentDto reviewCommentDto){
+		public Map insert(ReviewCommentDto reviewCommentDto,HttpServletRequest request){
 			
-			return reviewCommentService.insert(reviewCommentDto);
+			return reviewCommentService.insert(reviewCommentDto,request);
 		}
 		
 	//글 리스트

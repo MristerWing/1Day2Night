@@ -12,9 +12,9 @@
   	function password(){
   		var password = $("#password").val();
   		var user_num = $("#user_num").val();
-  		alert(user_num+", "+password);
+  		
 		var url="${root}/board/campQnA/pwdCheck.do?password="+password+"&user_num="+user_num;
-		alert(url);
+
 		location.href=url;
   	}
   </script>
@@ -96,7 +96,7 @@
 										        <c:if test="${sessionScope.email=='eunsol8287@gmail.com'}">
 										        	<td><a href="${root}/board/campQnA/read.do?qna_num=${campQnADto.qna_num}&pageNumber=${currentPage}">${campQnADto.title}</a></td>
 										        </c:if>
-										        <c:if test="${sessionScope.email != 'eunsol8287@gmail.com' && sessionScope.user_num > 0}">
+										        <c:if test="${sessionScope.email != null}">
 										        	<td><button type="button" class="btn btn-link"  data-toggle="modal" data-target="#check_pwd">${campQnADto.title}</button></td>
 										        </c:if>
 										        <td>${campQnADto.title}</td>

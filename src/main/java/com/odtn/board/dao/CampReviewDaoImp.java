@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 import com.odtn.aop.LogAspect;
 import com.odtn.board.dto.CampReviewDto;
 import com.odtn.board.dto.CampReviewFileDto;
+import com.odtn.reservation.dto.ReservationDto;
 
 @Component
 public class CampReviewDaoImp implements CampReviewDao {
@@ -19,6 +20,18 @@ public class CampReviewDaoImp implements CampReviewDao {
 	@Override
 	public int getBookingCnt(int user_num) {
 		return sqlSessionTemplate.selectOne("board.mapper.CampReviewMapper.getBookingCnt",user_num);
+	}
+	//예약 리스트확인
+	@Override
+	public List<ReservationDto> getcampList(int user_num) {
+		
+		return sqlSessionTemplate.selectList("board.mapper.CampReviewMapper.getcampList",user_num);
+	}
+	//예약 캠핑장 명 확인
+	@Override
+	public String getCampName(int camp_id) {
+		
+		return sqlSessionTemplate.selectOne("board.mapper.CampReviewMapper.getCampName",camp_id);
 	}
 	//작성확인
 	@Override

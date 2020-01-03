@@ -9,7 +9,7 @@
 <title>삭제확인</title>
 </head>
 <body>
-		<c:if test="${qna!=null}">
+		<c:if test="${qna!=''}">
 			<script type="text/javascript">
 			alert("와");
 			location.href="${root}/board/campQnA/read.do?password="${campQnADto.password}"&user_num="${campQnADto.user_num}";

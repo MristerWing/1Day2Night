@@ -13,6 +13,12 @@ import com.odtn.boardComment.dto.ReviewCommentDto;
 public class ReviewCommentDaoImp implements ReviewCommentDao {
 	@Autowired
 	private SqlSessionTemplate sqlSessionTemplate;
+	//최대값 구하기
+	@Override
+	public int getMaxNum(int review_num) {
+		
+		return sqlSessionTemplate.selectOne("boardComment.mapper.ReviewCommentMapper.getMaxNum",review_num);
+	}
 	//댓글작성확인
 	@Override
 	public int insert(ReviewCommentDto reviewCommentDto) {
