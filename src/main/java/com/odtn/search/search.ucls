@@ -4,97 +4,100 @@
   <class id="1" language="java" name="com.odtn.search.controller.SearchController" project="1Day2Night" 
     file="/1Day2Night/src/main/java/com/odtn/search/controller/SearchController.java" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="171" width="423" x="799" y="-678"/>    
+    <position height="171" width="423" x="1014" y="37"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="2" language="java" name="com.odtn.search.dto.SearchDto" project="1Day2Night" 
-    file="/1Day2Night/src/main/java/com/odtn/search/dto/SearchDto.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="1845" width="1002" x="-243" y="-678"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
-      sort-features="false" accessors="true" visibility="true">      
-      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
-      <operations public="true" package="true" protected="true" private="true" static="true"/>    
-    </display>  
-  </class>  
-  <class id="3" language="java" name="com.odtn.search.dto.SearchPaymentDto" project="1Day2Night" 
+  <class id="2" language="java" name="com.odtn.search.dto.SearchPaymentDto" project="1Day2Night" 
     file="/1Day2Night/src/main/java/com/odtn/search/dto/SearchPaymentDto.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="513" width="302" x="1262" y="-678"/>    
+    <position height="513" width="302" x="41" y="37"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="4" language="java" name="com.odtn.search.dao.SearchDaoImp" project="1Day2Night" 
+  <class id="3" language="java" name="com.odtn.search.dao.SearchDaoImp" project="1Day2Night" 
     file="/1Day2Night/src/main/java/com/odtn/search/dao/SearchDaoImp.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="279" width="252" x="1943" y="-678"/>    
+    <position height="279" width="252" x="393" y="37"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <interface id="5" language="java" name="com.odtn.search.service.SearchService" project="1Day2Night" 
+  <interface id="4" language="java" name="com.odtn.search.service.SearchService" project="1Day2Night" 
     file="/1Day2Night/src/main/java/com/odtn/search/service/SearchService.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="153" width="289" x="1207" y="1207"/>    
+    <position height="153" width="289" x="850" y="600"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </interface>  
-  <interface id="6" language="java" name="com.odtn.search.dao.SearchDao" project="1Day2Night" 
+  <interface id="5" language="java" name="com.odtn.search.dao.SearchDao" project="1Day2Night" 
     file="/1Day2Night/src/main/java/com/odtn/search/dao/SearchDao.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="243" width="252" x="1778" y="1207"/>    
+    <position height="243" width="252" x="539" y="600"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </interface>  
-  <class id="7" language="java" name="com.odtn.search.service.SearchServiceImp" project="1Day2Night" 
+  <class id="6" language="java" name="com.odtn.search.service.SearchServiceImp" project="1Day2Night" 
     file="/1Day2Night/src/main/java/com/odtn/search/service/SearchServiceImp.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="171" width="289" x="1614" y="-678"/>    
+    <position height="171" width="289" x="685" y="37"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <association id="8">    
-    <end type="SOURCE" refId="1" navigable="false">      
-      <attribute id="9" name="searchService"/>      
-      <multiplicity id="10" minimum="0" maximum="1"/>    
+  <association id="7">    
+    <end type="SOURCE" refId="2" navigable="false">      
+      <attribute id="8" name="searchPaymentDtoList">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="9" minimum="0" maximum="2147483647">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="2" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="10">    
+    <end type="SOURCE" refId="6" navigable="false">      
+      <attribute id="11" name="searchDao">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="12" minimum="0" maximum="1">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
     </end>    
     <end type="TARGET" refId="5" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <realization id="11">    
-    <end type="SOURCE" refId="4"/>    
-    <end type="TARGET" refId="6"/>  
+  <realization id="13">    
+    <end type="SOURCE" refId="6"/>    
+    <end type="TARGET" refId="4"/>  
   </realization>  
-  <association id="12">    
-    <end type="SOURCE" refId="3" navigable="false">      
-      <attribute id="13" name="searchPaymentDtoList"/>      
-      <multiplicity id="14" minimum="0" maximum="2147483647"/>    
-    </end>    
-    <end type="TARGET" refId="3" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <realization id="15">    
-    <end type="SOURCE" refId="7"/>    
+  <realization id="14">    
+    <end type="SOURCE" refId="3"/>    
     <end type="TARGET" refId="5"/>  
   </realization>  
-  <association id="16">    
-    <end type="SOURCE" refId="7" navigable="false">      
-      <attribute id="17" name="searchDao"/>      
-      <multiplicity id="18" minimum="0" maximum="1"/>    
+  <association id="15">    
+    <end type="SOURCE" refId="1" navigable="false">      
+      <attribute id="16" name="searchService">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="17" minimum="0" maximum="1">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
     </end>    
-    <end type="TARGET" refId="6" navigable="true"/>    
+    <end type="TARGET" refId="4" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
   <classifier-display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
