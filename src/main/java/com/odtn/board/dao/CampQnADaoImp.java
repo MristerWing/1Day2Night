@@ -31,7 +31,6 @@ public class CampQnADaoImp implements CampQnADao {
 	//이메일없으면 카톡프로필이름 가져오기
 	@Override
 	public String getNickName(int user_num) {
-	
 		return sqlSessionTemplate.selectOne("board.mapper.CampQnAMapper.getNickName",user_num);
 	}
 

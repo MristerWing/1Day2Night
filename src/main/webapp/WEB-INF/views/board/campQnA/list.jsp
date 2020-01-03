@@ -12,10 +12,20 @@
   	function password(){
   		var password = $("#password").val();
   		var user_num = $("#user_num").val();
+  		var qna_num = $("#qna_num").val();
+  		var currentPage = $("#pageNumber").val();
+  
   		
-		var url="${root}/board/campQnA/pwdCheck.do?password="+password+"&user_num="+user_num;
-
+  		alert(qna_num);
+  		
+		var url="${root}/board/campQnA/pwdCheck.do?password="+password+"&user_num="+user_num+"&qna_num="+qna_num+"&pageNumber="+currentPage;
+		
 		location.href=url;
+  	}
+  	
+  	function getqna_num(qna_num){
+  		alert(qna_num);
+  		$("#qna_num").val(qna_num);
   	}
   </script>
     
@@ -38,6 +48,8 @@
       <!-- Modal body -->
       <div class="modal-body">
       
+        <input type="hidden" id="pageNumber" value="${currentPage}">
+        <input type="hidden" id="qna_num" value="">
         <input type="hidden" id="user_num" value="${sessionScope.user_num}">
         <input type="password" id="password" style="height:3rem; width: 50%" onfocus="this.value=''">
       </div>
@@ -96,10 +108,12 @@
 										        <c:if test="${sessionScope.email=='eunsol8287@gmail.com'}">
 										        	<td><a href="${root}/board/campQnA/read.do?qna_num=${campQnADto.qna_num}&pageNumber=${currentPage}">${campQnADto.title}</a></td>
 										        </c:if>
-										        <c:if test="${sessionScope.email != null}">
-										        	<td><button type="button" class="btn btn-link"  data-toggle="modal" data-target="#check_pwd">${campQnADto.title}</button></td>
+										        <c:if test="${sessionScope.email != 'eunsol8287@gmail.com' && sessionScope.user_num>0}">
+										        	<td><button type="button" class="btn btn-link"  data-toggle="modal" data-target="#check_pwd" onclick="getqna_num('${campQnADto.qna_num}')">${campQnADto.title}</button></td>
 										        </c:if>
-										        <td>${campQnADto.title}</td>
+										        <c:if test="${sessionScope.user_num==''}">
+										        	<td>${campQnADto.title}</td>
+										        </c:if>
 										       	<td>${campQnADto.qna_type}</td>
 										        <td>${writerList[list.index]}</td>
 										        <td><fmt:formatDate value="${campQnADto.write_date}" pattern="yyyy-MM-dd"/></td>

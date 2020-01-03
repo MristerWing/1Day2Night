@@ -28,7 +28,24 @@
  	    }
  	}
  }
- 	
+ 	 function checkForm(){
+	  	  if($("#title").val()==""){
+	  		  alert("제목은 필수입력 사항입니다.");
+	  		  $("#title").focus();
+	  		  return false;
+	  	  }
+	    	if ($("#content").val()=="") {
+			  alert("내용을 입력해 주세요");
+			  $("#content").focus();
+			  return false;
+		}
+	    	if ($("#camp_id").val()=="") {
+			  alert("리뷰를 작성할 캠핑장을 골라주세요");
+			  $("#camp_id").focus();
+			  return false;
+		}
+	    	$("form").submit();
+	    }
  	</script>
 </head>
 
@@ -42,7 +59,7 @@
              <div class="review_content" >
 
 				  <form class="campReview_form" action="${root}/board/campReview/writeOk.do" method="POST" 
-            	enctype="multipart/form-data" onsubmit="returnForm(this)">
+            	enctype="multipart/form-data" >
 				    <div class="form-group">
 				      <label>제목 (*)</label>
 				      <input type="text" class="form-control" id="title" name="title">
@@ -69,24 +86,7 @@
 						       </c:if>  
 						
 						      </select>
-						     <script type="text/javascript">
-						        $("#c_do").mouseleave(function(){
-							     var city=$("#c_do option:selected").val();
-							     var paramdata=city;
-							     alert(paramData);
-							     var url="${root}/board/campReview/searchList.do?ci_do='${city}'"
-							        $.ajax({
-							        	url:url,
-							        	data:paramData,
-							        	type:'GET',
-							        	dataType:'TEXT',
-							        	success:function(data){
-							        		console.log("성공");
-							        	}
-							        })	
-							        
-						        });
-						   	</script>			     
+						     
 						   </div>
       				</div>
       				 <div class="form-group">
@@ -121,7 +121,7 @@
 				     
 				    </div>
 					<div align="center">
-				   		 <button type="submit" class="btn btn-primary">작성</button>
+				   		 <button type="submit" class="btn btn-primary" onclick="checkForm()">작성</button>
 				   		 <button type="button" class="btn btn-primary" onclick="location.href='${root}/board/campReview/list.do?pageNumber=${pageNumber}'" >목록</button>
 					</div>
 				  </form>

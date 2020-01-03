@@ -67,8 +67,9 @@
 						  </table>
 					</div>	
 				 </c:if> 
+				 
 
-				  <c:if test="${sessionScope.email=='chanhok95@naver.com'}">
+				  <c:if test="${sessionScope.email=='eunsol8287@gmail.com'}">
 					<div class="list_buttom" align="right">
 						<button type="button" class="btn btn-primary" onclick="location.href='${root}/board/campInfo/write.do?user_num=${user_num}'">공지 작성</button>
 					</div>

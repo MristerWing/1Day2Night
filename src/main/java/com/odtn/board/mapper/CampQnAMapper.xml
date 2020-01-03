@@ -14,7 +14,7 @@
 	</select>
 	
 	<!-- 작성자찾기: 프로필이름찾기 -->
-	<select id="getNickname" parameterType="int" resultType="String">
+	<select id="getNickName" parameterType="int" resultType="String">
 		SELECT NICKNAME FROM MEMBER WHERE USER_NUM=#{user_num}
 	</select>
 	

@@ -12,12 +12,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 <html lang="utf-8">
  
 <head>
-    <script src="${root}/resources/javascript/modules/jquery-3.4.1.js"></script>
-   <script type="text/javascript">
-    	function content_alert(){
-    		alert
-    	}
-    </script>  
+	
     
     <!--summerNote-->
     <link href="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.css" rel="stylesheet">
@@ -25,7 +20,32 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 	<!-- include summernote css/js -->
 	<link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote.css" rel="stylesheet">
 	<script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote.js"></script>
-
+	
+	<script type="text/javascript">
+    function checkForm(){
+  	  if($("#title").val()==""){
+  		  alert("제목은 필수입력 사항입니다.");
+  		  $("#title").focus();
+  		  return false;
+  	  }if ($("#password").val()=="") {
+		  alert("비밀번호는 필수입력 사항입니다.");
+		  $("#password").focus();
+		  return false;
+	}
+  	  if ($("#qna_type").val()=="선택안함") {
+		  alert("문의유형을 선택해 주세요.");
+		  $("#qna_type").focus();
+		  return false;
+	}
+    	if ($("#content").val()=="") {
+		  alert("내용을 입력해주세요.");
+		  $("#content").focus();
+		  return false;
+	}
+    	$("form").submit();
+    }
+    </script>
+	
 </head>
 
 <body>
@@ -38,7 +58,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 				
 			<!--썸머노트 form태그-->
             <form class="campReview_form" action="${root}/board/campQnA/writeAnswerOk.do" method="POST" 
-            	enctype="multipart/form-data" onsubmit="returnForm(this)">
+            	enctype="multipart/form-data" >
  	
  			<!--안보이게 넘어가는 값-->
 				<input type="hidden" name="qna_num" value="${qna_num}"/>
@@ -86,7 +106,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 				     
 				    </div>
 					<div align="right">
-				    <button type="submit" class="btn btn-primary">작성</button>
+				    <button type="submit" class="btn btn-primary" onclick="checkForm()">작성</button>
 				    <button type="button" class="btn btn-primary" onclick="location.href='${root}/board/campQnA/list.do?pageNumber=${pageNumber}'" >목록</button>
 				 	</div>
 				  </form>

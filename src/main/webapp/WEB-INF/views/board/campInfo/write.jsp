@@ -42,10 +42,23 @@ License URL: http://creativecommons.org/licenses/by/3.0/
  	    }
  	}
  }
- 	
+ 	 function checkForm(){
+ 	  	  if($("#title").val()==""){
+ 	  		  alert("제목은 필수입력 사항입니다.");
+ 	  		  $("#title").focus();
+ 	  		  return false;
+ 	  	  }
+ 	    	if ($("#content").val()=="") {
+ 			  alert("내용을 입력해 주세요");
+ 			  $("#content").focus();
+ 			  return false;
+ 		}
+ 	    	$("form").submit();
+ 	    }
  	/*null값 방지 */
  	
  	</script>
+ 	
 
 </head>
 
@@ -60,7 +73,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
              <div class="review_content" >
 
 				  <form class="campInfo_form" action="${root}/board/campInfo/writeOk.do" method="POST" 
-            	enctype="multipart/form-data" onsubmit="returnForm(this)">
+            	enctype="multipart/form-data">
 				    <div class="form-group">
 				      <label>제목(*)</label>
 				      <input type="text" class="form-control" id="title" name="title">
@@ -74,7 +87,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
       				 <div class="form-group">
       				 	  <label style="width:100%">파일첨부</label>
       				 	<div class="file_upload" style="float:left" width:50%>
-					      <input type="file" class="form-control-file border" name="file" id="file">
+					      <input type="file" class="form-control-file border" name="file" id="file" multiple="multiple">
 				      </div>
 					      <input type="button" value="upload" onclick="fileSizeCheck()">
 				    </div>

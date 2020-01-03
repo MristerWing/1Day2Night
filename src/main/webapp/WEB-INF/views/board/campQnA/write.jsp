@@ -39,7 +39,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 		  return false;
 	}
     	if ($("#content").val()=="") {
-		  alert("문의유형은 필수입력 사항입니다.");
+		  alert("내용을 입력해 주세요");
 		  $("#content").focus();
 		  return false;
 	}

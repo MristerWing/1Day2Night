@@ -32,6 +32,20 @@
 				}
 			}
 		}
+		/*null값 방지*/
+		 function checkForm(){
+ 	  	  if($("#title").val()==""){
+ 	  		  alert("제목은 필수입력 사항입니다.");
+ 	  		  $("#title").focus();
+ 	  		  return false;
+ 	  	  }
+ 	    	if ($("#content").val()=="") {
+ 			  alert("내용을 입력해 주세요");
+ 			  $("#content").focus();
+ 			  return false;
+ 		}
+ 	    	$("form").submit();
+ 	    }
 	</script>
 
 
@@ -48,7 +62,7 @@
                      <div class="review_content" >
 
 				  <form class="campInfo_form" action="${root}/board/campInfo/updateOk.do" method="POST" 
-            		enctype="multipart/form-data" onsubmit="returnForm(this)">
+            		enctype="multipart/form-dat">
             		<!--사용자에겐 안보이는 정보-->
             		<input type="hidden" name="pageNumber" value="${pageNumber}"/>
             		<input type="hidden" name="info_num" value="${campInfoDto.info_num}"/>
@@ -101,13 +115,14 @@
 				    </div>
 					
 					<div align="center">
-					    <button type="submit" class="btn btn-primary">작성</button>
+					    <button type="submit" class="btn btn-primary" onclick="checkForm()">작성</button>
 					    <button type="button" class="btn btn-primary" onclick="location.href='${root}/board/campInfo/list.do?pageNumber=${pageNumber}'" >목록</button>
 				    </div>
 				  </form>
 			<!--썸머노트 form태그-->
        
 	</div>   
+				</div>
 				
             </div>
         </div>
