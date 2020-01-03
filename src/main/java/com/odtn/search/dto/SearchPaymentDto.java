@@ -1,5 +1,7 @@
 package com.odtn.search.dto;
 
+import java.util.List;
+
 public class SearchPaymentDto {
 	private int camp_id;
 	private String fee_name;
@@ -8,6 +10,7 @@ public class SearchPaymentDto {
 	private int peak_season_weekdays_fee;
 	private int peak_season_holidays_fee;
 	private int day_accept_member;
+	private List<SearchPaymentDto> searchPaymentDtoList;
 
 	public SearchPaymentDto() {
 	}
@@ -80,6 +83,15 @@ public class SearchPaymentDto {
 
 	public void setDay_accept_member(int day_accept_member) {
 		this.day_accept_member = day_accept_member;
-	};
+	}
+
+	public List<SearchPaymentDto> getSearchPaymentDtoList() {
+		return searchPaymentDtoList;
+	}
+
+	public void setSearchPaymentDtoList(
+			List<SearchPaymentDto> searchPaymentDtoList) {
+		this.searchPaymentDtoList = searchPaymentDtoList;
+	}
 
 }

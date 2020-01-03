@@ -20,6 +20,7 @@ src="${root}/resources/javascript/owner/update.js">
 				<div class="register_content">
 					<form class="register_form" action="${root}/owner/ownerWriteOk.do" id="inputForm" method="POST"
 						enctype="multipart/form-data">
+						<input type="hidden" name="owner_key" value="${owner_key}">
 						<div class="form-group">
 							<label for="pwd">캠핑장명(*)</label> <input type="text"
 								class="form-control" name="camp_name">

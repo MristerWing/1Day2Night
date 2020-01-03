@@ -8,6 +8,9 @@
 		user_num = #{user_num}
 	</select>
 
+	<insert id="ownerInsert" parameterType="com.odtn.owner.dto.OwnerDto">
+		insert into owner values(#{owner_key}, #{camp_id}, #{user_num})
+	</insert>
 
 	<select id="countOwnerKey" parameterType="long" resultType="String">
 		select nvl(count(*), 0) from owner where owner_key =
@@ -34,21 +37,21 @@
 	<update id="updateCampData" parameterType="com.odtn.search.dto.SearchDto">
 		update camp_data
 		<set>
-			camp_name = #{camp_name},
+		camp_name = #{camp_name},
 		title = #{title},
 		camp_type = #{camp_type},
 		tag = #{tag},
-			<if test="main_image != ''">
+		<if test="main_image != ''">
 			main_image = #{main_image},
 		</if>
-			address = #{address},
+		address = #{address},
 		hp = #{hp},
 		location_type = #{location_type},
 		operation_type = #{operation_type},
 		operation_period = #{operation_period},
 		operation_day = #{operation_day},
 		camp_link = #{camp_link},
-			<if test="sub_image1 != ''">
+		<if test="sub_image1 != ''">
 			sub_image1 = #{sub_image1},
 		</if>
 			<if test="sub_image2 != ''">
@@ -57,7 +60,7 @@
 			<if test="sub_image3 != ''">
 			sub_image3 = #{sub_image3},
 		</if>
-			content = #{content},
+		content = #{content},
 		content_modified_date = #{content_modified_date},
 		main_facilities = #{main_facilities},
 		etc_facilities = #{etc_facilities},
@@ -70,7 +73,97 @@
 		</set>
 		where camp_id = #{camp_id}
 	</update>
+	
+	<select id="getMaxCampID" resultType="int">
+		select max(camp_id) from camp_data
+	</select>
+	
+	<insert id="insertCampData" parameterType="com.odtn.search.dto.SearchDto">
+		insert into camp_data (
+		camp_id,
+		camp_name,
+		title,
+		camp_type,
+		tag,
+		main_image,
+		address,
+		hp,
+		location_type,
+		operation_type,
+		operation_period,
+		operation_day,
+		camp_link,
+		sub_image1,
+		sub_image2,
+		sub_image3,
+		content,
+		content_modified_date,
+		main_facilities,
+		etc_facilities,
+		bottom_type,
+		site_size,
+		gramping_facilities,
+		karaban_facilities,
+		animal_access,
+		torch)
+		values (
+			#{camp_id},
+			#{camp_name}, 
+			#{title}, 
+			#{camp_type}, 
+			#{tag}, 
+			#{main_image}, 
+			#{address}, 
+			#{hp}, 
+			#{location_type}, 
+			#{operation_type}, 
+			#{operation_period}, 
+			#{operation_day}, 
+			#{camp_link}, 
+			#{sub_image1}, 
+			#{sub_image2}, 
+			#{sub_image3}, 
+			#{content}, 
+			#{content_modified_date}, 
+			#{main_facilities}, 
+			#{etc_facilities}, 
+			#{bottom_type}, 
+			#{site_size}, 
+			#{gramping_facilities}, 
+			#{karaban_facilities}, 
+			#{animal_access}, 
+			#{torch}
+		)
+	</insert>
+	
 	<select id="getOwnerName" parameterType="String" resultType="String">
 		SELECT USER_NAME FROM MEMBER, OWNER WHERE MEMBER.USER_NUM = OWNER.USER_NUM AND OWNER.CAMP_ID = #{value}
 	</select>
+	
+	<delete id="paymentReset" parameterType="int">
+		delete from camp_fare where camp_id = #{camp_id}
+	</delete>
+	
+	<insert id="paymentInsert" parameterType="java.util.List">
+		<foreach collection="list" item="item" index="index" open="INSERT All" separator=" " close=" select * from dual">
+			INTO CAMP_FARE(
+				camp_id,
+				fee_name,
+				normal_season_weekdays_fee,
+				normal_season_holidays_fee,
+				peak_season_weekdays_fee,
+				peak_season_holidays_fee,
+				day_accept_member
+			)
+			values(
+				#{item.camp_id},
+				#{item.fee_name},
+				#{item.normal_season_weekdays_fee},
+				#{item.normal_season_holidays_fee},
+				#{item.peak_season_weekdays_fee},
+				#{item.peak_season_holidays_fee},
+				#{item.day_accept_member}
+			)
+		</foreach>
+	</insert>
 </mapper>

@@ -9,6 +9,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.odtn.owner.dto.OwnerDto;
 import com.odtn.reservation.dto.ReservationDto;
 import com.odtn.search.dto.SearchDto;
+import com.odtn.search.dto.SearchPaymentDto;
 
 public interface OwnerService {
 	public ModelAndView ownerLoginOk(String owner_key, int user_num);
@@ -25,7 +26,15 @@ public interface OwnerService {
 	public ModelAndView ownerUpdate(int camp_id);
 
 	public ModelAndView ownerUpdateOk(SearchDto updateCamp,
-			MultipartFile mainImage, List<MultipartFile> subImage, String root);
+			MultipartFile mainImage, List<MultipartFile> subImage, String root,
+			boolean isUpdate);
 
 	public ModelAndView ownerUpdatePayment(int camp_id);
+
+	public ModelAndView ownerUpdatePaymentOk(
+			List<SearchPaymentDto> paymentList);
+
+	public ModelAndView ownerWritePaymentOk(List<SearchPaymentDto> paymentList);
+
+	public void ownerInsert(OwnerDto ownerDto, ModelAndView modelAndView);
 }

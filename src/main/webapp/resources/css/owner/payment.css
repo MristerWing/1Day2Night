@@ -1,0 +1,28 @@
+@charset "UTF-8";
+
+.payAppend {
+	float: right;
+	height: 35px;
+	width: 35px;
+	color: white;
+	margin: 0 10px;
+}
+
+.minusIndex {
+	margin-bottom: 5px;
+}
+
+.appendArea {
+	height: 100px;
+	margin: 10px 0;
+	overflow: visible;
+}
+
+#indexArea {
+	min-height: 500px;
+	overflow: visible;
+}
+
+.thead-dark>tr>* {
+	width: 150px;
+}

@@ -86,8 +86,8 @@ public class OwnerServiceImp implements OwnerService {
 
 	@Override
 	public ModelAndView ownerUpdateOk(SearchDto updateCamp,
-			MultipartFile mainImage, List<MultipartFile> subImage,
-			String root) {
+			MultipartFile mainImage, List<MultipartFile> subImage, String root,
+			boolean isUpdate) {
 		ModelAndView modelAndView = new ModelAndView();
 
 		long mainImageSize = mainImage.getSize();
@@ -105,10 +105,24 @@ public class OwnerServiceImp implements OwnerService {
 			}
 		}
 
-		int check = ownerDao.campUpdate(updateCamp);
+		int check = -1;
+		if (isUpdate)
+			check = ownerDao.campUpdate(updateCamp);
+		else {
+			int camp_id = ownerDao.getMaxCampId() + 1;
+			updateCamp.setCamp_id(camp_id);
+			check = ownerDao.campInsert(updateCamp);
+			modelAndView.addObject("camp_id", camp_id);
+		}
 		modelAndView.addObject("check", check);
 
 		return modelAndView;
+	}
+
+	@Override
+	public void ownerInsert(OwnerDto ownerDto, ModelAndView modelAndView) {
+		int ownerInsertCheck = ownerDao.ownerInsert(ownerDto);
+		modelAndView.addObject("ownerInsertCheck", ownerInsertCheck);
 	}
 
 	private void imageUpload(MultipartFile image, SearchDto updateCamp,
@@ -147,6 +161,27 @@ public class OwnerServiceImp implements OwnerService {
 		ModelAndView modelAndView = new ModelAndView();
 		List<SearchPaymentDto> paymentList = searchDao.getPayment(camp_id);
 		modelAndView.addObject("paymentList", paymentList);
+		modelAndView.addObject("camp_id", camp_id);
+
+		return modelAndView;
+	}
+
+	@Override
+	public ModelAndView ownerUpdatePaymentOk(
+			List<SearchPaymentDto> paymentList) {
+		ModelAndView modelAndView = new ModelAndView();
+		int check = ownerDao.campPaymentUpdate(paymentList);
+		modelAndView.addObject("check", check);
+
+		return modelAndView;
+	}
+
+	@Override
+	public ModelAndView ownerWritePaymentOk(
+			List<SearchPaymentDto> paymentList) {
+		ModelAndView modelAndView = new ModelAndView();
+		int check = ownerDao.campPaymentInsert(paymentList);
+		modelAndView.addObject("check", check);
 
 		return modelAndView;
 	}
