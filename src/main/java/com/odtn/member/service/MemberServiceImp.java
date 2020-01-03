@@ -107,7 +107,7 @@ public class MemberServiceImp implements MemberService {
 			LogAspect.logger.info(
 					LogAspect.logMsg + "이미 이 이메일을 사용하는 카카오 계정으로 가입하신 적이 있습니다.");
 			mav.addObject("register_type", memberDtoIsNew.getRegister_type());
-			mav.setViewName("member/login.tiles");
+			mav.setViewName("member/.tiles");
 
 		} else {
 			LogAspect.logger.info(LogAspect.logMsg + "이미 가입하신 이메일입니다.");
@@ -318,7 +318,7 @@ public class MemberServiceImp implements MemberService {
 				+ request.getParameter("password"));
 		LogAspect.logger.info(LogAspect.logMsg + "str.email:" + email);
 		LogAspect.logger.info(LogAspect.logMsg + "str.pw:" + password);
-
+	
 		String salt = memberDao.getSaltByEmail(email);
 		LogAspect.logger.info(LogAspect.logMsg + "MSI.mWO.salt: " + salt);
 
