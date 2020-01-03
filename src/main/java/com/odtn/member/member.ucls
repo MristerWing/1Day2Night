@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<class-diagram version="1.2.4" icons="true" always-add-relationships="false" generalizations="true" realizations="true" 
+  associations="true" dependencies="false" nesting-relationships="true" router="FAN">  
+  <interface id="1" language="java" name="com.odtn.member.service.MemberService" project="1Day2Night" 
+    file="/1Day2Night/src/main/java/com/odtn/member/service/MemberService.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="369" width="304" x="1886" y="778"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </interface>  
+  <interface id="2" language="java" name="com.odtn.member.dao.MemberDao" project="1Day2Night" 
+    file="/1Day2Night/src/main/java/com/odtn/member/dao/MemberDao.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="405" width="284" x="1321" y="778"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </interface>  
+  <class id="3" language="java" name="com.odtn.member.dao.MemberDaoImp" project="1Day2Night" 
+    file="/1Day2Night/src/main/java/com/odtn/member/dao/MemberDaoImp.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="441" width="284" x="1051" y="-189"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="4" language="java" name="com.odtn.member.util.TempKey" project="1Day2Night" 
+    file="/1Day2Night/src/main/java/com/odtn/member/util/TempKey.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="153" width="151" x="285" y="-189"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="5" language="java" name="com.odtn.member.controller.MemberController" project="1Day2Night" 
+    file="/1Day2Night/src/main/java/com/odtn/member/controller/MemberController.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="459" width="595" x="2181" y="-189"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="6" language="java" name="com.odtn.member.dto.MemberDto" project="1Day2Night" 
+    file="/1Day2Night/src/main/java/com/odtn/member/dto/MemberDto.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="927" width="535" x="476" y="-189"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="7" language="java" name="com.odtn.member.service.MemberServiceImp" project="1Day2Night" 
+    file="/1Day2Night/src/main/java/com/odtn/member/service/MemberServiceImp.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="405" width="304" x="1591" y="-189"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="8" language="java" name="com.odtn.member.util.SHA256Util" project="1Day2Night" 
+    file="/1Day2Night/src/main/java/com/odtn/member/util/SHA256Util.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="135" width="176" x="1375" y="-189"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="9" language="java" name="com.odtn.member.util.MailUtils" project="1Day2Night" 
+    file="/1Day2Night/src/main/java/com/odtn/member/util/MailUtils.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="243" width="206" x="1935" y="-189"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <association id="10">    
+    <end type="SOURCE" refId="5" navigable="false">      
+      <attribute id="11" name="memberService"/>      
+      <multiplicity id="12" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="1" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <realization id="13">    
+    <end type="SOURCE" refId="3"/>    
+    <end type="TARGET" refId="2"/>  
+  </realization>  
+  <association id="14">    
+    <end type="SOURCE" refId="7" navigable="false">      
+      <attribute id="15" name="memberDao"/>      
+      <multiplicity id="16" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="2" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <realization id="17">    
+    <end type="SOURCE" refId="7"/>    
+    <end type="TARGET" refId="1"/>  
+  </realization>  
+  <classifier-display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+    sort-features="false" accessors="true" visibility="true">    
+    <attributes public="true" package="true" protected="true" private="true" static="true"/>    
+    <operations public="true" package="true" protected="true" private="true" static="true"/>  
+  </classifier-display>  
+  <association-display labels="true" multiplicity="true"/>
+</class-diagram>

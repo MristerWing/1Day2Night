@@ -195,7 +195,7 @@
 							wifi: "와이파이",
 							firewood: "장작판매",
 							hotWater: "온수",
-							trampoline: "트램폴린",
+							trampoline: "트렘폴린",
 							waterPark: "물놀이장",
 							playGround: "놀이터",
 							park: "산책로",
