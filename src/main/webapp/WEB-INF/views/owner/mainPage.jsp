@@ -48,7 +48,7 @@
                                             class="nav-link active"
                                             data-toggle="tab"
                                             href="#graph2"
-                                            >월별 이용량</a
+                                            >요금별 이용량</a
                                         >
                                     </li>
                                 </ul>

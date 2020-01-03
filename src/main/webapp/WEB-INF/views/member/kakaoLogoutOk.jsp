@@ -14,13 +14,13 @@
 <%-- 	<c:if test="${sessionScope.access_Token == null}"> --%>
 		<script type="text/javascript">
 			alert("로그아웃 되었습니다.");
-			location.href="${root}/index.jsp";
+			location.href="${root}/";
 		</script>
 <%-- 	</c:if> --%>
 <%-- 	<c:if test="${sessionScope.access_Token != null}"> --%>
 		<script type="text/javascript">
 			alert("로그아웃 못했습니다, 쿠키를 삭제해서 로그아웃 하세요");
-			location.href="${root}/index.jsp";
+			location.href="${root}/";
 		</script>
 <%-- 	</c:if> --%>
 </body>

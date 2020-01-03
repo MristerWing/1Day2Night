@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<class-diagram version="1.2.4" icons="true" always-add-relationships="false" generalizations="true" realizations="true" 
+  associations="true" dependencies="false" nesting-relationships="true" router="FAN">  
+  <interface id="1" language="java" name="com.odtn.board.dao.CampInfoDao" project="1Day2Night" 
+    file="/1Day2Night/src/main/java/com/odtn/board/dao/CampInfoDao.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="369" width="264" x="2371" y="575"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </interface>  
+  <interface id="2" language="java" name="com.odtn.board.dao.CampQnADao" project="1Day2Night" 
+    file="/1Day2Night/src/main/java/com/odtn/board/dao/CampQnADao.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="351" width="237" x="4260" y="575"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </interface>  
+  <class id="3" language="java" name="com.odtn.board.service.CampInfoServiceImp" project="1Day2Night" 
+    file="/1Day2Night/src/main/java/com/odtn/board/service/CampInfoServiceImp.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="243" width="281" x="2210" y="-176"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="4" language="java" name="com.odtn.board.dto.CampInfoDto" project="1Day2Night" 
+    file="/1Day2Night/src/main/java/com/odtn/board/dto/CampInfoDto.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="441" width="221" x="177" y="-176"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="5" language="java" name="com.odtn.board.dto.CampInfoFileDto" project="1Day2Night" 
+    file="/1Day2Night/src/main/java/com/odtn/board/dto/CampInfoFileDto.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="333" width="211" x="438" y="-176"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="6" language="java" name="com.odtn.board.service.CampReviewServiceImp" project="1Day2Night" 
+    file="/1Day2Night/src/main/java/com/odtn/board/service/CampReviewServiceImp.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="225" width="281" x="3174" y="-176"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="7" language="java" name="com.odtn.board.controller.CampInfoController" project="1Day2Night" 
+    file="/1Day2Night/src/main/java/com/odtn/board/controller/CampInfoController.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="243" width="548" x="1622" y="-176"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="8" language="java" name="com.odtn.board.dao.CampReviewDaoImp" project="1Day2Night" 
+    file="/1Day2Night/src/main/java/com/odtn/board/dao/CampReviewDaoImp.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="405" width="299" x="2835" y="-176"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="9" language="java" name="com.odtn.board.dao.CampInfoDaoImp" project="1Day2Night" 
+    file="/1Day2Night/src/main/java/com/odtn/board/dao/CampInfoDaoImp.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="405" width="264" x="2531" y="-176"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="10" language="java" name="com.odtn.board.dao.CampQnADaoImp" project="1Day2Night" 
+    file="/1Day2Night/src/main/java/com/odtn/board/dao/CampQnADaoImp.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="387" width="237" x="4121" y="-176"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <interface id="11" language="java" name="com.odtn.board.dao.CampReviewDao" project="1Day2Night" 
+    file="/1Day2Night/src/main/java/com/odtn/board/dao/CampReviewDao.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="369" width="299" x="3000" y="575"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </interface>  
+  <class id="12" language="java" name="com.odtn.board.dto.CampReviewDto" project="1Day2Night" 
+    file="/1Day2Night/src/main/java/com/odtn/board/dto/CampReviewDto.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="495" width="254" x="689" y="-176"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="13" language="java" name="com.odtn.board.service.CampQnAServiceImp" project="1Day2Night" 
+    file="/1Day2Night/src/main/java/com/odtn/board/service/CampQnAServiceImp.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="297" width="341" x="4398" y="-176"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="14" language="java" name="com.odtn.board.dto.CampQnADto" project="1Day2Night" 
+    file="/1Day2Night/src/main/java/com/odtn/board/dto/CampQnADto.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="711" width="329" x="983" y="-176"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <interface id="15" language="java" name="com.odtn.board.service.CampReviewService" project="1Day2Night" 
+    file="/1Day2Night/src/main/java/com/odtn/board/service/CampReviewService.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="207" width="281" x="3339" y="575"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </interface>  
+  <class id="16" language="java" name="com.odtn.board.controller.CampQnAController" project="1Day2Night" 
+    file="/1Day2Night/src/main/java/com/odtn/board/controller/CampQnAController.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="279" width="520" x="4779" y="-176"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="17" language="java" name="com.odtn.board.dto.CampReviewFileDto" project="1Day2Night" 
+    file="/1Day2Night/src/main/java/com/odtn/board/dto/CampReviewFileDto.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="315" width="230" x="1352" y="-176"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="18" language="java" name="com.odtn.board.controller.CampReviewController" project="1Day2Night" 
+    file="/1Day2Night/src/main/java/com/odtn/board/controller/CampReviewController.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="225" width="586" x="3495" y="-176"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <interface id="19" language="java" name="com.odtn.board.service.CampInfoService" project="1Day2Night" 
+    file="/1Day2Night/src/main/java/com/odtn/board/service/CampInfoService.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="225" width="281" x="1916" y="575"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </interface>  
+  <interface id="20" language="java" name="com.odtn.board.service.CampQnAService" project="1Day2Night" 
+    file="/1Day2Night/src/main/java/com/odtn/board/service/CampQnAService.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="261" width="341" x="4589" y="575"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </interface>  
+  <association id="21">    
+    <end type="SOURCE" refId="18" navigable="false">      
+      <attribute id="22" name="campReviewService"/>      
+      <multiplicity id="23" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="15" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="24">    
+    <end type="SOURCE" refId="3" navigable="false">      
+      <attribute id="25" name="campInfoDao"/>      
+      <multiplicity id="26" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="1" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="27">    
+    <end type="SOURCE" refId="6" navigable="false">      
+      <attribute id="28" name="campReviewDao"/>      
+      <multiplicity id="29" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="11" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <realization id="30">    
+    <end type="SOURCE" refId="8"/>    
+    <end type="TARGET" refId="11"/>  
+  </realization>  
+  <realization id="31">    
+    <end type="SOURCE" refId="9"/>    
+    <end type="TARGET" refId="1"/>  
+  </realization>  
+  <realization id="32">    
+    <end type="SOURCE" refId="13"/>    
+    <end type="TARGET" refId="20"/>  
+  </realization>  
+  <association id="33">    
+    <end type="SOURCE" refId="13" navigable="false">      
+      <attribute id="34" name="campQnADao"/>      
+      <multiplicity id="35" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="2" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <realization id="36">    
+    <end type="SOURCE" refId="10"/>    
+    <end type="TARGET" refId="2"/>  
+  </realization>  
+  <realization id="37">    
+    <end type="SOURCE" refId="6"/>    
+    <end type="TARGET" refId="15"/>  
+  </realization>  
+  <realization id="38">    
+    <end type="SOURCE" refId="3"/>    
+    <end type="TARGET" refId="19"/>  
+  </realization>  
+  <association id="39">    
+    <end type="SOURCE" refId="16" navigable="false">      
+      <attribute id="40" name="campQnAService"/>      
+      <multiplicity id="41" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="20" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="42">    
+    <end type="SOURCE" refId="7" navigable="false">      
+      <attribute id="43" name="campInfoService"/>      
+      <multiplicity id="44" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="19" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <classifier-display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+    sort-features="false" accessors="true" visibility="true">    
+    <attributes public="true" package="true" protected="true" private="true" static="true"/>    
+    <operations public="true" package="true" protected="true" private="true" static="true"/>  
+  </classifier-display>  
+  <association-display labels="true" multiplicity="true"/>
+</class-diagram>

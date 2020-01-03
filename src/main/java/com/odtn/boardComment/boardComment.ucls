@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<class-diagram version="1.2.4" icons="true" always-add-relationships="false" generalizations="true" realizations="true" 
+  associations="true" dependencies="false" nesting-relationships="true" router="FAN">  
+  <class id="1" language="java" name="com.odtn.boardComment.service.ReviewCommentServiceImp" project="1Day2Night" 
+    file="/1Day2Night/src/main/java/com/odtn/boardComment/service/ReviewCommentServiceImp.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="153" width="255" x="975" y="-23"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <interface id="2" language="java" name="com.odtn.boardComment.dao.ReviewCommentDao" project="1Day2Night" 
+    file="/1Day2Night/src/main/java/com/odtn/boardComment/dao/ReviewCommentDao.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="207" width="250" x="1122" y="404"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </interface>  
+  <class id="3" language="java" name="com.odtn.boardComment.controller.ReviewCommentController" project="1Day2Night" 
+    file="/1Day2Night/src/main/java/com/odtn/boardComment/controller/ReviewCommentController.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="153" width="342" x="593" y="-23"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="4" language="java" name="com.odtn.boardComment.dao.ReviewCommentDaoImp" project="1Day2Night" 
+    file="/1Day2Night/src/main/java/com/odtn/boardComment/dao/ReviewCommentDaoImp.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="243" width="250" x="1270" y="-23"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="5" language="java" name="com.odtn.boardComment.dto.ReviewCommentDto" project="1Day2Night" 
+    file="/1Day2Night/src/main/java/com/odtn/boardComment/dto/ReviewCommentDto.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="387" width="226" x="327" y="-23"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <interface id="6" language="java" name="com.odtn.boardComment.service.ReviewCommentService" project="1Day2Night" 
+    file="/1Day2Night/src/main/java/com/odtn/boardComment/service/ReviewCommentService.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="135" width="255" x="784" y="404"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </interface>  
+  <association id="7">    
+    <end type="SOURCE" refId="1" navigable="false">      
+      <attribute id="8" name="reviewCommentDao"/>      
+      <multiplicity id="9" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="2" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="10">    
+    <end type="SOURCE" refId="3" navigable="false">      
+      <attribute id="11" name="reviewCommentService"/>      
+      <multiplicity id="12" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="6" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <realization id="13">    
+    <end type="SOURCE" refId="1"/>    
+    <end type="TARGET" refId="6"/>  
+  </realization>  
+  <realization id="14">    
+    <end type="SOURCE" refId="4"/>    
+    <end type="TARGET" refId="2"/>  
+  </realization>  
+  <classifier-display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+    sort-features="false" accessors="true" visibility="true">    
+    <attributes public="true" package="true" protected="true" private="true" static="true"/>    
+    <operations public="true" package="true" protected="true" private="true" static="true"/>  
+  </classifier-display>  
+  <association-display labels="true" multiplicity="true"/>
+</class-diagram>
