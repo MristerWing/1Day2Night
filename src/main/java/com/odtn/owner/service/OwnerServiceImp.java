@@ -1,6 +1,6 @@
 package com.odtn.owner.service;
 
-import java.io.File;
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -9,6 +9,10 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.cloudinary.Cloudinary;
+import com.cloudinary.Transformation;
+import com.cloudinary.utils.ObjectUtils;
+import com.odtn.aop.LogAspect;
 import com.odtn.owner.dao.OwnerDao;
 import com.odtn.owner.dto.OwnerDto;
 import com.odtn.owner.dto.OwnerMainPageDto;
@@ -30,6 +34,10 @@ public class OwnerServiceImp implements OwnerService {
 
 	@Autowired
 	private SearchDao searchDao;
+
+	private final Cloudinary CLOUDINARY = new Cloudinary(
+			ObjectUtils.asMap("cloud_name", "kjs", "api_key", "472518484531794",
+					"api_secret", "dUevd_gFGaAfgXH607xnh3Z3IHQ"));
 
 	@Override
 	public ModelAndView ownerLoginOk(String owner_key, int user_num) {
@@ -125,35 +133,34 @@ public class OwnerServiceImp implements OwnerService {
 		modelAndView.addObject("ownerInsertCheck", ownerInsertCheck);
 	}
 
+	@SuppressWarnings("rawtypes")
 	private void imageUpload(MultipartFile image, SearchDto updateCamp,
 			int index, String root) {
-		long file_size = image.getSize();
-		if (file_size != 0) {
-			String file_name = Long.toString(System.currentTimeMillis()) + "_"
-					+ image.getOriginalFilename();
-			File path = new File("C:\\campingFile\\");
-			path.mkdir();
 
-			if (path.exists() && path.isDirectory()) {
-				File file = new File(path, file_name);
-				try {
-					image.transferTo(file);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
+		Map upload = null;
 
-				String filePath = root + "/image/" + file_name;
+		String file_name = Long.toString(System.currentTimeMillis()) + "_"
+				+ image.getName();
 
-				if (index == 0)
-					updateCamp.setMain_image(filePath);
-				else if (index == 1)
-					updateCamp.setSub_image1(filePath);
-				else if (index == 2)
-					updateCamp.setSub_image2(filePath);
-				else if (index == 3)
-					updateCamp.setSub_image3(filePath);
-			}
+		try {
+			upload = CLOUDINARY.uploader().upload(image.getBytes(),
+					ObjectUtils.asMap("public_id", file_name,
+							" transformation ",
+							new Transformation().width(720).crop("scale")));
+			LogAspect.logger.info(LogAspect.logMsg + upload);
+
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
+
+		if (index == 0)
+			updateCamp.setMain_image((String) upload.get("url"));
+		else if (index == 1)
+			updateCamp.setSub_image1((String) upload.get("url"));
+		else if (index == 2)
+			updateCamp.setSub_image2((String) upload.get("url"));
+		else if (index == 3)
+			updateCamp.setSub_image3((String) upload.get("url"));
 	}
 
 	@Override
