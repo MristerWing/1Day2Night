@@ -20,13 +20,13 @@
 	<c:if test="${check > 0}">
 		<script type="text/javascript">
 			alert("연동 로그인된 회원의 정보가 수정되었습니다.");
-			//location.href="${root}/memberIndex.jsp";
+			//location.href="${root}/";
 		</script>
 	</c:if>
 	<c:if test="${check == 0}">
 		<script type="text/javascript">
 			alert("연동 로그인 회원 정보 수정 실패");
-			//location.href="${root}/memberIndex.jsp";
+			//location.href="${root}/";
 		</script>
 	</c:if>
 </body>

@@ -14,20 +14,20 @@
 			<% session.invalidate(); %>
 			<script type="text/javascript">
 				alert("회원 가입이 잘 되지 못했습니다.");
-				location.href="${root}/index.jsp";
+				location.href="${root}/";
 			</script>
 		</c:if>
 		<c:if test="${user_num !=0}">
 			<script type="text/javascript">
 				alert("카카오로 연동 로그인 되었습니다.");
-				location.href="${root}/index.jsp";
+				location.href="${root}/";
 			</script>
 		</c:if>
 	</c:if>
 	<c:if test="${check > 0}">
 		<script type="text/javascript">
 			alert("카카오 연동 가입이 잘 되었습니다.");
-			location.href="${root}/index.jsp";
+			location.href="${root}/";
 		</script>
 <%-- 		<h3>${nickname}님 환영합니다.</h3> --%>
 <%-- 		<h3>user_id : ${user_auth_id}</h3> --%>

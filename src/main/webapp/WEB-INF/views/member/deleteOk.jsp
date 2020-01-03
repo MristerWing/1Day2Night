@@ -13,13 +13,13 @@
 	<c:if test="${check > 0}">
 		<script type="text/javascript">
 			alert("탈퇴되었습니다.");
-			location.href="${root}/index.jsp";
+			location.href="${root}/";
 		</script>
 	</c:if>
 	<c:if test="${check == 0}">
 		<script type="text/javascript">
 			alert("탈퇴되지 못했습니다.");
-			location.href="${root}/index.jsp";
+			location.href="${root}/";
 		</script>
 	</c:if>
 </body>
