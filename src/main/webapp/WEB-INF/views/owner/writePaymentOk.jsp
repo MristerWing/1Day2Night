@@ -11,14 +11,14 @@
 <body>
 	<c:if test="${check == ''}">
 		<script type="text/javascript">
-			alert("업데이트 실패");
+			alert("캠핑장 등록 실패");
 			history.back();
 		</script>
 	</c:if>
 	<c:if test="${check > 0}">
 		<script type="text/javascript">
-			alert("업데이트 성공");
-			history.go(-2);
+			alert("캠핑장 등록 성공");
+			location.href="${root}";
 		</script>
 	</c:if>
 </body>

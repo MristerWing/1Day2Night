@@ -1,5 +1,4 @@
-
-<%@ page language="java" contentType="text/html; charset=UTF-8"
+﻿<%@ page language="java" contentType="text/html; charset=UTF-8"
    pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
@@ -145,12 +144,10 @@ License URL: http://creativecommons.org/licenses/by/3.0/
          <div class="container">
             <div class="row banner-grids">
                <div class="col-lg-6 banner-info-w3ls">
-                  <h2>Enjoy Your Holiday Trip</h2>
-                  <h3 class="mb-3">캠핑장 정보 예약을 한번에</h3>
-                  <p class="mb-4">Vestibulum ante ipsum primis in faucibus orci
-                     luctus et ultrices posuere cubilia Curae; Nulla mollis dapibus
-                     nunc, ut rhoncus turpis sodales quis.</p>
-                  <a href="about.html" class="btn">캠핑장 검색</a>
+                  <h2 style="margin-left: 6px;">Enjoy Your Holiday Trip</h2>
+                  <h3 class="mb-3" style="text-shadow: 4px 5px 5px rgb(0,0,0);">캠핑장 조회 예약을  한곳에서</h3>
+                  <p class="mb-4">국내 전체 캠핑장 약 <span>1500</span>여개의 정보와 위치기반을 통한 상세검색 사업자를 통한 관광지 등록신청까지 </p>
+                  <a href="${root}/search/list.do" class="btn" style="box-shadow: 4px 5px 5px rgb(0,0,0);">캠핑장 검색</a>
                </div>
 
             </div>
@@ -167,26 +164,26 @@ License URL: http://creativecommons.org/licenses/by/3.0/
             <div class="feature-grids row mt-3 mb-lg-5 mb-3 mt-lg-5 text-center">
                <div class="col-lg-4" data-aos="fade-up">
                   <div class="bottom-gd px-3">
-                     <span class="fa fa-tag" aria-hidden="true"></span>
-                     <h3 class="my-4">태그별 검색</h3>
-                     <p>다양한 태그를 통해 고객님의 </p>
-                     <p>취향에 맞는 캠핑장을 선택하세요.</p>
+                     <span class="fa fa-bus" aria-hidden="true"></span>
+                     <h3 class="my-4">캠핑카가 있어도</h3>
+                     <p>Integer sit amet mattis quam, sit amet ultricies velit.
+                        Praesent ullamcorper dui turpis.</p>
                   </div>
                </div>
                <div class="col-lg-4" data-aos="fade-up">
                   <div class="bottom-gd2-active px-3">
-                     <span class="fa fa-credit-card" aria-hidden="true"></span>
-                     <h3 class="my-4">캠핑장 예약</h3>
-                     	<P>맘에드는 캠핑장을 찾으셨나요?</P>
-                     	<P>ODTN에서 바로 예약하세요.</P>
+                     <span class="fa fa-car" aria-hidden="true"></span>
+                     <h3 class="my-4">캠핑카가 없어도</h3>
+                     <p>Integer sit amet mattis quam, sit amet ultricies velit.
+                        Praesent ullamcorper dui turpis.</p>
                   </div>
                </div>
                <div class="col-lg-4" data-aos="fade-up">
                   <div class="bottom-gd px-3">
                      <span class="fa fa-rocket" aria-hidden="true"></span>
                      <h3 class="my-4">${campingDto.campingCount}개의 다양한 캠핑장</h3>
-                     	<P>대한민국 방방곳곳의 캠핑장정보와</P>
-                     	<P>캠핑장 리뷰를 공유해 보세요.</P>
+                     <p>Integer sit amet mattis quam, sit amet ultricies velit.
+                        Praesent ullamcorper dui turpis.</p>
                   </div>
                </div>
             </div>
@@ -245,8 +242,8 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                      <h3 class="mt-md-4 mt-3">
                         <span class="sub-tittle-team"></span> 야간캠핑 주의사항
                      </h3>
-                     <p>캠핑 초보라면 더더욱 필요한 야간캠핑 주의사항</p> 
-                     <p>[더보기]</p>
+                     <p>Lorem Ipsum has been the industry's standard since the
+                        1500s.</p>
                      <ul class="top-right-info text-center mt-md-4 mt-3">
 
                         <li class="mr-1"><a href="#"> <span
@@ -270,8 +267,8 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                      <h3 class="mt-md-4 mt-3">
                         <span class="sub-tittle-team"></span> 야영 주의사항
                      </h3>
-                   	 <p>야영시 주의해야할 사항을 안내합니다.</p>
-                   	 <p>[더보기]</p>
+                     <p>Lorem Ipsum has been the industry's standard since the
+                        1500s.</p>
                      <ul class="top-right-info text-center mt-md-4 mt-3">
 
                         <li class="mr-1"><a href="#"> <span
@@ -293,8 +290,8 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                      <h3 class="mt-md-4 mt-3">
                         <span class="sub-tittle-team"></span> 취사시 주의사항
                      </h3>
-                     <p>캠핑장에서 꼭 지켜야할 취사시 주의사항 안내</p>
-                     <p>[더보기]</p>
+                     <p>Lorem Ipsum has been the industry's standard since the
+                        1500s.</p>
                      <ul class="top-right-info text-center mt-md-4 mt-3">
 
                         <li class="mr-1"><a href="#"> <span
@@ -349,56 +346,6 @@ License URL: http://creativecommons.org/licenses/by/3.0/
          </div>
       </div>
    </section>
-   <!-- //portfolio -->
-   <!-- popup-->
-   <div id="gal1" class="pop-overlay animate">
-      <div class="popup">
-         <img src="images/1.jpg" alt="Popup Image" class="img-fluid" /> <a
-            class="close" href="#gallery">&times;</a>
-      </div>
-   </div>
-   <!-- //popup -->
-
-   <!-- popup-->
-   <div id="gal2" class="pop-overlay animate">
-      <div class="popup">
-         <img src="images/2.jpg" alt="Popup Image" class="img-fluid" /> <a
-            class="close" href="#gallery">&times;</a>
-      </div>
-   </div>
-   <!-- //popup -->
-   <!-- popup-->
-   <div id="gal3" class="pop-overlay animate">
-      <div class="popup">
-         <img src="images/3.jpg" alt="Popup Image" class="img-fluid" /> <a
-            class="close" href="#gallery">&times;</a>
-      </div>
-   </div>
-   <!-- //popup3 -->
-   <!-- popup-->
-   <div id="gal4" class="pop-overlay animate">
-      <div class="popup">
-         <img src="images/4.jpg" alt="Popup Image" class="img-fluid" /> <a
-            class="close" href="#gallery">&times;</a>
-      </div>
-   </div>
-   <!-- //popup -->
-   <!-- popup-->
-   <div id="gal5" class="pop-overlay animate">
-      <div class="popup">
-         <img src="images/5.jpg" alt="Popup Image" class="img-fluid" /> <a
-            class="close" href="#gallery">&times;</a>
-      </div>
-   </div>
-   <!-- //popup -->
-   <!-- popup-->
-   <div id="gal6" class="pop-overlay animate">
-      <div class="popup">
-         <img src="images/6.jpg" alt="Popup Image" class="img-fluid" /> <a
-            class="close" href="#gallery">&times;</a>
-      </div>
-   </div>
-   <!-- //popup -->
 
    <!--footer -->
    <footer>

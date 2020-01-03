@@ -1,5 +1,7 @@
 package com.odtn.search.dto;
 
+import java.util.List;
+
 public class SearchPaymentDto {
 	private int camp_id;
 	private String fee_name;
@@ -7,13 +9,16 @@ public class SearchPaymentDto {
 	private int normal_season_holidays_fee;
 	private int peak_season_weekdays_fee;
 	private int peak_season_holidays_fee;
+	private int day_accept_member;
+	private List<SearchPaymentDto> searchPaymentDtoList;
 
 	public SearchPaymentDto() {
-	};
+	}
 
 	public SearchPaymentDto(int camp_id, String fee_name,
 			int normal_season_weekdays_fee, int normal_season_holidays_fee,
-			int peak_season_weekdays_fee, int peak_season_holidays_fee) {
+			int peak_season_weekdays_fee, int peak_season_holidays_fee,
+			int day_accept_member) {
 		super();
 		this.camp_id = camp_id;
 		this.fee_name = fee_name;
@@ -21,6 +26,7 @@ public class SearchPaymentDto {
 		this.normal_season_holidays_fee = normal_season_holidays_fee;
 		this.peak_season_weekdays_fee = peak_season_weekdays_fee;
 		this.peak_season_holidays_fee = peak_season_holidays_fee;
+		this.day_accept_member = day_accept_member;
 	}
 
 	public int getCamp_id() {
@@ -69,6 +75,23 @@ public class SearchPaymentDto {
 
 	public void setPeak_season_holidays_fee(int peak_season_holidays_fee) {
 		this.peak_season_holidays_fee = peak_season_holidays_fee;
+	}
+
+	public int getDay_accept_member() {
+		return day_accept_member;
+	}
+
+	public void setDay_accept_member(int day_accept_member) {
+		this.day_accept_member = day_accept_member;
+	}
+
+	public List<SearchPaymentDto> getSearchPaymentDtoList() {
+		return searchPaymentDtoList;
+	}
+
+	public void setSearchPaymentDtoList(
+			List<SearchPaymentDto> searchPaymentDtoList) {
+		this.searchPaymentDtoList = searchPaymentDtoList;
 	}
 
 }

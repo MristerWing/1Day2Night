@@ -18,11 +18,12 @@
 	</c:if>
 	
 	
-	<c:if test="${adminCheck == 0 }">
+	<c:if test="${adminCheck == 0}">
 		<script type="text/javascript">
 		alert("※접속 권한 없음※");
 		location.href="${root}";
 		</script>
 	</c:if>
+	
 </body>
 </html>

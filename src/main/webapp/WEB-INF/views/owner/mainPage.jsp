@@ -53,7 +53,6 @@
                                     </li>
                                 </ul>
 
-                                <!--데이터를 이용하여 루프시키킨다. 각 id값은 전부 다르게-->
                                 <!-- Tab panes -->
                                 <div class="tab-content">
                                     <%-- <div id="graph1" class="container tab-pane active">
@@ -114,7 +113,7 @@
         							};
                                 </script>
                                 <div class="button-area">
-                                    <button class="btn btn-primary" onclick="javascript: location.href='${root}/board/campReview/list.do'">
+                                    <button class="btn btn-primary" onclick="javascript: location.href='${root}/board/campReview/searchList.do?keyword=${ownerMainPageDto.camp_name}'">
                                         리뷰보기
                                     </button>
                                     <button class="btn btn-secondary" onclick="javascript: location.href='${root}/search/read.do?camp-id=${ownerDto.camp_id}'">
@@ -131,6 +130,11 @@
                 <!--존재하는 값마다 루프처리-->
                 <div class="content-bottom border rounded">
                     <span class="sub-title">요금별 예약 리스트 </span>
+                    <button class="btn btn-primary payinfo" 
+                    		data-toggle="modal"
+                            data-target="#payModal">
+                            	요금상세
+                    </button>
                     <!-- Nav tabs -->
                     <ul
                         class="nav nav-tabs"
@@ -216,5 +220,72 @@
                 </div>
             </div>
         </div>
+        	<div
+				class="modal fade"
+				id="payModal"
+				tabindex="-1"
+				role="dialog"
+				aria-labelledby="checkLabel"
+				aria-hidden="true"
+			>
+				<div class="modal-dialog" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title" id="checkLabel">
+								${ownerMainPageDto.camp_name}의 요금 상세
+							</h5>
+							<button
+								type="button"
+								class="close"
+								data-dismiss="modal"
+								aria-label="Close"
+							>
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+						<div class="modal-body">
+							<c:forEach var="paymentDto" items="${paymentList}">
+								<span class="title"> <i class="fa fa-flag"
+									aria-hidden="true" style="color: royalblue;"></i> ${paymentDto.fee_name}
+								</span>
+								<table class="table">
+									<thead class="thead-dark">
+										<tr>
+											<th>평상시 주중</th>
+											<th>평상시 주말</th>
+											<th>성수기 주중</th>
+											<th>성수기 주말</th>
+											<th>하루수용인원</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td>${paymentDto.normal_season_weekdays_fee}</td>
+											<td>${paymentDto.normal_season_holidays_fee}</td>
+											<td>${paymentDto.peak_season_weekdays_fee}</td>
+											<td>${paymentDto.peak_season_holidays_fee}</td>
+											<td>${paymentDto.day_accept_member}</td>
+										</tr>
+									</tbody>
+								</table>
+							</c:forEach>
+						</div>
+						<div class="modal-footer">
+							<button
+								type="button"
+								class="btn btn-secondary"
+								data-dismiss="modal"
+							>
+								Close
+							</button>
+							<button type="button" 
+							class="btn btn-primary"
+							onclick="javascript:location.href='${root}/owner/updatePayment.do?camp_id=${ownerDto.camp_id}'">
+								수정하기
+							</button>
+						</div>
+					</div>
+				</div>
+			</div>
     </body>
 </html>
