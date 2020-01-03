@@ -26,7 +26,7 @@ public interface CampQnADao {
    //글읽기
    public CampQnADto read(int qna_num);
    //비밀번호 입력하고 글 읽기
-   public CampQnADto pwdCheck(String password,int user_num);
+   public CampQnADto pwdCheck(String password,int user_num,int qna_num);
    //글 삭제
    public int delete(int qna_num);
    //글 수정

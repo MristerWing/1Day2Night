@@ -1,4 +1,4 @@
-package com.odtn.board.service;
+﻿package com.odtn.board.service;
 
 import javax.servlet.http.HttpSession;
 
@@ -7,6 +7,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.odtn.member.dto.MemberDto;
 
 public interface CampReviewService {
+
 	// 리뷰작성
 	public void write(ModelAndView mav, HttpSession session,
 			MemberDto memberDto);
@@ -33,4 +34,5 @@ public interface CampReviewService {
 
 	// 수정확인
 	public void updateOk(ModelAndView mav);
+
 }

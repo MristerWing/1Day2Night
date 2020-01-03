@@ -25,7 +25,6 @@
 	
 	
 	
-	</h3>
 
 	<c:if test="${check >0}">
 		<script type="text/javascript">

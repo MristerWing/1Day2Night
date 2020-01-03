@@ -5,6 +5,8 @@ import java.util.List;
 import com.odtn.boardComment.dto.ReviewCommentDto;
 
 public interface ReviewCommentDao {
+	//comment_num최대값 구하기
+	public int getMaxNum(int review_num);
 	//댓글 작성 확인
 	public int insert(ReviewCommentDto reviewCommentDto);
 	//리스트 개수 세기

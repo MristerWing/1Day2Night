@@ -35,7 +35,7 @@
 <body>
     <!-- //main-content -->
   <!--/ab -->
- <section class="about py-lg-5 py-md-5 py-5">
+
 	 <section class="about py-lg-5 py-md-5 py-5">
         <div class="container">
             <div class="inner-sec-w3pvt py-lg-5 py-3">
@@ -43,7 +43,7 @@
              <div class="review_content" >
 
 				  <form class="campReview_form" action="${root}/board/campReview/updateOk.do" method="POST" 
-            	enctype="multipart/form-data" onsubmit="returnForm(this)">
+            	enctype="multipart/form-data">
             	<!--숨겨서 넘어가는값 -->
             		<input type="hidden" name="pageNumber" value="${pageNumber}"/>
             		<input name="review_num" type="hidden" value="${campReviewDto.review_num}">
@@ -59,32 +59,39 @@
 				      <div class="form-group" >
 					      <label for="sel1">캠핑장선택 (*)</label>
 				      	<div class="select_location">
-					      <select class="form-control" id="c_do" name="sellist1" style="height: 3.5rem; width: 50%;float: left">
-					        <option>시,도</option>
-					        	<option value="서울">서울시</option>
-								<option value="부산">부산시</option>
-								<option value="대구">대구시</option>
-								<option value="인천">인천시</option>
-								<option value="광주">광주시</option>
-								<option value="대전">대전시</option>
-								<option value="울산">울산시</option>
-								<option value="세종">세종시</option>
-								<option value="경기">경기도</option>
-								<option value="강원">강원도</option>
-								<option value="충북|충청북도">충청북도</option>
-								<option value="충남|충청남도">충청남도</option>
-								<option value="전북|전라북도">전라북도</option>
-								<option value="전남|전라남도">전라남도</option>
-								<option value="경북|경상북도">경상북도</option>
-								<option value="경남|경상남도">경상남도</option>
-								<option value="제주">제주도</option>
-							</select>
+					      		
 						      <select class="form-control" id="camp_id" name="camp_id" style="height: 3.5rem; width: 50%">
+						       <c:if test="${bookingCnt>0}">
 						       	 <option>캠핑장 이름을 선택해 주세요</option>
-						         <option value="11111">111111</option>
+						       	 <c:forEach var="reservationDto" varStatus="list" items="${campList}">
+						         	<option value="${reservationDto.camp_id}">${campNameList[list.index]}</option>
+						         </c:forEach>
+						       </c:if>  
+						       <c:if test="${bookingCnt==0}">
+						       	 <option>리뷰할 수 있는 캠핑장 내역이 없습니다.</option>
+						       </c:if>  
 						
 						      </select>
-					     
+						      
+						     <script type="text/javascript">
+						        $("#c_do").mouseleave(function(){
+							     var city=$("#c_do option:selected").val();
+							     var paramdata=city;
+							     alert(paramData);
+							     var url="${root}/board/campReview/searchList.do?ci_do='${city}'"
+							        $.ajax({
+							        	url:url,
+							        	data:paramData,
+							        	type:'GET',
+							        	dataType:'TEXT',
+							        	success:function(data){
+							        		console.log("성공");
+							        	}
+							        })	
+							        
+						        });
+						   	</script>	
+						    
 						   </div>
       				</div>
       				<div class="uploaded_file">
@@ -122,7 +129,7 @@
 				     
 				    </div>
 					<div align="center">
-				   		 <button type="submit" class="btn btn-primary">작성</button>
+				   		 <button type="submit" class="btn btn-primary" onclick="checkForm()">작성</button>
 				   		 <button type="button" class="btn btn-primary" onclick="location.href='${root}/board/campReview/list.do?pageNumber=${pageNumber}'" >목록</button>
 					</div>
 				  </form>
@@ -131,8 +138,8 @@
 	</div>   
             </div>
         </div>
-        <!-- //services -->
     </section>
+        <!-- //services -->
  
 
 </body>

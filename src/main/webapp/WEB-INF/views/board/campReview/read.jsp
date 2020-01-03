@@ -62,8 +62,10 @@
 			                     htmls += '<p class="media-body pb-3 mb-0 small lh-125 border-bottom horder-gray">';
 
 			                     htmls += '<span class="d-block">';
-
+			                     
 			                     htmls += '<strong class="text-gray-dark">' + data.writerList[indexNum] + '</strong>';
+			                     
+			                     htmls += '&nbsp';
 
 			                     htmls += '<span style="padding-left: 7px; font-size: 9pt">';
 								 
@@ -118,12 +120,13 @@
 					, dataType : 'json'
 		
 					, success: function(result){
-		
-		
+						console.log(result);
+						console.log("dd");
+						console.log(result.reviewCommentDto.comment_num);
 						$('#comment_content').val('');
 		
 						$('#user_num').val('');
-						//$('#.num'+comment_num).prepend(result.html);
+						$('.num'+result.reviewCommentDto.comment_num).prepend(result.html);
 						alert("등록완료");
 						showCommentList();
 						
