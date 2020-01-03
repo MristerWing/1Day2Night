@@ -31,7 +31,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 	}
 </script>
 <!-- //Meta tag Keywords -->
-
+ 
 <!-- Custom-Files -->
 <link rel="stylesheet" href="${root}/resources/css/styles/bootstrap.css">
 <!-- Bootstrap-Core-CSS -->
@@ -72,10 +72,11 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 </style>
 
 <script type="text/javascript" src="${root}/resources/javascript/modules/jquery-3.4.1.js"></script>
+<!-- 부트스트랩.js가 jquery를 상속 받기 때문에 jquery밑에 선언해줘야됨 -->
+<script src="${root}/resources/javascript/modules/bootstrap.js"></script>
 </head>
 
 <body>
-
 	<!-- mian-content -->
 	<div class="main-content" id="home">
 		<!-- header -->
@@ -83,12 +84,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 			<div class="container">
 				<!-- nav -->
 				<nav class="py-3">
-					<div id="logo">
-				<%--<img class="logoImg" src="${root}/resources/images/ODTN.png" width="50"> --%>
-						<h1>
-							<a class="navbar-brand" href="#">ODTN LOGO</a>
-						</h1>
-					</div>
+					<img class="logoImg" src="${root}/resources/images/odtnlogo.png" style="position: absolute;width: 146px;margin-top: -48px;">
 
 <!-- 회원가입, 로그인 뜨지 않는 경우 ${sessionScope.email} 처럼 변수마다 앞에 sessionScope. 붙여봐야 할 거에요 -->
 					<label for="drop" class="toggle">Menu</label> <input
@@ -149,12 +145,10 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 			<div class="container">
 				<div class="row banner-grids">
 					<div class="col-lg-6 banner-info-w3ls">
-						<h2>Enjoy Your Holiday Trip</h2>
-						<h3 class="mb-3">Perfect Camping for You</h3>
-						<p class="mb-4">Vestibulum ante ipsum primis in faucibus orci
-							luctus et ultrices posuere cubilia Curae; Nulla mollis dapibus
-							nunc, ut rhoncus turpis sodales quis.</p>
-						<a href="about.html" class="btn">캠핑장 검색</a>
+						<h2 style="margin-left: 6px;">Enjoy Your Holiday Trip</h2>
+						<h3 class="mb-3" style="text-shadow: 4px 5px 5px rgb(0,0,0);">캠핑장 조회 예약을  한곳에서</h3>
+						<p class="mb-4">국내 전체 캠핑장 약 <span>1500</span>여개의 정보와 위치기반을 통한 상세검색 사업자를 통한 관광지 등록신청까지 </p>
+						<a href="${root}/search/list.do" class="btn" style="box-shadow: 4px 5px 5px rgb(0,0,0);">캠핑장 검색</a>
 					</div>
 
 				</div>
