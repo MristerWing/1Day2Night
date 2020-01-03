@@ -56,6 +56,12 @@ import com.odtn.member.util.TempKey;
  * @description 이메일 유효성 검사를 위해 emailDupCheck 함수 추가 24일 DB에 salt랑 비번 섞어서 SHA256
  *              방식으로 암호화 해서 저장, 로그인, 수정, 탈퇴 기능 구현 완료
  */
+
+/**
+ * @author kkh
+ * @date 2020. 1. 3.
+ * @description profile_image, nickname, interest 등등 사용 안해서 MultipartHttpRequest와 setter 부분들 삭제
+ */
 @Component
 public class MemberServiceImp implements MemberService {
 	@Autowired
@@ -132,7 +138,7 @@ public class MemberServiceImp implements MemberService {
 						LogAspect.logMsg + "MC.emailDupCheck.이메일 형식에 맞지 않습니다.");
 				result = -1;
 			}
-			if (b) {
+			if (b==true) {
 				result = 0;
 				LogAspect.logger
 						.info(LogAspect.logMsg + "MC.emailDupCheck.이메일 사용가능");
@@ -160,7 +166,7 @@ public class MemberServiceImp implements MemberService {
 		LogAspect.logger.info(LogAspect.logMsg + "pwCheck.check: " + check);
 		// String password_check =
 		// "^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[$@$!%*?&`~'\"+=])[A-Za-z[0-9]$@$!%*?&`~'\"+=]{11,20}$";
-		String password_check = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[$@$!%*?&`~'\"+=])[A-Za-z\\d$@$!%*?&`~'\"+=]{3,4}";
+		String password_check = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[$@$!%*?&`~'\"+=])[A-Za-z\\d$@$!%*?&`~'\"+=]{11,20}";
 
 		Pattern patternSymbol = Pattern.compile(password_check);
 		Matcher matcherSymbol = patternSymbol.matcher(password);
@@ -321,7 +327,11 @@ public class MemberServiceImp implements MemberService {
 
 		String salt = memberDao.getSaltByEmail(email);
 		LogAspect.logger.info(LogAspect.logMsg + "MSI.mWO.salt: " + salt);
-
+		
+		if(salt == null) {
+			mav.setViewName("member/login.tiles");
+			return;
+		}
 		password = SHA256Util.getEncrypt(password, salt);
 		LogAspect.logger.info(LogAspect.logMsg + "MSI.mWO.pwsha: " + password);
 		LogAspect.logger.info(LogAspect.logMsg + "MSI.mWO.salt: " + salt);
@@ -444,8 +454,7 @@ public class MemberServiceImp implements MemberService {
 		Map<String, Object> map = mav.getModelMap();
 		// MemberDto memberDto = (MemberDto)map.get("memberDto");
 		MemberDto memberDto = new MemberDto();
-		MultipartHttpServletRequest request = (MultipartHttpServletRequest) map
-				.get("request");
+		HttpServletRequest request = (HttpServletRequest) map.get("request");
 
 		LogAspect.logger.info(LogAspect.logMsg + "req: " + request);
 		// LogAspect.logger.info(LogAspect.logMsg+"MSI.mUO.dto:
@@ -467,43 +476,12 @@ public class MemberServiceImp implements MemberService {
 		memberDto.setPassword(password);
 		memberDto.setSalt(salt);
 
-		LogAspect.logger.info(LogAspect.logMsg + "MSI.mUO.interest: "
-				+ request.getParameter("result"));
 		memberDto.setUser_num((Integer) session.getAttribute("user_num"));
-		memberDto.setInterest(request.getParameter("result"));
-		memberDto.setUser_name(request.getParameter("user_name"));
-		memberDto.setNickname(request.getParameter("nickname"));
 		memberDto.setPhone_num(
 				Integer.valueOf(request.getParameter("phone_num")));
 		// memberDto.setGender(request.getParameter("genderh"));
 		// memberDto.setAge(Integer.parseInt(request.getParameter("age")));
 
-		LogAspect.logger.info(LogAspect.logMsg + "MSI.mUO.req.getFile.pImg: "
-				+ request.getFile("profile_image").toString());
-		MultipartFile upFile = request.getFile("profile_image");
-		Long file_size = upFile.getSize();
-
-		if (file_size != 0) {// 이미 파일 존재
-			String file_name = Long.toString(System.currentTimeMillis()) + "_"
-					+ upFile.getOriginalFilename();
-			File path = new File("C:\\ftp\\profile_image\\");
-			path.mkdir();
-
-			if (path.exists() && path.isDirectory()) {// 경로가 있고 파일이 있으면
-				File file = new File(path, file_name);
-				try {
-					upFile.transferTo(file);
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-				// memberDto.setFileSize(fileSize);
-				// memberDto.setFileName(fileName);
-				memberDto.setProfile_image(file.getAbsolutePath());
-				LogAspect.logger.info(
-						LogAspect.logMsg + "MSI.mUO" + file.getAbsolutePath());
-			}
-
-		}
 
 		int check = 0;
 
