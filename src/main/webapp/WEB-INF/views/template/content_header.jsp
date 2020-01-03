@@ -29,6 +29,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
     </script>
     <script src="${root}/resources/javascript/modules/jquery-3.4.1.js"></script>
     <link rel="stylesheet" href="${root}/resources/css/styles/bootstrap.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="${root}/resources/javascript/modules/bootstrap.js"></script>
     <link rel="stylesheet" href="${root}/resources/css/styles/style.css" type="text/css" media="all" />
     <link href="${root}/resources/css/styles/font-awesome.css" rel="stylesheet">
