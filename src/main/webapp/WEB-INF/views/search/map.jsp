@@ -85,7 +85,7 @@
 			<!-- //상단 타이틀영역 -->
 			<!--콘텐츠박스-->
 			<div id="cont_inner">
-				<div class="sub_layout layout">
+				<div class="sub_layout">
 					<script type="text/javascript"
 						src="//dapi.kakao.com/v2/maps/sdk.js?appkey=ca03b0208d6f66d063f775590f585a44&libraries"></script>
 
@@ -150,7 +150,7 @@
 								<div id="pagination"></div>
 								<div align="center">
 									<c:if test="${searchMap.count >0 }">
-										<c:set var="pageBlock" value="${10}"/> 	블록 
+										<c:set var="pageBlock" value="${10}"/> 
 										<c:set var="pageCount" value="${searchMap.count/searchMap.boardSize + (searchMap.count%searchMap.boardSize==0 ? 0 : 1) }"/>
 										
 										<fmt:parseNumber var="result" value="${(searchMap.currentPage-1)/pageBlock }" integerOnly="true"/>

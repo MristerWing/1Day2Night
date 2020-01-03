@@ -68,3 +68,7 @@
 .owner > .main-page .pagination {
 	justify-content: center;
 }
+
+.owner > .main-page .payinfo {
+	float: right;
+}
