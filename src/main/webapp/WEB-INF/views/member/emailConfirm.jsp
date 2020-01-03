@@ -35,7 +35,7 @@
 		<h5>이메일 인증이 확인 되었습니다. 가입을 축하합니다.</h5>
 		<h5>아래의 메인으로를 눌러주세요.</h5>
 	</c:if>
-	<button type="button" class="btn btn-primary" onclick=javascript:location.href="${root}/index.jsp">메인으로</button>
+	<button type="button" class="btn btn-primary" onclick=javascript:location.href="${root}/">메인으로</button>
 </div>
 </body>
 </html>

@@ -49,9 +49,9 @@
 	</div>
 	 --%>
 	 <div align="center" style="margin: 100px auto;">
-		<form class="form" action="${root}/admin/infoDeleteOk.do" method=post>
+		<form class="form" action="${root}/admin/reviewDeleteOk.do" method=post>
 		   <div>
-			<input type="hidden" name="info_num" value="${campInfoDto.info_num}">
+			<input type="hidden" name="review_num" value="${campInfoDto.info_num}">
  				<table border="1">
 					<tr>
 					   <td>USER_NUM</td>

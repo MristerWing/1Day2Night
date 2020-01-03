@@ -80,7 +80,7 @@ pageEncoding="UTF-8"%> <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/c
                     "body > div > div.container > div:nth-child(2) > form > ul > li:nth-child(4) > button"
                 ).click(function() {
                     location.href =
-                        "https://kauth.kakao.com/oauth/authorize?client_id=06ef11d13082c0f6655eada1dec1670a&redirect_uri=http://localhost:8181/camping/member/kakaoLogin.do&response_type=code";
+                        "https://kauth.kakao.com/oauth/authorize?client_id=06ef11d13082c0f6655eada1dec1670a&redirect_uri=http://192.168.14.30:8181/camping/member/kakaoLogin.do&response_type=code";
                 });
 
                 $("body > div > div.container > div:nth-child(2) > form").submit(
@@ -102,7 +102,7 @@ pageEncoding="UTF-8"%> <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/c
     </head>
 
     <body>
-        <div class="container">
+        <div class="container" style="min-height: 600px;">
             <!-- Header -->
             <div style="text-align:center; margin-top:15px;">
                 <h3>로그인</h3>
@@ -240,7 +240,7 @@ pageEncoding="UTF-8"%> <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/c
         <c:if test="${register_type == 'KAKAO'}">
             <script type="text/javascript">
                 alert("이미 카카오 연동 로그인이 되어 있습니다.");
-                location.href="${root}/index.jsp";
+                location.href="${root}/";
             </script>
         </c:if>
     </body>

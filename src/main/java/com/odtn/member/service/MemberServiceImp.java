@@ -60,7 +60,8 @@ import com.odtn.member.util.TempKey;
 /**
  * @author kkh
  * @date 2020. 1. 3.
- * @description profile_image, nickname, interest 등등 사용 안해서 MultipartHttpRequest와 setter 부분들 삭제
+ * @description profile_image, nickname, interest 등등 사용 안해서
+ *              MultipartHttpRequest와 setter 부분들 삭제
  */
 @Component
 public class MemberServiceImp implements MemberService {
@@ -138,7 +139,7 @@ public class MemberServiceImp implements MemberService {
 						LogAspect.logMsg + "MC.emailDupCheck.이메일 형식에 맞지 않습니다.");
 				result = -1;
 			}
-			if (b==true) {
+			if (b == true) {
 				result = 0;
 				LogAspect.logger
 						.info(LogAspect.logMsg + "MC.emailDupCheck.이메일 사용가능");
@@ -255,7 +256,7 @@ public class MemberServiceImp implements MemberService {
 			sendMail.setSubject("1Day2Night 회원가입 이메일 인증입니다.");
 			sendMail.setText(new StringBuffer().append("<h3>이메일 인증</h3>")
 					.append("<p>아래의 링크를 클릭하시면 이메일 인증이 완료됩니다.</p>")
-					.append("<a href='http://localhost:8181/camping/member/emailVerify.do?uid=")
+					.append("<a href='http://192.168.14.30:8181/camping/member/emailVerify.do?uid=")
 					.append(memberDto.getUser_num()).append("&email=")
 					.append(memberDto.getEmail()).append("&authkey=")
 					.append(email_auth_key)
@@ -327,8 +328,8 @@ public class MemberServiceImp implements MemberService {
 
 		String salt = memberDao.getSaltByEmail(email);
 		LogAspect.logger.info(LogAspect.logMsg + "MSI.mWO.salt: " + salt);
-		
-		if(salt == null) {
+
+		if (salt == null) {
 			mav.setViewName("member/login.tiles");
 			return;
 		}
@@ -385,12 +386,17 @@ public class MemberServiceImp implements MemberService {
 		HttpServletRequest request = (HttpServletRequest) map.get("request");
 		HttpSession session = (HttpSession) map.get("session");
 		Map<String, Object> hMap = new HashMap<String, Object>();
-		LogAspect.logger.info(LogAspect.logMsg + "MSI.mUP.req.getPpw: " + request.getParameter("password"));
-		LogAspect.logger.info(LogAspect.logMsg + "MSI.mUP.ses.getUnum: " + session.getAttribute("user_num"));
-		LogAspect.logger.info(LogAspect.logMsg + "MSI.mUP.ses.getemal: " + session.getAttribute("email"));
-		LogAspect.logger.info(LogAspect.logMsg + "MSI.mUP.ses.getEAK: " + session.getAttribute("email_auth_key"));
+		LogAspect.logger.info(LogAspect.logMsg + "MSI.mUP.req.getPpw: "
+				+ request.getParameter("password"));
+		LogAspect.logger.info(LogAspect.logMsg + "MSI.mUP.ses.getUnum: "
+				+ session.getAttribute("user_num"));
+		LogAspect.logger.info(LogAspect.logMsg + "MSI.mUP.ses.getemal: "
+				+ session.getAttribute("email"));
+		LogAspect.logger.info(LogAspect.logMsg + "MSI.mUP.ses.getEAK: "
+				+ session.getAttribute("email_auth_key"));
 
-		String salt = memberDao.getSaltByEmail((String) session.getAttribute("email"));
+		String salt = memberDao
+				.getSaltByEmail((String) session.getAttribute("email"));
 		String password = request.getParameter("password");
 		LogAspect.logger.info(LogAspect.logMsg + password);
 		password = SHA256Util.getEncrypt(password, salt);
@@ -406,7 +412,8 @@ public class MemberServiceImp implements MemberService {
 
 		MemberDto memberDto = memberDao.getMemberDtoP(hMap);
 		if (memberDto != null) {
-			LogAspect.logger.info(LogAspect.logMsg + "MSI.mUP.dto:" + memberDto.toString());
+			LogAspect.logger.info(
+					LogAspect.logMsg + "MSI.mUP.dto:" + memberDto.toString());
 			memberDto.setPassword(request.getParameter("password"));
 			mav.addObject("memberDto", memberDto);
 			mav.setViewName("member/update.tiles");
@@ -460,7 +467,7 @@ public class MemberServiceImp implements MemberService {
 		// LogAspect.logger.info(LogAspect.logMsg+"MSI.mUO.dto:
 		// "+memberDto.toString());
 
-		//memberDto.setEmail(request.getParameter("email"));
+		// memberDto.setEmail(request.getParameter("email"));
 		LogAspect.logger.info(LogAspect.logMsg + "MSI.mUO.reqEmail: "
 				+ request.getParameter("email"));
 		LogAspect.logger.info(
@@ -482,7 +489,6 @@ public class MemberServiceImp implements MemberService {
 		// memberDto.setGender(request.getParameter("genderh"));
 		// memberDto.setAge(Integer.parseInt(request.getParameter("age")));
 
-
 		int check = 0;
 
 		LogAspect.logger.info(
@@ -500,10 +506,14 @@ public class MemberServiceImp implements MemberService {
 		HttpServletRequest request = (HttpServletRequest) map.get("request");
 		HttpSession session = request.getSession();
 
-		LogAspect.logger.info(LogAspect.logMsg + "MSI.mDO.sesUnum: " + session.getAttribute("user_num"));
-		LogAspect.logger.info(LogAspect.logMsg + "MSI.mDO.sesemail: " + session.getAttribute("email"));
-		LogAspect.logger.info(LogAspect.logMsg + "MSI.mDO.sesEAKey: " + session.getAttribute("email_auth_key"));
-		LogAspect.logger.info(LogAspect.logMsg + "MSI.mDO.reqPassword: " + request.getParameter("password"));
+		LogAspect.logger.info(LogAspect.logMsg + "MSI.mDO.sesUnum: "
+				+ session.getAttribute("user_num"));
+		LogAspect.logger.info(LogAspect.logMsg + "MSI.mDO.sesemail: "
+				+ session.getAttribute("email"));
+		LogAspect.logger.info(LogAspect.logMsg + "MSI.mDO.sesEAKey: "
+				+ session.getAttribute("email_auth_key"));
+		LogAspect.logger.info(LogAspect.logMsg + "MSI.mDO.reqPassword: "
+				+ request.getParameter("password"));
 
 		Map<String, Object> hMap = new HashMap<String, Object>();
 		hMap.put("user_num", session.getAttribute("user_num"));
@@ -584,7 +594,7 @@ public class MemberServiceImp implements MemberService {
 			sb.append("grant_type=authorization_code");
 			sb.append("&client_id=06ef11d13082c0f6655eada1dec1670a");
 			sb.append(
-					"&redirect_uri=http://localhost:8181/camping/member/kakaoLogin.do");
+					"&redirect_uri=http://192.168.14.30:8181/camping/member/kakaoLogin.do");
 			sb.append("&code=" + authorize_code);
 			LogAspect.logger.info(LogAspect.logMsg + "sb.append: " + sb);
 			bw.write(sb.toString());

@@ -121,7 +121,7 @@
                 <!-- /row -->
                 <div class="row">
                     <div class="col-sm-12">
-                        <div class="white-box">
+                        <div class="white-box" style="overflow: scroll;">
                             <h3 class="box-title" style="color: red;">회원 관리</h3>
       							<jsp:include page="./membertable.jsp" flush="true">
       								<jsp:param name="test" value="test"/>

@@ -62,7 +62,7 @@
                      <div class="review_content" >
 
 				  <form class="campInfo_form" action="${root}/board/campInfo/updateOk.do" method="POST" 
-            		enctype="multipart/form-dat">
+            		enctype="multipart/form-data">
             		<!--사용자에겐 안보이는 정보-->
             		<input type="hidden" name="pageNumber" value="${pageNumber}"/>
             		<input type="hidden" name="info_num" value="${campInfoDto.info_num}"/>
