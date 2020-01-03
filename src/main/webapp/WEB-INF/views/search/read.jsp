@@ -28,7 +28,7 @@
 		</div>
 		<div class="container main_content">
 			<div class="img-area">
-				<img src="${searchMap.searchList[0].main_image}" alt="loding" />
+				<img width="720" height="480" src="${searchMap.searchList[0].main_image}" alt="loding" />
 			</div>
 			<div class="content-area">
 				<table class="table">
