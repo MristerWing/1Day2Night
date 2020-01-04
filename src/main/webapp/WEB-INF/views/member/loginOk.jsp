@@ -18,14 +18,14 @@
 <%-- 	s.regType: ${sessionScope.register_type}<br/> --%>
 <%-- 	s.eAStat: ${sessionScope.email_auth_status}<br/> --%>
 <!-- 	</h3> -->
-	<c:if test="${memberDto == null}">
+	<%-- <c:if test="${memberDto == null}">
 		<c:if test="${login_fail == 't'}">
 			<script type="text/javascript">
 				alert("아이디 혹은 비밀번호를 확인해 주십시오.");
 				//location.href="${root}/login.jsp";
 			</script>
 		</c:if>
-	</c:if>
+	</c:if> --%>
 	
 	<c:if test="${sessionScope.user_num != null}">
 		<c:if test="${sessionScope.user_num != 0}">

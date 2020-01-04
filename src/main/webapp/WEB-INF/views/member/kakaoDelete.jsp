@@ -13,6 +13,6 @@
 	<form action="${root}/member/kakaoDeleteOk.do" method="post">
 		<input type="submit" value="--예--"/>&nbsp;&nbsp;&nbsp;&nbsp;
 	</form>
-	<a href="${root}/index.jsp">--아니오(메인으로)--</a>
+	<a href="${root}/">--아니오(메인으로)--</a>
 </body>
 </html>

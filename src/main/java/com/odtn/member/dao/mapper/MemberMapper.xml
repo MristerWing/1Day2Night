@@ -109,9 +109,7 @@
 	<delete id="memberDeleteOk" parameterType="java.util.HashMap">
 		DELETE FROM member 
 			WHERE user_num = #{user_num,javaType=INTEGER,jdbcType=NUMERIC}
-			AND email = #{email,jdbcType=VARCHAR}
-		 	AND email_auth_key = #{email_auth_key,javaType=String,jdbcType=VARCHAR}
-		 	AND password = #{password,javaType=String,jdbcType=VARCHAR}
+			
 	</delete>
 
 	<delete id="kakaoDeleteOk" parameterType="java.util.Map">
@@ -141,10 +139,6 @@
 		    password=#{password,javaType=String,jdbcType=VARCHAR}
 		  , salt=#{salt,javaType=String,jdbcType=VARCHAR}
 		  , phone_num=#{phone_num,javaType=Integer,jdbcType=NUMERIC}
-		  , user_name=#{user_name,javaType=String,jdbcType=VARCHAR}
-		  , nickname=#{nickname,javaType=String,jdbcType=VARCHAR}
-		  , profile_image=#{profile_image,javaType=String,jdbcType=VARCHAR}
-		  , interest=#{interest,javaType=String,jdbcType=VARCHAR}
 		  WHERE user_num = #{user_num,javaType=INTEGER,jdbcType=NUMERIC}
 		 	AND register_type IS NULL
 	</update>

@@ -14,7 +14,7 @@
 			});
 			
 			$("body > div > div.container > div:nth-child(2) > ul > li:nth-child(2) > button").click(function() {
-				location.href="https://kauth.kakao.com/oauth/authorize?client_id=06ef11d13082c0f6655eada1dec1670a&redirect_uri=http://localhost:8181/camping/member/kakaoLogin.do&response_type=code";
+				location.href="https://kauth.kakao.com/oauth/authorize?client_id=06ef11d13082c0f6655eada1dec1670a&redirect_uri=http://192.168.14.30:8181/camping/member/kakaoLogin.do&response_type=code";
 			});
 		})
 	</script>
