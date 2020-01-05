@@ -11,10 +11,11 @@
 <body>
 		<c:if test="${qna!=null}">
 			<script type="text/javascript">
-			alert("와");
-			location.href="${root}/board/campQnA/read.do?password="${campQnADto.password}"&user_num="${campQnADto.user_num}";
+			
+			location.href="${root}/board/campQnA/read.do?qna_num="+${qna.qna_num}+"&pageNumber="+${currentPage};
 			</script>
 		</c:if>
+		
 		
 		<c:if test="${qna==null}">
 			<script type="text/javascript">

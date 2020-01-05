@@ -139,7 +139,7 @@ public class CampQnAServiceImp implements CampQnAService {
 				int user_num = campQnAList.get(i).getUser_num();
 				System.out.println("리스트안의 usernum" + user_num);
 				String writer = campQnADao.getUser_name(user_num);
-				LogAspect.logger.info(LogAspect.logMsg + "설정된 user_name: " + writer);
+				LogAspect.logger.info(LogAspect.logMsg + "list writer: " + writer);
 				if (writer == null) {
 					writer = campQnADao.getEmail(user_num);
 				}
@@ -265,11 +265,22 @@ public class CampQnAServiceImp implements CampQnAService {
 		LogAspect.logger.info(LogAspect.logMsg + "모달 password: " + password);
 		int user_num=Integer.parseInt(request.getParameter("user_num"));
 		LogAspect.logger.info(LogAspect.logMsg + "모달 user_num: " + user_num);
+		int qna_num=Integer.parseInt(request.getParameter("qna_num"));
+		LogAspect.logger.info(LogAspect.logMsg + "모달 qna_num: " + qna_num);
+		int currentPage=Integer.parseInt(request.getParameter("pageNumber"));
+		
 	
-		CampQnADto campQnADto =campQnADao.pwdCheck(password,user_num);
-		LogAspect.logger.info(LogAspect.logMsg + "모달 campQnADto: " + campQnADto.toString());
-		mav.addObject("campQnADto",campQnADto);
-		mav.setViewName("board/campQnA/pwdCheck.tiles");
+		CampQnADto campQnADto =campQnADao.pwdCheck(password,user_num,qna_num);
+		if (campQnADto==null) {
+			mav.addObject("qna",campQnADto);
+			mav.addObject("currentPage",currentPage);
+			//mav.setViewName("board/campQnA/pwdCheck.tiles");
+		}else {
+			LogAspect.logger.info(LogAspect.logMsg + "모달 campQnADto: " + campQnADto.toString());			
+			mav.addObject("qna",campQnADto);
+			mav.addObject("currentPage",currentPage);
+			//mav.setViewName("board/campQnA/pwdCheck.tiles");
+		}
 		
 		
 	}

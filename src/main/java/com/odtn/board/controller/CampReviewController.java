@@ -1,6 +1,9 @@
 package com.odtn.board.controller;
 
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -15,6 +18,7 @@ import com.odtn.board.dto.CampReviewDto;
 import com.odtn.board.dto.CampReviewFileDto;
 import com.odtn.board.service.CampReviewService;
 import com.odtn.member.dto.MemberDto;
+import com.sun.org.apache.bcel.internal.generic.NEW;
 
 @Controller
 public class CampReviewController {
@@ -94,4 +98,5 @@ public class CampReviewController {
 		campReviewService.updateOk(mav);
 		return mav;
 	}
+
 }

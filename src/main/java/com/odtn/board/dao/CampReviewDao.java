@@ -4,8 +4,16 @@ import java.util.List;
 
 import com.odtn.board.dto.CampReviewDto;
 import com.odtn.board.dto.CampReviewFileDto;
+import com.odtn.reservation.dto.ReservationDto;
 
 public interface CampReviewDao {
+	//리뷰작성시 예약내역 개수 확인 
+	public int getBookingCnt(int user_num);
+	//리뷰 작성 예약리스트 
+	public List<ReservationDto> getcampList(int user_num);
+	//캠핑장 이름 가져오기
+	public String getCampName(int camp_id);
+	//리뷰 작성확인
 	public int writeOk(CampReviewDto campReviewDto,List<CampReviewFileDto> array);
 	//게시글 총 개수
 	public int getCount();

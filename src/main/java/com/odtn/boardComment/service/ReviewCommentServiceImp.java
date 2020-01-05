@@ -24,17 +24,22 @@ public class ReviewCommentServiceImp implements ReviewCommentService {
 
 	// 댓글작성
 	@Override
-	public Map<String, Object> insert(ReviewCommentDto reviewCommentDto) {
+	public Map<String, Object> insert(ReviewCommentDto reviewCommentDto,HttpServletRequest request) {
 		Map<String, Object> map = new HashMap<String, Object>();
 	    System.out.println("+++++++여기");
-		reviewCommentDto.setWrite_date(new Date());
-
+	   
+		int review_num=Integer.parseInt(request.getParameter("review_num"));
+		int comment_num=reviewCommentDao.getMaxNum(review_num);
 		
+		reviewCommentDto.setComment_num(comment_num+1);
+		reviewCommentDto.setWrite_date(new Date());
 		LogAspect.logger.info(LogAspect.logMsg + "댓글입력+++++" + reviewCommentDto.toString());
 		int check = reviewCommentDao.insert(reviewCommentDto);
+		
 		map.put("check", check);
 		map.put("reviewCommentDto", reviewCommentDto);
-		 
+ 
+		LogAspect.logger.info(LogAspect.logMsg + "해당 글 번호:: " + reviewCommentDto.getComment_num());
 		return map;
 	}
 

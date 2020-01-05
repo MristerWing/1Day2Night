@@ -67,7 +67,7 @@
             <div class="navbar-header">
                 <div class="top-left-part">
                     <!-- Logo -->
-                    <a class="logo" href="${root}/index.jsp">
+                    <a class="logo" href="${root}/">
                         <!-- Logo icon image, you can use font-icon also --><b>
                         <!--This is dark logo icon--><!--This is light logo icon--><img src="${root}/resources/images/ODTN.png" alt="home" class="light-logo" style="width: 210px; margin-top: -55px;" />
                      </b>

@@ -11,7 +11,7 @@ import com.odtn.boardComment.dto.ReviewCommentDto;
 
 public interface ReviewCommentService {
 	//댓글 작성
-	public Map<String, Object> insert (ReviewCommentDto reviewCommentDto);
+	public Map<String, Object> insert (ReviewCommentDto reviewCommentDto, HttpServletRequest request);
 	//리스트
 	public Map<String, Object> list(HttpServletRequest request);
 	//삭제

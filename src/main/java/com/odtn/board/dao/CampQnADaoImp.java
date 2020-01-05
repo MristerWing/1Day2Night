@@ -31,7 +31,6 @@ public class CampQnADaoImp implements CampQnADao {
 	//이메일없으면 카톡프로필이름 가져오기
 	@Override
 	public String getNickName(int user_num) {
-	
 		return sqlSessionTemplate.selectOne("board.mapper.CampQnAMapper.getNickName",user_num);
 	}
 
@@ -88,12 +87,12 @@ public class CampQnADaoImp implements CampQnADao {
 	}
 	//비밀번호 입력하고 해당글 읽기
 	@Override
-	public CampQnADto pwdCheck(String password, int user_num) {
+	public CampQnADto pwdCheck(String password, int user_num,int qna_num) {
 		HashMap<String, Object> map=new HashMap<String, Object>();
 		map.put("password", password);
 		map.put("user_num", user_num);
+		map.put("qna_num", qna_num);
 		CampQnADto qna= sqlSessionTemplate.selectOne("board.mapper.CampQnAMapper.pwdCheck",map);
-		System.out.println(qna.toString());
 		return qna;
 	}
 	//글 삭제

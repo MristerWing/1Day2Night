@@ -67,7 +67,9 @@
             <div class="navbar-header">
                 <div class="top-left-part">
                     <!-- Logo -->
-                    <a class="logo" href="${root}">
+
+                    <a class="logo" href="${root}/">
+
                         <!-- Logo icon image, you can use font-icon also --><b>
                         <!--This is dark logo icon--><!--This is light logo icon--><img src="${root}/resources/images/ODTN.png" alt="home" class="light-logo" style="width: 210px; margin-top: -55px;" />
                      </b>
@@ -121,7 +123,7 @@
                 <!-- /row -->
                 <div class="row">
                     <div class="col-sm-12">
-                        <div class="white-box">
+                        <div class="white-box" style="overflow: scroll;">
                             <h3 class="box-title" style="color: red;">회원 관리</h3>
       							<jsp:include page="./membertable.jsp" flush="true">
       								<jsp:param name="test" value="test"/>

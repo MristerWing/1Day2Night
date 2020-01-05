@@ -122,8 +122,9 @@ public class CampQnAController {
 	
 			ModelAndView mav=new ModelAndView();
 			mav.addObject("request",request);
-			mav.addObject("campQnADto",campQnADto);
+		/* mav.addObject("campQnADto",campQnADto); */
 			campQnAService.pwdCheck(mav);
+			mav.setViewName("board/campQnA/pwdCheck.tiles");
 			return mav;
 		}
 }

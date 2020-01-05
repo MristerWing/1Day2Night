@@ -1,6 +1,7 @@
 package com.odtn.board.service;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -15,12 +16,15 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.cloudinary.Cloudinary;
+import com.cloudinary.Transformation;
+import com.cloudinary.utils.ObjectUtils;
 import com.odtn.aop.LogAspect;
 import com.odtn.board.dao.CampReviewDao;
-import com.odtn.board.dto.CampInfoDto;
 import com.odtn.board.dto.CampReviewDto;
 import com.odtn.board.dto.CampReviewFileDto;
 import com.odtn.member.dto.MemberDto;
+import com.odtn.reservation.dto.ReservationDto;
 
 @Component
 public class CampReviewServiceImp implements CampReviewService {
@@ -35,19 +39,43 @@ public class CampReviewServiceImp implements CampReviewService {
 		HttpServletRequest request = (HttpServletRequest) map.get("request");
 		int user_num = (Integer) session.getAttribute("user_num");
 		LogAspect.logger.info(LogAspect.logMsg + "로그인된user_num: " + user_num);
+		
+		int bookingCnt =campReviewDao.getBookingCnt(user_num);
+		System.out.println("예약내역 개수"+bookingCnt);
+		
+		
+		//캠핑장 뿌려주기 
+		List<ReservationDto> campList =null;
+		List<String> campNameList=new ArrayList<String>();
+		if (bookingCnt>0) {
+			campList=campReviewDao.getcampList(user_num);
+			for (int i = 0; i < campList.size(); i++) {
+				int camp_id=campList.get(i).getCamp_id();
+				System.out.println("캠프id: "+camp_id);
+				String camp_name=campReviewDao.getCampName(camp_id);
+				LogAspect.logger.info(LogAspect.logMsg + "캠핑장 명: " + camp_name);
+				campNameList.add(camp_name);
+			}
+		}
+		
 		String writer = campReviewDao.getUser_name(user_num);
 		LogAspect.logger.info(LogAspect.logMsg + "설정된 user_name: " + writer);
+		
 		if (writer == null) {
 			writer = campReviewDao.getEmail(user_num);
 		}
 		if (writer==null) {
 			writer=campReviewDao.getNickName(user_num);
 		}
+		mav.addObject("bookingCnt", bookingCnt);
+		mav.addObject("campList", campList);
+		mav.addObject("campNameList", campNameList);
 		mav.addObject("writer", writer);
 		mav.addObject("user_num", request.getParameter("user_num"));
 		mav.setViewName("board/campReview/write.tiles");
 	}
-
+	//리뷰작성시 
+	
 	// 작성확인
 	@Override
 	public void writeOk(ModelAndView mav, MemberDto memberDto) {
@@ -66,7 +94,9 @@ public class CampReviewServiceImp implements CampReviewService {
 		
 		int camp_id = Integer.parseInt(request.getParameter("camp_id"));
 		LogAspect.logger.info(LogAspect.logMsg + "캠핑장: " + camp_id);
-		title="["+camp_id+"]"+" "+title;
+		String camp_name=campReviewDao.getCampName(camp_id);
+		LogAspect.logger.info(LogAspect.logMsg + "캠핑장 명: " + camp_name);
+		title="["+camp_name+"]"+" "+title;
 		
 		campReviewDto.setTitle(title);
 		campReviewDto.setUser_num(user_num);
@@ -80,23 +110,29 @@ public class CampReviewServiceImp implements CampReviewService {
 			if (file_size != 0) {
 				String file_name = Long.toString(System.currentTimeMillis())
 						+ "_" + mf.getOriginalFilename();
-				File path = new File("C:\\campingFile\\");
-				path.mkdir();
-
-				System.out.println(file_name);
-				if (path.exists() && path.isDirectory()) {
-					File file = new File(path, file_name);
-					try {
-						mf.transferTo(file);
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
-					CampReviewFileDto camp = new CampReviewFileDto();
-					camp.setFile_name(file_name);
-					camp.setFile_size(file_size);
-					camp.setPath(file.getAbsolutePath());
-					array.add(camp);
+				Cloudinary cloudinary = new Cloudinary(ObjectUtils.asMap(
+						 "cloud_name", "kjs",
+						  "api_key", "472518484531794",
+						  "api_secret", "dUevd_gFGaAfgXH607xnh3Z3IHQ"
+						));
+				@SuppressWarnings("rawtypes")
+				Map uploadResult = null;
+				try {
+					uploadResult = cloudinary.uploader().upload(mf.getBytes(), ObjectUtils.asMap(
+							"public_id", file_name,
+							 "transformation", new Transformation().crop("limit").width(400).height(400)
+						));
+					LogAspect.logger.info(LogAspect.logMsg + "path=" + (String) uploadResult.get("url"));
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				}
+				
+				CampReviewFileDto camp = new CampReviewFileDto();
+				camp.setFile_name(file_name);
+				camp.setFile_size(file_size);
+				camp.setPath((String) uploadResult.get("url"));
+				array.add(camp);
 			}
 		}
 		LogAspect.logger.info(LogAspect.logMsg + "리뷰파일리스트: " + array);
