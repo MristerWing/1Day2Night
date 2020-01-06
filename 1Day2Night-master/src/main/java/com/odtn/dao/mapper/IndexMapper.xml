@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.odtn.dao.mapper.IndexMapper">
+	<select id="getIndexInfo" resultType="com.odtn.camping.dto.CampingDto">
+		SELECT * FROM INDEXPAGE
+	</select>
+	
+	<select id="getCampingList" resultType="com.odtn.search.dto.SearchDto">
+		SELECT ROWNUM RO, A.* FROM (SELECT * FROM SEARCHLIST ORDER BY RECOMMAND_COUNT DESC) A
+		<![CDATA[ WHERE ROWNUM <= 6 ]]>
+	</select>
+</mapper>

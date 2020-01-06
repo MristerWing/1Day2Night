@@ -4,12 +4,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <c:set var="root" value="${pageContext.request.contextPath}"/>  
-<!--
-Author: W3layouts
-Author URL: http://w3layouts.com
-License: Creative Commons Attribution 3.0 Unported
-License URL: http://creativecommons.org/licenses/by/3.0/
--->
+
 <html lang="utf-8">
 
 <head>
@@ -70,7 +65,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 								<button type="button" class="btn btn-sm btn-primary"
 									id="btnDelete" onclick="location.href='${root}/board/campQnA/delete.do?qna_num=${campQnADto.qna_num}'">삭제</button>
 							</c:if>
-							<c:if test="${sessionScope.email=='eunsol8287@gmail.com'}">
+							<c:if test="${sessionScope.email=='akgkfk3@naver.com'}">
 							<button  class="btn btn-sm btn-primary" type="button" 
 							onclick="replyQnA('${root}','${campQnADto.qna_num}','${campQnADto.group_num}',
 							'${campQnADto.sequence_num}','${campQnADto.sequence_level}','${pageNumber}','${sessionScope.user_num}')">답글</button>

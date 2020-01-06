@@ -303,7 +303,7 @@
 												</span>
 											</div>
 										</div>
-
+										<input type="hidden" id="camp_id" name="camp_id" value="${campReviewDto.camp_id}">
 
 
 										<div class="button_form"  style="margin-top: 20px" align="center">
@@ -311,7 +311,7 @@
 												test="${sessionScope.user_num ==campReviewDto.user_num}">
 												<button type="button" class="btn btn-sm btn-primary"
 													id="btnUpdate"
-													onclick="location.href='${root}/board/campReview/update.do?review_num=${campReviewDto.review_num}&user_num=${campReviewDto.user_num}&pageNumber=${pageNumber}'">수정</button>
+													onclick="location.href='${root}/board/campReview/update.do?review_num=${campReviewDto.review_num}&user_num=${campReviewDto.user_num}&pageNumber=${pageNumber}&camp_id=${campReviewDto.camp_id}'">수정</button>
 
 												<button type="button" class="btn btn-sm btn-primary"
 													id="btnDelete"

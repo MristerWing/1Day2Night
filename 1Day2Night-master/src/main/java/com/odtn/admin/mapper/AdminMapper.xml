@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="dao.AdminMapper">
+
+	<select id="adminCheck"
+		parameterType="com.odtn.admin.dto.AdminDto" resultType="int">
+		SELECT nvl(count(*), 0) FROM role NATURAL JOIN member where user_num =
+		#{user_num}
+	</select>
+
+	<select id="memberListCount" resultType="int">
+		select count(*) from
+		member
+	</select>
+
+	<select id="memberpage"
+		resultType="com.odtn.member.dto.MemberDto">
+		select * from member
+	</select>
+
+
+
+	<select id="deleteRead" parameterType="int"
+		resultType="com.odtn.member.dto.MemberDto">
+		select * from member where user_num=#{user_num}
+
+	</select>
+
+	<update id="memberUpdate"
+		parameterType="com.odtn.member.dto.MemberDto">
+		update member set
+		user_name=#{user_name},nickname=#{nickname},phone_num=#{phone_num}
+		where user_num=#{user_num}
+
+	</update>
+
+	<delete id="memberDeleteOk" parameterType="int">
+		delete from member where user_num =#{user_num}
+	</delete>
+
+	<!-- board -->
+	<select id="boardinfo"
+		resultType="com.odtn.board.dto.CampInfoDto">
+		select INFO_NUM, TITLE, USER_NUM, WRITE_DATE from campinfo
+	</select>
+
+	<select id="boardreview"
+		resultType="com.odtn.board.dto.CampReviewDto">
+		select REVIEW_NUM, TITLE, USER_NUM, CAMP_ID WRITE_DATE from camp_review
+	</select>
+
+	<select id="boardQnA" resultType="com.odtn.board.dto.CampQnADto">
+		select QNA_NUM, TITLE, USER_NUM, WRITE_DATE from QNA
+	</select>
+
+	<select id="QnAread" parameterType="int"
+		resultType="com.odtn.board.dto.CampQnADto">
+		SELECT QNA_NUM, TITLE, USER_NUM, WRITE_DATE, QNA_TYPE FROM QNA WHERE
+		QNA_NUM=#{QNA_NUM}
+	</select>
+
+	<delete id="QnAdeleteOk" parameterType="int">
+		delete from QNA where QNA_NUM =#{QNA_NUM}
+	</delete>
+
+	<select id="reviewRead" parameterType="int"
+		resultType="com.odtn.board.dto.CampReviewDto">
+		SELECT * FROM camp_review WHERE review_num=#{review_num}
+	</select>
+
+	<delete id="reiviewDeleteOk" parameterType="int">
+		delete from camp_review where review_num =#{review_num}
+	</delete>
+
+	<select id="campInforead" parameterType="int"
+		resultType="com.odtn.board.dto.CampInfoDto">
+		SELECT * FROM campinfo WHERE info_num=#{info_num}
+	</select>
+
+	<delete id="infoDeleteOk" parameterType="int">
+		delete from campinfo where info_num =#{info_num}
+	</delete>
+
+
+</mapper>

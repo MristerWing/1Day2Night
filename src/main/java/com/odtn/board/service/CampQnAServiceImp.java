@@ -176,7 +176,7 @@ public class CampQnAServiceImp implements CampQnAService {
 		LogAspect.logger.info(LogAspect.logMsg + "현재페이지: " + currentPage);
 
 		String keyword=request.getParameter("keyword");
-		LogAspect.logger.info(LogAspect.logMsg+"검색한작성자 이름: "+keyword);
+		LogAspect.logger.info(LogAspect.logMsg+"검색한 메일주소: "+keyword);
 		
 		int user_num=campQnADao.getUser_num(keyword);
 		System.out.println("찾고싶은 user_num"+user_num);

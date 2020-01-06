@@ -74,7 +74,7 @@
 	 </select>
 	 <!--작성자 이름 검색해서 user_num 반환-->
 	 <select id="getUser_num" resultType="int">
-	 	SELECT USER_NUM FROM MEMBER WHERE REGEXP_LIKE (USER_NAME,#{value})
+	 	SELECT USER_NUM FROM MEMBER WHERE REGEXP_LIKE (EMAIL,#{value})
 	 </select>
 	 
 	 <!--해당작성자의 글-->

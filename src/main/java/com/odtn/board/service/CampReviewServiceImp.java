@@ -136,8 +136,7 @@ public class CampReviewServiceImp implements CampReviewService {
 			}
 		}
 		LogAspect.logger.info(LogAspect.logMsg + "리뷰파일리스트: " + array);
-		LogAspect.logger
-				.info(LogAspect.logMsg + "입력값: " + campReviewDto.toString());
+		LogAspect.logger.info(LogAspect.logMsg + "입력값: " + campReviewDto.toString());
 
 		int check = campReviewDao.writeOk(campReviewDto, array);
 		LogAspect.logger.info(LogAspect.logMsg + "작성 check: " + check);
@@ -201,6 +200,7 @@ public class CampReviewServiceImp implements CampReviewService {
 					writer=campReviewDao.getNickName(user_num);
 				}
 				writerList.add(writer);
+				
 			}
 		}
 
@@ -245,6 +245,7 @@ public class CampReviewServiceImp implements CampReviewService {
 				+ "끝번호: " + endRow);
 		
 		List<String> writerList = new ArrayList<String>();
+		List<String> pathList=new ArrayList<String>();
 		List<CampReviewDto> searchList = null; // 글이 하나라도 있으면 
 		if (searchCount > 0) {
 			searchList = campReviewDao.getSearchList(startRow, endRow, keyword);
@@ -258,15 +259,21 @@ public class CampReviewServiceImp implements CampReviewService {
 			}
 			if (writer == null) {
 				writer = campReviewDao.getNickName(user_num);
-			}
-
-			writerList.add(writer);
+			}writerList.add(writer);
 			System.out.println("이름들" + writer);
+			int review_num=searchList.get(i).getReview_num();
+			LogAspect.logger.info(LogAspect.logMsg+"검색리스트 review_num"+review_num);
+			String path = campReviewDao.getFilePath(review_num);
+			if (path == null) {
+				path = "http://3.bp.blogspot.com/-ZKBbW7TmQD4/U6P_DTbE2MI/AAAAAAAADjg/wdhBRyLv5e8/s1600/noimg.gif";
+				System.out.println("리스트안의 path" + path);
+			}pathList.add(path);
 		}
 		request.setAttribute("currentPage", currentPage);
 		request.setAttribute("searchCount", searchCount);
 		request.setAttribute("boardSize", boardSize);
 		request.setAttribute("searchList", searchList);
+		request.setAttribute("pathList", pathList);
 		request.setAttribute("writerList", writerList);
 		request.setAttribute("keyword", keyword);
 		mav.setViewName("board/campReview/searchList.tiles");
@@ -361,6 +368,10 @@ public class CampReviewServiceImp implements CampReviewService {
 		if (writer==null) {
 			writer=campReviewDao.getNickName(user_num);
 		}
+		//캠프 이름 
+		int camp_id=Integer.parseInt(request.getParameter("camp_id"));
+		LogAspect.logger.info(LogAspect.logMsg + "리뷰수정 camp_id: " + camp_id);
+		String camp_name=campReviewDao.getCampName(camp_id);
 		// 파일이있는지여부확인
 		int check = campReviewDao.imgCount(review_num);
 		LogAspect.logger.info(LogAspect.logMsg + "대표이미지 있는지: " + check);
@@ -369,6 +380,7 @@ public class CampReviewServiceImp implements CampReviewService {
 			LogAspect.logger.info(LogAspect.logMsg + "이미지 이름: " + file_name);
 			mav.addObject("file_name", file_name);
 		}
+		mav.addObject("camp_name", camp_name);
 		mav.addObject("writer", writer);
 		mav.addObject("campReviewDto", campReviewDto);
 		mav.addObject("pageNumber", pageNumber);
@@ -391,42 +403,40 @@ public class CampReviewServiceImp implements CampReviewService {
 		// 파일처리
 		CampReviewFileDto campReviewFileDto = new CampReviewFileDto();
 		MultipartFile mf = request.getFile("file");
+		
 		long file_size = mf.getSize();
 		LogAspect.logger.info(LogAspect.logMsg + "파일크기" + file_size);
 		// 시간으로 파일이름 정하기
 		if (file_size != 0) {
-			int check = campReviewDao.fileDelete(review_num);
-			LogAspect.logger.info(LogAspect.logMsg + "파일삭제값 : " + check);
-			if (check > 0) {
-				String file_name = Long.toString(System.currentTimeMillis())
-						+ "_" + mf.getOriginalFilename();
-				if (file_name == null || file_name.equals(""))
-					;
-				// 파일경로설정
-				File path = new File("C:\\campingFile\\");
-				path.mkdir();
-				LogAspect.logger
-						.info(LogAspect.logMsg + "수정할 파일명: " + file_name);
-				// 경로가있고 파일이 살아있으면
-				if (path.exists() && path.isDirectory()) {
-					File file = new File(path, file_name);
-					try {
-						mf.transferTo(file);
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
-					campReviewFileDto.setReview_num(review_num);
-					campReviewFileDto.setFile_name(file_name);
-					campReviewFileDto.setFile_size(file_size);
-					campReviewFileDto.setPath(file.getAbsolutePath());
-				}
-			}
+			String file_name = Long.toString(System.currentTimeMillis())
+					+ "_" + mf.getOriginalFilename();
+			Cloudinary cloudinary = new Cloudinary(ObjectUtils.asMap(
+					 "cloud_name", "kjs",
+					  "api_key", "472518484531794",
+					  "api_secret", "dUevd_gFGaAfgXH607xnh3Z3IHQ"
+					));
+			@SuppressWarnings("rawtypes")
+			Map uploadResult = null;
+			try {
+				uploadResult = cloudinary.uploader().upload(mf.getBytes(), ObjectUtils.asMap(
+						"public_id", file_name,
+						 "transformation", new Transformation().crop("limit").width(400).height(400)
+					));
+				LogAspect.logger.info(LogAspect.logMsg + "path=" + (String) uploadResult.get("url"));
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			
+			CampReviewFileDto camp = new CampReviewFileDto();
+			camp.setFile_name(file_name);
+			camp.setFile_size(file_size);
+			camp.setPath((String) uploadResult.get("url"));
+		
 		}
+	}
 		// 자료저장확인용 check
-		int updateCheck = campReviewDao.updateOk(campReviewDto,
-				campReviewFileDto);
-		LogAspect.logger.info(LogAspect.logMsg + "campReviewDto값: "
-				+ campReviewDto.toString());
+		int updateCheck = campReviewDao.updateOk(campReviewDto,campReviewFileDto);
+		LogAspect.logger.info(LogAspect.logMsg + "campReviewDto값: "+ campReviewDto.toString());
 		LogAspect.logger.info(LogAspect.logMsg + "check값: " + updateCheck);
 
 		mav.addObject("check", updateCheck);

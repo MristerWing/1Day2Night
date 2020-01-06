@@ -56,22 +56,10 @@
 				      <input name="user_num" type="hidden" value="${memberDto.user_num}">
 				      <input type="text" class="form-control" value="${writer}" name="writer" disabled="disabled">
 				    </div>
-				      <div class="form-group" >
-					      <label for="sel1">캠핑장선택 (*)</label>
-				      	<div class="select_location">
-					      		
-						      <select class="form-control" id="camp_id" name="camp_id" style="height: 3.5rem; width: 50%">
-						       <c:if test="${bookingCnt>0}">
-						       	 <option>캠핑장 이름을 선택해 주세요</option>
-						       	 <c:forEach var="reservationDto" varStatus="list" items="${campList}">
-						         	<option value="${reservationDto.camp_id}">${campNameList[list.index]}</option>
-						         </c:forEach>
-						       </c:if>  
-						       <c:if test="${bookingCnt==0}">
-						       	 <option>리뷰할 수 있는 캠핑장 내역이 없습니다.</option>
-						       </c:if>  
-						
-						      </select>
+				      <div class="form-group">
+				      <label for="pwd">캠핑장 이름 (*)</label>
+				      <input type="text" class="form-control" value="${camp_name}" name="camp_name" disabled="disabled">
+				    </div>
 						      
 						     <script type="text/javascript">
 						        $("#c_do").mouseleave(function(){
