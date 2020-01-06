@@ -1,0 +1,56 @@
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+   
+   <mapper namespace="boardComment.mapper.ReviewCommentMapper">
+	<!-- 댓글 최대값 구하기-->
+	<select id="getMaxNum" resultType="int">
+		select nvl(max(comment_num),0) from review_comment where review_num=#{reveiw_num}
+	</select>
+   <!--댓글작성-->
+   	<insert id="insert" parameterType="com.odtn.boardComment.dto.ReviewCommentDto">
+		INSERT INTO REVIEW_COMMENT(COMMENT_NUM,
+							 REVIEW_NUM,
+							 USER_NUM,
+							 COMMENT_CONTENT,
+							 WRITE_DATE) 
+							 values(review_comment_comment_num_seq.nextval,
+							 #{review_num},
+							 #{user_num},
+							 #{comment_content},
+							 #{write_date})
+	</insert>
+
+	<!--댓글리스트 개수세기-->
+	<select id="listCount" parameterType="com.odtn.boardComment.dto.ReviewCommentDto" resultType="int">
+		SELECT COUNT(*)FROM REVIEW_COMMENT
+	</select>
+	
+	<!--리스트 구하기 -->
+	<select id="getCommentList" resultType="com.odtn.boardComment.dto.ReviewCommentDto">
+		  SELECT * FROM REVIEW_COMMENT where review_num=#{review_num} ORDER BY COMMENT_NUM DESC
+	</select>
+	
+	<!--사용자이름구하기-->
+	<select id="getUserName" resultType="String">
+		SELECT USER_NAME FROM MEMBER WHERE USER_NUM=#{user_num}
+	</select>
+	
+	<select id="getEmail" resultType="String">
+		SELECT EMAIL FROM MEMBER WHERE USER_NUM=#{user_num}
+	</select>
+	
+	<select id="getNickName" resultType="String">
+		SELECT NICKNAME FROM MEMBER WHERE USER_NUM=#{user_num}
+	</select>
+	
+	<!-- 댓글 삭제 -->
+	<delete id="deleteComment" parameterType="int">
+		DELETE FROM REVIEW_COMMENT WHERE COMMENT_NUM=#{comment_num}
+	</delete>
+	<!--댓글 수정확인-->
+	<update id="updateComment"  parameterType="com.odtn.boardComment.dto.ReviewCommentDto">
+			UPDATE REVIEW_COMMENT SET COMMENT_CONTENT=#{comment_content}
+ 			WHERE COMMENT_NUM =#{comment_num}
+	</update>
+   </mapper>

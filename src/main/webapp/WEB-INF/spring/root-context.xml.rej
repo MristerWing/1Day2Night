@@ -1,0 +1,9 @@
+diff a/src/main/webapp/WEB-INF/spring/root-context.xml b/src/main/webapp/WEB-INF/spring/root-context.xml	(rejected hunks)
+@@ -6,6 +6,7 @@
+ 	<!-- Oracle JDBC 6 DB Pool -->
+ 	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+ 		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"></property>
++		<property name="url" value="jdbc:oracle:thin:@192.168.0.13:1521:xe"></property>
+ 		<property name="username" value="odtn"></property>
+ 		<property name="password" value="1234"></property>
+ 		<property name="maxActive" value="30"></property>

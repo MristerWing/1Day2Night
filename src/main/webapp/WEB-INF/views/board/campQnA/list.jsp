@@ -75,7 +75,7 @@
 						<form name="searchInfo" method="get" action="${root}/board/campQnA/searchList.do">
 						 <div class="input-group mb-3" style="width: 90">
 	
-	    						<input type="text" class="form-control" placeholder="작성자 이름으로 검색" name="keyword" id="keyword">
+	    						<input type="text" class="form-control" placeholder="이메일주소를 정확히 입력해 주세요." name="keyword" id="keyword">
 	    						<input class="btn btn-outline-primary" type="submit" value="검색">  
 	  						</div>
 	  				 </form>
@@ -105,10 +105,10 @@
 						       	 	<c:forEach var="campQnADto" varStatus="list" items="${campQnAList}">
 						       	 		 <tr>
 										        <td>${campQnADto.qna_num}</td>
-										        <c:if test="${sessionScope.email=='eunsol8287@gmail.com'}">
+										        <c:if test="${sessionScope.email=='akgkfk3@naver.com'}">
 										        	<td><a href="${root}/board/campQnA/read.do?qna_num=${campQnADto.qna_num}&pageNumber=${currentPage}">${campQnADto.title}</a></td>
 										        </c:if>
-										        <c:if test="${sessionScope.email != 'eunsol8287@gmail.com' && sessionScope.user_num>0}">
+										        <c:if test="${sessionScope.email != 'akgkfk3@naver.com' && sessionScope.user_num>0}">
 										        	<td><button type="button" class="btn btn-link"  data-toggle="modal" data-target="#check_pwd" onclick="getqna_num('${campQnADto.qna_num}')">${campQnADto.title}</button></td>
 										        </c:if>
 										        <c:if test="${sessionScope.user_num==null}">

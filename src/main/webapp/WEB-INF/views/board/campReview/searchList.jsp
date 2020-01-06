@@ -48,6 +48,7 @@
 						  <table class="table table-striped">
 						    <thead>
 						      <tr>
+						      	<th>대표이미지</th>
 						        <th>번호</th>
 						        <th>제목</th>
 						        <th>작성자</th>
@@ -59,6 +60,7 @@
 						    <c:if test="${searchCount>0}">
 						       	<c:forEach var="campReviewDto" varStatus="list" items="${searchList}">
 						       	 <tr>
+						       	    <td><img src="${pathList[list.index]}" width="120px"height="100px"></td>
 								    <td>${campReviewDto.review_num}</td>
 									<td><a href="${root}/board/campReview/read.do?review_num=${campReviewDto.review_num}&pageNumber=${currentPage}">${campReviewDto.title}</a></td>
 									<td>${writerList[list.index]}</td>
