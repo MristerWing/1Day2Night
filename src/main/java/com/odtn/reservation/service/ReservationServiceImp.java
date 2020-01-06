@@ -2,6 +2,7 @@ package com.odtn.reservation.service;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -17,14 +18,12 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.odtn.aop.LogAspect;
-import com.odtn.member.dao.MemberDao;
 import com.odtn.member.dto.MemberDto;
 import com.odtn.reservation.dao.ReservationDao;
 import com.odtn.reservation.dto.ReservationDto;
 import com.odtn.search.dao.SearchDao;
 import com.odtn.search.dto.SearchDto;
 import com.odtn.search.dto.SearchPaymentDto;
-import java.time.*;
 
 /**
  * @author KimJinsu
@@ -46,7 +45,8 @@ public class ReservationServiceImp implements ReservationService {
 	@Override
 	public void reservationSelect(ModelAndView modelAndView) {
 		Map<String, Object> modelMap = modelAndView.getModelMap();
-		HttpServletRequest request = (HttpServletRequest) modelMap.get("request");
+		HttpServletRequest request = (HttpServletRequest) modelMap
+				.get("request");
 
 		int camp_id = Integer.parseInt(request.getParameter("camp-id"));
 		SearchDto camp = searchDao.getCamp(camp_id);
@@ -67,7 +67,8 @@ public class ReservationServiceImp implements ReservationService {
 	 * @return ArrayList<HashMap<String, Object>> result
 	 */
 	@Override
-	public ArrayList<HashMap<String, Object>> datePicker(HttpServletRequest request, HttpServletResponse response) {
+	public ArrayList<HashMap<String, Object>> datePicker(
+			HttpServletRequest request, HttpServletResponse response) {
 		int camp_id = Integer.parseInt(request.getParameter("camp-id"));
 		String campingName = request.getParameter("camp_fee");
 		Date startDate = null;
@@ -75,15 +76,18 @@ public class ReservationServiceImp implements ReservationService {
 		int peopleOfNum = Integer.parseInt(request.getParameter("people"));
 
 		try {
-			startDate = new SimpleDateFormat("yyyy-MM-dd").parse(request.getParameter("startDate"));
-			endDate = new SimpleDateFormat("yyyy-MM-dd").parse(request.getParameter("endDate"));
+			startDate = new SimpleDateFormat("yyyy-MM-dd")
+					.parse(request.getParameter("startDate"));
+			endDate = new SimpleDateFormat("yyyy-MM-dd")
+					.parse(request.getParameter("endDate"));
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
-		ArrayList<HashMap<String, Object>> result = reservationDao.getCampingSoldOutMap(camp_id, campingName, startDate,
-				endDate, peopleOfNum);
+		ArrayList<HashMap<String, Object>> result = reservationDao
+				.getCampingSoldOutMap(camp_id, campingName, startDate, endDate,
+						peopleOfNum);
 
 		return result;
 	}
@@ -95,16 +99,21 @@ public class ReservationServiceImp implements ReservationService {
 	@Override
 	public void reservationPay(ModelAndView modelAndView) {
 		Map<String, Object> modelMap = modelAndView.getModelMap();
-		HttpServletRequest request = (HttpServletRequest) modelMap.get("request");
+		HttpServletRequest request = (HttpServletRequest) modelMap
+				.get("request");
 
 		int cost = 0;
-		SearchDto camp = searchDao.getCamp(Integer.parseInt(request.getParameter("camp-id")));
+		SearchDto camp = searchDao
+				.getCamp(Integer.parseInt(request.getParameter("camp-id")));
 
-		List<SearchPaymentDto> payList = searchDao.getPayment(Integer.parseInt(request.getParameter("camp-id")));
+		List<SearchPaymentDto> payList = searchDao
+				.getPayment(Integer.parseInt(request.getParameter("camp-id")));
 
-		LocalDate reservationStartDate = LocalDate.parse(request.getParameter("startDate"));
-		LocalDate reservationEndDate = LocalDate.parse(request.getParameter("endDate"));
-		
+		LocalDate reservationStartDate = LocalDate
+				.parse(request.getParameter("startDate"));
+		LocalDate reservationEndDate = LocalDate
+				.parse(request.getParameter("endDate"));
+
 		Map<String, Integer> holiday = new HashMap<String, Integer>();
 		holiday.put("6", 6);
 		holiday.put("7", 7);
@@ -112,48 +121,47 @@ public class ReservationServiceImp implements ReservationService {
 		peakSeasons.put("8", 8);
 		peakSeasons.put("7", 7);
 		peakSeasons.put("12", 12);
-		
+
 		for (SearchPaymentDto pay : payList) {
 
 			if (pay.getFee_name().equals(request.getParameter("camp_fee"))) {
 
 				while (!reservationStartDate.equals(reservationEndDate)) {
-					int weekOfDay = reservationStartDate.getDayOfWeek().getValue();
+					int weekOfDay = reservationStartDate.getDayOfWeek()
+							.getValue();
 					int month = reservationStartDate.getMonthValue();
 					int tmpCost = 0;
 
 					boolean isHoliday = holiday.containsValue(weekOfDay);
 					boolean isPeakSeasons = peakSeasons.containsValue(month);
-					
-					if(isHoliday && isPeakSeasons) {
+
+					if (isHoliday && isPeakSeasons) {
 						tmpCost += pay.getPeak_season_holidays_fee();
-					}
-					else if (isHoliday && !isPeakSeasons) {
+					} else if (isHoliday && !isPeakSeasons) {
 						tmpCost += pay.getNormal_season_holidays_fee();
-					}
-					else if (!isHoliday && isPeakSeasons) {
+					} else if (!isHoliday && isPeakSeasons) {
 						tmpCost += pay.getPeak_season_weekdays_fee();
-					}
-					else {
+					} else {
 						tmpCost += pay.getNormal_season_weekdays_fee();
 					}
-					
-					if(tmpCost == 0) {
+
+					if (tmpCost == 0) {
 						cost += pay.getNormal_season_weekdays_fee();
 					} else {
 						cost += tmpCost;
 					}
-					
+
 					LogAspect.logger.info(LogAspect.logMsg + cost);
 					reservationStartDate = reservationStartDate.plusDays(1);
 				}
 			}
 		}
-		
+
 		HttpSession session = request.getSession();
-		
-		MemberDto memberDto = reservationDao.getMemberDto((Integer)session.getAttribute("user_num"));
-		
+
+		MemberDto memberDto = reservationDao
+				.getMemberDto((Integer) session.getAttribute("user_num"));
+
 		modelAndView.addObject(memberDto);
 		modelAndView.addObject("camp", camp);
 		modelAndView.addObject("cost", cost);
@@ -165,16 +173,42 @@ public class ReservationServiceImp implements ReservationService {
 
 	@Override
 	public String reservationDoPay(Map<String, Object> reservationMap) {
-		
+
 		int check = reservationDao.reservationDoPay(reservationMap);
-		
-		if(check > 0) return "성공"; 
-		else return "실패";
-		
+
+		if (check > 0)
+			return "성공";
+		else
+			return "실패";
+
 	}
 
 	@Override
 	public String getOwnerName(String camp_id) {
 		return reservationDao.getOwnerName(camp_id);
+	}
+
+	@Override
+	public void reservationCheck(int user_num, ModelAndView modelAndView) {
+		List<ReservationDto> reservationList = reservationDao
+				.getReservationList(user_num);
+
+		MemberDto memberDto = reservationDao.getMemberDto(user_num);
+		modelAndView.addObject("memberDto", memberDto);
+		modelAndView.addObject("reservationList", reservationList);
+	}
+
+	@Override
+	public void reservationDelete(int user_num, String deleteList,
+			ModelAndView modelAndView) {
+		String[] deleteSplit = deleteList.split(",");
+		Map<String, Object> deleteMap = new HashMap<String, Object>();
+		deleteMap.put("user_num", user_num);
+		deleteMap.put("deleteSplit", deleteSplit);
+
+		int check = reservationDao.reservationDelete(deleteMap);
+
+		modelAndView.addObject("user_num", user_num);
+		modelAndView.addObject("check", check);
 	}
 }

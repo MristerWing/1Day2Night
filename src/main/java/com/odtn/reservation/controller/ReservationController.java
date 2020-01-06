@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -140,4 +141,29 @@ public class ReservationController {
 
 		return modelAndView;
 	}
+
+	@RequestMapping(value = "/reservation/check.do", method = RequestMethod.GET)
+	public ModelAndView reservationCheck(@RequestParam int user_num) {
+		ModelAndView modelAndView = new ModelAndView();
+
+		reservationService.reservationCheck(user_num, modelAndView);
+
+		modelAndView.setViewName("reservation/check.tiles");
+
+		return modelAndView;
+	}
+
+	@RequestMapping(value = "/reservation/delete.do", method = RequestMethod.GET)
+	public ModelAndView reservationDelete(@RequestParam int user_num,
+			@RequestParam String deleteList) {
+		ModelAndView modelAndView = new ModelAndView();
+
+		reservationService.reservationDelete(user_num, deleteList,
+				modelAndView);
+
+		modelAndView.setViewName("reservation/delete.tiles");
+
+		return modelAndView;
+	}
+
 }

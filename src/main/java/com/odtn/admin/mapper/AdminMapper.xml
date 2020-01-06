@@ -46,11 +46,11 @@
 
 	<select id="boardreview"
 		resultType="com.odtn.board.dto.CampReviewDto">
-		select REVIEW_NUM, TITLE, USER_NUM, CAMP_ID WRITE_DATE from camp_review
+		select REVIEW_NUM, TITLE, USER_NUM, CAMP_ID, WRITE_DATE from camp_review
 	</select>
 
 	<select id="boardQnA" resultType="com.odtn.board.dto.CampQnADto">
-		select QNA_NUM, TITLE, USER_NUM, WRITE_DATE from QNA
+		select QNA_NUM, TITLE, USER_NUM, QNA_TYPE, WRITE_DATE from QNA
 	</select>
 
 	<select id="QnAread" parameterType="int"

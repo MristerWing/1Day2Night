@@ -42,4 +42,16 @@
 	<select id="getMemberDto" parameterType="int" resultType="com.odtn.member.dto.MemberDto">
 		SELECT * FROM MEMBER WHERE USER_NUM = #{value}
 	</select>
+	
+	<select id="getReservationList" parameterType="int" resultType="com.odtn.reservation.dto.ReservationDto">
+		select * from reservation where user_number = #{user_num}
+	</select>
+	
+	<delete id="deleteReservation" parameterType="java.util.Map">
+		delete from reservation where
+		user_number = #{user_num} AND
+		<foreach collection="deleteSplit" separator="or" index="index" item="item">
+			 reservation_id = #{item}
+		</foreach>
+	</delete>
 </mapper>
