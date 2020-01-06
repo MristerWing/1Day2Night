@@ -73,7 +73,7 @@
 		  ]]>
 	 </select>
 	 <!--작성자 이름 검색해서 user_num 반환-->
-	 <select id="getUser_num" resultType="int">
+	 <select id="getUser_num" resultType="String">
 	 	SELECT USER_NUM FROM MEMBER WHERE REGEXP_LIKE (EMAIL,#{value})
 	 </select>
 	 

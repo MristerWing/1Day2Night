@@ -17,7 +17,7 @@
     <section class="about py-lg-5 py-md-5 py-5">
         <div class="container">
             <div class="inner-sec-w3pvt py-lg-5 py-3">
-                <h3 class="tittle text-center mb-lg-5 mb-3 px-lg-5">NEW 캠핑소식</h3>
+                <h3 class="tittle text-center mb-lg-5 mb-3 px-lg-5">캠핑문의</h3>
 	             <div class="info_list">
 					<div class="info_list_top">
 					<form name="searchInfo" method="get" action="${root}/board/campQnA/searchList.do">

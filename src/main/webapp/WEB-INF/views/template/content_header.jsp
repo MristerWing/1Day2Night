@@ -47,7 +47,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                 <!-- nav -->
                 <nav class="py-3">
                 <a href="${root}">
-                    <img class="logoImg" src="${root}/resources/images/odtnlogo.png" style="position: absolute;width: 146px;margin-top: -48px;">
+                    <img class="logoImg" src="${root}/resources/images/odtnlogo.png" style="position: absolute;width: 146px;margin-top: -48px; ">
                 </a>
 
                     <label for="drop" class="toggle">Menu</label>

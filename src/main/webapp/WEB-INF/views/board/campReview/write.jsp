@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <c:set var="root" value="${pageContext.request.contextPath}"/>  
 
@@ -78,7 +79,9 @@
 						       <c:if test="${bookingCnt>0}">
 						       	 <option>캠핑장 이름을 선택해 주세요</option>
 						       	 <c:forEach var="reservationDto" varStatus="list" items="${campList}">
-						         	<option value="${reservationDto.camp_id}">${campNameList[list.index]}</option>
+						         	<option value="${reservationDto.camp_id}">${campNameList[list.index]} 
+						         	<fmt:formatDate value="${reservationDto.start_date}"
+						pattern="yyyy년MM월dd일" /></option>
 						         </c:forEach>
 						       </c:if>  
 						       <c:if test="${bookingCnt==0}">
