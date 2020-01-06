@@ -132,9 +132,9 @@
 												console.log(success);
 												
 												if(success == "성공") {
-													alert("찜하였습니다.");
-												} else if (success == "존재") {
 													alert("해당 캠핑장을 찜 목록에 추가하였습니다.");
+												} else if (success == "존재") {
+													alert("이미 찜한 캠핑장 입니다.");
 												} else {
 													alert("찜 실패하였습니다.");
 												}

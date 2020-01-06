@@ -51,7 +51,7 @@ public class ReservationDaoImp implements ReservationDao {
 		@SuppressWarnings("unchecked")
 		ArrayList<HashMap<String, Object>> result = (ArrayList<HashMap<String, Object>>) soldMap
 				.get("resultMap");
-		
+
 		LogAspect.logger.info(LogAspect.logMsg + result);
 
 		return result;
@@ -59,17 +59,36 @@ public class ReservationDaoImp implements ReservationDao {
 
 	@Override
 	public int reservationDoPay(Map<String, Object> reservationMap) {
-		
-		return sqlSessionTemplate.insert("com.odtn.reservation.dao.mapper.ReservationMapper.insertReservation", reservationMap);
+
+		return sqlSessionTemplate.insert(
+				"com.odtn.reservation.dao.mapper.ReservationMapper.insertReservation",
+				reservationMap);
 	}
 
 	@Override
 	public MemberDto getMemberDto(int user_num) {
-		return sqlSessionTemplate.selectOne("com.odtn.reservation.dao.mapper.ReservationMapper.getMemberDto", user_num);
+		return sqlSessionTemplate.selectOne(
+				"com.odtn.reservation.dao.mapper.ReservationMapper.getMemberDto",
+				user_num);
 	}
 
 	@Override
 	public String getOwnerName(String camp_id) {
-		return sqlSessionTemplate.selectOne("com.odtn.owner.dao.mapper.OwnerMapper.getOwnerName",camp_id);
+		return sqlSessionTemplate.selectOne(
+				"com.odtn.owner.dao.mapper.OwnerMapper.getOwnerName", camp_id);
+	}
+
+	@Override
+	public List<ReservationDto> getReservationList(int user_num) {
+		return sqlSessionTemplate.selectList(
+				"com.odtn.reservation.dao.mapper.ReservationMapper.getReservationList",
+				user_num);
+	}
+
+	@Override
+	public int reservationDelete(Map<String, Object> deleteMap) {
+		return sqlSessionTemplate.delete(
+				"com.odtn.reservation.dao.mapper.ReservationMapper.deleteReservation",
+				deleteMap);
 	}
 }

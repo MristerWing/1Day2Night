@@ -20,4 +20,8 @@ public interface ReservationDao {
 	public MemberDto getMemberDto(int user_num);
 
 	public String getOwnerName(String camp_id);
+
+	public List<ReservationDto> getReservationList(int user_num);
+
+	public int reservationDelete(Map<String, Object> deleteMap);
 }

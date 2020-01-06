@@ -46,16 +46,39 @@ License URL: http://creativecommons.org/licenses/by/3.0/
             <div class="container">
                 <!-- nav -->
                 <nav class="py-3">
-                    <div id="logo">
-                  		<h1> 
-                  		<a class="navbar-brand" href="index.html"></a>
-                       </h1>
-                    </div>
+                <a href="${root}">
+                    <img class="logoImg" src="${root}/resources/images/odtnlogo.png" style="position: absolute;width: 146px;margin-top: -48px;">
+                </a>
 
                     <label for="drop" class="toggle">Menu</label>
                     <input type="checkbox" id="drop" />
                     <ul class="menu mt-2">
-                        <li class="active"><a href="${root}">HOME</a></li>
+                    	<c:if test="${user_num==null}">
+                  <c:if test="${user_auth_id==null}">
+                     <c:if test="${email == null}">
+                        <li><a href="${root}/member/beforeRegister.do">
+                        회원가입</a></li>
+                     </c:if>
+                  <li><a href="${root}/member/login.do">로그인</a></li>
+                  </c:if>
+               </c:if>
+                  <c:if test="${user_num != null}">
+                     <c:if test="${user_auth_id == null}">
+                        <c:if test="${register_type == null}">
+                           <li><a href="${root}/member/logout.do">로그아웃</a></li>
+                           <li><a href="${root}/reservation/check.do?user_num=${user_num}">예약확인</a></li>
+                     	   <li><a href="${root}/member/update.do">정보 수정/탈퇴</a></li>
+                        </c:if>
+                     </c:if>
+                     <c:if test="${user_auth_id != null}">
+                        <c:if test="${register_type != null}">
+                           <li><a href="${root}/member/kakaoLogout.do">카카오 로그아웃</a></li>
+                           <li><a href="${root}/member/kakaoDelete.do">탈퇴</a>
+                           <li><a href="${root}/reservation/check.do?user_num=${user_num}">예약확인</a></li>
+                     	   <li><a href="${root}/member/update.do">정보 수정</a></li>
+                        </c:if>
+                     </c:if>
+                  </c:if>
                         <li class="active"><a href="${root}/search/list.do">캠핑장검색</a></li>
                         	<!-- First Tier Drop Down -->
                            <li>

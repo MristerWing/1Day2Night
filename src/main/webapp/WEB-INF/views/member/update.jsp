@@ -428,7 +428,7 @@
                                 <i class="fa fa-phone" aria-hidden="true" style="color:dodgerblue;"></i>
                      		    </span>
                   			    </div>
-                  			    <input type="text" class="form-control form-control-lg border-left-0" placeholder="폰번호" name="phone_num" id="phone_num" maxlength="11">
+                  			    <input type="text" class="form-control form-control-lg border-left-0" placeholder="폰번호" value="0${memberDto.phone_num}" name="phone_num" id="phone_num" maxlength="11">
 						    	<span id="phone_check"></span>
 						    	</div>
 						    </td>

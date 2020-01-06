@@ -13,11 +13,13 @@
 	<c:if test="${check > 0}">
 		<script type="text/javascript">
 			alert("카카오 연동 정보가 삭제 되었습니다.");
+			location.href="${root}/";
 		</script>
 	</c:if>
 	<c:if test="${check==0}">
 		<script type="text/javascript">
-			alert("탈퇴 못했습니다.")
+			alert("탈퇴 못했습니다.");
+			location.href="${root}/";
 		</script>
 	</c:if>
 </body>

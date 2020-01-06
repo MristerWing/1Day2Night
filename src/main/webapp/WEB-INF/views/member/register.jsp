@@ -277,7 +277,7 @@
 		width:200px;
 	}
 	
-	#email_check, #user_name_check, #password_check, #password_equal {
+	#email_check, #user_name_check, #password_check, #password_equal, #phone_check {
 		line-height:47px;
 		margin-left:5px;
 		font-size: 14px;
